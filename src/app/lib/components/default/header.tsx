@@ -1,4 +1,6 @@
 // components/Header.tsx
+import "@styles/components/header.scss";
+
 import React from "react";
 
 const Header: React.FC = () => {
