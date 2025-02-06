@@ -1,4 +1,27 @@
 header{
     height: 100px;
-    background-color: $red;
+    padding: 0 $sidespace_header;
+    background-color: $charcoal;
+    .header-inner{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0 20px;
+        .nav-item-outer{
+            padding: 0 3.5%;
+            height: 100%;
+            transition: 0.3s ease-in-out;
+            &:hover{
+                background-color: $charcoal;
+                filter: brightness(0.85);
+            }
+            .nav-item{
+                height: 100%;
+                display: flex;
+                align-items: center;
+            }
+        }
+    }
 }

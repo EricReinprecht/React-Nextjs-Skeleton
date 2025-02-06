@@ -1,0 +1,10 @@
+a{
+    &.default-link{
+        text-decoration: underline;
+    }
+    transition: 0.1s ease-in-out;
+    &:hover{
+        color: red;
+    }
+    
+}
