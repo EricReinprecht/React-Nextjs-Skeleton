@@ -1,0 +1,11 @@
+.base_page-template{
+    *{
+        color: $black;
+    }
+    background-color: $white;
+    min-height: 150vh;
+    position: relative;
+    main{
+        padding: 50px $sidespace;
+    }
+}

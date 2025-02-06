@@ -16,6 +16,7 @@ footer{
                 flex-direction: column;
                 gap: 20px;
                 .item{
+                    color: $white;
                     &:hover{
                         color: $orange
                     }
