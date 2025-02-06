@@ -1,15 +1,17 @@
+import dynamic from 'next/dynamic';
 import "@styles/components/header.scss";
-import React from 'react';
+// import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/swiper-bundle.min.css';
-import { Navigation, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import React from 'react';
 
+// import { Navigation, Pagination } from 'swiper/modules';
 
 const DefaultSlider: React.FC = () => {
   return (
     <div className="default-slider">
       <Swiper
-        modules={[Navigation, Pagination]}
+        // modules={[Navigation, Pagination]}
         spaceBetween={50}
         slidesPerView={1}
         navigation
