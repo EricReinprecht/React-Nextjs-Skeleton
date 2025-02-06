@@ -8,7 +8,7 @@ export default function Slider() {
     <div className="main">
       <BasePage>
         <h1>This is the Slider Page !</h1>
-        <DefaultSlider />
+        {/* <DefaultSlider /> */}
       </BasePage>
     </div>
   );
