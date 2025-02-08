@@ -1,12 +1,16 @@
 import type { NextConfig } from "next";
 import path from "path";
+// import dotenv from 'dotenv';
+
+// Load the environment variables from `.env.local`
+// dotenv.config({ path: '.env.local' });
 
 const nextConfig: NextConfig = {
   sassOptions: {
     implementation: 'sass-embedded',
     includePaths: [path.join(__dirname, 'src/assets/styles')],
     env: {
-      TEST: process.env.TEST,
+      ...process.env, 
     },
     additionalData: `
       @use "variables" as *;
