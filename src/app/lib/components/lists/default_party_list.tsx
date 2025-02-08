@@ -3,56 +3,69 @@
 import React, { useState, useEffect } from "react";
 import { Party } from "@entities/party";
 import { getPartiesPaginated } from "@services/partyService";
+import InfiniteScroll from "react-infinite-scroll-component";
+import Link from "next/link";
 
 // Infinite Scroll Component
 const DefaultPartyList: React.FC = () => {
   const [parties, setParties] = useState<Party[]>([]);
-  const [lastVisible, setLastVisible] = useState<any>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const limit = 10;
+  const [page, setPage] = useState<number>(1);
 
-  // Fetch the first page of parties (10 parties)
-  const fetchParties = async () => {
+  useEffect(() => {
+    fetchParties(page);
+  }, [page]);
+
+  const fetchParties = async (page: number) => {
     setLoading(true);
-    const { parties: newParties, lastVisible: newLastVisible } = await getPartiesPaginated(10, lastVisible);
 
+    try {
+      const { parties: newParties, lastVisible } = await getPartiesPaginated(page, limit);
 
-    setParties((prevParties) => [...prevParties, ...newParties]);
-    setLastVisible(newLastVisible);
-    setLoading(false);
+      setParties((prevParties) => [...prevParties, ...newParties]);
+      setHasMore(!!lastVisible);
+    } catch (error) {
+      console.error("Error fetching parties:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // Fetch parties on initial load
-  useEffect(() => {
-    fetchParties();
-  }, []);
-
-  const handleScroll = (event: React.UIEvent<HTMLElement>) => {
-    const target = event.target as HTMLElement; // Cast to HTMLElement
-    const bottom =
-      target.scrollHeight === target.scrollTop + target.clientHeight;
-  
-    if (bottom && !loading) {
-      fetchParties(); // Fetch more parties when scrolled to bottom
+  const loadMoreData = () => {
+    if (!loading && hasMore) {
+      setPage(page + 1);
     }
   };
 
   return (
-    <div
-      style={{ height: "80vh", overflowY: "auto" }} // Make it scrollable
-      onScroll={handleScroll}
-    >
-      <h1>Upcoming Parties</h1>
-      <ul>
-        {parties.map((party) => (
-          <li key={party.id}>
-            <h2>{party.name}</h2>
-            <p>Date: {party.date}</p>
-            <p>Location: {party.location}</p>
-          </li>
-        ))}
-      </ul>
-
-      {loading && <p>Loading more parties...</p>}
+    <div className="party-list-wrapper">
+      <InfiniteScroll
+        dataLength={parties.length}
+        next={loadMoreData}
+        hasMore={hasMore}
+        loader={<h4>Loading...</h4>}
+        endMessage={<p>No more data</p>}
+      >
+        <div className="party-list">
+          {parties.map((party, index) => (
+            <Link key={party.id} href={`/party/${party.id}`}>
+              <div className="party">
+                <div className="background"  style={{ backgroundImage: "" }}></div>
+                <div className="heading">{index + 1}</div>
+                <div className="heading">{party.name}</div>
+                <div className="heading">{party.id}</div>
+                <div className="data">
+                  {/* <p>{party.description}</p> */}
+                  {/* <p>Date: {party.startDate.toString()}</p> */}
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </InfiniteScroll>
+      {loading && <p>Loading more data...</p>}
     </div>
   );
 };

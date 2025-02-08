@@ -9,6 +9,8 @@ import {
   addDoc,
   doc,
   getDoc,
+  where,
+  orderBy,
 } from "firebase/firestore";
 import { Party } from "@entities/party";
 
@@ -23,34 +25,41 @@ export async function getParties(): Promise<Party[]> {
   })) as Party[];
 }
 
-// Get paginated parties
-export async function getPartiesPaginated(
-  pageSize: number,
-  lastVisible: any = null
-): Promise<{ parties: Party[]; lastVisible: any }> {
-  let partyQuery = query(
-    collection(db, PARTIES_COLLECTION),
-    // orderBy("date"),  // Order parties by date or any other field
-    limit(pageSize)
-  );
-
-  if (lastVisible) {
-    partyQuery = query(partyQuery, startAfter(lastVisible));
-  }
-
-  const querySnapshot = await getDocs(partyQuery);
-  const parties = querySnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as Party[];
-
-  const lastVisibleDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
-
-  return {
-    parties,
-    lastVisible: lastVisibleDoc,
-  };
+interface PaginatedResponse {
+  parties: Party[];
+  lastVisible: any;  // This can be any cursor or pagination key returned by your backend
 }
+
+// Get paginated parties
+export const getPartiesPaginated = async (page: number, limit: number): Promise<{ parties: any[]; lastVisible: any | null }> => {
+  try {
+    // Replace with your actual API endpoint and request parameters
+    console.log(page);
+    console.log(limit);
+    let querySnapshot;
+
+    querySnapshot = await getDocs(query(
+      collection(db, 'parties'),
+      orderBy("nameAlpha"),
+      orderBy("startDate"),
+    ));
+
+    const data = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    console.log(data);
+
+
+    return {
+      parties: data || [],
+    };
+  } catch (error) {
+    console.error("Error fetching paginated parties:", error);
+    return { parties: [], lastVisible: null };
+  }
+};
 
 // Get a single party by ID
 export async function getPartyById(id: string): Promise<Party | null> {
