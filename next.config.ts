@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   sassOptions: {
     implementation: 'sass-embedded',
     includePaths: [path.join(__dirname, 'src/assets/styles')],
+    env: {
+      TEST: process.env.TEST,
+    },
     additionalData: `
       @use "variables" as *;
       @use "default" as *;
