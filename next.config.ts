@@ -15,6 +15,7 @@ const nextConfig: NextConfig = {
     additionalData: `
       @use "variables" as *;
       @use "default" as *;
+      @use "reset" as *;
     ` // Combine both @use statements into one string
   }
 };

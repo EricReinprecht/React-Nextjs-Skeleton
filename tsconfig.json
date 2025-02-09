@@ -21,6 +21,7 @@
     "paths": {
       "@/*": ["./*"],
       "@styles/*": ["./src/assets/styles/*"],
+      "@fonts/*": ["./src/assets/fonts/*"],
       "@templates/*": ["./src/app/lib/templates/*"],
       "@components/*": ["./src/app/lib/components/*"],
       "@entities/*": ["./src/app/lib/entities/*"],

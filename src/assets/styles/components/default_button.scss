@@ -1,0 +1,17 @@
+.default-button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $white;
+    color: $black;
+    cursor: pointer;
+    height: 40px;
+    max-width: 200px;
+    width: 90%;
+    border-radius: 5px;
+    transition: 0.3s ease-in-out;
+    &:hover{
+        background-color: $orange;
+        color: $white;
+    }
+}

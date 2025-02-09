@@ -1,11 +1,7 @@
-a{
-    &.default-link{
-        text-decoration: underline;
-    }
-    transition: 0.1s ease-in-out;
-    &:hover{
-        color: red;
-    }
+@use 'fonts' as *;
+
+*{
+    @include font();
 }
 h1{
     font-size: 32px;
@@ -24,4 +20,13 @@ h5{
 }
 h6{
     font-size: 16px;
+}
+a{
+    &.default-link{
+        text-decoration: underline;
+    }
+    transition: 0.1s ease-in-out;
+    &:hover{
+        color: red;
+    }
 }
