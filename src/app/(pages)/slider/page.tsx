@@ -1,7 +1,7 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+// import Image from "next/image";
+// import styles from "./page.module.css";
 import BasePage from "@templates/base_page";
-import DefaultSlider from "@components/slider/default_slider";
+// import DefaultSlider from "@components/slider/default_slider";
 
 export default function Slider() {
   return (

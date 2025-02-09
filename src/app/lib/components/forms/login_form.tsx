@@ -1,7 +1,8 @@
 "use client"
 
 import { useState } from "react";
-import React from 'react';
+import { useRouter } from "next/navigation"; import React from 'react';
+import Cookies from "js-cookie";
 import { auth } from "@firebase/firebase";
 import { setPersistence, browserLocalPersistence } from "firebase/auth";
 import { signInWithEmailAndPassword, AuthError } from "firebase/auth";
@@ -9,6 +10,7 @@ import DefautButton from "../default/default_button";
 import "@styles/forms/login_form.scss"
 
 const LoginForm: React.FC = () => {
+    const router = useRouter();
     const [error, setError] = useState<string | null>(null);
     const [email, setEmail] = useState<string | "">("");
     const [password, setPassword] = useState<string | "">("");
@@ -16,9 +18,12 @@ const LoginForm: React.FC = () => {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await setPersistence(auth, browserLocalPersistence);
-            await signInWithEmailAndPassword(auth, email, password);
-            location.reload();
+            console.log(auth, email, password)
+            const userCredential = await setPersistence(auth, browserLocalPersistence).then(() => {
+                return signInWithEmailAndPassword(auth, email, password);
+            });
+            Cookies.set("authToken", userCredential.user.uid, { expires: 1 });
+            router.push("/profile");
         } catch (error) {
             const authError = error as AuthError;
             setError(authError.message);

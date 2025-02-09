@@ -4,12 +4,12 @@ import {
   collection,
   getDocs,
   query,
-  limit,
-  startAfter,
+  // limit,
+  // startAfter,
   addDoc,
   doc,
   getDoc,
-  where,
+  // where,
   orderBy,
 } from "firebase/firestore";
 import { Party } from "@entities/party";
@@ -25,10 +25,10 @@ export async function getParties(): Promise<Party[]> {
   })) as Party[];
 }
 
-interface PaginatedResponse {
-  parties: Party[];
-  lastVisible: any;  // This can be any cursor or pagination key returned by your backend
-}
+// interface PaginatedResponse {
+//   parties: Party[];
+//   lastVisible: any;  // This can be any cursor or pagination key returned by your backend
+// }
 
 // Get paginated parties
 export const getPartiesPaginated = async (page: number, limit: number): Promise<{ parties: any[]; lastVisible: any | null }> => {
@@ -54,6 +54,7 @@ export const getPartiesPaginated = async (page: number, limit: number): Promise<
 
     return {
       parties: data || [],
+      lastVisible: null
     };
   } catch (error) {
     console.error("Error fetching paginated parties:", error);

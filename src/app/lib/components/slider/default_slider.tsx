@@ -1,9 +1,7 @@
-import dynamic from 'next/dynamic';
-import "@styles/components/header.scss";
 // import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
-import 'swiper/css';
+// import { Swiper, SwiperSlide } from 'swiper/react';
+// import { Navigation, Pagination } from 'swiper/modules';
+// import 'swiper/css';
 import React from 'react';
 
 // import { Navigation, Pagination } from 'swiper/modules';
@@ -11,7 +9,7 @@ import React from 'react';
 const DefaultSlider: React.FC = () => {
   return (
     <div className="default-slider">
-      <Swiper
+      {/* <Swiper
         modules={[Navigation, Pagination]}
         spaceBetween={50}
         slidesPerView={1}
@@ -38,7 +36,7 @@ const DefaultSlider: React.FC = () => {
             <p>This is the third slide content.</p>
           </div>
         </SwiperSlide>
-      </Swiper>
+      </Swiper> */}
     </div>
   );
 };

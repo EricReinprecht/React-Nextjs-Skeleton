@@ -27,8 +27,10 @@
       "@entities/*": ["./src/app/lib/entities/*"],
       "@services/*": ["./src/app/lib/services/*"],
       "@firebase/*": ["./src/app/lib/firebase/*"],
+      "@context/*": ["./src/app/lib/context/*"],
+      "@hoc/*": ["./src/app/lib/hoc/*"],
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "../firebase.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "../firebase.ts", "middleware.ts"],
   "exclude": ["node_modules"]
 }
