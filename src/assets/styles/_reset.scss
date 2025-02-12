@@ -4,3 +4,9 @@ button {
 button:focus {
     outline: revert;
 }
+a{
+    display: inline-block;
+    width: fit-content;
+    height: fit-content;
+    line-height: 0;
+}
