@@ -1,0 +1,35 @@
+.gear-icon{
+    cursor: pointer;
+    .background{
+        fill: #f2813f;
+    }
+    .shadow{
+        fill: #f55925;
+    }
+    .gear-left{
+        fill: #324A5E
+    }
+    .gear-right{
+        fill: #2B3B4E;
+    }
+    .gear-inner{
+        fill: #19cff7;
+    }
+    &:hover{
+        .background{
+            fill: #f88949;
+        }
+        .shadow{
+            fill: #f75f2c;
+        }
+        .gear-left{
+            fill: #3c566b
+        }
+        .gear-right{
+            fill: #36485e;
+        }
+        .gear-inner{
+            fill: #23d0f7;
+        }
+    }
+}
