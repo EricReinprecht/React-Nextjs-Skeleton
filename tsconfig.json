@@ -29,8 +29,9 @@
       "@firebase/*": ["./src/app/lib/firebase/*"],
       "@context/*": ["./src/app/lib/context/*"],
       "@hoc/*": ["./src/app/lib/hoc/*"],
+      "@svgs/*": ["./src/app/lib/svgs/*"],
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "../firebase.ts", "middleware.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "../firebase.ts", "src/middleware.ts"],
   "exclude": ["node_modules"]
 }
