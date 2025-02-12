@@ -17,7 +17,7 @@ const nextConfig: NextConfig = {
       @use "default" as *;
       @use "reset" as *;
     ` // Combine both @use statements into one string
-  }
+  },
 };
 
 export default nextConfig;

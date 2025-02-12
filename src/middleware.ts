@@ -1,10 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-console.log("here")
-
 export function middleware(req: NextRequest) {
-    console.log("middleware running")
 
     const token = req.cookies.get("authToken"); // Check if authToken exists in cookies
 

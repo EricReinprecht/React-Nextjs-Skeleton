@@ -18,7 +18,6 @@ const LoginForm: React.FC = () => {
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            console.log(auth, email, password)
             const userCredential = await setPersistence(auth, browserLocalPersistence).then(() => {
                 return signInWithEmailAndPassword(auth, email, password);
             });
