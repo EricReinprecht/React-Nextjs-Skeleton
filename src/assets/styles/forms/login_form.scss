@@ -1,10 +1,9 @@
-.login-form-container{
-    height: 500px;
-    width: 100%;
+.form-container{
+    // width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    .login-form{
+    form{
         display: flex;
         flex-direction: column;
         padding: 40px 20px;
@@ -12,6 +11,19 @@
         background-color: $charcoal;
         gap: 25px;
         border-radius: 15px;
+        &.profile-form{
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            .button-container {
+                grid-column: span 2;
+            }
+            .input-container{
+                label{
+                    font-size: 20px;
+                }
+            }
+        }
         .input-container{
             display: flex;
             flex-direction: column;
@@ -19,7 +31,6 @@
             label{
                 color: $white;
                 font-size: 24px;
-
             }
             input{
                 height: 40px;
