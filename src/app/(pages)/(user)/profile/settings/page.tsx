@@ -9,6 +9,7 @@ import { User } from "@entities/user";
 import DefautButton from "@components/default/default_button";
 import "@styles/forms/login_form.scss"
 import "@styles/pages/settings.scss"
+import LogoutButton from "@/src/app/lib/components/default/logout_button";
 
 const Profile = () => {
     const { authUser, userProfile, loading } = useUserProfile();
@@ -73,7 +74,11 @@ const Profile = () => {
                             {message && <p>{message}</p>}
                         </form>
                     </div>
-                    <div className="Other shitter">asdfasdf</div>
+                    <div className="logout-container">
+                        <div className="button-container">
+                            <LogoutButton/>
+                        </div>
+                    </div>
                 </div>
             </BasePage>
         </div>
