@@ -1,5 +1,6 @@
 import "@styles/components/footer.scss";
 import React from "react";
+import Link from 'next/link';
 
 const Footer = () => {
   return (
@@ -7,7 +8,7 @@ const Footer = () => {
       <div className="footer-inner">
         <div className="column">
           <div className="content">
-            <a href="" className="item">Link 1</a>
+            <Link href="/page1" className="item">Link 1</Link>
             <a href="" className="item">Link 2</a>
             <a href="" className="item">Link 3</a>
             <a href="" className="item">Link 4</a>

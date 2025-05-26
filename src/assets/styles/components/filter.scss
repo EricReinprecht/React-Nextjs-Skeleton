@@ -1,0 +1,58 @@
+.main{
+    padding: 0 !important;
+}
+
+.filter{
+    *{
+        color: $white !important;
+    }
+    display: flex;
+    flex-direction: column;
+    background-color: $charcoal;
+    width: 400px;
+    height: 100%;
+    padding: 20px;
+    gap: 24px;
+    .section{
+        background-color: lightblue;
+        .header{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        .options{
+            display: none;
+            max-height: max-content;
+            .option{
+                display: flex;
+                flex-direction: row;
+                label{
+                    cursor: pointer;
+                    &.checkbox{
+                        height: 24px;
+                        width: 24px;
+                        display: none;
+                        align-items: center;
+                        justify-content: center;
+                        &.active{
+                            display: flex;
+                        }
+                    }
+                }
+            }
+        }
+        &.active{
+            .header{                           
+                .icon{
+                    transform: rotate(180deg);
+                }
+            }
+            .options{
+                display: flex;
+            }
+        }
+    }
+    
+}

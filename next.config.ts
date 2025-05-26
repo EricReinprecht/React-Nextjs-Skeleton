@@ -18,6 +18,11 @@ const nextConfig: NextConfig = {
       @use "reset" as *;
     ` // Combine both @use statements into one string
   },
+  //  i18n: {
+  //   locales: ['en', 'de'], // Add your supported languages here
+  //   defaultLocale: 'en',   // Set the default language
+  //   localeDetection: true, // Optional: Auto-detect based on browser
+  // },
 };
 
 export default nextConfig;

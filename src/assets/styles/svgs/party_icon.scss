@@ -1,0 +1,38 @@
+.party-icon {
+    .background {
+        fill: #FFD700; // Gold background
+    }
+
+    .shadow {
+        fill: #E0A800; // Darker gold for depth
+    }
+
+    .balloon1 {
+        fill: #FF5733; // Red-Orange
+        stroke: black;
+        stroke-width: 2;
+    }
+
+    .balloon2 {
+        fill: #3498DB; // Blue
+        stroke: black;
+        stroke-width: 2;
+    }
+
+    .balloon-string1,
+    .balloon-string2 {
+        stroke: black;
+        stroke-width: 3;
+        fill: none;
+    }
+
+    .confetti {
+        fill: #FF69B4; // Pink confetti
+    }
+
+    .party-hat {
+        fill: #8E44AD; // Purple party hat
+        stroke: black;
+        stroke-width: 2;
+    }
+}
