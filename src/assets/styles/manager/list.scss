@@ -1,0 +1,26 @@
+.manager-list{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    background-color: lightblue;
+    padding: 0 80px;
+    .list-element{
+        padding: 24px 12px;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        background-color: lightcoral;
+        .data, .operations{
+            display: flex;
+            flex-direction: row;
+            gap: 48px;
+        }
+    }
+}
+.add-list-element-container{
+    input{
+        background-color: $white;
+    }
+}
