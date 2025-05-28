@@ -1,9 +1,11 @@
 .manager-list{
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 24px;
     background-color: lightblue;
     padding: 0 80px;
+    min-height: 500px;
     .list-element{
         padding: 24px 12px;
         display: flex;
@@ -36,6 +38,7 @@
     justify-content: center;
     gap: 20px;
     .inner{
+        position: relative;
         border-radius: 12px;
         background-color: $white;
         max-width: 400px;
@@ -45,12 +48,17 @@
         height: max-content;
         min-height: 200px;
         padding: 24px;
+        padding-bottom: calc(24px + 42px);
         overflow-y: auto;
         .content{
             
         }
         .footer{
+            position: absolute;
+            bottom: 24px;
             display: flex;
+            gap: 24px;
+            width: calc(100% - 48px);
         }
     }
 }

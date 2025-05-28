@@ -10,6 +10,7 @@ import { createCategory, getCategories, deleteCategoryById } from "@/src/app/lib
 import '@styles/manager/list.scss'
 import Bin from "@/src/app/lib/svgs/bin";
 import DefautButton from "@components/default/default_button";
+import LoadingSpinner from "@/src/app/lib/components/default/loading_spinner";
 
 
 export default function page() {
@@ -20,9 +21,6 @@ export default function page() {
     const [popupContent, setPopupContent] = useState<React.ReactNode>(null);
     const [popupSubmitHandler, setPopupSubmitHandler] = useState<(() => void) | null>(null);
 
-
-    const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
-
     useEffect(() => {
         fetchParties();
       }, []);
@@ -30,7 +28,6 @@ export default function page() {
 
     const fetchParties = async () => {
         setLoading(true);
-    
         try {
           let categories_response = await getCategories();
           setCategories(categories_response);
@@ -45,13 +42,8 @@ export default function page() {
         let current_container = el.closest(".add-list-element-container");
         let input = current_container.find("input");
         let category_name = input.val();
-        let active = true;
-        if (!category_name || category_name.toString().trim() === "") {
-            return false; // prevent empty names
-        }
-    
-        const trimmedName = category_name.toString().trim();
-    
+        if (!category_name?.toString().trim()) return false;
+        const trimmedName = category_name.toString().trim();    
         try {
             const newCategoryId = await createCategory({ name: trimmedName, active: true });
             if (newCategoryId) {
@@ -69,26 +61,17 @@ export default function page() {
     };
 
     const handleDeleteCategory = (category: Category) => {
-      setSelectedCategory(category);
-      setPopupContent(
-        <div>
-          <p>
-            Are you sure you want to delete <strong>{category.name}</strong>?
-          </p>
-        </div>
-      );
-      setPopupSubmitHandler(() => async () => {
-        if (!category.id) return;
-
-        const success = await deleteCategoryById(category.id);
-        if (success) {
-          setCategories((prev) => prev.filter((cat) => cat.id !== category.id));
-        }
-        setPopupVisible(false);
-        setPopupSubmitHandler(null);
-        setSelectedCategory(null);
-      });
-      setPopupVisible(true);
+        setPopupContent(<p>Are you sure you want to delete <strong>{category.name}</strong>?</p>);
+        setPopupSubmitHandler(() => async () => {
+            if (!category.id) return;
+            const success = await deleteCategoryById(category.id);
+            if (success) {
+                setCategories((prev) => prev.filter((cat) => cat.id !== category.id));
+            }
+            setPopupVisible(false);
+            setPopupSubmitHandler(null);
+        });
+        setPopupVisible(true);
     };
 
     const editCategory = (el: JQuery<HTMLElement>) => {
@@ -113,6 +96,9 @@ export default function page() {
                         </div>
                   </div>
                 ))}
+                {loading && (
+                    <LoadingSpinner type="manager"/>
+                )}
             </div>
             <div className="add-list-element-container">
                 <label className="label" htmlFor="create-new-category">Create Category:</label>
@@ -120,39 +106,39 @@ export default function page() {
                 <div className="submit" onClick={(e) => addCategory($(e.currentTarget))}>Submit</div>
             </div>
             {popupVisible && (
-              <div className="operations-popup">
-                <div className="inner">
-                  <div className="content">{popupContent}</div>
-                  <div className="footer">
-                    <DefautButton
-                        label="Abort"
-                        type="button"
-                        onClick={() => setPopupVisible(false)}
-                        styles={{ 
-                            bgColor: "abort_red", 
-                            textColor: "white", 
-                            borderColor: "abort_red", 
-                            hoverBgColor: "white",
-                            hoverTextColor: "abort_red", 
-                            hoverBorderColor: "abort_red" 
-                        }}
-                    />
-                    <DefautButton
-                        label="Submit"
-                        type="button"
-                        onClick={() => popupSubmitHandler && popupSubmitHandler()}
-                        styles={{
-                            bgColor: "submit_green", 
-                            textColor: "white", 
-                            borderColor: "submit_green", 
-                            hoverBgColor: "white", 
-                            hoverTextColor: "submit_green", 
-                            hoverBorderColor: "submit_green" 
-                        }}
-                    />
-                  </div>
+                <div className="operations-popup">
+                    <div className="inner">
+                        <div className="content">{popupContent}</div>
+                        <div className="footer">
+                            <DefautButton
+                                label="Abort"
+                                type="button"
+                                onClick={() => setPopupVisible(false)}
+                                styles={{ 
+                                    bgColor: "abort_red", 
+                                    textColor: "white", 
+                                    borderColor: "abort_red", 
+                                    hoverBgColor: "white",
+                                    hoverTextColor: "abort_red", 
+                                    hoverBorderColor: "abort_red" 
+                                }}
+                            />
+                            <DefautButton
+                                label="Submit"
+                                type="button"
+                                onClick={() => popupSubmitHandler && popupSubmitHandler()}
+                                styles={{
+                                    bgColor: "submit_green", 
+                                    textColor: "white", 
+                                    borderColor: "submit_green", 
+                                    hoverBgColor: "white", 
+                                    hoverTextColor: "submit_green", 
+                                    hoverBorderColor: "submit_green" 
+                                }}
+                            />
+                        </div>
+                    </div>
                 </div>
-              </div>
             )}
         </BasePage>
     </div>
