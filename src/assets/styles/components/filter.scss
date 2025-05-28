@@ -3,9 +3,6 @@
 }
 
 .filter{
-    *{
-        color: $white !important;
-    }
     display: flex;
     flex-direction: column;
     background-color: $charcoal;
@@ -15,6 +12,9 @@
     gap: 24px;
     .section{
         background-color: lightblue;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
         .header{
             display: flex;
             flex-direction: row;
@@ -25,11 +25,20 @@
         .options{
             display: none;
             max-height: max-content;
+            flex-direction: column;
+            gap: 6px;
             .option{
                 display: flex;
                 flex-direction: row;
                 label{
+                    color: $white;
                     cursor: pointer;
+                    transition: 0.2s ease-in-out;
+                    svg{
+                        path{
+                            transition: 0.2s ease-in-out;
+                        }
+                    }
                     &.checkbox{
                         height: 24px;
                         width: 24px;
@@ -38,6 +47,16 @@
                         justify-content: center;
                         &.active{
                             display: flex;
+                        }
+                    }
+                }
+                &:hover{
+                    label{
+                        color: $orange;
+                    }
+                    svg{
+                        path{
+                            stroke: $orange;
                         }
                     }
                 }
@@ -53,6 +72,10 @@
                 display: flex;
             }
         }
+        &.active{
+            .options{
+                display: flex;
+            }
+        }
     }
-    
 }

@@ -30,11 +30,11 @@ export default function page() {
     const categoryInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        fetchParties();
+        fetchCategories();
       }, []);
     
 
-    const fetchParties = async () => {
+    const fetchCategories = async () => {
         setLoading(true);
         try {
           let categories_response = await getCategories();
@@ -152,7 +152,6 @@ export default function page() {
                         </div>
                     ))}
                 </div>
-                {/* <LoadingSpinner type="manager"/> */}
                 {loading && (
                     <LoadingSpinner type="manager"/>
                 )}
