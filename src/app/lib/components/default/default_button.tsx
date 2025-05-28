@@ -6,11 +6,34 @@ interface DefaultButtonProps {
     label: string;
     type: "submit" | "reset" | "button";
     onClick?: () => void;
-  }
+    styles?: StyleProps;
+}
 
-const DefautButton:React.FC<DefaultButtonProps> = ({ label, type, onClick }) => {
+interface StyleProps {
+  bgColor?: string;
+  hoverBgColor?: string;
+  textColor?: string;
+  hoverTextColor?: string;
+  borderColor?: string;
+  hoverBorderColor?: string;
+}
+
+const DefautButton:React.FC<DefaultButtonProps> = ({ label, type, onClick, styles = {} }) => {
+
+    const classNames = [
+      "default-button",
+      styles.bgColor ? `bg-${styles.bgColor}` : null,
+      styles.hoverBgColor ? `hover-bg-${styles.hoverBgColor}` : null,
+      styles.textColor ? `text-${styles.textColor}` : null,
+      styles.textColor ? `hover-text-${styles.hoverTextColor}` : null,
+      styles.borderColor ? `border-${styles.borderColor}` : null,
+      styles.textColor ? `hover-border-${styles.hoverBorderColor}` : null,
+    ]
+    .filter(Boolean) // remove nulls
+    .join(" ");
+
     return (
-        <button className="default-button" type={type} onClick={onClick}>{label}</button>
+        <button className={classNames} type={type} onClick={onClick}>{label}</button>
     )
 };
 

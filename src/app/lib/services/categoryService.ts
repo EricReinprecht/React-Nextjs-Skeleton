@@ -1,4 +1,5 @@
-// services/partyService.ts
+// services/categoryService.ts
+
 import { db } from "@firebase/firebase";
 import {
   collection,
@@ -12,6 +13,7 @@ import {
   where,
   orderBy,
   runTransaction,
+  deleteDoc,
 } from "firebase/firestore";
 import { Category } from "../entities/category";
 
@@ -55,7 +57,7 @@ export const getCategoriesPaginated = async (page: number, limit: number): Promi
   }
 };
 
-// Get a single party by ID
+// Get a single category by ID
 export async function getCategoryById(id: string): Promise<Category | null> {
   const docRef = doc(db, CATEGORIES_COLLECTION, id);
   const docSnap = await getDoc(docRef);
@@ -85,5 +87,17 @@ export async function createCategory(category: Category): Promise<string | null>
   } catch (error) {
     console.error("Transaction failed:", error);
     return null;
+  }
+}
+
+// Delete a category by ID
+export async function deleteCategoryById(id: string): Promise<boolean> {
+  try {
+    const categoryRef = doc(db, CATEGORIES_COLLECTION, id);
+    await deleteDoc(categoryRef);
+    return true;
+  } catch (error) {
+    console.error("Error deleting category:", error);
+    return false;
   }
 }

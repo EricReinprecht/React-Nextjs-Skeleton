@@ -9,9 +9,104 @@
     max-width: 200px;
     width: 90%;
     border-radius: 5px;
+    border: 1px solid $white;
     transition: 0.3s ease-in-out;
     &:hover{
         background-color: $orange;
         color: $white;
     }
+
+    //*-------------------------------------------------
+    //* custom styles (color, hover, border etc.)
+    //*-------------------------------------------------
+
+    //* custom-styles: default
+    // background-colors
+    &.bg-white{
+        background-color: $white;
+    }
+    &.bg-black{
+        background-color: $black;
+    }
+    &.bg-abort_red{
+        background-color: $abort_red;
+    }
+    &.bg-submit_green{
+        background-color: $submit_green;
+    }
+
+    // text-colors
+    &.text-white{
+        color: $white;
+    }
+    &.text-black{
+        color: $black;
+    }
+    &.text-abort_red{
+        border-color: $abort_red;
+    }
+    &.text-submit_green{
+        border-color: $submit_green;
+    }
+
+    // border-colors
+    &.border-white{
+        color: $white;
+    }
+    &.border-black{
+        color: $black;
+    }
+    &.border-abort_red{
+        border-color: $abort_red;
+    }
+    &.border-submit_green{
+        border-color: $submit_green;
+    }
+
+    //* custom-styles: hover
+    &:hover{
+        // background-colors
+        &.hover-bg-white{
+            background-color: $white;
+        }
+        &.hover-bg-black{
+            background-color: $black;
+        }
+        &.hover-bg-abort_red{
+            background-color: $abort_red;
+        }
+        &.hover-bg-submit_green{
+            background-color: $submit_green;
+        }
+
+        // text-colors
+        &.hover-text-white{
+            color: $white;
+        }
+        &.hover-text-black{
+            color: $black;
+        }
+        &.hover-text-abort_red{
+            color: $abort_red;
+        }
+        &.hover-text-submit_green{
+            color: $submit_green;
+        }
+
+        // border-colors
+        &.hover-border-white{
+            color: $white;
+        }
+        &.hover-border-black{
+            background-color: $black;
+        }
+        &.hover-border-abort_red{
+            border-color: $abort_red;
+        }
+        &.hover-border-submit_green{
+            border-color: $submit_green;
+        }
+    }
+
+
 }

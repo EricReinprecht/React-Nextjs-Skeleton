@@ -5,16 +5,23 @@ import BasePage from '@/src/app/lib/templates/base_page';
 import React, { useState, useEffect } from "react";
 import $ from 'jquery';
 
-import CarentDown from "@svgs/carent_down";
-import CheckboxFilled from "@svgs/checkbox_filled";
-import CheckboxEmpty from "@svgs/checkbox_empty";
 import { Category } from "@/src/app/lib/entities/category";
-import { createCategory, getCategories } from "@/src/app/lib/services/categoryService";
+import { createCategory, getCategories, deleteCategoryById } from "@/src/app/lib/services/categoryService";
 import '@styles/manager/list.scss'
+import Bin from "@/src/app/lib/svgs/bin";
+import DefautButton from "@components/default/default_button";
+
 
 export default function page() {
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+
+    const [popupVisible, setPopupVisible] = useState(false);
+    const [popupContent, setPopupContent] = useState<React.ReactNode>(null);
+    const [popupSubmitHandler, setPopupSubmitHandler] = useState<(() => void) | null>(null);
+
+
+    const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
 
     useEffect(() => {
         fetchParties();
@@ -61,9 +68,27 @@ export default function page() {
         }
     };
 
-    const removeCategory = (el: JQuery<HTMLElement>) => {
-        let current_section = el.closest(".section");
-        current_section.toggleClass("active");
+    const handleDeleteCategory = (category: Category) => {
+      setSelectedCategory(category);
+      setPopupContent(
+        <div>
+          <p>
+            Are you sure you want to delete <strong>{category.name}</strong>?
+          </p>
+        </div>
+      );
+      setPopupSubmitHandler(() => async () => {
+        if (!category.id) return;
+
+        const success = await deleteCategoryById(category.id);
+        if (success) {
+          setCategories((prev) => prev.filter((cat) => cat.id !== category.id));
+        }
+        setPopupVisible(false);
+        setPopupSubmitHandler(null);
+        setSelectedCategory(null);
+      });
+      setPopupVisible(true);
     };
 
     const editCategory = (el: JQuery<HTMLElement>) => {
@@ -84,7 +109,7 @@ export default function page() {
                         </div>
                         <div className="operations">
                             <div className="operation edit">Edit</div>
-                            <div className="operation delete">Delete</div>
+                            <div className="operation delete" onClick={(e) => handleDeleteCategory(category)}><Bin height={24} width={24} color={"black"}/></div>
                         </div>
                   </div>
                 ))}
@@ -94,6 +119,41 @@ export default function page() {
                 <input id="create-new-category"></input>
                 <div className="submit" onClick={(e) => addCategory($(e.currentTarget))}>Submit</div>
             </div>
+            {popupVisible && (
+              <div className="operations-popup">
+                <div className="inner">
+                  <div className="content">{popupContent}</div>
+                  <div className="footer">
+                    <DefautButton
+                        label="Abort"
+                        type="button"
+                        onClick={() => setPopupVisible(false)}
+                        styles={{ 
+                            bgColor: "abort_red", 
+                            textColor: "white", 
+                            borderColor: "abort_red", 
+                            hoverBgColor: "white",
+                            hoverTextColor: "abort_red", 
+                            hoverBorderColor: "abort_red" 
+                        }}
+                    />
+                    <DefautButton
+                        label="Submit"
+                        type="button"
+                        onClick={() => popupSubmitHandler && popupSubmitHandler()}
+                        styles={{
+                            bgColor: "submit_green", 
+                            textColor: "white", 
+                            borderColor: "submit_green", 
+                            hoverBgColor: "white", 
+                            hoverTextColor: "submit_green", 
+                            hoverBorderColor: "submit_green" 
+                        }}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
         </BasePage>
     </div>
   )

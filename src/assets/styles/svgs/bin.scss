@@ -1,0 +1,7 @@
+.bin-icon{
+    transition: 0.1s ease-in-out;
+    &:hover{
+        fill: red;
+        cursor: pointer;
+    }
+}
