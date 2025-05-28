@@ -47,13 +47,11 @@ export default function page() {
     };
 
     const addCategory = async () => {
+        setLoading(true);
         const input = categoryInputRef.current;
         const category_name = input?.value;
-
-        if (!category_name?.trim()) return false;
-
+        if(!category_name?.trim()) return false;
         const trimmedName = category_name.trim();
-
         try {
             const newCategoryId = await createCategory({ name: trimmedName, active: true });
             if (newCategoryId) {
@@ -61,6 +59,7 @@ export default function page() {
                     ...prev,
                     { id: newCategoryId, name: trimmedName, active: true },
                 ]);
+                if(!input) return false;
                 input.value = '';
             } else {
                 alert("Category name must be unique or creation failed.");
@@ -68,6 +67,7 @@ export default function page() {
         } catch (error) {
             console.error("Error creating category:", error);
         }
+        setLoading(false);
     };
 
     const handleDeleteCategory = (category: Category) => {
@@ -91,6 +91,7 @@ export default function page() {
     };
 
     const submitEditCategory = async (category: Category) => {
+        setLoading(true);
         if(!category.id) return;
         try {
             const success = await updateCategoryById(category.id, { name: editedCategoryName });
@@ -110,43 +111,48 @@ export default function page() {
             console.error("Error updating category:", error);
             alert("An error occurred while updating the category.");
         }
+        setLoading(false);
     };
 
 
   return (
     <div className="main">
         <ManagerPage>
-            <div className="manager-list category">
-                {categories.map((category, index) => (
-                    <div className="list-element category" key={category.id}>
-                        <div className="data">
-                            <div className="index">{index + 1}</div>
-                            <div className="name">
-                              {editingCategoryId === category.id ? (
-                                <input
-                                  type="text"
-                                  value={editedCategoryName}
-                                  onChange={(e) => setEditedCategoryName(e.target.value)}
-                                />
-                              ) : (
-                                category.name
-                              )}
+            <div className="manager-list-wrapper">
+
+                <div className="manager-list category">
+                    {categories.map((category, index) => (
+                        <div className="list-element category" key={category.id}>
+                            <div className="data">
+                                <div className="index">{index + 1}</div>
+                                <div className="name">
+                                  {editingCategoryId === category.id ? (
+                                    <input
+                                      type="text"
+                                      value={editedCategoryName}
+                                      onChange={(e) => setEditedCategoryName(e.target.value)}
+                                    />
+                                  ) : (
+                                    category.name
+                                  )}
+                                </div>
+                            </div>
+                            <div className="operations">
+                                {editingCategoryId === category.id ? (
+                                    <div className="operation submit" onClick={() => submitEditCategory(category)}>
+                                        <EditAccept height={24} width={24} color="black"/>                                    
+                                    </div>
+                                ) : (
+                                    <div className="operation edit" onClick={() => editCategory(category)}>
+                                        <EditPen height={24} width={24} color={"black"} />
+                                    </div>
+                                )}
+                                <div className="operation delete" onClick={(e) => handleDeleteCategory(category)}><Bin height={24} width={24} color={"black"}/></div>
                             </div>
                         </div>
-                        <div className="operations">
-                            {editingCategoryId === category.id ? (
-                                <div className="operation submit" onClick={() => submitEditCategory(category)}>
-                                    <EditAccept height={24} width={24} color="black"/>                                    
-                                </div>
-                            ) : (
-                                <div className="operation edit" onClick={() => editCategory(category)}>
-                                    <EditPen height={24} width={24} color={"black"} />
-                                </div>
-                            )}
-                            <div className="operation delete" onClick={(e) => handleDeleteCategory(category)}><Bin height={24} width={24} color={"black"}/></div>
-                        </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
+                {/* <LoadingSpinner type="manager"/> */}
                 {loading && (
                     <LoadingSpinner type="manager"/>
                 )}
@@ -154,12 +160,13 @@ export default function page() {
             <div className="add-list-element-container">
                 <div className="input-container">
                     <label className="label" htmlFor="create-new-category">Create Category:</label>
-                    <input id="create-new-category" ref={categoryInputRef}></input>
+                    <input disabled={loading} id="create-new-category" ref={categoryInputRef}></input>
                 </div>
                 <DefautButton
                     label="Submit"
                     type="button"
                     onClick={addCategory}
+                    disabled={loading}
                     styles={{
                         bgColor: "submit_green", 
                         textColor: "white", 

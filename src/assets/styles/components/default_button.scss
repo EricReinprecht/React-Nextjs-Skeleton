@@ -15,6 +15,11 @@
         background-color: $orange;
         color: $white;
     }
+    &:disabled, &.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+    }
 
     //*-------------------------------------------------
     //* custom styles (color, hover, border etc.)

@@ -7,6 +7,7 @@ interface DefaultButtonProps {
     type: "submit" | "reset" | "button";
     onClick?: () => void;
     styles?: StyleProps;
+    disabled?: boolean;
 }
 
 interface StyleProps {
@@ -18,7 +19,7 @@ interface StyleProps {
   hoverBorderColor?: string;
 }
 
-const DefautButton:React.FC<DefaultButtonProps> = ({ label, type, onClick, styles = {} }) => {
+const DefautButton:React.FC<DefaultButtonProps> = ({ label, type, onClick, styles = {}, disabled }) => {
 
     const classNames = [
         "default-button",
@@ -33,7 +34,14 @@ const DefautButton:React.FC<DefaultButtonProps> = ({ label, type, onClick, style
     .join(" ");
 
     return (
-        <button className={classNames} type={type} onClick={onClick}>{label}</button>
+        <button 
+            className={classNames} 
+            type={type} 
+            onClick={onClick}
+            disabled={disabled}
+        >
+            {label}
+        </button>
     )
 };
 
