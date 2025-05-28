@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import Footer from "../components/default/footer";
 import Header from "../components/default/header";
 import "../../../assets/styles/templates/base_page.scss";
 
@@ -7,14 +6,13 @@ interface LayoutProps {
     children: ReactNode;
 }
 
-const BasePage = ({ children }: LayoutProps) => {
+const ManagerPage = ({ children }: LayoutProps) => {
     return (
         <div className="base_page-template">
             <Header />
-                <main className="main">{children}</main>
-            <Footer />
+            <main className="main">{children}</main>
         </div>
     );
 };
 
-export default BasePage;
+export default ManagerPage;

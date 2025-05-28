@@ -14,6 +14,7 @@ import {
   orderBy,
   runTransaction,
   deleteDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { Category } from "../entities/category";
 
@@ -98,6 +99,18 @@ export async function deleteCategoryById(id: string): Promise<boolean> {
     return true;
   } catch (error) {
     console.error("Error deleting category:", error);
+    return false;
+  }
+}
+
+// Update a category by ID
+export async function updateCategoryById(id: string, updatedFields: Partial<Category>): Promise<boolean> {
+  try {
+    const categoryRef = doc(db, CATEGORIES_COLLECTION, id);
+    await updateDoc(categoryRef, updatedFields);
+    return true;
+  } catch (error) {
+    console.error("Error updating category:", error);
     return false;
   }
 }
