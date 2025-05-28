@@ -11,6 +11,7 @@ import '@styles/manager/list.scss'
 import Bin from "@/src/app/lib/svgs/bin";
 import DefautButton from "@components/default/default_button";
 import LoadingSpinner from "@/src/app/lib/components/default/loading_spinner";
+import EditPen from "@/src/app/lib/svgs/edit_pen";
 
 
 export default function page() {
@@ -91,7 +92,7 @@ export default function page() {
                             <div className="name">{category.name}</div>
                         </div>
                         <div className="operations">
-                            <div className="operation edit">Edit</div>
+                            <div className="operation edit" onClick={(e) => handleDeleteCategory(category)}><EditPen height={24} width={24} color={"black"}/></div>
                             <div className="operation delete" onClick={(e) => handleDeleteCategory(category)}><Bin height={24} width={24} color={"black"}/></div>
                         </div>
                   </div>

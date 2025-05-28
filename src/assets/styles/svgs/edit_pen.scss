@@ -1,7 +1,9 @@
-.bin-icon{
+.edit_pen-icon{
     transition: 0.1s ease-in-out;
     cursor: pointer;
     &:hover{
-        fill: red;
+        path{
+            stroke: lightseagreen;
+        }
     }
 }
