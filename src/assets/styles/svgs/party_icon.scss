@@ -1,38 +1,36 @@
-.party-icon {
-    .background {
-        fill: #FFD700; // Gold background
+.party-icon-wrapper{
+    border-radius: 100%;
+    background-color: #f2813f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .party-icon {
+        .st0{opacity:0.5;}
+        .st1{fill:#B2B1CF;}
+        .st2{fill:#EF1D1D;stroke:#000000;stroke-miterlimit:10;}
+        .st3{fill:#C60D09;}
+        .st4{opacity:0.5;fill:none;stroke:#FFFFFF;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;}
+        .st5{fill:#FFFFFF;stroke:#000000;stroke-miterlimit:10;}
+        .st6{opacity:0.5;fill:none;stroke:#F79292;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+        .st7{fill:#EDC620;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+        .st8{fill:#EF1D1D;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+        .st9{opacity:0.5;fill:none;stroke:#FFFFFF;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;enable-background:new    ;}
+        .st10{fill:#8E8EB2;}
     }
-
-    .shadow {
-        fill: #E0A800; // Darker gold for depth
-    }
-
-    .balloon1 {
-        fill: #FF5733; // Red-Orange
-        stroke: black;
-        stroke-width: 2;
-    }
-
-    .balloon2 {
-        fill: #3498DB; // Blue
-        stroke: black;
-        stroke-width: 2;
-    }
-
-    .balloon-string1,
-    .balloon-string2 {
-        stroke: black;
-        stroke-width: 3;
-        fill: none;
-    }
-
-    .confetti {
-        fill: #FF69B4; // Pink confetti
-    }
-
-    .party-hat {
-        fill: #8E44AD; // Purple party hat
-        stroke: black;
-        stroke-width: 2;
+    &:hover{
+        background-color: #f88949;
+        .party-icon {
+            .st0{opacity:0.5;}
+            .st1{fill:#bebdd9;}
+            .st2{fill:#ec2a2a;stroke:#000000;stroke-miterlimit:10;}
+            .st3{fill:#d80e0a;}
+            .st4{opacity:0.5;fill:none;stroke:#FFFFFF;stroke-width:2;stroke-linecap:round;stroke-miterlimit:10;enable-background:new    ;}
+            .st5{fill:#FFFFFF;stroke:#000000;stroke-miterlimit:10;}
+            .st6{opacity:0.5;fill:none;stroke:#f3a4a4;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+            .st7{fill:#eecd39;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+            .st8{fill:#eb3030;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+            .st9{opacity:0.5;fill:none;stroke:#FFFFFF;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;enable-background:new    ;}
+            .st10{fill:#9797b0;}
+        }
     }
 }

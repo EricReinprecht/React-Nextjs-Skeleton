@@ -2,30 +2,38 @@ import "@styles/svgs/party_icon.scss"
 
 const PartyIcon: React.FC<{ width?: number; height?: number }> = ({ width = 200, height = 200 }) => {
     return (
-        <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-  {/* <!-- Red Circle Background --> */}
-  <circle cx="100" cy="100" r="100" fill="red" />
-  
-  {/* <!-- Party Hat with Stripes --> */}
-  <polygon points="80,140 120,140 100,60" fill="yellow" stroke="black" stroke-width="2" />
-  <line x1="85" y1="130" x2="115" y2="70" stroke="black" stroke-width="2" />
-  <line x1="90" y1="130" x2="110" y2="80" stroke="black" stroke-width="2" />
-  <circle cx="100" cy="55" r="10" fill="blue" stroke="black" stroke-width="2" />
-  
-  {/* <!-- Confetti --> */}
-  <circle cx="40" cy="40" r="5" fill="green" />
-  <circle cx="160" cy="50" r="5" fill="purple" />
-  <circle cx="70" cy="160" r="5" fill="orange" />
-  <circle cx="130" cy="150" r="5" fill="pink" />
-  <circle cx="50" cy="120" r="4" fill="blue" />
-  <circle cx="150" cy="130" r="4" fill="yellow" />
-  
-  {/* <!-- Balloons with Strings --> */}
-  <ellipse cx="50" cy="100" rx="15" ry="20" fill="blue" stroke="black" stroke-width="2" />
-  <ellipse cx="150" cy="100" rx="15" ry="20" fill="yellow" stroke="black" stroke-width="2" />
-  <line x1="50" y1="120" x2="50" y2="150" stroke="black" stroke-width="2" />
-  <line x1="150" y1="120" x2="150" y2="150" stroke="black" stroke-width="2" />
-</svg>
+        <div className="party-icon-wrapper" style={{width: width + "px", height: height + "px"}}>
+            <svg className="party-icon" width={width - 40} height={height- 40} viewBox="0 0 64 64" id="Layer_1" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                <style type="text/css">
+                </style>
+                <g className="st0">
+                <path className="st1" d="M50,22v28.2c0,1.7-1.3,2.9-2.9,2.9h2c1.7,0,2.9-1.3,2.9-2.9V22H50z"/>
+                </g>
+                <path className="st2" d="M11.5,21.5V14c0-2,1.5-3.5,3.5-3.5h34c2,0,3.5,1.5,3.5,3.5v7.5H11.5z"/>
+                <path className="st3" d="M49,11h-2c1.7,0,3,1.3,3,3v7h2v-7C52,12.3,50.7,11,49,11z"/>
+                <path className="st4" d="M50,17c0,1.1-0.9,2-2,2"/>
+                <path className="st4" d="M14,17.6V15c0-1.1,0.9-2,2-2"/>
+                <path className="st5" d="M14.9,53.5c-1.9,0-3.4-1.5-3.4-3.4l0-28.6h41l0,28.6c0,1.9-1.5,3.4-3.4,3.4H14.9L14.9,53.5z"/>
+                <path className="st6" d="M14,40V26"/>
+                <line className="st6" x1="14" x2="14" y1="48" y2="45"/>
+                <path className="st6" d="M50,49c0,1.1-0.9,2-2,2"/>
+                <path className="st7" d="M37,33c-1.4,0-2.5,1.1-2.5,2.5v-5c0-1.4-1.1-2.5-2.5-2.5c-1.4,0-2.5,1.1-2.5,2.5V33c0-1.4-1.1-2.5-2.5-2.5  s-2.5,1.1-2.5,2.5v3.3V40l0,0l0,0l0,0c0,4.1,3.4,7.5,7.5,7.5s7.5-3.3,7.5-7.5l0,0l0,0l0,0v-1.7v-2.8C39.5,34.1,38.4,33,37,33z"/>
+                <path className="st8" d="M34,38.2L34,38.2c-0.6,0-1,0.4-1,1v-1.7c0-0.6-0.4-1-1-1c-0.6,0-1,0.4-1,1v0.9c0-0.6-0.4-1-1-1l0,0  c-0.6,0-1,0.4-1,1v3.1l0,0c0,1.7,1.3,3,3,3s3-1.3,3-3l0,0v-2.3C35,38.6,34.6,38.2,34,38.2z"/>
+                <line className="st9" x1="31.5" x2="31.5" y1="32.5" y2="30.5"/>
+                <line className="st9" x1="36.5" x2="36.5" y1="36.5" y2="35.5"/>
+                <line className="st9" x1="26.5" x2="26.5" y1="39" y2="33"/>
+                <path className="st1" d="M23.5,15.5c-1.1,0-2-0.9-2-2v-4c0-1.1,0.9-2,2-2s2,0.9,2,2v4C25.5,14.6,24.6,15.5,23.5,15.5z"/>
+                <path d="M23.5,8C24.3,8,25,8.7,25,9.5v4c0,0.8-0.7,1.5-1.5,1.5S22,14.4,22,13.5v-4C22,8.7,22.7,8,23.5,8 M23.5,7  C22.1,7,21,8.2,21,9.5v4c0,1.4,1.1,2.5,2.5,2.5s2.5-1.1,2.5-2.5v-4C26,8.2,24.9,7,23.5,7L23.5,7z"/>
+                <g>
+                    <path className="st10" d="M23.5,8c-0.2,0-0.3,0-0.5,0.1c0.6,0.2,1,0.8,1,1.4v4c0,0.7-0.4,1.2-1,1.4c0.2,0.1,0.3,0.1,0.5,0.1   c0.8,0,1.5-0.7,1.5-1.5v-4C25,8.7,24.3,8,23.5,8z"/>
+                </g>
+                <path className="st1" d="M40.5,15.5c-1.1,0-2-0.9-2-2v-4c0-1.1,0.9-2,2-2s2,0.9,2,2v4C42.5,14.6,41.6,15.5,40.5,15.5z"/>
+                    <path d="M40.5,8C41.3,8,42,8.7,42,9.5v4c0,0.8-0.7,1.5-1.5,1.5S39,14.4,39,13.5v-4C39,8.7,39.7,8,40.5,8 M40.5,7  C39.1,7,38,8.2,38,9.5v4c0,1.4,1.1,2.5,2.5,2.5s2.5-1.1,2.5-2.5v-4C43,8.2,41.9,7,40.5,7L40.5,7z"/>
+                <g>
+                    <path className="st10" d="M40.5,8c-0.2,0-0.3,0-0.5,0.1c0.6,0.2,1,0.8,1,1.4v4c0,0.7-0.4,1.2-1,1.4c0.2,0.1,0.3,0.1,0.5,0.1   c0.8,0,1.5-0.7,1.5-1.5v-4C42,8.7,41.3,8,40.5,8z"/>
+                </g>
+            </svg>
+        </div>
     );
 };
 

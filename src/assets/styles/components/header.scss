@@ -2,6 +2,10 @@ header{
     height: 100px;
     padding: 0 $sidespace_header;
     background-color: $charcoal;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     .header-inner{
         height: 100%;
         width: 100%;
