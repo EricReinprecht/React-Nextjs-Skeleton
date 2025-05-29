@@ -1,0 +1,51 @@
+.create_party-icon-wrapper{
+    background-color: #f2813f;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .create_party-icon{
+        .fandom_vijf{fill:#f55925;}
+	    .fandom_zes{fill:#f97244;}
+	    .fandom_zeventien{fill:#666666;}
+	    .fandom_achttien{fill:#808080;}
+	    .fandom_negentien{fill:#CCCCCC;}
+	    .st0{fill:#6BC4D2;}
+	    .st1{fill:#508D9B;}
+	    .st2{fill:#FF786E;}
+	    .st3{fill:#FFC865;}
+	    .st4{fill:#8579A3;}
+	    .st5{fill:#BE5652;}
+	    .st6{fill:#BE9148;}
+	    .st7{fill:#685683;}
+	    .st8{fill:#EFEAE0;}
+	    .st9{fill:#AA9991;}
+	    .st10{fill:#3A3A3A;}
+	    .st11{fill:#4D4D4D;}
+	    .st12{fill:#644638;}
+	    .st13{fill:#4B322A;}
+	    .st14{fill:#FFFAFA;}
+        &:hover{
+            .fandom_vijf{fill:#f75f2c;}
+	        .fandom_zes{fill:#fc774a;}
+	        .fandom_zeventien{fill:#6d6d6d;}
+	        .fandom_achttien{fill:#878686;}
+	        .fandom_negentien{fill:#d1d1d1;}
+	        .st0{fill:#71cad8;}
+	        .st1{fill:#5592a0;}
+	        .st2{fill:#ff8077;}
+	        .st3{fill:#ffcd70;}
+	        .st4{fill:#8d82ab;}
+	        .st5{fill:#c05c59;}
+	        .st6{fill:#c49750;}
+	        .st7{fill:#73618e;}
+	        .st8{fill:#f5f1ea;}
+	        .st9{fill:#b5a49d;}
+	        .st10{fill:#414141;}
+	        .st11{fill:#595959;}
+	        .st12{fill:#644638;}
+	        .st13{fill:#543930;}
+	        .st14{fill:#ffffff;}
+        }
+    }
+}   
