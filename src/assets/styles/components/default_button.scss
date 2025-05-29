@@ -48,18 +48,18 @@
         color: $black;
     }
     &.text-abort_red{
-        border-color: $abort_red;
+        color: $abort_red;
     }
     &.text-submit_green{
-        border-color: $submit_green;
+        color: $submit_green;
     }
 
     // border-colors
     &.border-white{
-        color: $white;
+        border-color: $white;
     }
     &.border-black{
-        color: $black;
+        border-color: $black;
     }
     &.border-abort_red{
         border-color: $abort_red;
@@ -72,7 +72,7 @@
     &:hover{
         // background-colors
         &.hover-bg-white{
-            background-color: $white;
+            background-color: $white !important;
         }
         &.hover-bg-black{
             background-color: $black;

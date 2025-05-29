@@ -16,7 +16,7 @@ const Profile: React.FC = () => {
                     <div className="grid">
                         <div className="item"><Link href={"/profile/settings"}><Gear></Gear></Link></div>
                         <div className="item"><Link href={"/profile/my-parties"}><PartyIcon></PartyIcon></Link></div>
-                        <div className="item"><Link href={"/profile/settings"}><CreateParty></CreateParty></Link></div>
+                        <div className="item"><Link href={"/profile/create-party"}><CreateParty></CreateParty></Link></div>
                         <div className="item"><Link href={"/profile/settings"}><Gear></Gear></Link></div>
                         <div className="item"><Link href={"/profile/settings"}><Gear></Gear></Link></div>
                         <div className="item"><Link href={"/profile/settings"}><Gear></Gear></Link></div>

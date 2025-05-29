@@ -13,6 +13,7 @@ export interface User {
     street: string
     housenumber: number;
     unit?: string;
+    createdParties?: string[];
 }
   
 export class UserEntity {
@@ -20,6 +21,13 @@ export class UserEntity {
 
     updateUser(data: Partial<User>) {
         Object.assign(this.data, data);
+    }
+
+    addCreatedParty(partyId: string) {
+        if (!this.data.createdParties) {
+            this.data.createdParties = [];
+        }
+        this.data.createdParties.push(partyId);
     }
 
     toJSON(): User {

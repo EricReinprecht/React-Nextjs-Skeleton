@@ -1,9 +1,11 @@
-// entities/party.ts
+import { Category } from "./category";
+
 export interface Party {
   id?: string;
   name: string;
   date: string; // Example field: party date
   location?: string;
+  categories?: Category[];
 }
 
 export class PartyEntity {
@@ -51,5 +53,31 @@ export class PartyEntity {
   // Setter for Location
   setLocation(location: string): void {
     this.data.location = location;
+  }
+
+  // New: Getter for Categories
+  getCategories(): Category[] | undefined {
+    return this.data.categories;
+  }
+
+  // New: Setter for Categories
+  setCategories(categories: Category[]): void {
+    this.data.categories = categories;
+  }
+
+  // Optional: Add Category
+  addCategory(category: Category): void {
+    if (!this.data.categories) this.data.categories = [];
+    this.data.categories.push(category);
+  }
+
+  // Optional: Remove Category by ID
+  removeCategory(categoryId: string): void {
+    if (!this.data.categories) return;
+    this.data.categories = this.data.categories.filter(cat => cat.id !== categoryId);
+  }
+
+  toObject(): Party {
+    return this.data;
   }
 }
