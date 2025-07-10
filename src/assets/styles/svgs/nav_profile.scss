@@ -1,0 +1,11 @@
+.nav-profile-icon{
+    circle, path{
+        stroke: darken($white, 20%);
+        transition: 0.2s ease-in-out;
+    }
+    &:hover{
+        circle, path{
+            stroke: lighten($white, 5%);
+        }
+    }
+}

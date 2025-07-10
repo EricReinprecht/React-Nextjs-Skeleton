@@ -18,7 +18,7 @@ const Header: React.FC = () => {
       <div className="left">
         <Link href="/profile" className="nav-item-outer">
           <div className="nav-item">
-            <Profile width={40} height={40} color="orange" border_color="red"/>
+            <Profile width={40} height={40} color="white" border_color="white"/>
           </div>
         </Link>
       </div>

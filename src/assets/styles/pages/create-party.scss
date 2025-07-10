@@ -41,6 +41,19 @@
     .body{
         padding: 80px 0;
         .step-content{
+            .party-form{
+                display: flex;
+                flex-direction: column;
+                min-width: 800px;
+                background-color: $white;
+                .form-group{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-start;
+                    align-items: flex-start;
+                }
+
+            }
         }
     }
     .footer{

@@ -1,6 +1,6 @@
 .base_page-template{
-    
-    background-color: $white;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255, 80, 120, 0.25), transparent 70%), #000000;
+    background: radial-gradient(105% 105% at 50% 0, #ff507840, #0000 80%), #000;
     min-height: 100vh;
     position: relative;
     *{

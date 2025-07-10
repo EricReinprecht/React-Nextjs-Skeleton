@@ -1,11 +1,39 @@
 header{
+    position: relative;
     height: 100px;
     padding: 0 $sidespace_header;
-    background-color: $charcoal;
+    // background-color: transparent;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 1px; /* thickness of the "border" */
+        background: linear-gradient(
+            to right,
+            rgba(255, 255, 255, 0) 5%,
+            rgba(255, 255, 255, 1) 50%,
+            rgba(255, 255, 255, 0) 95%
+        );
+    }
+    &::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        width: 80px;
+        height: 3px;
+        background: $orange;
+        opacity: 0;
+        transition: 0.3s ease;
+        transform: translateX(var(--glow-x, 0));
+        z-index: 2;
+    }
+
     .header-inner{
         height: 100%;
         width: 100%;
@@ -13,15 +41,40 @@ header{
         align-items: center;
         justify-content: center;
         gap: 0 20px;
-        .nav-item-outer{
+        .nav-item-outer {
+            position: relative;
             padding: 0 3.5%;
             height: 100%;
             transition: 0.3s ease-in-out;
-            &:hover{
-                background-color: $charcoal;
-                filter: brightness(0.85);
+
+            &::before {
+                content: "";
+                position: absolute;
+                left: -4%;
+                width: 100%;
+                height: 100%;
+                background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 60%);
+                border-radius: 50%;
+                pointer-events: none;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                filter: blur(15px);
+                z-index: 0;
             }
-            .nav-item{
+        
+            &:hover{
+                .nav-item{
+                    animation: pulse-color 2s infinite ease-in-out;
+                }
+                &::before {
+                    opacity: 1;
+                    animation: pulse-glow 2s infinite ease-in-out;
+                }
+            }
+
+            .nav-item {
+                position: relative;
+                z-index: 1;
                 height: 100%;
                 display: flex;
                 align-items: center;
@@ -29,4 +82,26 @@ header{
             }
         }
     }
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        opacity: 0.6;
+        transform: scale(1);
+        filter: blur(12px);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.2);
+        filter: blur(20px);
+    }
+}
+
+@keyframes pulse-color {
+  0%, 100% {
+    color: lighten($orange, 15%);
+  }
+  50% {
+    color: lighten($orange, 5%);
+  }
 }
