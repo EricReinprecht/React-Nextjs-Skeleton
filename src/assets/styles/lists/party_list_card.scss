@@ -1,0 +1,68 @@
+.party-list-wrapper{
+    padding: 65px;
+    .party-list{
+        &.cards{
+            display: grid;
+            gap: 48px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            .party{
+                position: relative;
+                overflow: hidden;
+                padding: 12px;
+                height: 550px;
+                width: 400px;
+                background-color: transparent;
+                border: 1px solid black;
+                border-radius: 12px;
+                .background{
+                    z-index: 1;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    height: 100%;
+                    width: 100%;
+                    opacity: 0.2;
+                    background-color: $white;
+                    transition: 0.3s ease-in-out;
+                }
+                .content{
+                    position: relative;
+                    z-index: 2;
+                    div{
+                        color: $white;
+                        transition: 0.3s ease-in-out;
+                    }
+                }
+                &:hover{
+                    .background{
+                        filter: blur(8px);
+                        opacity: 0.75;
+                        animation: pulse-glow 2.6s infinite ease-in-out;
+                        animation-delay: 0.4s;
+                    }
+                    .content{
+                         div{
+                            color: black !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        opacity: 0.75;
+        transform: scale(1);
+        filter: blur(8px);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(2px);
+    }
+}

@@ -3,6 +3,9 @@
 *{
     @include font();
 }
+a{
+    line-height: unset !important;
+}
 h1{
     font-size: 32px;
 }

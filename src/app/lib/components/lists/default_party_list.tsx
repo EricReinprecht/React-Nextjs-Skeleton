@@ -5,6 +5,7 @@ import { Party } from "@entities/party";
 import { getPartiesPaginated } from "@services/partyService";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Link from "next/link";
+import "@styles/lists/party_list_card.scss"
 
 // Infinite Scroll Component
 const DefaultPartyList: React.FC = () => {
@@ -48,18 +49,29 @@ const DefaultPartyList: React.FC = () => {
         loader={<h4>Loading...</h4>}
         endMessage={<p>No more data</p>}
       >
-        <div className="party-list">
+        <div className="party-list cards">
           {parties.map((party, index) => (
-            <Link key={party.id} href={`/party/${party.id}`}>
+            <Link className="party-wrapper" key={party.id} href={`/party/${party.id}`}>
               <div className="party">
-                <div className="background"  style={{ backgroundImage: "" }}></div>
-                <div className="heading">{index + 1}</div>
+                <div className="background"></div>
+                <div className="content">
+                  <div className="thumbnail">Affe</div>
+                  <div className="title">FC Fest</div>
+                  <div className="location">Hittisau</div>
+                  <div className="from">18:00</div>
+                  <div className="date-form">11.07.2025</div>
+                  <div className="till">03:00</div>
+                  <div className="date-till">11.08.2025</div>
+                  <div className="description">Kurze Tesbeschreibung einer Party. Kurze Tesbeschreibung einer Party. Kurze Tesbeschreibung einer Party.</div>
+                </div>
+                {/* <div className="background"  style={{ backgroundImage: "" }}></div>
+                <div className="heading">Test</div>
                 <div className="heading">{party.name}</div>
                 <div className="heading">{party.id}</div>
-                <div className="data">
+                <div className="data"> */}
                   {/* <p>{party.description}</p> */}
                   {/* <p>Date: {party.startDate.toString()}</p> */}
-                </div>
+                {/* </div> */}
               </div>
             </Link>
           ))}
