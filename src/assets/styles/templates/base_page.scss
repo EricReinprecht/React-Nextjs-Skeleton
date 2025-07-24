@@ -1,8 +1,15 @@
 .base_page-template{
-    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255, 80, 120, 0.25), transparent 70%), #000000;
-    background: radial-gradient(105% 105% at 50% 0, #ff507840, #0000 80%), #000;
     min-height: 100vh;
-    position: relative;
+    .background{
+        position: fixed;
+        top: 0;
+        height: 100vh;
+        width: 100%;
+        &.type-red_gradient{
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255, 80, 120, 0.25), transparent 70%), #000000;
+            background: radial-gradient(105% 105% at 50% 0, #ff507840, #0000 80%), #000;
+        }
+    }
     *{
         color: $black;
     }

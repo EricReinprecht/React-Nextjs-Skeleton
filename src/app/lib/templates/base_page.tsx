@@ -10,6 +10,7 @@ interface LayoutProps {
 const BasePage = ({ children }: LayoutProps) => {
     return (
         <div className="base_page-template">
+            <div className="background type-red_gradient"></div>
             <Header />
                 <main className="main">{children}</main>
             <Footer />
