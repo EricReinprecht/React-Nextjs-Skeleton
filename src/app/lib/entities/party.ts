@@ -3,8 +3,10 @@ import { Category } from "./category";
 export interface Party {
   id?: string;
   name: string;
-  date: string; // Example field: party date
+  date: string;
   location?: string;
+  imageUrl?: string;
+  startDate: Date;
   categories?: Category[];
 }
 
