@@ -15,6 +15,7 @@ import {
   runTransaction,
   deleteDoc,
   updateDoc,
+  DocumentReference,
 } from "firebase/firestore";
 import { Category } from "../entities/category";
 
@@ -113,4 +114,24 @@ export async function updateCategoryById(id: string, updatedFields: Partial<Cate
     console.error("Error updating category:", error);
     return false;
   }
+}
+
+/**
+ * Resolves Firestore category document references to their `name` fields.
+ */
+export async function resolveCategories(refs: DocumentReference[]): Promise<Category[]> {
+  if (!Array.isArray(refs)) return [];
+
+  const docs = await Promise.all(refs.map(ref => getDoc(ref)));
+
+  return docs
+    .filter(docSnap => docSnap.exists())
+    .map(docSnap => {
+      const data = docSnap.data();
+      return {
+        id: docSnap.id,
+        name: data?.name ?? 'Unbekannt',
+        active: data?.active ?? false,
+      } as Category;
+    });
 }
