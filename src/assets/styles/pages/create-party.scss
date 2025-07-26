@@ -1,6 +1,5 @@
 .create-party-container{
     height: calc(100vh - 100px - 100px);
-    background-color: lightcoral;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -28,7 +27,7 @@
             font-weight: 700;
             transition: 0.2s ease-in-out;
             &:hover, &.active{
-                background-color: $orange;
+                background-color: $white;
                 color: $charcoal;
             }
         }

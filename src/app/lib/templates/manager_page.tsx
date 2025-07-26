@@ -9,6 +9,7 @@ interface LayoutProps {
 const ManagerPage = ({ children }: LayoutProps) => {
     return (
         <div className="base_page-template">
+            <div className="background type-orange_gradient"></div>
             <Header />
             <main className="main">{children}</main>
         </div>
