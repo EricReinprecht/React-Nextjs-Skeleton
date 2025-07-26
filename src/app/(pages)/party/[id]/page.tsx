@@ -59,25 +59,40 @@ export default function Party() {
             <div className="party-content">
               <div className="left-side">
                 <div className="image-container">
-                  <Swiper
-                    modules={[Navigation, A11y]}
-                    spaceBetween={0}
-                    slidesPerView={1}
-                    navigation={{
-                      nextEl: '.swiper-button.next',
-                      prevEl: '.swiper-button.prev',
-                    }}
-                    onSwiper={(swiper) => console.log(swiper)}
-                    onSlideChange={() => console.log('slide change')}
-                    loop={true}
-                  >
-                    {party.images?.map((image_url, index) => (
-                      <SwiperSlide><div className="image" style={{backgroundImage: `url(${image_url})`}}></div></SwiperSlide>
-                    ))}
-                  </Swiper>
-                  <div className="swiper-button prev"><SwiperArrowLeft/></div>
-                  <div className="swiper-button next"><SwiperArrowLeft/></div>
-                  
+                  {party.imageUrls && party.imageUrls.length > 1 ? (
+                    <Swiper
+                      modules={[Navigation, A11y]}
+                      spaceBetween={0}
+                      slidesPerView={1}
+                      navigation={{
+                        nextEl: '.swiper-button.next',
+                        prevEl: '.swiper-button.prev',
+                      }}
+                      onSwiper={(swiper) => console.log(swiper)}
+                      onSlideChange={() => console.log('slide change')}
+                      loop={true}
+                    >
+                      {party.imageUrls.map((image_url, index) => (
+                        <SwiperSlide key={index}>
+                          <div className="image" style={{ backgroundImage: `url(${image_url})` }}></div>
+                        </SwiperSlide>
+                      ))}
+                    </Swiper>
+                  ) : (
+                    party.imageUrls && party.imageUrls.length === 1 && (
+                      <div
+                        className="image"
+                        style={{ backgroundImage: `url(${party.imageUrls[0]})` }}
+                      ></div>
+                    )
+                  )}
+                
+                  {party.imageUrls && party.imageUrls.length > 1 && (
+                    <>
+                      <div className="swiper-button prev"><SwiperArrowLeft /></div>
+                      <div className="swiper-button next"><SwiperArrowLeft /></div>
+                    </>
+                  )}
                 </div>
                 <div className="content">
                   <div className="heading">{party.name}</div>
@@ -91,8 +106,10 @@ export default function Party() {
                       </span>
                     ))}
                   </div>
-                  <div className="info description"><span className="label">Informationen:</span></div>
-                  <div className="info description">{party.description}</div>
+                  <div
+                    className="info description"
+                    dangerouslySetInnerHTML={{ __html: party.description }}
+                  ></div>
                 </div>
               </div>
               <div className="right-side">

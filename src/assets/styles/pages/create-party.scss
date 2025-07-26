@@ -1,64 +1,156 @@
-.create-party-container{
-    height: calc(100vh - 100px - 100px);
+.create-party-wrapper{
+    padding: 65px;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    button{
-        width: 100px;
-    }
-    .steps{
-        display: flex;
-        flex-direction: row;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+.create-party-container{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: auto;
+    padding: 24;
+    border-radius: 24px;
+    border: 1px solid black;
+    overflow: hidden;
+    .create-party-background{
+        z-index: 1;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-color: $white;
         width: 100%;
-        padding: 0 300px;
-        align-items: center;
-        justify-content: center;
-        .step{
-            background-color: $charcoal;
-            height: 40px;
-            width: 40px;
-            border-radius: 100%;
-            color: $white;
+        height: 100%;
+        transition: 0.5s ease-in-out;
+        opacity: 0.75;
+    }
+    &:hover{
+        .create-party-background{
+            opacity: 0.9;
+        }
+    }
+    .create-party-content{
+        position: relative;
+        z-index: 2;
+        button{
+            width: 100px;
+        }
+        .steps{
             display: flex;
-            justify-content: center;
+            flex-direction: row;
+            width: 100%;
+            padding: 0 300px;
             align-items: center;
-            cursor: pointer;
-            border: 1px solid $charcoal;
-            font-weight: 700;
-            transition: 0.2s ease-in-out;
-            &:hover, &.active{
-                background-color: $white;
-                color: $charcoal;
+            justify-content: center;
+            .step{
+                background-color: $charcoal;
+                height: 40px;
+                width: 40px;
+                border-radius: 100%;
+                color: $white;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                border: 1px solid $charcoal;
+                font-weight: 700;
+                transition: 0.2s ease-in-out;
+                &:hover, &.active{
+                    background-color: $white;
+                    color: $charcoal;
+                }
+            }
+            .step-seperator{
+                width: 5%;
+                border-bottom: 2px solid $charcoal;
+                height: 0px;
             }
         }
-        .step-seperator{
-            width: 5%;
-            border-bottom: 2px solid $charcoal;
-            height: 0px;
-        }
-    }
-    .body{
-        padding: 80px 0;
-        .step-content{
-            .party-form{
-                display: flex;
-                flex-direction: column;
-                min-width: 800px;
-                background-color: $white;
-                .form-group{
+        .body{
+            padding: 80px 0;
+            .step-content{
+                .party-form{
                     display: flex;
                     flex-direction: column;
-                    justify-content: flex-start;
-                    align-items: flex-start;
-                }
+                    min-width: 800px;
+                    .form-group{
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: flex-start;
+                        align-items: flex-start;
+                    }
 
+                }
             }
         }
+        .footer{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+        }
     }
-    .footer{
+
+
+
+    input{
+        all: unset;
+        height: 48px;
+        outline: none;
+        border-radius: 48px;
+        padding: 0px 12px;
+        border: 1px solid $black;
+        width: 50%;
+        background-color: $white;
+    }
+}
+
+.tiptap-menu-bar{
+    width: 100%;
+    background-color: $white;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 24px;
+    button{
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 24px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s ease-in-out;
+        &:hover{
+            background-color: red;
+        }
+    }
+}
+.tiptap {
+    width: 100%;
+    min-height: 150px;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 12px;
+    border-radius: 6px;
+    strong{
+        font-weight: bold;
+        *{
+            font-weight: bold;
+        }
+    }
+    em{
+        font-style: italic;
+        *{
+            font-style: italic;
+        }
+    }
+    a, a * {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+    a:hover, a:hover * {
+        color: blue;
     }
 }

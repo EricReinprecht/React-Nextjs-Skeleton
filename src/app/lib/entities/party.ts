@@ -5,10 +5,12 @@ export interface Party {
   id: string;
   name: string;
   location: string;
-  images?: Array<string>;
+  latitude: number;
+  longitude: number;
+  imageUrls?: Array<string>;
   startDate: Date;
-  endDate?: Date;
-  description?: string;
+  endDate: Date;
+  description: string;
   categories?: DocumentReference[];
 }
 

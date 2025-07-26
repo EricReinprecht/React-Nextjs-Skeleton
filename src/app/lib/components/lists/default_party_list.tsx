@@ -6,6 +6,7 @@ import { getPartiesPaginated } from "@services/partyService";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Link from "next/link";
 import "@styles/lists/party_list_card.scss"
+import { formatDateGerman } from "../../utils/formatDate";
 
 // Infinite Scroll Component
 const DefaultPartyList: React.FC = () => {
@@ -24,7 +25,6 @@ const DefaultPartyList: React.FC = () => {
 
     try {
       const { parties: newParties, lastVisible } = await getPartiesPaginated(page, limit);
-
       setParties((prevParties) => [...prevParties, ...newParties]);
       setHasMore(!!lastVisible);
     } catch (error) {
@@ -56,22 +56,17 @@ const DefaultPartyList: React.FC = () => {
                 <div className="background"></div>
                 <div className="content">
                   <div className="thumbnail">Affe</div>
-                  <div className="title">FC Fest</div>
-                  <div className="location">Hittisau</div>
+                  <div className="title">{party.name}</div>
+                  <div className="location">{party.location}</div>
+                  <div className="date-form">{formatDateGerman(party.startDate)}</div>
                   <div className="from">18:00</div>
-                  <div className="date-form">11.07.2025</div>
+                  <div className="date-till">{formatDateGerman(party.endDate)}</div>
                   <div className="till">03:00</div>
-                  <div className="date-till">11.08.2025</div>
-                  <div className="description">Kurze Tesbeschreibung einer Party. Kurze Tesbeschreibung einer Party. Kurze Tesbeschreibung einer Party.</div>
+                  <div
+                    className="description"
+                    dangerouslySetInnerHTML={{ __html: party.description }}
+                  ></div>
                 </div>
-                {/* <div className="background"  style={{ backgroundImage: "" }}></div>
-                <div className="heading">Test</div>
-                <div className="heading">{party.name}</div>
-                <div className="heading">{party.id}</div>
-                <div className="data"> */}
-                  {/* <p>{party.description}</p> */}
-                  {/* <p>Date: {party.startDate.toString()}</p> */}
-                {/* </div> */}
               </div>
             </Link>
           ))}

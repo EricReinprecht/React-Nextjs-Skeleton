@@ -49,20 +49,16 @@
                     width: 500px;
                     border-radius: 12px;
                     overflow: hidden;
+                    .image{
+                        height: 100%;
+                        width: 100%;
+                        background-size: cover;
+                        background-position: center;
+                    }
                     .swiper{
                         position: relative;
                         width: 100%;
                         height: 100%;
-                        .swiper-wrapper{
-                            .swiper-slide{
-                                .image{
-                                    height: 100%;
-                                    width: 100%;
-                                    background-size: cover;
-                                    background-position: center;
-                                }
-                            }
-                        }
                     }
                     .swiper-button{
                         height: 40px;
