@@ -5,7 +5,7 @@ export interface Party {
   name: string;
   date: string;
   location?: string;
-  imageUrl?: string;
+  images?: Array<string>;
   startDate: Date;
   categories?: Category[];
 }
