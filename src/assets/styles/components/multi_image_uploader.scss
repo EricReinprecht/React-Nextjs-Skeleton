@@ -13,8 +13,26 @@
         gap: 12px;
         max-width: 836px;
         flex-wrap: wrap;
-        img{
+        .image-wrapper{
             width: 200px;
+            max-width: unset !important;
+            max-height: unset !important;
+            height: 150px;
+            border-radius: 0px !important;
+            img{
+                width: 100% !important;
+                height: 100% !important;
+            }
+            button{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: 0.2s ease-in-out;
+                &:hover{
+                    color: red !important;
+                }
+            }
         }
+        
     }
 }
