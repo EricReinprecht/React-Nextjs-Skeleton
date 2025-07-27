@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import withAuth from "@hoc/withAuth";
 import "@styles/pages/create-party.scss";
 import ManagerPage from "@/src/app/lib/templates/manager_page";
-import DefautButton from "@components/default/default_button";
 import { createParty } from "@/src/app/lib/services/partyService";
 import { Party } from "@/src/app/lib/entities/party";
 import { useUserProfile } from "@firebase/useUserProfile";
@@ -17,6 +16,8 @@ import { uploadImagesToFirestore } from "@/src/app/lib/firebase/uploadImages";
 import Step1 from "./step1";
 import Step2 from "./step2";
 import Step3 from "./step3";
+import Step4 from "./step4";
+import Footer from "./footer";
 
 const CreateParty = () => {
     const [imageFiles, setImageFiles] = useState<File[]>([]);
@@ -145,12 +146,12 @@ const CreateParty = () => {
                                         handleChange={handleChange}
                                     />
                                 }
-                                {step === 2 && 
+                                <div style={{ display: step === 2 ? "block" : "none" }}>
                                     <Step2
                                         partyData={partyData}
                                         setPartyData={setPartyData}
                                     />
-                                }
+                                </div>
                                 <div style={{ display: step === 3 ? "block" : "none" }}>
                                     <Step3
                                         imageFiles={imageFiles}
@@ -161,55 +162,20 @@ const CreateParty = () => {
                                     />
                                 </div>
                                 {step === 4 && 
-                                    <div className="step-content submit">
-                                        <DefautButton
-                                            label="Submit"
-                                            type="button"
-                                            onClick={() => handleSubmit()}
-                                            styles={{
-                                                bgColor: "submit_green",
-                                                textColor: "white",
-                                                borderColor: "submit_green",
-                                                hoverBgColor: "white",
-                                                hoverTextColor: "submit_green",
-                                                hoverBorderColor: "submit_green"
-                                            }}
-                                        />
-                                    </div>
+                                <Step4
+                                    partyData={partyData}
+                                    imagePreviews={imageFiles.map(file => URL.createObjectURL(file))}
+                                    // categories={yourResolvedCategories} // Optional
+                                />
+                                
                                 }
                             </div>
-
-                            <div className="footer">
-                                <DefautButton
-                                    label="Prev"
-                                    type="button"
-                                    onClick={() => navigateToStep(step - 1)}
-                                    disabled={step === 1}
-                                    styles={{
-                                        bgColor: "black",
-                                        textColor: "white",
-                                        borderColor: "black",
-                                        hoverBgColor: "white",
-                                        hoverTextColor: "black",
-                                        hoverBorderColor: "black"
-                                    }}
-                                />
-                                <DefautButton
-                                    label="Next"
-                                    type="button"
-                                    onClick={() => navigateToStep(step + 1)}
-                                    disabled={step === 4}
-                                    styles={{
-                                        bgColor: "black",
-                                        textColor: "white",
-                                        borderColor: "black",
-                                        hoverBgColor: "white",
-                                        hoverTextColor: "black",
-                                        hoverBorderColor: "black"
-                                    }}
-                                />
-                            </div>
                         </div>
+                        <Footer
+                            step={step}
+                            navigateToStep={navigateToStep}
+                            onSubmit={handleSubmit}
+                        />
                     </div>
                 </div>
             </ManagerPage>
