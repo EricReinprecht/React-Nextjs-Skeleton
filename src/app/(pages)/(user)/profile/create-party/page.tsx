@@ -313,13 +313,13 @@ const CreateParty = () => {
 
                                                 {/* Description with Tiptap */}
                                                 <div className="form-group">
-                                                  <label htmlFor="description">Beschreibung</label>
-                                                  <TiptapEditor
-                                                    content={partyData.description}
-                                                    onChange={(value) =>
-                                                      setPartyData(prev => ({ ...prev, description: value }))
-                                                    }
-                                                  />
+                                                    <label htmlFor="description">Beschreibung</label>
+                                                    <TiptapEditor
+                                                        content={partyData.description}
+                                                        onChange={(value) =>
+                                                            setPartyData(prev => ({ ...prev, description: value }))
+                                                        }
+                                                    />
                                                 </div>
                                         </form>
                                     </div>

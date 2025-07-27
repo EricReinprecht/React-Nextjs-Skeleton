@@ -36,9 +36,6 @@
     .create-party-content{
         position: relative;
         z-index: 2;
-        button{
-            width: 100px;
-        }
         .steps{
             display: flex;
             flex-direction: row;
@@ -109,7 +106,7 @@
     }
     textarea {
         width: 100%;
-        max-width: 700px;
+        max-width: 836px;
         border-radius: 6px;
         border: 1px solid $black;
         background-color: $white;
@@ -119,48 +116,52 @@
     }
 }
 
-.tiptap-menu-bar{
+.tiptap-editor-wrapper{
     width: 100%;
-    background-color: $white;
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 24px;
-    button{
+    .tiptap-menu-bar{
+        width: 100%;
+        background-color: $white;
         display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        cursor: pointer;
-        transition: 0.2s ease-in-out;
-        &:hover{
-            background-color: red;
-        }
-    }
-}
-.tiptap {
-    width: 100%;
-    min-height: 150px;
-    background: #fff;
-    border: 1px solid #ccc;
-    padding: 12px;
-    border-radius: 6px;
-    strong{
-        font-weight: bold;
-        *{
+        flex-direction: row;
+        margin-bottom: 24px;
+        button{
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.2s ease-in-out;
+            &:hover{
+                background-color: red;
+            }
         }
     }
-    em{
-        font-style: italic;
-        *{
+    .tiptap {
+        width: 100%;
+        min-height: 150px;
+        background: #fff;
+        border: 1px solid #ccc;
+        padding: 12px;
+        border-radius: 6px;
+        strong{
+            font-weight: bold;
+            *{
+                font-weight: bold;
+            }
+        }
+        em{
             font-style: italic;
+            *{
+                font-style: italic;
+            }
         }
-    }
-    a, a * {
-        text-decoration: underline;
-        cursor: pointer;
-    }
-    a:hover, a:hover * {
-        color: blue;
+        a, a * {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        a:hover, a:hover * {
+            color: blue;
+        }
     }
 }

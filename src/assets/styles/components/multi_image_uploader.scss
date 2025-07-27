@@ -1,0 +1,20 @@
+.multi-image-uploader{
+    .dropzone{
+        border: 3px dashed $black;
+        padding: 32px;
+        &.active{
+            border-color: dodgerblue;
+        }
+    }
+    .previews{
+        margin-top: 24px;
+        display: flex;
+        flex-direction: row;
+        gap: 12px;
+        max-width: 836px;
+        flex-wrap: wrap;
+        img{
+            width: 200px;
+        }
+    }
+}

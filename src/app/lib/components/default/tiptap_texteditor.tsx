@@ -41,7 +41,7 @@ export default function TiptapEditor({ content, onChange }: Props) {
   if (!mounted || !editor) return null;
 
   return (
-    <div>
+    <div className="tiptap-editor-wrapper">
       <MenuBar editor={editor} />
       <EditorContent editor={editor} />
     </div>
