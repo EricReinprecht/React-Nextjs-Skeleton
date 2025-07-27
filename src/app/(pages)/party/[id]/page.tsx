@@ -113,6 +113,9 @@ export default function Party() {
                 </div>
               </div>
               <div className="right-side">
+                <div className="map">
+                    
+                </div>
                 <div className="content"></div>
               </div>
             </div>
