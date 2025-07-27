@@ -12,24 +12,36 @@ type ImagePreview = {
 type MultiImageUploaderProps = {
   files: File[]
   onImagesChange: (files: File[]) => void;
+  maxImages?: number;
 };
 
-const MultiImageUploader: React.FC<MultiImageUploaderProps> = ({ files, onImagesChange }) => {
+const MultiImageUploader: React.FC<MultiImageUploaderProps> = ({ 
+  files, 
+  onImagesChange,
+  maxImages = 8,
+}) => {
   console.log("FILES: " + files)
   const [previews, setPreviews] = useState<ImagePreview[]>([]);
 
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
-      const newPreviews = acceptedFiles.map((file) => ({
+      const currentFileCount = previews.length;
+      const availableSlots = maxImages - currentFileCount;
+
+      // Limit accepted files to remaining slots
+      const filesToAdd = acceptedFiles.slice(0, availableSlots);
+
+      const newPreviews = filesToAdd.map((file) => ({
         id: URL.createObjectURL(file),
         src: URL.createObjectURL(file),
         file,
       }));
+
       setPreviews((prev) => [...prev, ...newPreviews]);
-      onImagesChange([...previews.map(p => p.file), ...acceptedFiles]);
+      onImagesChange([...previews.map((p) => p.file), ...filesToAdd]);
     },
-    [onImagesChange, previews]
+    [onImagesChange, previews, maxImages]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -53,9 +65,21 @@ const MultiImageUploader: React.FC<MultiImageUploaderProps> = ({ files, onImages
 
   return (
     <div className="multi-image-uploader">
-      <div {...getRootProps()} className={`dropzone ${isDragActive ? "active" : ""}`}>
+       <div
+        {...getRootProps()}
+        className={`dropzone ${isDragActive ? "active" : ""} ${
+          previews.length >= maxImages ? "disabled" : ""
+        }`}
+        style={{ pointerEvents: previews.length >= maxImages ? "none" : "auto" }}
+      >
         <input {...getInputProps()} />
-        <p className="dropzone-text">{isDragActive ? "Drop the images here ..." : "Drag & drop some images here, or click to select files"}</p>
+        <p className="dropzone-text">
+          {previews.length >= maxImages
+            ? `Maximum of ${maxImages} images uploaded`
+            : isDragActive
+            ? "Drop the images here ..."
+            : "Drag & drop some images here, or click to select files"}
+        </p>
       </div>
 
       <ReactSortable
