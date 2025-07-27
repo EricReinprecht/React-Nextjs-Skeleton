@@ -11,15 +11,12 @@ import { useUserProfile } from "@firebase/useUserProfile";
 import { UserEntity } from "@/src/app/lib/entities/user";
 import { getFirestore, doc, updateDoc, getDoc } from "firebase/firestore";
 import { User } from "@/src/app/lib/entities/user";
-import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/material_blue.css';
-import GeoPointPicker from "@/src/app/lib/components/default/geo_point_picker";
 import { getNextDateTimeAt } from "@/src/app/lib/utils/formatDate";
-import ImageUploader from "@/src/app/lib/components/default/image_uploader";
-import MultiImageUploader from "@/src/app/lib/components/default/multi_image_uploader";
 import { uploadImagesToFirestore } from "@/src/app/lib/firebase/uploadImages";
-import TiptapEditor from "@/src/app/lib/components/default/tiptap_texteditor";
-import TextareaAutosize from 'react-textarea-autosize';
+import Step1 from "./step1";
+import Step2 from "./step2";
+import Step3 from "./step3";
 
 const CreateParty = () => {
     const [imageFiles, setImageFiles] = useState<File[]>([]);
@@ -34,8 +31,6 @@ const CreateParty = () => {
     };
 
     useEffect(() => {
-        console.log("Step changed to", step);
-        console.log("Current imageFiles", imageFiles);
     }, [step, imageFiles]);
 
     const [partyData, setPartyData] = useState<Party>({
@@ -85,7 +80,8 @@ const CreateParty = () => {
             const userData = userSnap.data() as User;
             const partyWithUser = {
                 ...partyData,
-                userId: authUser.uid,
+                createdBy: authUser.uid,
+                created: new Date(),
             };
 
             const partyId = await createParty(partyWithUser);
@@ -135,199 +131,34 @@ const CreateParty = () => {
                             </div>
                             <div className="body">
                                 {step === 1 && 
-                                    <div className="step-content basic-data">
-                                        <form className="party-form">
-
-                                            {/* Name input */}
-                                            <div className="form-group">
-                                                <label htmlFor="name">Name</label>
-                                                <input
-                                                    id="name"
-                                                    name="name"
-                                                    type="text"
-                                                    value={partyData.name}
-                                                    onChange={handleChange}
-                                                    placeholder="Enter party name"
-                                                    required
-                                                />
-                                            </div>
-
-                                            {/* Location input */}
-                                            <div className="form-group">
-                                                <label htmlFor="location">Location</label>
-                                                <input
-                                                    id="location"
-                                                    name="location"
-                                                    type="text"
-                                                    value={partyData.location}
-                                                    onChange={handleChange}
-                                                    placeholder="Enter location"
-                                                />
-                                            </div>
-
-                                            {/* START DATE */}
-                                            <div className="form-group">
-                                                <label>Startdatum</label>
-                                                <Flatpickr
-                                                    options={{ enableTime: false, dateFormat: "d.m.Y", closeOnSelect: false }}
-                                                    value={startDateOnly}
-                                                    onChange={([date]) => {
-                                                        setStartDateOnly(date);
-                                                        if (date && startTimeOnly) {
-                                                            const combined = combineDateAndTime(date, startTimeOnly);
-                                                            setPartyData(prev => ({ ...prev, startDate: combined }));
-                                                        }
-                                                    }}
-                                                />
-                                            </div>
-                                            
-                                            {/* START TIME */}
-                                            <div className="form-group">
-                                                <label>Startzeit</label>
-                                                <Flatpickr
-                                                    options={{
-                                                        enableTime: true,
-                                                        noCalendar: true,
-                                                        dateFormat: "H:i",
-                                                        time_24hr: true,
-                                                        closeOnSelect: false,
-                                                        allowInput: true,
-                                                    }}
-                                                    value={startTimeOnly}
-                                                    onChange={([time]) => {
-                                                        setStartTimeOnly(time);
-                                                        if (startDateOnly && time) {
-                                                            const combined = combineDateAndTime(startDateOnly, time);
-                                                            setPartyData(prev => ({ ...prev, startDate: combined }));
-                                                        }
-                                                    }}
-                                                />
-                                            </div>
-                                            
-                                            {/* END DATE */}
-                                            <div className="form-group">
-                                                <label>Enddatum</label>
-                                                <Flatpickr
-                                                    options={{ enableTime: false, dateFormat: "d.m.Y", allowInput: true }}
-                                                    value={endDateOnly}
-                                                    onChange={([date]) => {
-                                                        setEndDateOnly(date ?? null);
-                                                        if (date && endTimeOnly) {
-                                                            const combined = combineDateAndTime(date, endTimeOnly);
-                                                            setPartyData(prev => ({ ...prev, endDate: combined }));
-                                                        }
-                                                    }}
-                                                />
-                                            </div>
-                                            
-                                            {/* END TIME */}
-                                            <div className="form-group">
-                                                <label>Endzeit</label>
-                                                <Flatpickr
-                                                    options={{
-                                                        enableTime: true,
-                                                        noCalendar: true,
-                                                        dateFormat: "H:i",
-                                                        time_24hr: true,
-                                                        closeOnSelect: false,
-                                                        allowInput: true,
-                                                    }}
-                                                    value={endTimeOnly}
-                                                    onChange={([time]) => {
-                                                        setEndTimeOnly(time);
-                                                        if (endDateOnly && time) {
-                                                            const combined = combineDateAndTime(endDateOnly, time);
-                                                            setPartyData(prev => ({ ...prev, endDate: combined }));
-                                                        }
-                                                    }}
-                                                />
-                                            </div>
-                                        </form>
-                                    </div>
+                                    <Step1
+                                        partyData={partyData}
+                                        startDateOnly={startDateOnly}
+                                        startTimeOnly={startTimeOnly}
+                                        endDateOnly={endDateOnly}
+                                        endTimeOnly={endTimeOnly}
+                                        setPartyData={setPartyData}
+                                        setStartDateOnly={setStartDateOnly}
+                                        setStartTimeOnly={setStartTimeOnly}
+                                        setEndDateOnly={setEndDateOnly}
+                                        setEndTimeOnly={setEndTimeOnly}
+                                        handleChange={handleChange}
+                                    />
                                 }
                                 {step === 2 && 
-                                    <div className="step-content exact-location">
-                                        <form className="party-form">
-                                            <GeoPointPicker
-                                                lat={partyData.latitude}
-                                                lng={partyData.longitude}
-                                                onLocationSelect={(lat, lng) => {
-                                                    setPartyData(prev => ({
-                                                        ...prev,
-                                                        latitude: lat,
-                                                        longitude: lng,
-                                                    }));
-                                                }}
-                                            />
-                                            <div className="form-group">
-                                                <label htmlFor="latitude">Latitude</label>
-                                                <input
-                                                    type="number"
-                                                    id="latitude"
-                                                    name="latitude"
-                                                    value={partyData.latitude ?? ""}
-                                                    onChange={(e) =>
-                                                        setPartyData(prev => ({
-                                                            ...prev,
-                                                            latitude: parseFloat(e.target.value),
-                                                        }))
-                                                    }
-                                                    step="any"
-                                                    placeholder="Latitude"
-                                                />
-                                            </div>
-
-                                            <div className="form-group">
-                                                <label htmlFor="longitude">Longitude</label>
-                                                <input
-                                                    type="number"
-                                                    id="longitude"
-                                                    name="longitude"
-                                                    value={partyData.longitude ?? ""}
-                                                    onChange={(e) =>
-                                                        setPartyData(prev => ({
-                                                            ...prev,
-                                                            longitude: parseFloat(e.target.value),
-                                                        }))
-                                                    }
-                                                    step="any"
-                                                    placeholder="Longitude"
-                                                />
-                                            </div>
-                                        </form>
-                                    </div>
+                                    <Step2
+                                        partyData={partyData}
+                                        setPartyData={setPartyData}
+                                    />
                                 }
-                                <div className="step-content additional-data" style={{ display: step === 3 ? "block" : "none" }}>
-                                    <form className="party-form">
-                                            <MultiImageUploader 
-                                                files={imageFiles}
-                                                onImagesChange={setImageFiles} 
-                                            />
-
-                                            {/* TEASER */}
-                                            <div className="form-group">
-                                                <label htmlFor="teaser">Teaser</label>
-                                                <TextareaAutosize
-                                                    name="teaser"
-                                                    value={partyData.teaser}
-                                                    onChange={handleChange}
-                                                    placeholder="Enter teaser"
-                                                    required
-                                                    className="your-custom-class"
-                                                />
-                                            </div>
-
-                                            {/* Description with Tiptap */}
-                                            <div className="form-group">
-                                                <label htmlFor="description">Beschreibung</label>
-                                                <TiptapEditor
-                                                    content={partyData.description}
-                                                    onChange={(value) =>
-                                                        setPartyData(prev => ({ ...prev, description: value }))
-                                                    }
-                                                />
-                                            </div>
-                                    </form>
+                                <div style={{ display: step === 3 ? "block" : "none" }}>
+                                    <Step3
+                                        imageFiles={imageFiles}
+                                        setImageFiles={setImageFiles}
+                                        partyData={partyData}
+                                        setPartyData={setPartyData}
+                                        handleChange={handleChange}
+                                    />
                                 </div>
                                 {step === 4 && 
                                     <div className="step-content submit">
@@ -353,6 +184,7 @@ const CreateParty = () => {
                                     label="Prev"
                                     type="button"
                                     onClick={() => navigateToStep(step - 1)}
+                                    disabled={step === 1}
                                     styles={{
                                         bgColor: "black",
                                         textColor: "white",
@@ -366,6 +198,7 @@ const CreateParty = () => {
                                     label="Next"
                                     type="button"
                                     onClick={() => navigateToStep(step + 1)}
+                                    disabled={step === 4}
                                     styles={{
                                         bgColor: "black",
                                         textColor: "white",

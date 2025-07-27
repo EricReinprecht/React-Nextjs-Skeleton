@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { ReactSortable } from "react-sortablejs";
 import "@styles/components/multi_image_uploader.scss";
