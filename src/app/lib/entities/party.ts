@@ -11,6 +11,7 @@ export interface Party {
   startDate: Date;
   endDate: Date;
   description: string;
+  teaser: string;
   categories?: DocumentReference[];
 }
 

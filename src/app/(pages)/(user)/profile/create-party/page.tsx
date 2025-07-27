@@ -19,6 +19,7 @@ import ImageUploader from "@/src/app/lib/components/default/image_uploader";
 import MultiImageUploader from "@/src/app/lib/components/default/multi_image_uploader";
 import { uploadImagesToFirestore } from "@/src/app/lib/firebase/uploadImages";
 import TiptapEditor from "@/src/app/lib/components/default/tiptap_texteditor";
+import TextareaAutosize from 'react-textarea-autosize';
 
 const CreateParty = () => {
     const { authUser, loading } = useUserProfile();
@@ -40,7 +41,8 @@ const CreateParty = () => {
         location: "",
         latitude: process.env.NEXT_PUBLIC_DEFAULT_LATITUDE ? Number(process.env.NEXT_PUBLIC_DEFAULT_LATITUDE) : 0,
         longitude: process.env.NEXT_PUBLIC_DEFAULT_LONGITUDE ? Number(process.env.NEXT_PUBLIC_DEFAULT_LONGITUDE) : 0,
-        description: ""
+        description: "",
+        teaser: "",
     });
 
     const [startDateOnly, setStartDateOnly] = useState<Date>(getNextDateTimeAt("friday", 18));
@@ -51,7 +53,7 @@ const CreateParty = () => {
     const [imageFiles, setImageFiles] = useState<File[]>([]);
 
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
         setPartyData(prev => ({
             ...prev,
@@ -295,6 +297,19 @@ const CreateParty = () => {
                                     <div className="step-content additional-data">
                                         <form className="party-form">
                                                 <MultiImageUploader onImagesChange={setImageFiles} />
+
+                                                {/* TEASER */}
+                                                <div className="form-group">
+                                                    <label htmlFor="teaser">Teaser</label>
+                                                    <TextareaAutosize
+                                                        name="teaser"
+                                                        value={partyData.teaser}
+                                                        onChange={handleChange}
+                                                        placeholder="Enter teaser"
+                                                        required
+                                                        className="your-custom-class"
+                                                    />
+                                                </div>
 
                                                 {/* Description with Tiptap */}
                                                 <div className="form-group">
