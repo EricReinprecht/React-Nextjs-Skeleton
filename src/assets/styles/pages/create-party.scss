@@ -47,6 +47,7 @@
                 background-color: $charcoal;
                 height: 40px;
                 width: 40px;
+                min-width: 40px;
                 border-radius: 100%;
                 color: $white;
                 display: flex;
@@ -63,6 +64,7 @@
             }
             .step-seperator{
                 width: 5%;
+                min-width: 20px;
                 border-bottom: 2px solid $charcoal;
                 height: 0px;
             }
@@ -139,6 +141,7 @@
     }
     .tiptap {
         width: 100%;
+        max-width: 836px;
         min-height: 150px;
         background: #fff;
         border: 1px solid #ccc;

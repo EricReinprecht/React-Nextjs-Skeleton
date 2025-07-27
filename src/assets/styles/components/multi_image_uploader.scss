@@ -2,6 +2,7 @@
     .dropzone{
         border: 3px dashed $black;
         padding: 32px;
+        cursor: pointer;
         &.active{
             border-color: dodgerblue;
         }
