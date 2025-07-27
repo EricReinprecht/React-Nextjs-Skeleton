@@ -31,7 +31,7 @@ const Footer: React.FC<PartyFormFooterProps> = ({
                 }}
             />
 
-            {step !== 4 && (
+            {step !== 5 && (
                 <DefautButton
                     label="Next"
                     type="button"
@@ -47,7 +47,7 @@ const Footer: React.FC<PartyFormFooterProps> = ({
                 />
             )}
 
-            {step === 4 && (
+            {step === 5 && (
                 <DefautButton
                     label="Submit"
                     type="button"

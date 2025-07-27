@@ -1,100 +1,71 @@
-"use client";
+import { useState, useEffect } from 'react';
 
-import React from "react";
-import { Party } from "@/src/app/lib/entities/party";
-import { formatDateGerman } from "@/src/app/lib/utils/formatDate";
-import { CategoryEntity } from "@/src/app/lib/entities/category";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, A11y } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import SwiperArrowLeft from "@/src/app/lib/svgs/swiper_arrow_left";
-import "@styles/pages/single-party.scss";
+interface Category {
+    id: string | number;
+    name: string;
+}
 
-type Props = {
-  partyData: Party;
-  imagePreviews: string[];
-  categories?: CategoryEntity[];
-};
+interface Step5CategorySelectorProps {
+    allCategories: Category[];
+    selectedCategories: Category[];
+    setSelectedCategories: (categories: Category[]) => void;
+}
 
-const Step4: React.FC<Props> = ({ partyData, imagePreviews, categories = [] }) => {
+function Step5CategorySelector({
+    allCategories,
+    selectedCategories,
+    setSelectedCategories,
+}: Step5CategorySelectorProps) {
+    const [searchTerm, setSearchTerm] = useState<string>('');
+    const [filteredCategories, setFilteredCategories] = useState<Category[]>(allCategories);
+
+    useEffect(() => {
+        if (!searchTerm) {
+            setFilteredCategories(allCategories);
+        } else {
+            setFilteredCategories(
+                allCategories.filter(cat =>
+                    cat.name.toLowerCase().includes(searchTerm.toLowerCase())
+                )
+            );
+        }
+    }, [searchTerm, allCategories]);
+
+    const toggleCategory = (category: Category) => {
+        if (selectedCategories.some(c => c.id === category.id)) {
+            setSelectedCategories(selectedCategories.filter(c => c.id !== category.id));
+        } else {
+            setSelectedCategories([...selectedCategories, category]);
+        }
+    };
+
     return (
-        <div className="party-wrapper preview">
-            <div className="party-card">
-                <div className="background"></div>
-                <div className="party-content">
-                    <div className="left-side">
-                        <div className="image-container">
-                            {imagePreviews.length > 1 ? (
-                                <Swiper
-                                    modules={[Navigation, A11y]}
-                                    spaceBetween={0}
-                                    slidesPerView={1}
-                                    navigation={{
-                                        nextEl: ".swiper-button.next",
-                                        prevEl: ".swiper-button.prev",
-                                    }}
-                                    loop={true}
-                                >
-                                    {imagePreviews.map((url, index) => (
-                                        <SwiperSlide key={index}>
-                                            <div className="image" style={{ backgroundImage: `url(${url})` }}></div>
-                                        </SwiperSlide>
-                                    ))}
-                                </Swiper>
-                            ) : (
-                                imagePreviews.length === 1 && (
-                                    <div className="image" style={{ backgroundImage: `url(${imagePreviews[0]})` }}></div>
-                                )
-                            )}
-                            
-                            {imagePreviews.length > 1 && (
-                                <>
-                                    <div className="swiper-button prev">
-                                        <SwiperArrowLeft />
-                                    </div>
-                                    <div className="swiper-button next">
-                                        <SwiperArrowLeft />
-                                    </div>
-                                </>
-                            )}
-                        </div>
-                        <div className="content">
-                            <div className="heading">{partyData.name}</div>
-                            <div className="info date">
-                                <span className="label">Datum: </span>
-                                {formatDateGerman(partyData.startDate)}{" "}
-                                {partyData.endDate && ` – ${formatDateGerman(partyData.endDate)}`}
-                            </div>
-                            <div className="info location">
-                                <span className="label">Ort: </span>
-                                {partyData.location}
-                            </div>
-                            {categories.length > 0 && (
-                                <div className="info categories">
-                                    <span className="label">Art: </span>
-                                    {categories.map((cat, idx) => (
-                                        <span key={cat.getId()}>
-                                            {cat.getName()}
-                                            {idx < categories.length - 1 ? ", " : ""}
-                                        </span>
-                                    ))}
-                                </div>
-                            )}
-                            <div
-                                className="info description"
-                                dangerouslySetInnerHTML={{ __html: partyData.description }}
-                            ></div>
-                        </div>
-                    </div>
-                    <div className="right-side">
-                        <div className="content"></div>
-                    </div>
-                </div>
+        <div>
+            <input
+                type="search"
+                placeholder="Kategorie suchen..."
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
+                style={{ marginBottom: '1rem', padding: '0.5rem', width: '100%' }}
+            />
+
+            <div style={{ maxHeight: '300px', overflowY: 'auto', border: '1px solid #ccc', padding: '0.5rem' }}>
+                {filteredCategories.length === 0 && <p>Keine Kategorien gefunden</p>}
+
+                {filteredCategories.map(category => (
+                    <label key={category.id} style={{ display: 'block', marginBottom: '0.5rem', cursor: 'pointer' }}>
+                        <input
+                            type="checkbox"
+                            checked={selectedCategories.some(c => c.id === category.id)}
+                            onChange={() => toggleCategory(category)}
+                            style={{ marginRight: '0.5rem' }}
+                        />
+                        {category.name}
+                    </label>
+                ))}
             </div>
         </div>
     );
-};
+}
 
-export default Step4;
+export default Step5CategorySelector;

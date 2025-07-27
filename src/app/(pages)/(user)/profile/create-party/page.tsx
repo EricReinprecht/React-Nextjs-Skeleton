@@ -18,15 +18,20 @@ import Step2 from "./step2";
 import Step3 from "./step3";
 import Step4 from "./step4";
 import Footer from "./footer";
+import Step5 from "./step5";
+import { Category } from "@/src/app/lib/entities/category";
+import { getCategories } from "@/src/app/lib/services/categoryService";
 
 const CreateParty = () => {
     const [imageFiles, setImageFiles] = useState<File[]>([]);
     const { authUser, loading } = useUserProfile();
     const [step, setStep] = useState<number>(1);
+    const [allCategories, setAllCategories] = useState<Category[]>([]);
+    const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
 
 
     const navigateToStep = (nextStep: number) => {
-        if (nextStep >= 1 && nextStep <= 4) {
+        if (nextStep >= 1 && nextStep <= 5) {
             setStep(nextStep);
         }
     };
@@ -45,6 +50,19 @@ const CreateParty = () => {
         description: "",
         teaser: "",
     });
+
+    useEffect(() => {
+        async function fetchCategories() {
+            try {
+                const categories = await getCategories();
+                setAllCategories(categories);
+            } catch (error) {
+                console.error("Failed to load categories:", error);
+            }
+        }
+      
+        fetchCategories();
+    }, []);
 
     const [startDateOnly, setStartDateOnly] = useState<Date>(getNextDateTimeAt("friday", 18));
     const [startTimeOnly, setStartTimeOnly] = useState<Date>(getNextDateTimeAt("friday", 18));
@@ -129,6 +147,8 @@ const CreateParty = () => {
                                 <div onClick={() => navigateToStep(3)} className={`step additional-data ${step === 3 ? "active" : ""}`}>3</div>
                                 <div className="step-seperator"></div>
                                 <div onClick={() => navigateToStep(4)} className={`step submit ${step === 4 ? "active" : ""}`}>4</div>
+                                <div className="step-seperator"></div>
+                                <div onClick={() => navigateToStep(5)} className={`step submit ${step === 5 ? "active" : ""}`}>5</div>
                             </div>
                             <div className="body">
                                 {step === 1 && 
@@ -161,13 +181,19 @@ const CreateParty = () => {
                                         handleChange={handleChange}
                                     />
                                 </div>
-                                {step === 4 && 
-                                <Step4
-                                    partyData={partyData}
-                                    imagePreviews={imageFiles.map(file => URL.createObjectURL(file))}
-                                    // categories={yourResolvedCategories} // Optional
-                                />
-                                
+                                {step ===4 && 
+                                    <Step4
+                                        allCategories={allCategories}
+                                        selectedCategories={selectedCategories}
+                                        setSelectedCategories={setSelectedCategories}
+                                    />
+                                }
+                                {step === 5 && 
+                                    <Step5
+                                        partyData={partyData}
+                                        imagePreviews={imageFiles.map(file => URL.createObjectURL(file))}
+                                        // categories={yourResolvedCategories} // Optional
+                                    />
                                 }
                             </div>
                         </div>
