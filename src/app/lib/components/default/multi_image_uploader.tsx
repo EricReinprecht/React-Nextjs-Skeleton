@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { ReactSortable } from "react-sortablejs";
 import "@styles/components/multi_image_uploader.scss";
@@ -10,16 +10,19 @@ type ImagePreview = {
 };
 
 type MultiImageUploaderProps = {
+  files: File[]
   onImagesChange: (files: File[]) => void;
 };
 
-const MultiImageUploader: React.FC<MultiImageUploaderProps> = ({ onImagesChange }) => {
+const MultiImageUploader: React.FC<MultiImageUploaderProps> = ({ files, onImagesChange }) => {
+  console.log("FILES: " + files)
   const [previews, setPreviews] = useState<ImagePreview[]>([]);
+
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       const newPreviews = acceptedFiles.map((file) => ({
-        id: URL.createObjectURL(file), // Using URL as id (unique for the session)
+        id: URL.createObjectURL(file),
         src: URL.createObjectURL(file),
         file,
       }));

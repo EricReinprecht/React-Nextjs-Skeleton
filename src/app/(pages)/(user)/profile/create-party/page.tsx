@@ -22,16 +22,21 @@ import TiptapEditor from "@/src/app/lib/components/default/tiptap_texteditor";
 import TextareaAutosize from 'react-textarea-autosize';
 
 const CreateParty = () => {
+    const [imageFiles, setImageFiles] = useState<File[]>([]);
     const { authUser, loading } = useUserProfile();
-    console.log("here", authUser);
     const [step, setStep] = useState<number>(1);
+
 
     const navigateToStep = (nextStep: number) => {
         if (nextStep >= 1 && nextStep <= 4) {
-            console.log(nextStep)
             setStep(nextStep);
         }
     };
+
+    useEffect(() => {
+        console.log("Step changed to", step);
+        console.log("Current imageFiles", imageFiles);
+    }, [step, imageFiles]);
 
     const [partyData, setPartyData] = useState<Party>({
         id: "",
@@ -50,7 +55,6 @@ const CreateParty = () => {
     const [endDateOnly, setEndDateOnly] = useState<Date>(getNextDateTimeAt("saturday", 3));
     const [endTimeOnly, setEndTimeOnly] = useState<Date>(getNextDateTimeAt("saturday", 3));
 
-    const [imageFiles, setImageFiles] = useState<File[]>([]);
 
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -293,37 +297,38 @@ const CreateParty = () => {
                                         </form>
                                     </div>
                                 }
-                                {step === 3 && 
-                                    <div className="step-content additional-data">
-                                        <form className="party-form">
-                                                <MultiImageUploader onImagesChange={setImageFiles} />
+                                <div className="step-content additional-data" style={{ display: step === 3 ? "block" : "none" }}>
+                                    <form className="party-form">
+                                            <MultiImageUploader 
+                                                files={imageFiles}
+                                                onImagesChange={setImageFiles} 
+                                            />
 
-                                                {/* TEASER */}
-                                                <div className="form-group">
-                                                    <label htmlFor="teaser">Teaser</label>
-                                                    <TextareaAutosize
-                                                        name="teaser"
-                                                        value={partyData.teaser}
-                                                        onChange={handleChange}
-                                                        placeholder="Enter teaser"
-                                                        required
-                                                        className="your-custom-class"
-                                                    />
-                                                </div>
+                                            {/* TEASER */}
+                                            <div className="form-group">
+                                                <label htmlFor="teaser">Teaser</label>
+                                                <TextareaAutosize
+                                                    name="teaser"
+                                                    value={partyData.teaser}
+                                                    onChange={handleChange}
+                                                    placeholder="Enter teaser"
+                                                    required
+                                                    className="your-custom-class"
+                                                />
+                                            </div>
 
-                                                {/* Description with Tiptap */}
-                                                <div className="form-group">
-                                                    <label htmlFor="description">Beschreibung</label>
-                                                    <TiptapEditor
-                                                        content={partyData.description}
-                                                        onChange={(value) =>
-                                                            setPartyData(prev => ({ ...prev, description: value }))
-                                                        }
-                                                    />
-                                                </div>
-                                        </form>
-                                    </div>
-                                }
+                                            {/* Description with Tiptap */}
+                                            <div className="form-group">
+                                                <label htmlFor="description">Beschreibung</label>
+                                                <TiptapEditor
+                                                    content={partyData.description}
+                                                    onChange={(value) =>
+                                                        setPartyData(prev => ({ ...prev, description: value }))
+                                                    }
+                                                />
+                                            </div>
+                                    </form>
+                                </div>
                                 {step === 4 && 
                                     <div className="step-content submit">
                                         <DefautButton

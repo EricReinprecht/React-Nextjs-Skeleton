@@ -19,11 +19,12 @@ export default function TiptapEditor({ content, onChange }: Props) {
 
   const editor = useEditor({
     extensions: [
-      StarterKit,
-      Link.configure({
-        openOnClick: true,
-        autolink: true,
-        linkOnPaste: true,
+      StarterKit.configure({
+        link:{
+          openOnClick: true,
+          autolink: true,
+          linkOnPaste: true,
+        }
       }),
     ],
     content,
