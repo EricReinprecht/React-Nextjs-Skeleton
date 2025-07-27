@@ -37,7 +37,7 @@ export const getCategoriesPaginated = async (page: number, limit: number): Promi
 
     querySnapshot = await getDocs(query(
       collection(db, CATEGORIES_COLLECTION),
-      orderBy("nameAlpha"),
+      orderBy("name"),
       orderBy("startDate"),
     ));
 

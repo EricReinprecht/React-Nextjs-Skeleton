@@ -11,11 +11,9 @@ type PartyMapProps = {
     height?: string;
 };
 
-const PartyMap: React.FC<PartyMapProps> = ({
+const PinnedMap: React.FC<PartyMapProps> = ({
     latitude,
     longitude,
-    width = "100%",
-    height = "300px",
 }) => {
     const { isLoaded, loadError } = useJsApiLoader({
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
@@ -29,20 +27,24 @@ const PartyMap: React.FC<PartyMapProps> = ({
     if (loadError) return <div>Map cannot be loaded right now, sorry.</div>;
 
     return (
-        <div style={{ width, height }}>
+        <>
             {isLoaded ? (
                 <GoogleMap 
                     mapContainerStyle={{ width: "100%", height: "100%" }} 
                     zoom={12} center={center}
-                    options={{ styles: darkMapStyle }}
+                    options={{ 
+                        styles: darkMapStyle,
+                        streetViewControl: false,
+                        mapTypeControl: false,
+                    }}
                 >
                     <Marker position={center} />
                 </GoogleMap>
             ) : (
                 <div>Loading map...</div>
             )}
-        </div>
+        </>
     );
 };
 
-export default PartyMap;
+export default PinnedMap;

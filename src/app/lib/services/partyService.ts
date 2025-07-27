@@ -40,7 +40,7 @@ export const getPartiesPaginated = async (page: number, limit: number): Promise<
 
     querySnapshot = await getDocs(query(
       collection(db, 'parties'),
-      orderBy("nameAlpha"),
+      orderBy("name"),
       orderBy("startDate"),
     ));
 

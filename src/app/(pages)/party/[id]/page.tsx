@@ -16,6 +16,7 @@ import 'swiper/css/scrollbar';
 import SwiperArrowLeft from "@/src/app/lib/svgs/swiper_arrow_left";
 import { resolveCategories } from "@/src/app/lib/services/categoryService";
 import { CategoryEntity } from "@/src/app/lib/entities/category";
+import PinnedMap from "@/src/app/lib/components/default/map";
 
   
 export default function Party() {
@@ -36,8 +37,6 @@ export default function Party() {
           setCategories(categoryEntities);
         }
         
-
-        console.log(result);
         setParty(result);
 
       } catch (err) {
@@ -114,7 +113,12 @@ export default function Party() {
               </div>
               <div className="right-side">
                 <div className="map">
-                    
+                    <PinnedMap
+                      latitude={party.latitude}
+                      longitude={party.longitude}
+                    />
+                    <a href={`https://www.google.com/maps/dir/?api=1&destination=${party.latitude},${party.longitude}`} target="_blank">Route berechnen</a>
+
                 </div>
                 <div className="content"></div>
               </div>

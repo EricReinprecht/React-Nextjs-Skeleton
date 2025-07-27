@@ -33,6 +33,9 @@
             }
         }
         .party-content{
+            display: flex;
+            flex-direction: row;
+            gap: 96px;
             z-index: 2;
             width: 100%;
             height: 100%;
@@ -41,7 +44,7 @@
                 flex-direction: column;
                 justify-content: flex-start;
                 align-items: flex-start;
-                min-width: 300px;
+                min-width: 500px;
                 gap: 48px;
                 .image-container{
                     position: relative;
@@ -111,6 +114,15 @@
                             font-weight: 800;
                         }
                     }
+                }
+            }
+            .right-side{
+                width: 100%;
+                height: 100%;
+                .map{
+                    height: 500px;
+                    width: 100%;
+                    background-color: beige;
                 }
             }
         }
