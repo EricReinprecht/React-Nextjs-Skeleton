@@ -74,7 +74,6 @@
                 }
             }
             .step-seperator{
-                width: 5%;
                 min-width: 20px;
                 border-bottom: 2px solid $charcoal;
                 height: 0px;
@@ -167,7 +166,6 @@
     }
     textarea {
         width: 100%;
-        max-width: 836px;
         border-radius: 6px;
         border: 1px solid $black;
         background-color: $white;
@@ -200,7 +198,7 @@
     }
     .tiptap {
         width: 100%;
-        max-width: 836px;
+        max-width: 880px;
         min-height: 150px;
         background: #fff;
         border: 1px solid #ccc;
