@@ -8,7 +8,7 @@ import { createParty } from "@/src/app/lib/services/partyService";
 import { Party } from "@/src/app/lib/entities/party";
 import { useUserProfile } from "@firebase/useUserProfile";
 import { UserEntity } from "@/src/app/lib/entities/user";
-import { getFirestore, doc, updateDoc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, updateDoc, getDoc, DocumentReference } from "firebase/firestore";
 import { User } from "@/src/app/lib/entities/user";
 import 'flatpickr/dist/themes/material_blue.css';
 import { getNextDateTimeAt } from "@/src/app/lib/utils/formatDate";
@@ -23,11 +23,17 @@ import { Category } from "@/src/app/lib/entities/category";
 import { getCategories } from "@/src/app/lib/services/categoryService"; 
 
 const CreateParty = () => {
+    const db = getFirestore();
     const [imageFiles, setImageFiles] = useState<File[]>([]);
     const { authUser, loading } = useUserProfile();
     const [step, setStep] = useState<number>(1);
     const [allCategories, setAllCategories] = useState<Category[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
+    const categoryRefs: DocumentReference[] = selectedCategories
+        .filter((category) => category.id)
+        .map((category) =>
+        doc(db, "categories", category.id!)
+  );
 
 
     const navigateToStep = (nextStep: number) => {
@@ -48,6 +54,7 @@ const CreateParty = () => {
         longitude: process.env.NEXT_PUBLIC_DEFAULT_LONGITUDE ? Number(process.env.NEXT_PUBLIC_DEFAULT_LONGITUDE) : 0,
         description: "",
         teaser: "",
+        categories: [],
     });
 
     useEffect(() => {
@@ -78,8 +85,6 @@ const CreateParty = () => {
         }));
     };
 
-    const db = getFirestore();
-
     const handleSubmit = async () => {
         if (!authUser) {
             alert("User not authenticated.");
@@ -100,6 +105,7 @@ const CreateParty = () => {
                 ...partyData,
                 createdBy: authUser.uid,
                 created: new Date(),
+                categories: categoryRefs,
             };
 
             const partyId = await createParty(partyWithUser);
