@@ -33,7 +33,13 @@ const CreateParty = () => {
         .filter((category) => category.id)
         .map((category) =>
         doc(db, "categories", category.id!)
-  );
+    );
+    const [startDateOnly, setStartDateOnly] = useState<Date>(getNextDateTimeAt("friday", 18));
+    const [startTimeOnly, setStartTimeOnly] = useState<Date>(getNextDateTimeAt("friday", 18));
+    const [endDateOnly, setEndDateOnly] = useState<Date>(getNextDateTimeAt("saturday", 3));
+    const [endTimeOnly, setEndTimeOnly] = useState<Date>(getNextDateTimeAt("saturday", 3));
+    const [creating, setCreating] = useState<boolean>(false);
+
 
 
     const navigateToStep = (nextStep: number) => {
@@ -70,10 +76,6 @@ const CreateParty = () => {
         fetchCategories();
     }, []);
 
-    const [startDateOnly, setStartDateOnly] = useState<Date>(getNextDateTimeAt("friday", 18));
-    const [startTimeOnly, setStartTimeOnly] = useState<Date>(getNextDateTimeAt("friday", 18));
-    const [endDateOnly, setEndDateOnly] = useState<Date>(getNextDateTimeAt("saturday", 3));
-    const [endTimeOnly, setEndTimeOnly] = useState<Date>(getNextDateTimeAt("saturday", 3));
 
 
 
@@ -90,6 +92,8 @@ const CreateParty = () => {
             alert("User not authenticated.");
             return;
         }
+
+        setCreating(true);
 
         try {
             const userRef = doc(db, "users", authUser.uid);
@@ -129,7 +133,7 @@ const CreateParty = () => {
                 createdParties: userEntity.toJSON().createdParties,
             });
 
-            alert(`Party created with ID: ${partyId}`);
+            setCreating(false);
             setStep(1);
         } catch (error) {
             console.error("Error:", error);
@@ -143,70 +147,74 @@ const CreateParty = () => {
                 <div className="create-party-wrapper">
                     <div className="create-party-container">
                         <div className="create-party-background"></div>
-                        <div className="create-party-content">
-                            <div className="steps">
-                                <div onClick={() => navigateToStep(1)} className={`step basic-data ${step === 1 ? "active" : ""}`}>1</div>
-                                <div className="step-seperator"></div>
-                                <div onClick={() => navigateToStep(2)} className={`step exact-location ${step === 2 ? "active" : ""}`}>2</div>
-                                <div className="step-seperator"></div>
-                                <div onClick={() => navigateToStep(3)} className={`step additional-data ${step === 3 ? "active" : ""}`}>3</div>
-                                <div className="step-seperator"></div>
-                                <div onClick={() => navigateToStep(4)} className={`step submit ${step === 4 ? "active" : ""}`}>4</div>
-                                <div className="step-seperator"></div>
-                                <div onClick={() => navigateToStep(5)} className={`step submit ${step === 5 ? "active" : ""}`}>5</div>
-                            </div>
-                            <div className="body">
-                                {step === 1 && 
-                                    <Step1
-                                        partyData={partyData}
-                                        startDateOnly={startDateOnly}
-                                        startTimeOnly={startTimeOnly}
-                                        endDateOnly={endDateOnly}
-                                        endTimeOnly={endTimeOnly}
-                                        setPartyData={setPartyData}
-                                        setStartDateOnly={setStartDateOnly}
-                                        setStartTimeOnly={setStartTimeOnly}
-                                        setEndDateOnly={setEndDateOnly}
-                                        setEndTimeOnly={setEndTimeOnly}
-                                        handleChange={handleChange}
-                                    />
-                                }
-                                <div style={{ display: step === 2 ? "block" : "none" }}>
-                                    <Step2
-                                        partyData={partyData}
-                                        setPartyData={setPartyData}
+                        {creating === false &&
+                            <>
+                                <div className="create-party-content">
+                                    <div className="steps">
+                                        <div onClick={() => navigateToStep(1)} className={`step basic-data ${step === 1 ? "active" : ""}`}>1</div>
+                                        <div className="step-seperator"></div>
+                                        <div onClick={() => navigateToStep(2)} className={`step exact-location ${step === 2 ? "active" : ""}`}>2</div>
+                                        <div className="step-seperator"></div>
+                                        <div onClick={() => navigateToStep(3)} className={`step additional-data ${step === 3 ? "active" : ""}`}>3</div>
+                                        <div className="step-seperator"></div>
+                                        <div onClick={() => navigateToStep(4)} className={`step submit ${step === 4 ? "active" : ""}`}>4</div>
+                                        <div className="step-seperator"></div>
+                                        <div onClick={() => navigateToStep(5)} className={`step submit ${step === 5 ? "active" : ""}`}>5</div>
+                                    </div>
+                                    <div className="body">
+                                        {step === 1 && 
+                                            <Step1
+                                                partyData={partyData}
+                                                startDateOnly={startDateOnly}
+                                                startTimeOnly={startTimeOnly}
+                                                endDateOnly={endDateOnly}
+                                                endTimeOnly={endTimeOnly}
+                                                setPartyData={setPartyData}
+                                                setStartDateOnly={setStartDateOnly}
+                                                setStartTimeOnly={setStartTimeOnly}
+                                                setEndDateOnly={setEndDateOnly}
+                                                setEndTimeOnly={setEndTimeOnly}
+                                                handleChange={handleChange}
+                                            />
+                                        }
+                                        <div style={{ display: step === 2 ? "block" : "none" }}>
+                                            <Step2
+                                                partyData={partyData}
+                                                setPartyData={setPartyData}
+                                            />
+                                        </div>
+                                        <div style={{ display: step === 3 ? "block" : "none" }}>
+                                            <Step3
+                                                imageFiles={imageFiles}
+                                                setImageFiles={setImageFiles}
+                                                partyData={partyData}
+                                                setPartyData={setPartyData}
+                                                handleChange={handleChange}
+                                            />
+                                        </div>
+                                        {step ===4 && 
+                                            <Step4
+                                                allCategories={allCategories}
+                                                selectedCategories={selectedCategories}
+                                                setSelectedCategories={setSelectedCategories}
+                                            />
+                                        }
+                                        {step === 5 && 
+                                            <Step5
+                                                partyData={partyData}
+                                                imagePreviews={imageFiles.map(file => URL.createObjectURL(file))}
+                                                // categories={yourResolvedCategories} // Optional
+                                            />
+                                        }
+                                    </div>
+                                    <Footer
+                                        step={step}
+                                        navigateToStep={navigateToStep}
+                                        onSubmit={handleSubmit}
                                     />
                                 </div>
-                                <div style={{ display: step === 3 ? "block" : "none" }}>
-                                    <Step3
-                                        imageFiles={imageFiles}
-                                        setImageFiles={setImageFiles}
-                                        partyData={partyData}
-                                        setPartyData={setPartyData}
-                                        handleChange={handleChange}
-                                    />
-                                </div>
-                                {step ===4 && 
-                                    <Step4
-                                        allCategories={allCategories}
-                                        selectedCategories={selectedCategories}
-                                        setSelectedCategories={setSelectedCategories}
-                                    />
-                                }
-                                {step === 5 && 
-                                    <Step5
-                                        partyData={partyData}
-                                        imagePreviews={imageFiles.map(file => URL.createObjectURL(file))}
-                                        // categories={yourResolvedCategories} // Optional
-                                    />
-                                }
-                            </div>
-                        </div>
-                        <Footer
-                            step={step}
-                            navigateToStep={navigateToStep}
-                            onSubmit={handleSubmit}
-                        />
+                            </>
+                        }
                     </div>
                 </div>
             </ManagerPage>
