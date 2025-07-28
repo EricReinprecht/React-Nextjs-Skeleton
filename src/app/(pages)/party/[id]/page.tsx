@@ -88,8 +88,8 @@ export default function Party() {
                 
                   {party.imageUrls && party.imageUrls.length > 1 && (
                     <>
-                      <div className="swiper-button prev"><SwiperArrowLeft /></div>
-                      <div className="swiper-button next"><SwiperArrowLeft /></div>
+                      <div className="swiper-button prev"><SwiperArrowLeft/></div>
+                      <div className="swiper-button next"><SwiperArrowLeft/></div>
                     </>
                   )}
                 </div>
@@ -118,7 +118,6 @@ export default function Party() {
                       longitude={party.longitude}
                     />
                     <a href={`https://www.google.com/maps/dir/?api=1&destination=${party.latitude},${party.longitude}`} target="_blank">Route berechnen</a>
-
                 </div>
                 <div className="content"></div>
               </div>

@@ -11,6 +11,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import SwiperArrowLeft from "@/src/app/lib/svgs/swiper_arrow_left";
 import "@styles/pages/single-party.scss";
+import PinnedMap from "@/src/app/lib/components/default/map";
 
 type Props = {
   partyData: Party;
@@ -89,6 +90,13 @@ const Step5: React.FC<Props> = ({ partyData, imagePreviews, categories = [] }) =
                         </div>
                     </div>
                     <div className="right-side">
+                        <div className="map">
+                            <PinnedMap
+                              latitude={partyData.latitude}
+                              longitude={partyData.longitude}
+                            />
+                            <a href={`https://www.google.com/maps/dir/?api=1&destination=${partyData.latitude},${partyData.longitude}`} target="_blank">Route berechnen</a>
+                        </div>
                         <div className="content"></div>
                     </div>
                 </div>
