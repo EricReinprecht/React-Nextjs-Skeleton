@@ -36,31 +36,33 @@ function Step5CategorySelector({
     };
 
     return (
-        <div>
+        <>
             <input
+            className='category-search'
                 type="search"
                 placeholder="Kategorie suchen..."
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
-                style={{ marginBottom: '1rem', padding: '0.5rem', width: '100%' }}
             />
-
-            <div style={{ maxHeight: '300px', overflowY: 'auto', border: '1px solid #ccc', padding: '0.5rem' }}>
+            <div className='categories-list'>
                 {filteredCategories.length === 0 && <p>Keine Kategorien gefunden</p>}
-
                 {filteredCategories.map(category => (
-                    <label key={category.id} style={{ display: 'block', marginBottom: '0.5rem', cursor: 'pointer' }}>
+                    <div className='category-result'>
                         <input
                             type="checkbox"
                             checked={selectedCategories.some(c => c.id === category.id)}
                             onChange={() => toggleCategory(category)}
                             style={{ marginRight: '0.5rem' }}
+                            id={`category_checkbox-${category.id}`}
+                            name={`category_checkbox-${category.id}`}
                         />
-                        {category.name}
-                    </label>
+                        <label key={category.id} htmlFor={`category_checkbox-${category.id}`} style={{ display: 'block', marginBottom: '0.5rem', cursor: 'pointer' }}>
+                            {category.name}
+                        </label>
+                    </div>
                 ))}
             </div>
-        </div>
+        </>
     );
 }
 
