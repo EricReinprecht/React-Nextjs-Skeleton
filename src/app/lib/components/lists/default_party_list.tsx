@@ -14,6 +14,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
+import Loader from "../default/loader";
 
 // Infinite Scroll Component
 const DefaultPartyList: React.FC = () => {
@@ -33,6 +34,8 @@ const DefaultPartyList: React.FC = () => {
     try {
       const { parties: newParties, lastVisible } = await getPartiesPaginated(page, limit);
       setParties((prevParties) => [...prevParties, ...newParties]);
+      console.log(parties);
+
       setHasMore(!!lastVisible);
     } catch (error) {
       console.error("Error fetching parties:", error);
@@ -49,6 +52,9 @@ const DefaultPartyList: React.FC = () => {
 
   return (
     <div className="party-list-wrapper">
+      {/* {loading && */}
+        <Loader type={"rgb-lettering"}/>
+      {/* } */}
       <InfiniteScroll
         dataLength={parties.length}
         next={loadMoreData}
@@ -117,7 +123,9 @@ const DefaultPartyList: React.FC = () => {
           ))}
         </div>
       </InfiniteScroll>
-      {loading && <p>Loading more data...</p>}
+      {!hasMore && 
+        <div className="">No more Parties.</div>
+      }
     </div>
   );
 };

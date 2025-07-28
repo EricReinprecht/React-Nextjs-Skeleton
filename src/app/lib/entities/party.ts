@@ -2,7 +2,7 @@ import { Category } from "./category";
 import { DocumentReference } from "firebase/firestore";
 
 export interface Party {
-  id: string;
+  id?: string;
   name: string;
   location: string;
   latitude: number;

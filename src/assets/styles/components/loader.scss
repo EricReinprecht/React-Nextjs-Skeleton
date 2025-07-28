@@ -1,0 +1,94 @@
+.loader-container{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .loader {
+        &.wave-lettering{
+            width: fit-content;
+            font-size: 40px;
+            line-height: 1.5;
+            font-family: system-ui,sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #0000;
+            -webkit-text-stroke: 1px #000;
+            background:
+                radial-gradient(1.13em at 50% 1.6em,#000 99%,#0000 101%) calc(50% - 1.6em) 0/3.2em 100% text,
+                radial-gradient(1.13em at 50% -0.8em,#0000 99%,#000 101%) 50% .8em/3.2em 100% repeat-x  text;
+            &.rgb{
+                background: radial-gradient(
+                    .13em at 50% 1.6em,
+                        #ff0000 0%,
+                        #ff00ff 16.6%,
+                        #0000ff 33.3%,
+                        #00ffff 50%,
+                        #00ff00 66.6%,
+                        #ffff00 83.3%,
+                        #ff0000 99%,
+                    transparent 101%
+                ) calc(50% - 1.6em) 0 / 3.2em 100% text,
+                radial-gradient(
+                    1.13em at 50% -0.8em,
+                    transparent 0%,
+                    transparent 99%,
+                    #000 101%
+                ) 50% 0.8em / 3.2em 100% repeat-x text;
+            }
+            animation: l9 2s linear infinite;
+            &:before {
+                content: "Loading Parties ...";
+            }
+        }
+        &.rgb-lettering{
+            width: fit-content;
+            font-size: 40px;
+            line-height: 1.5;
+            font-family: system-ui, sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: transparent;
+            background: linear-gradient(270deg, 
+                #ff0000, 
+                #ff00ff, 
+                #0000ff, 
+                #00ffff, 
+                #00ff00, 
+                #ffff00, 
+                #ff0000,
+                #ff00ff,
+                #0000ff,
+                #00ffff,
+                #00ff00,
+                #ffff00,
+                #ff0000,
+            );
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 3500% 100%;
+            animation: rgb-wave 9s linear infinite, wave-pattern 2s linear infinite;
+            position: relative;
+            &::before {
+                content: "Loading Parties ...";
+            }
+        }
+    }
+}
+
+@keyframes l9 {
+    to {background-position: calc(50% + 1.6em) 0,calc(50% + 3.2em) .8em}
+}
+
+@keyframes wave-pattern {
+    0% { transform: translateY(0); }
+    25% { transform: translateY(0); }
+    50% { transform: translateY(0); }
+    75% { transform: translateY(0); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes rgb-wave {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}

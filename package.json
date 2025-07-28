@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@firebase/auth": "^1.9.0",
+    "@netlify/next": "^1.4.9",
     "@react-google-maps/api": "^2.20.7",
     "@shadcn/ui": "^0.0.4",
     "@svgr/webpack": "^8.1.0",
