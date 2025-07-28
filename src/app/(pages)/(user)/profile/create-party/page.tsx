@@ -21,6 +21,8 @@ import Footer from "./footer";
 import Step5 from "./step5";
 import { Category } from "@/src/app/lib/entities/category";
 import { getCategories } from "@/src/app/lib/services/categoryService"; 
+import Loader from "@/src/app/lib/components/default/loader";
+import DefautButton from "@/src/app/lib/components/default/default_button";
 
 const CreateParty = () => {
     const db = getFirestore();
@@ -39,8 +41,8 @@ const CreateParty = () => {
     const [endDateOnly, setEndDateOnly] = useState<Date>(getNextDateTimeAt("saturday", 3));
     const [endTimeOnly, setEndTimeOnly] = useState<Date>(getNextDateTimeAt("saturday", 3));
     const [creating, setCreating] = useState<boolean>(false);
-
-
+    const [showSuccess, setShowSuccess] = useState<boolean>(false);
+    const [createdPartyId, setCreatedPartyId] = useState<string>("");
 
     const navigateToStep = (nextStep: number) => {
         if (nextStep >= 1 && nextStep <= 5) {
@@ -133,21 +135,35 @@ const CreateParty = () => {
                 createdParties: userEntity.toJSON().createdParties,
             });
 
+            setCreatedPartyId(partyId);
             setCreating(false);
+            setShowSuccess(true);
             setStep(1);
+ 
         } catch (error) {
             console.error("Error:", error);
             alert("An error occurred while creating the party.");
         }
     };
 
+    const resetForm = () => {
+        setCreating(false);
+        setShowSuccess(false);
+        setStep(1);
+        setCreatedPartyId("");
+    }
+
+    const viewParty = () => {
+        window.location.href = window.location.origin + "/party/" + createdPartyId;
+    }
+
     return (
         <div className="main">
             <ManagerPage>
                 <div className="create-party-wrapper">
-                    <div className="create-party-container">
+                    <div className="create-party-container" style={showSuccess ? { minHeight: "unset" } : {}}>
                         <div className="create-party-background"></div>
-                        {creating === false &&
+                        {creating === false && showSuccess === false &&
                             <>
                                 <div className="create-party-content">
                                     <div className="steps">
@@ -214,6 +230,47 @@ const CreateParty = () => {
                                     />
                                 </div>
                             </>
+                        }
+                        {creating && 
+                            <div className="loader-wrapper">
+                                <Loader type="rgb-lettering" content="Creating Party..."/>
+                            </div>
+                        }
+                        {showSuccess && 
+                            <div className="success-message-wrapper">
+                                <div className="success-message">
+                                    <Loader type="rgb-lettering" content="Successfully created party!"></Loader>
+                                </div>
+                                <div className="operations">
+                                    <DefautButton
+                                        label="Create Party"
+                                        type="button"
+                                        onClick={() => resetForm()}
+                                        styles={{
+                                            bgColor: "black",
+                                            textColor: "white",
+                                            borderColor: "black",
+                                            hoverBgColor: "white",
+                                            hoverTextColor: "black",
+                                            hoverBorderColor: "black",
+                                        }}
+                                    />
+
+                                    <DefautButton
+                                        label="View Party"
+                                        type="button"
+                                        onClick={() => viewParty()}
+                                        styles={{
+                                            bgColor: "black",
+                                            textColor: "white",
+                                            borderColor: "black",
+                                            hoverBgColor: "white",
+                                            hoverTextColor: "black",
+                                            hoverBorderColor: "black",
+                                        }}
+                                    />
+                                </div>
+                            </div>
                         }
                     </div>
                 </div>
