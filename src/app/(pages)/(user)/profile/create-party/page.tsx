@@ -20,7 +20,7 @@ import Step4 from "./step4";
 import Footer from "./footer";
 import Step5 from "./step5";
 import { Category } from "@/src/app/lib/entities/category";
-import { getCategories } from "@/src/app/lib/services/categoryService";
+import { getCategories } from "@/src/app/lib/services/categoryService"; 
 
 const CreateParty = () => {
     const [imageFiles, setImageFiles] = useState<File[]>([]);

@@ -7,6 +7,13 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Link from "next/link";
 import "@styles/lists/party_list_card.scss"
 import { formatDateGerman } from "../../utils/formatDate";
+import SwiperArrowLeft from "../../svgs/swiper_arrow_left";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, A11y } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
 
 // Infinite Scroll Component
 const DefaultPartyList: React.FC = () => {
@@ -55,7 +62,45 @@ const DefaultPartyList: React.FC = () => {
               <div className="party">
                 <div className="background"></div>
                 <div className="content">
-                  <div className="thumbnail">Affe</div>
+                  {party.imageUrls && party.imageUrls.length > 0 && (
+                    <div className="image-container">
+
+                      {party.imageUrls && party.imageUrls.length > 1 ? (
+                        <Swiper
+                          modules={[Navigation, A11y]}
+                          spaceBetween={0}
+                          slidesPerView={1}
+                          navigation={{
+                            nextEl: `#swiper-next-${party.id}`,
+                            prevEl: `#swiper-prev-${party.id}`,
+                          }}
+                          onSwiper={(swiper) => console.log(swiper)}
+                          onSlideChange={() => console.log('slide change')}
+                          loop={true}
+                        >
+                          {party.imageUrls.map((image_url, index) => (
+                            <SwiperSlide key={index}>
+                              <div className="image" style={{ backgroundImage: `url(${image_url})` }}></div>
+                            </SwiperSlide>
+                          ))}
+                        </Swiper>
+                      ) : (
+                        party.imageUrls && party.imageUrls.length === 1 && (
+                          <div
+                            className="image"
+                            style={{ backgroundImage: `url(${party.imageUrls[0]})` }}
+                          ></div>
+                        )
+                      )}
+                    
+                      {party.imageUrls && party.imageUrls.length > 1 && (
+                        <>
+                          <div id={`swiper-prev-${party.id}`} className={`swiper-button prev`}><SwiperArrowLeft /></div>
+                          <div id={`swiper-next-${party.id}`} className={`swiper-button next`}><SwiperArrowLeft /></div>
+                        </>
+                      )}
+                    </div>
+                  )}
                   <div className="title">{party.name}</div>
                   <div className="location">{party.location}</div>
                   <div className="date-form">{formatDateGerman(party.startDate)}</div>
@@ -64,7 +109,7 @@ const DefaultPartyList: React.FC = () => {
                   <div className="till">03:00</div>
                   <div
                     className="description"
-                    dangerouslySetInnerHTML={{ __html: party.description }}
+                    dangerouslySetInnerHTML={{ __html: party.teaser }}
                   ></div>
                 </div>
               </div>
