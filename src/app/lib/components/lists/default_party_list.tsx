@@ -52,9 +52,9 @@ const DefaultPartyList: React.FC = () => {
 
   return (
     <div className="party-list-wrapper">
-      {/* {loading && */}
+      {loading &&
         <Loader type={"rgb-lettering"}/>
-      {/* } */}
+      }
       <InfiniteScroll
         dataLength={parties.length}
         next={loadMoreData}

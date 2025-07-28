@@ -1,9 +1,5 @@
+import { Category } from '@/src/app/lib/entities/category';
 import { useState, useEffect } from 'react';
-
-interface Category {
-    id: string | number;
-    name: string;
-}
 
 interface Step5CategorySelectorProps {
     allCategories: Category[];
