@@ -1,5 +1,8 @@
 .main{
+    position: relative;
     padding: 0 !important;
+    height: 100vh;
+    overflow-y: auto;
 }
 
 .filter{

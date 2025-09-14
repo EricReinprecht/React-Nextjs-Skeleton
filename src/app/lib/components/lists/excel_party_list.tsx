@@ -5,9 +5,16 @@ import { Party } from "@entities/party";
 import { getPartiesPaginated } from "@services/partyService";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Link from "next/link";
+import "@styles/lists/party_list_excel.scss"
+import { formatDateGerman } from "../../utils/formatDate";
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+import Loader from "../default/loader";
 
 // Infinite Scroll Component
-const DefaultPartyList: React.FC = () => {
+const ExcelPartyList: React.FC = () => {
   const [parties, setParties] = useState<Party[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [hasMore, setHasMore] = useState<boolean>(true);
@@ -23,8 +30,9 @@ const DefaultPartyList: React.FC = () => {
 
     try {
       const { parties: newParties, lastVisible } = await getPartiesPaginated(page, limit);
-
       setParties((prevParties) => [...prevParties, ...newParties]);
+      console.log(parties);
+
       setHasMore(!!lastVisible);
     } catch (error) {
       console.error("Error fetching parties:", error);
@@ -41,6 +49,9 @@ const DefaultPartyList: React.FC = () => {
 
   return (
     <div className="party-list-wrapper">
+      {loading &&
+        <Loader type={"rgb-lettering"}/>
+      }
       <InfiniteScroll
         dataLength={parties.length}
         next={loadMoreData}
@@ -48,26 +59,33 @@ const DefaultPartyList: React.FC = () => {
         loader={<h4>Loading...</h4>}
         endMessage={<p>No more data</p>}
       >
-        <div className="party-list">
+        <div className="party-list excel">
           {parties.map((party, index) => (
-            <Link key={party.id} href={`/party/${party.id}`}>
+            <Link className="party-wrapper" key={party.id} href={`/party/${party.id}`}>
               <div className="party">
-                <div className="background"  style={{ backgroundImage: "" }}></div>
-                <div className="heading">{index + 1}</div>
-                <div className="heading">{party.name}</div>
-                <div className="heading">{party.id}</div>
-                <div className="data">
-                  {/* <p>{party.description}</p> */}
-                  {/* <p>Date: {party.startDate.toString()}</p> */}
+                <div className="background"></div>
+                <div className="content">
+                  <div className="title">{party.name}</div>
+                  <div className="location">{party.location}</div>
+                  <div className="date-form">{formatDateGerman(party.startDate)}</div>
+                  <div className="from">18:00</div>
+                  <div className="date-till">{formatDateGerman(party.endDate)}</div>
+                  <div className="till">03:00</div>
+                  <div
+                    className="description"
+                    dangerouslySetInnerHTML={{ __html: party.teaser }}
+                  ></div>
                 </div>
               </div>
             </Link>
           ))}
         </div>
       </InfiniteScroll>
-      {loading && <p>Loading more data...</p>}
+      {!hasMore && 
+        <div className="">No more Parties.</div>
+      }
     </div>
   );
 };
 
-export default DefaultPartyList;
+export default ExcelPartyList;

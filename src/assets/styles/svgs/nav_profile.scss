@@ -1,11 +1,13 @@
+@use "sass:color";
+
 .nav-profile-icon{
     circle, path{
-        stroke: darken($white, 20%);
+        stroke: color.scale($white, $lightness: -20%);
         transition: 0.2s ease-in-out;
     }
     &:hover{
         circle, path{
-            stroke: lighten($white, 5%);
+            stroke: color.scale($white, $lightness: -20%);
         }
     }
 }

@@ -12,6 +12,8 @@ import CarentDown from "@svgs/carent_down";
 import CheckboxFilled from "@svgs/checkbox_filled";
 import CheckboxEmpty from "@svgs/checkbox_empty";
 import { Category } from '../../lib/entities/category'
+import ExcelPartyList from '../../lib/components/lists/excel_party_list';
+import DefaultSearch from '../../lib/components/search/default_search';
 
 export default function page() {
     const [categories, setCategories] = useState<Category[]>([]);
@@ -59,7 +61,7 @@ export default function page() {
   return (
     <div className="main">
         <BasePage>
-            <div className='filter active'>
+            {/* <div className='filter active'>
                 <div className='section calendar'>
                     <div className='header' onClick={(e) => openSection($(e.currentTarget))}>
                         <div className='title'>Calendar</div>
@@ -109,8 +111,9 @@ export default function page() {
                         })}
                     </div>
                 </div>
-            </div>
-            <DefaultPartyList />
+            </div> */}
+            <DefaultSearch id='browse-header' placeholder='Search for parties ...'/>
+            <ExcelPartyList/>
         </BasePage>
     </div>
   )

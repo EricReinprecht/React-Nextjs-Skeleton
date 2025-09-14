@@ -1,6 +1,6 @@
 header{
     position: relative;
-    height: 100px;
+    height: $header_height;
     padding: 0 $sidespace_header;
     // background-color: transparent;
     display: flex;

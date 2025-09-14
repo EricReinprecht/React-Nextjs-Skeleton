@@ -1,19 +1,21 @@
+
 .party-list-wrapper{
     padding: 65px;
     .party-list{
-        &.cards{
+        &.excel{
             display: grid;
-            gap: 48px;
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: center;
+            width: 100%;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px 40px;
+            .party-wrapper{
+                width: 100%;
+            }
             .party{
                 position: relative;
                 overflow: hidden;
                 padding: 12px;
-                height: 550px;
-                width: 400px;
+                height: 140px;
+                width: 100%;
                 background-color: transparent;
                 border: 1px solid black;
                 border-radius: 12px;

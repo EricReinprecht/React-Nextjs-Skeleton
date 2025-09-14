@@ -1,0 +1,32 @@
+.main{
+    height: calc(100vh);
+    overflow-y: auto;
+}
+.default-search-container{
+    height: 100px;
+    width: 100%;
+    display: flex;
+    background-color: transparent;
+    position: sticky;
+    top: 100px;
+    align-self: center;
+    justify-content: center;
+    .search-wrapper{
+        display: flex;
+        align-items: center;
+        .search-bar{
+            input{
+                width: 1000px;
+                height: 60px;
+                padding: 4px 16px;
+                font-size: 24px;
+                outline: unset;
+                border-radius: 24px;
+                font-weight: 400;
+                background-color: transparent;
+                border-color: $white;
+                color: $white;
+            }
+        }
+    }
+}
