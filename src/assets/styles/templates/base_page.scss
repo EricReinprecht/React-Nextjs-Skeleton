@@ -23,5 +23,6 @@
     }
     main{
         padding: 50px $sidespace;
+        height: calc(100vh - $header_height)
     }
 }

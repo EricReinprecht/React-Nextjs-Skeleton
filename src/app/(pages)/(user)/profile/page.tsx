@@ -1,7 +1,7 @@
 "use client"
 
 import withAuth from "@hoc/withAuth";
-import BasePage from "@/src/app/lib/templates/base_page";
+import ManagerPage from "@/src/app/lib/templates/manager_page";
 import "@styles/pages/profile.scss"
 import Gear from "@svgs/gear";
 import Link from "next/link";
@@ -11,7 +11,7 @@ import CreateParty from "@/src/app/lib/svgs/create_party";
 const Profile: React.FC = () => {
     return (
         <div className="main">
-            <BasePage>
+            <ManagerPage>
                 <div className="grid-container">
                     <div className="grid">
                         <div className="item"><Link href={"/profile/settings"}><Gear></Gear></Link></div>
@@ -22,7 +22,7 @@ const Profile: React.FC = () => {
                         <div className="item"><Link href={"/profile/settings"}><Gear></Gear></Link></div>
                     </div>
                 </div>
-            </BasePage>
+            </ManagerPage>
         </div>
     );
 };

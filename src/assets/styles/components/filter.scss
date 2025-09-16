@@ -1,7 +1,7 @@
 .main{
     position: relative;
     padding: 0 !important;
-    height: 100vh;
+    height: calc(100vh - $header_height - 50px);
     overflow-y: auto;
 }
 

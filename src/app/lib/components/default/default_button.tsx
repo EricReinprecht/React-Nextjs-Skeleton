@@ -8,6 +8,7 @@ interface DefaultButtonProps {
     onClick?: () => void;
     styles?: StyleProps;
     disabled?: boolean;
+    disable_style?: boolean;
 }
 
 interface StyleProps {
@@ -19,7 +20,7 @@ interface StyleProps {
   hoverBorderColor?: string;
 }
 
-const DefautButton:React.FC<DefaultButtonProps> = ({ label, type, onClick, styles = {}, disabled }) => {
+const DefautButton:React.FC<DefaultButtonProps> = ({ label, type, onClick, styles = {}, disabled, disable_style }) => {
 
     const classNames = [
         "default-button",
@@ -29,6 +30,7 @@ const DefautButton:React.FC<DefaultButtonProps> = ({ label, type, onClick, style
         styles.textColor ? `hover-text-${styles.hoverTextColor}` : null,
         styles.borderColor ? `border-${styles.borderColor}` : null,
         styles.textColor ? `hover-border-${styles.hoverBorderColor}` : null,
+        disable_style ? `disable-style-${disable_style}` : false,
     ]
     .filter(Boolean) // remove nulls
     .join(" ");

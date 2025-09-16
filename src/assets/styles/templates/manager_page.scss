@@ -1,0 +1,40 @@
+.main{
+    z-index: 2;
+    position: relative;
+    height: 100%;
+}
+.manager_page-template{
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    .sidebar{
+        height: 100%;
+        width: 100%;
+        background-color: $white;
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 20px 20px;
+        .footer{
+            border: 1px solid black;
+            .item{
+                height: 40px;
+                display: flex;
+                align-items: center;
+                padding: 10px;
+                cursor: pointer;
+                &:hover{
+                    background-color: red;
+                }
+            }
+        }
+    }
+    *{
+        color: $black;
+    }
+    main{
+        padding: 50px $sidespace;
+        height: calc(100vh - $header_height)
+    }
+}

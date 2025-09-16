@@ -1,4 +1,4 @@
-.default-button{
+.default-button:not(.disable-style-true){
     white-space: nowrap;
     display: flex;
     align-items: center;
@@ -114,6 +114,4 @@
             border-color: $submit_green;
         }
     }
-
-
 }
