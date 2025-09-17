@@ -23,6 +23,7 @@ import { Category } from "@/src/app/lib/entities/category";
 import { getCategories } from "@/src/app/lib/services/categoryService"; 
 import Loader from "@/src/app/lib/components/default/loader";
 import DefautButton from "@/src/app/lib/components/default/default_button";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 interface Props {
     params: Promise<{ id: string }>;
@@ -31,6 +32,7 @@ interface Props {
 const EditParty: React.FC<Props> = ({ params }) => {
     const { id } = use(params);
     const db = getFirestore();
+    const storage = getStorage();
 
 
     const { authUser, loading } = useUserProfile();
@@ -75,7 +77,25 @@ const EditParty: React.FC<Props> = ({ params }) => {
                 const partyRef = doc(db, "parties", id);
                 const partySnap = await getDoc(partyRef);
                 if (partySnap.exists()) {
-                    setPartyData({ id: partySnap.id, ...partySnap.data() } as Party);
+                    const party = { id: partySnap.id, ...partySnap.data() } as Party;
+                    setPartyData(party);
+
+                    console.log(party)
+
+                    const imageUrls = party.imageUrls ?? [];
+const files: File[] = await Promise.all(
+  imageUrls.map(async (path: string, index: number) => {
+    const storageRef = ref(storage, path); // path like 'parties/partyId/image_0.jpg'
+    const url = await getDownloadURL(storageRef); // this respects Firebase rules
+    const res = await fetch(url);
+    const blob = await res.blob();
+    return new File([blob], `image-${index}.jpg`, { type: blob.type });
+  })
+);
+setImageFiles(files);
+
+
+                    
                 } else {
                     console.error("Party not found");
                 }
@@ -252,12 +272,12 @@ const EditParty: React.FC<Props> = ({ params }) => {
                                             />
                                         }
                                     </div>
-                                    <Footer
-                                        step={step}
-                                        navigateToStep={navigateToStep}
-                                        onSubmit={handleSubmit}
-                                    />
                                 </div>
+                                <Footer
+                                    step={step}
+                                    navigateToStep={navigateToStep}
+                                    onSubmit={handleSubmit}
+                                />
                             </>
                         }
                         {creating && 
