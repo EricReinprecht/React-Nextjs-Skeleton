@@ -8,6 +8,8 @@ import "@styles/tables/manager_table.scss"
 import { Party } from "@entities/party";
 import { getPartiesPaginated } from "@services/partyService";
 import { formatDateGerman } from "../../../../lib/utils/formatDate";
+import { useDebounce } from "use-debounce";
+import DatePickerComponent from "@/src/app/lib/components/default/date_picker";
 
 
 const MyPartyList = () => {
@@ -17,6 +19,7 @@ const MyPartyList = () => {
     const limit = 10;
     const [page, setPage] = useState<number>(1);
     const [filters, setFilters] = useState<Record<string, string>>({});
+    const [debouncedFilters] = useDebounce(filters, 400);
 
 
     const fetchParties = useCallback(
@@ -46,12 +49,12 @@ const MyPartyList = () => {
 
     useEffect(() => {
         fetchParties(page, filters);
-    }, [page, filters, fetchParties]);
+    }, [page, debouncedFilters, fetchParties]);
 
     useEffect(() => {
         setParties([]);
         setPage(1);
-    }, [filters]);
+    }, [debouncedFilters]);
 
     return (
         <ManagerPage>
@@ -68,10 +71,13 @@ const MyPartyList = () => {
                                         onChange={(e) =>
                                             setFilters((prev) => ({ ...prev, id: e.target.value }))
                                         }
+                                        style={{
+                                            opacity: 0,
+                                            pointerEvents: "none",
+                                        }}
                                     />
                                 </div>
                             </th>
-                              
                             <th>
                                 <div className="inner">
                                     <div>Name</div>
@@ -87,25 +93,46 @@ const MyPartyList = () => {
                             <th>
                                 <div className="inner">
                                     <div>Erstellt am</div>
-                                <input id="input-created"></input>
+                                    <DatePickerComponent
+                                        value={filters.created || ""}
+                                        onChange={(val) =>
+                                            setFilters((prev) => ({ ...prev, created: val }))
+                                        }
+                                    />
                                 </div>
                             </th>
                             <th>
                                 <div className="inner">
                                     <div>Startdatum</div>
-                                <input id="input-start_date"></input>
+                                    <DatePickerComponent
+                                        value={filters.startDate || ""}
+                                        onChange={(val) =>
+                                            setFilters((prev) => ({ ...prev, startDate : val }))
+                                        }
+                                    />
                                 </div>
                             </th>
                             <th>
                                 <div className="inner">
                                     <div>Enddatum</div>
-                                <input id="input-end_date"></input>
+                                    <DatePickerComponent
+                                        value={filters.endDate || ""}
+                                        onChange={(val) =>
+                                            setFilters((prev) => ({ ...prev, endDate : val }))
+                                        }
+                                    />
                                 </div>
                             </th>
                             <th>
                                 <div className="inner">
                                     <div>Ort</div>
-                                <input id="input-location"></input>
+                                    <input
+                                        id="input-name"
+                                        value={filters.location || ""}
+                                        onChange={(e) =>
+                                            setFilters((prev) => ({ ...prev, location: e.target.value }))
+                                        }
+                                    />
                                 </div>
                             </th>
                         </tr>

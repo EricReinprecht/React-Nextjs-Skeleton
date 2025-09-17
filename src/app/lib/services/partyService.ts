@@ -9,10 +9,12 @@ import {
   addDoc,
   doc,
   getDoc,
-  // where,
+  where,
   orderBy,
+  documentId ,
 } from "firebase/firestore";
 import { Party } from "@entities/party";
+import { convertDate } from "../utils/formatDate"; 
 
 const PARTIES_COLLECTION = "parties";
 
@@ -34,17 +36,43 @@ export async function getParties(): Promise<Party[]> {
 export const getPartiesPaginated = async (
   page: number, 
   limit: number, 
-  filter?: Record<string, any>[]
+  filter?: Record<string, any>
 ): Promise<{ parties: any[]; lastVisible: any | null }> => {
   try {
-    // Replace with your actual API endpoint and request parameters
-    let querySnapshot;
+    let q = query(collection(db, "parties"));
 
-    querySnapshot = await getDocs(query(
-      collection(db, 'parties'),
-      orderBy("name"),
-      orderBy("startDate"),
-    ));
+    if (filter) {
+      Object.entries(filter).forEach(([key, value]) => {
+        if (!value) return;
+
+        if (key === "id") {
+          q = query(q, where(documentId(), "==", value));
+        } else if(["created", "startDate", "endDate"].includes(key)){
+          const date = new Date(value); 
+          const startOfDay = new Date(date);
+          startOfDay.setHours(0, 0, 0, 0);
+          const endOfDay = new Date(date);
+          endOfDay.setHours(23, 59, 59, 999);
+            
+          q = query(
+            q,
+            where(key, ">=", startOfDay),
+            where(key, "<=", endOfDay)
+          );
+        }else{
+          // Prefix search for other fields
+          q = query(
+            q,
+            where(key, ">=", value),
+            where(key, "<=", value + "\uf8ff")
+          );
+        }
+      });
+    }
+
+    q = query(q, orderBy("name"), orderBy("startDate"));
+
+    const querySnapshot = await getDocs(q);
 
     const data = querySnapshot.docs.map((doc) => ({
       id: doc.id,
@@ -56,7 +84,7 @@ export const getPartiesPaginated = async (
 
     return {
       parties: data || [],
-      lastVisible: null
+      lastVisible: null,
     };
   } catch (error) {
     console.error("Error fetching paginated parties:", error);

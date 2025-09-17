@@ -24,6 +24,7 @@
     "jwt-decode": "^4.0.0",
     "next": "^15.1.6",
     "react": "^19.0.0",
+    "react-datepicker": "^8.7.0",
     "react-dom": "^19.0.0",
     "react-dropzone": "^14.3.8",
     "react-flatpickr": "^4.0.11",
@@ -34,7 +35,8 @@
     "sass": "^1.83.4",
     "sass-embedded": "^1.83.4",
     "sortablejs": "^1.15.6",
-    "swiper": "^11.2.2"
+    "swiper": "^11.2.2",
+    "use-debounce": "^10.0.6"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -42,6 +44,7 @@
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^19",
+    "@types/react-datepicker": "^6.2.0",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.1.6",
