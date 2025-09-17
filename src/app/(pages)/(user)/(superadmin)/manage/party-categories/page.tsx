@@ -16,7 +16,7 @@ import EditAccept from "@/src/app/lib/svgs/edit_accept";
 import ManagerPage from "@/src/app/lib/templates/manager_page";
 
 
-export default function page() {
+export default function Page() {
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 

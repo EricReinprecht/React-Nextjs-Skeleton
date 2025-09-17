@@ -1,0 +1,18 @@
+.table-wrapper{
+    height: 100%;
+}
+table.manager-table{
+    background-color: $white;
+    width: 100%;
+
+    th, td{
+        background-color: $white;
+        text-align: unset;
+        padding: 5px 20px;
+        .inner{
+            display: flex;
+            flex-direction: row;
+            gap: 24px;
+        }
+    }
+}

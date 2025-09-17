@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import Header from "../components/default/header";
 import "../../../assets/styles/templates/manager_page.scss";
 import LogoutButton from "../components/default/logout_button";
+import Link from "next/link";
 
 interface LayoutProps {
     children: ReactNode;
@@ -16,8 +17,8 @@ const ManagerPage = ({ children }: LayoutProps) => {
                 <div className="content">
                     <div className="header"></div>
                     <div className="menu-items">
-                        <div className="item">Option 1</div>
-                        <div className="item">Option 2</div>
+                        <div className="item"><Link href={"/profile/create-party"}>Neue Party erstellen</Link></div>
+                        <div className="item"><Link href={"/profile/my-parties"}>Partys</Link></div>
                         <div className="item">Option 3</div>
                         <div className="item">Option 4</div>
                         <div className="item">Option 5</div>

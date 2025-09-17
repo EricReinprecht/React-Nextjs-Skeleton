@@ -6,6 +6,7 @@ import path from "path";
 // dotenv.config({ path: '.env.local' });
 
 const nextConfig: NextConfig = {
+  reactStrictMode: false, // TODO REMOVE WHEN PRODUCTION
   sassOptions: {
     implementation: 'sass-embedded',
     includePaths: [path.join(__dirname, 'src/assets/styles')],

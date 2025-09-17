@@ -31,11 +31,13 @@ export async function getParties(): Promise<Party[]> {
 // }
 
 // Get paginated parties
-export const getPartiesPaginated = async (page: number, limit: number): Promise<{ parties: any[]; lastVisible: any | null }> => {
+export const getPartiesPaginated = async (
+  page: number, 
+  limit: number, 
+  filter?: Record<string, any>[]
+): Promise<{ parties: any[]; lastVisible: any | null }> => {
   try {
     // Replace with your actual API endpoint and request parameters
-    console.log(page);
-    console.log(limit);
     let querySnapshot;
 
     querySnapshot = await getDocs(query(
@@ -49,7 +51,7 @@ export const getPartiesPaginated = async (page: number, limit: number): Promise<
       ...doc.data(),
     }));
 
-    console.log(data);
+    // console.log(data);
 
 
     return {

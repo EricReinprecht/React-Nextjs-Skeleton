@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Image from "next/image";
 
 type ImageUploaderProps = {
   onImageChange: (file: File | null) => void;
@@ -24,7 +25,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageChange, initialIma
       <input type="file" accept="image/*" onChange={handleFileChange} />
       {preview && (
         <div className="preview">
-          <img src={preview} alt="Preview" style={{ maxWidth: "200px", marginTop: "10px" }} />
+          <Image src={preview} alt="Preview" style={{ maxWidth: "200px", marginTop: "10px" }} />
         </div>
       )}
     </div>

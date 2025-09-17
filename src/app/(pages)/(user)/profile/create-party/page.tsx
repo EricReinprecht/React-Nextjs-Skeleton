@@ -54,6 +54,7 @@ const CreateParty = () => {
     }, [step, imageFiles]);
 
     const [partyData, setPartyData] = useState<Party>({
+        created: getNextDateTimeAt("monday", 18),
         name: "",
         startDate: getNextDateTimeAt("friday", 18),
         endDate: getNextDateTimeAt("saturday", 3),

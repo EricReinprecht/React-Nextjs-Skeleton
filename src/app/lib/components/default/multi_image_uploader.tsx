@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { ReactSortable } from "react-sortablejs";
 import "@styles/components/multi_image_uploader.scss";
+import Image from "next/image";
 
 type ImagePreview = {
   id: string;
@@ -101,7 +102,7 @@ const MultiImageUploader: React.FC<MultiImageUploaderProps> = ({
               cursor: "grab",
             }}
           >
-            <img
+            <Image 
               src={src}
               alt="preview"
               style={{ width: "150px", height: "150px", objectFit: "cover", display: "block" }}

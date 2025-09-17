@@ -15,7 +15,7 @@ import { Category } from '../../lib/entities/category'
 import ExcelPartyList from '../../lib/components/lists/excel_party_list';
 import DefaultSearch from '../../lib/components/search/default_search';
 
-export default function page() {
+export default function Page() {
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 

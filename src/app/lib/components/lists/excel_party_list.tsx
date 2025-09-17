@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Party } from "@entities/party";
 import { getPartiesPaginated } from "@services/partyService";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -25,21 +25,22 @@ const ExcelPartyList: React.FC = () => {
     fetchParties(page);
   }, [page]);
 
-  const fetchParties = async (page: number) => {
-    setLoading(true);
+  const fetchParties = useCallback(async (page: number) => {
+      setLoading(true);
 
-    try {
-      const { parties: newParties, lastVisible } = await getPartiesPaginated(page, limit);
-      setParties((prevParties) => [...prevParties, ...newParties]);
-      console.log(parties);
+      try {
+        const { parties: newParties, lastVisible } = await getPartiesPaginated(page, limit);
+        setParties((prevParties) => [...prevParties, ...newParties]);
+        console.log(parties);
 
-      setHasMore(!!lastVisible);
-    } catch (error) {
-      console.error("Error fetching parties:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+        setHasMore(!!lastVisible);
+      } catch (error) {
+        console.error("Error fetching parties:", error);
+      } finally {
+        setLoading(false);
+      }
+    }, [limit, parties]
+  );
 
   const loadMoreData = () => {
     if (!loading && hasMore) {

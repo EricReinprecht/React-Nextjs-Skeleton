@@ -3,6 +3,7 @@ import { DocumentReference } from "firebase/firestore";
 
 export interface Party {
   id?: string;
+  created: Date;
   name: string;
   location: string;
   latitude: number;
