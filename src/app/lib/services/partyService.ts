@@ -14,7 +14,6 @@ import {
   documentId ,
 } from "firebase/firestore";
 import { Party } from "@entities/party";
-import { convertDate } from "../utils/formatDate"; 
 
 const PARTIES_COLLECTION = "parties";
 

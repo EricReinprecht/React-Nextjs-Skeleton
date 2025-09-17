@@ -10,6 +10,7 @@ import { getPartiesPaginated } from "@services/partyService";
 import { formatDateGerman } from "../../../../lib/utils/formatDate";
 import { useDebounce } from "use-debounce";
 import DatePickerComponent from "@/src/app/lib/components/default/date_picker";
+import Link from "next/link";
 
 
 const MyPartyList = () => {
@@ -135,6 +136,7 @@ const MyPartyList = () => {
                                     />
                                 </div>
                             </th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -146,6 +148,9 @@ const MyPartyList = () => {
                                 <td>{formatDateGerman(party.startDate)}</td>
                                 <td>{formatDateGerman(party.endDate)}</td>
                                 <td>{party.location}</td>
+                                <td>
+                                    <Link href={`/profile/edit-party/${party.id}`}>Edit</Link>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
@@ -153,12 +158,6 @@ const MyPartyList = () => {
             </div>
         </ManagerPage>
     );
-
-    function combineDateAndTime(date: Date, time: Date): Date {
-        const combined = new Date(date);
-        combined.setHours(time.getHours(), time.getMinutes(), 0, 0);
-        return combined;
-    }
 };
 
 export default withAuth(MyPartyList);
