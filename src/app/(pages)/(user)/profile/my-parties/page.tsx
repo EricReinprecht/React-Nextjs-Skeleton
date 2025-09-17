@@ -16,23 +16,26 @@ const MyPartyList = () => {
     const [hasMore, setHasMore] = useState<boolean>(true);
     const limit = 10;
     const [page, setPage] = useState<number>(1);
+    const [filters, setFilters] = useState<Record<string, string>>({});
+
 
     const fetchParties = useCallback(
-        async (page: number) => {
+        async (page: number, filters: Record<string, string>) => {
             setLoading(true);
-
             try {
-                const { parties: newParties, lastVisible } = await getPartiesPaginated(page, limit);
-                setParties((prevParties) => [...prevParties, ...newParties]);
-                console.log(parties);
-
+                const { parties: newParties, lastVisible } = await getPartiesPaginated(
+                    page,
+                    limit,
+                    filters
+                );
+                setParties((prev) => [...prev, ...newParties]);
                 setHasMore(!!lastVisible);
             } catch (error) {
                 console.error("Error fetching parties:", error);
             } finally {
                 setLoading(false);
             }
-        }, [limit, parties]
+        }, [limit]
     );
 
     const loadMoreData = () => {
@@ -42,10 +45,13 @@ const MyPartyList = () => {
     };
 
     useEffect(() => {
-        if (parties.length === 0 || page > 1) {
-            fetchParties(page);
-        }
-      }, [page]);
+        fetchParties(page, filters);
+    }, [page, filters, fetchParties]);
+
+    useEffect(() => {
+        setParties([]);
+        setPage(1);
+    }, [filters]);
 
     return (
         <ManagerPage>
@@ -53,17 +59,55 @@ const MyPartyList = () => {
                 <table className="manager-table">
                     <thead>
                         <tr>
-                            <th>Id</th>
+                           <th>
+                                <div className="inner">
+                                    <div>ID</div>
+                                    <input
+                                        id="input-id"
+                                        value={filters.id || ""}
+                                        onChange={(e) =>
+                                            setFilters((prev) => ({ ...prev, id: e.target.value }))
+                                        }
+                                    />
+                                </div>
+                            </th>
+                              
                             <th>
                                 <div className="inner">
                                     <div>Name</div>
-                                <input></input>
+                                    <input
+                                        id="input-name"
+                                        value={filters.name || ""}
+                                        onChange={(e) =>
+                                            setFilters((prev) => ({ ...prev, name: e.target.value }))
+                                        }
+                                    />
                                 </div>
                             </th>
-                            <th>Erstellt am</th>
-                            <th>Startdatum</th>
-                            <th>Enddatum</th>
-                            <th>Ort</th>
+                            <th>
+                                <div className="inner">
+                                    <div>Erstellt am</div>
+                                <input id="input-created"></input>
+                                </div>
+                            </th>
+                            <th>
+                                <div className="inner">
+                                    <div>Startdatum</div>
+                                <input id="input-start_date"></input>
+                                </div>
+                            </th>
+                            <th>
+                                <div className="inner">
+                                    <div>Enddatum</div>
+                                <input id="input-end_date"></input>
+                                </div>
+                            </th>
+                            <th>
+                                <div className="inner">
+                                    <div>Ort</div>
+                                <input id="input-location"></input>
+                                </div>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -74,6 +118,7 @@ const MyPartyList = () => {
                                 <td>{formatDateGerman(party.created)}</td>
                                 <td>{formatDateGerman(party.startDate)}</td>
                                 <td>{formatDateGerman(party.endDate)}</td>
+                                <td>{party.location}</td>
                             </tr>
                         ))}
                     </tbody>

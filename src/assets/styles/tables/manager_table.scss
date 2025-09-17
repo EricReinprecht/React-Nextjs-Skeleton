@@ -4,15 +4,24 @@
 table.manager-table{
     background-color: $white;
     width: 100%;
+    border-spacing: 0;
 
     th, td{
-        background-color: $white;
+        // background-color: $white;
+        
         text-align: unset;
-        padding: 5px 20px;
+        padding: 10px 20px;
         .inner{
             display: flex;
-            flex-direction: row;
-            gap: 24px;
+            flex-direction: column;
+            gap: 6px;
         }
     }
+
+    th{
+        border-bottom: 2px solid black;
+        padding: 16px 20px;
+    }
+
+    
 }
