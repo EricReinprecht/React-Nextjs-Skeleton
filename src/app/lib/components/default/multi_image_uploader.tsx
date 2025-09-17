@@ -21,7 +21,6 @@ const MultiImageUploader: React.FC<MultiImageUploaderProps> = ({
   onImagesChange,
   maxImages = 8,
 }) => {
-  console.log("FILES: " + files)
   const [previews, setPreviews] = useState<ImagePreview[]>([]);
 
 

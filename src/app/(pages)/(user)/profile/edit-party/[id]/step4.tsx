@@ -47,7 +47,10 @@ function Step5CategorySelector({
             <div className='categories-list'>
                 {filteredCategories.length === 0 && <p>Keine Kategorien gefunden</p>}
                 {filteredCategories.map(category => (
-                    <div className='category-result'>
+                    <div
+                        key={category.id}
+                        className='category-result'
+                    >
                         <input
                             type="checkbox"
                             checked={selectedCategories.some(c => c.id === category.id)}
@@ -56,7 +59,10 @@ function Step5CategorySelector({
                             id={`category_checkbox-${category.id}`}
                             name={`category_checkbox-${category.id}`}
                         />
-                        <label key={category.id} htmlFor={`category_checkbox-${category.id}`} style={{ display: 'block', marginBottom: '0.5rem', cursor: 'pointer' }}>
+                        <label
+                            htmlFor={`category_checkbox-${category.id}`}
+                            style={{ display: 'block', marginBottom: '0.5rem', cursor: 'pointer' }}
+                        >
                             {category.name}
                         </label>
                     </div>

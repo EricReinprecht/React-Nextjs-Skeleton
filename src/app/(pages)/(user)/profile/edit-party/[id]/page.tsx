@@ -123,6 +123,11 @@ const EditParty: React.FC<Props> = ({ params }) => {
             return;
         }
 
+        if (!partyData.id) {
+            alert("No party selected to update.");
+            return;
+        }
+
         setCreating(true);
 
         try {
@@ -135,44 +140,37 @@ const EditParty: React.FC<Props> = ({ params }) => {
             }
 
             const userData = userSnap.data() as User;
-            const partyWithUser = {
+
+            // Prepare party data for update
+            const partyRef = doc(db, "parties", partyData.id);
+            const updatedPartyData = {
                 ...partyData,
-                createdBy: authUser.uid,
-                created: new Date(),
                 categories: categoryRefs,
+                updatedAt: new Date(), // optional
             };
 
-            const partyId = await createParty(partyWithUser);
+            await updateDoc(partyRef, updatedPartyData);
 
-            if (!partyId) {
-                alert("Failed to create party.");
-                return;
+            // Upload new images if any
+            if (imageFiles.length > 0) {
+                const imageUrls = await uploadImagesToFirestore(imageFiles, partyData.id);
+                if (imageUrls.length > 0) {
+                    await updateDoc(partyRef, { imageUrls });
+                }
             }
 
-            const imageUrls = await uploadImagesToFirestore(imageFiles, partyId);
-
-            if (imageUrls.length > 0) {
-                const partyRef = doc(db, "parties", partyId);
-                await updateDoc(partyRef, { imageUrls });
-            }
-
-            const userEntity = new UserEntity(userData);
-            userEntity.addCreatedParty(partyId);
-
-            await updateDoc(userRef, {
-                createdParties: userEntity.toJSON().createdParties,
-            });
-
-            setCreatedPartyId(partyId);
             setCreating(false);
             setShowSuccess(true);
             setStep(1);
- 
+            setCreatedPartyId(partyData.id);
+
         } catch (error) {
-            console.error("Error:", error);
-            alert("An error occurred while creating the party.");
+            console.error("Error updating party:", error);
+            alert("An error occurred while updating the party.");
+            setCreating(false);
         }
     };
+
 
     const resetForm = () => {
         setCreating(false);
@@ -264,13 +262,13 @@ const EditParty: React.FC<Props> = ({ params }) => {
                         }
                         {creating && 
                             <div className="loader-wrapper">
-                                <Loader type="rgb-lettering" content="Creating Party..."/>
+                                <Loader type="rgb-lettering" content="Updating Party..."/>
                             </div>
                         }
                         {showSuccess && 
                             <div className="success-message-wrapper">
                                 <div className="success-message">
-                                    <Loader type="rgb-lettering" content="Successfully created party!"></Loader>
+                                    <Loader type="rgb-lettering" content="Successfully updated party!"></Loader>
                                 </div>
                                 <div className="operations">
                                     <DefautButton
@@ -308,12 +306,6 @@ const EditParty: React.FC<Props> = ({ params }) => {
             </ManagerPage>
         </div>
     );
-
-    function combineDateAndTime(date: Date, time: Date): Date {
-        const combined = new Date(date);
-        combined.setHours(time.getHours(), time.getMinutes(), 0, 0);
-        return combined;
-    }
 };
 
 export default withAuth(EditParty);
