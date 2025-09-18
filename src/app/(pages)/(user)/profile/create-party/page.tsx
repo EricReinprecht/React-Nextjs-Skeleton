@@ -13,12 +13,12 @@ import { User } from "@/src/app/lib/entities/user";
 import 'flatpickr/dist/themes/material_blue.css';
 import { getNextDateTimeAt } from "@/src/app/lib/utils/formatDate";
 import { uploadImagesToFirestore } from "@/src/app/lib/firebase/uploadImages";
-import Step1 from "./step1";
-import Step2 from "./step2";
-import Step3 from "./step3";
-import Step4 from "./step4";
-import Footer from "./footer";
-import Step5 from "./step5";
+import Step1 from "@components/party/form/step1";
+import Step2 from "@components/party/form/step2";
+import Step3 from "@components/party/form/step3";
+import Step4 from "@components/party/form/step4";
+import Footer from "@components/party/form/footer";
+import Step5 from "@components/party/form/step5";
 import { Category } from "@/src/app/lib/entities/category";
 import { getCategories } from "@/src/app/lib/services/categoryService"; 
 import Loader from "@/src/app/lib/components/default/loader";
@@ -224,12 +224,12 @@ const CreateParty = () => {
                                             />
                                         }
                                     </div>
-                                    <Footer
-                                        step={step}
-                                        navigateToStep={navigateToStep}
-                                        onSubmit={handleSubmit}
-                                    />
                                 </div>
+                                <Footer
+                                    step={step}
+                                    navigateToStep={navigateToStep}
+                                    onSubmit={handleSubmit}
+                                />
                             </>
                         }
                         {creating && 
