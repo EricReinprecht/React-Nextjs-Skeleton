@@ -28,18 +28,6 @@ const Step3: React.FC<Step3Props> = ({
                     onImagesChange={setImageFiles}
                 />
 
-                {/* Teaser */}
-                <div className="form-group">
-                    <label htmlFor="teaser">Teaser</label>
-                    <TextareaAutosize
-                        name="teaser"
-                        value={partyData.teaser}
-                        onChange={handleChange}
-                        placeholder="Enter teaser"
-                        required
-                        className="your-custom-class"
-                    />
-                </div>
 
                 {/* Description */}
                 <div className="form-group">

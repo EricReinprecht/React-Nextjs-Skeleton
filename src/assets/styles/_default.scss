@@ -2,6 +2,7 @@
 
 *{
     @include font();
+    box-sizing: border-box !important;
 }
 a{
     line-height: unset !important;

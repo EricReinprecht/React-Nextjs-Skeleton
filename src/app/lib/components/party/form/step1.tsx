@@ -2,6 +2,8 @@
 import React from "react";
 import Flatpickr from "react-flatpickr";
 import { Party } from "@/src/app/lib/entities/party";
+import TextareaAutosize from "react-textarea-autosize";
+
 
 type Step1Props = {
     partyData: Party;
@@ -40,110 +42,126 @@ const Step1: React.FC<Step1Props> = ({
         <div className="step-content basic-data">
             <form className="party-form">
 
-                {/* Name input */}
+                {/* Name/Location input */}
                 <div className="form-group">
-                    <label htmlFor="name">Name</label>
-                    <input
-                        id="name"
-                        name="name"
-                        type="text"
-                        value={partyData.name}
-                        onChange={handleChange}
-                        placeholder="Enter party name"
-                        required
-                    />
+                    <div className="column">
+                        <label htmlFor="name">Name</label>
+                        <input
+                            id="name"
+                            name="name"
+                            type="text"
+                            value={partyData.name}
+                            onChange={handleChange}
+                            placeholder="Enter party name"
+                            required
+                        />
+                    </div>
+                    <div className="column">
+                        <label htmlFor="location">Location</label>
+                        <input
+                            id="location"
+                            name="location"
+                            type="text"
+                            value={partyData.location}
+                            onChange={handleChange}
+                            placeholder="Enter location"
+                        />
+                    </div>
                 </div>
 
-                {/* Location input */}
+                {/* START DATE/TIME */}
                 <div className="form-group">
-                    <label htmlFor="location">Location</label>
-                    <input
-                        id="location"
-                        name="location"
-                        type="text"
-                        value={partyData.location}
-                        onChange={handleChange}
-                        placeholder="Enter location"
-                    />
+                    <div className="column">
+                        <label>Startdatum</label>
+                        <Flatpickr
+                            options={{ enableTime: false, dateFormat: "d.m.Y", closeOnSelect: false }}
+                            value={startDateOnly}
+                            onChange={([date]) => {
+                                setStartDateOnly(date);
+                                if (date && startTimeOnly) {
+                                    const combined = combineDateAndTime(date, startTimeOnly);
+                                    setPartyData(prev => ({ ...prev, startDate: combined }));
+                                }
+                            }}
+                        />
+                    </div>
+                    <div className="column">
+                        <label>Startzeit</label>
+                        <Flatpickr
+                            options={{
+                                enableTime: true,
+                                noCalendar: true,
+                                dateFormat: "H:i",
+                                time_24hr: true,
+                                closeOnSelect: false,
+                                allowInput: true,
+                            }}
+                            value={startTimeOnly}
+                            onChange={([time]) => {
+                                setStartTimeOnly(time);
+                                if (startDateOnly && time) {
+                                    const combined = combineDateAndTime(startDateOnly, time);
+                                    setPartyData(prev => ({ ...prev, startDate: combined }));
+                                }
+                            }}
+                        />
+                    </div>
+                </div>
+                                
+                {/* END DATE/TIME */}
+                <div className="form-group">
+                    <div className="column">
+                        <label>Enddatum</label>
+                        <Flatpickr
+                            options={{ enableTime: false, dateFormat: "d.m.Y", allowInput: true }}
+                            value={endDateOnly}
+                            onChange={([date]) => {
+                                setEndDateOnly(date ?? null);
+                                if (date && endTimeOnly) {
+                                    const combined = combineDateAndTime(date, endTimeOnly);
+                                    setPartyData(prev => ({ ...prev, endDate: combined }));
+                                }
+                            }}
+                        />
+                    </div>
+                    <div className="column">
+                        <label>Endzeit</label>
+                        <Flatpickr
+                            options={{
+                                enableTime: true,
+                                noCalendar: true,
+                                dateFormat: "H:i",
+                                time_24hr: true,
+                                closeOnSelect: false,
+                                allowInput: true,
+                            }}
+                            value={endTimeOnly}
+                            onChange={([time]) => {
+                                setEndTimeOnly(time);
+                                if (endDateOnly && time) {
+                                    const combined = combineDateAndTime(endDateOnly, time);
+                                    setPartyData(prev => ({ ...prev, endDate: combined }));
+                                }
+                            }}
+                        />
+                    </div>
                 </div>
 
-                {/* START DATE */}
+                {/* Teaser */}
                 <div className="form-group">
-                    <label>Startdatum</label>
-                    <Flatpickr
-                        options={{ enableTime: false, dateFormat: "d.m.Y", closeOnSelect: false }}
-                        value={startDateOnly}
-                        onChange={([date]) => {
-                            setStartDateOnly(date);
-                            if (date && startTimeOnly) {
-                                const combined = combineDateAndTime(date, startTimeOnly);
-                                setPartyData(prev => ({ ...prev, startDate: combined }));
-                            }
-                        }}
-                    />
+                    <div className="column">
+                        <label htmlFor="teaser">Teaser</label>
+                        <TextareaAutosize
+                            name="teaser"
+                            value={partyData.teaser}
+                            onChange={handleChange}
+                            placeholder="Enter teaser"
+                            required
+                            className="your-custom-class"
+                        />
+                    </div>
                 </div>
                 
-                {/* START TIME */}
-                <div className="form-group">
-                    <label>Startzeit</label>
-                    <Flatpickr
-                        options={{
-                            enableTime: true,
-                            noCalendar: true,
-                            dateFormat: "H:i",
-                            time_24hr: true,
-                            closeOnSelect: false,
-                            allowInput: true,
-                        }}
-                        value={startTimeOnly}
-                        onChange={([time]) => {
-                            setStartTimeOnly(time);
-                            if (startDateOnly && time) {
-                                const combined = combineDateAndTime(startDateOnly, time);
-                                setPartyData(prev => ({ ...prev, startDate: combined }));
-                            }
-                        }}
-                    />
-                </div>
-                
-                {/* END DATE */}
-                <div className="form-group">
-                    <label>Enddatum</label>
-                    <Flatpickr
-                        options={{ enableTime: false, dateFormat: "d.m.Y", allowInput: true }}
-                        value={endDateOnly}
-                        onChange={([date]) => {
-                            setEndDateOnly(date ?? null);
-                            if (date && endTimeOnly) {
-                                const combined = combineDateAndTime(date, endTimeOnly);
-                                setPartyData(prev => ({ ...prev, endDate: combined }));
-                            }
-                        }}
-                    />
-                </div>
-                
-                {/* END TIME */}
-                <div className="form-group">
-                    <label>Endzeit</label>
-                    <Flatpickr
-                        options={{
-                            enableTime: true,
-                            noCalendar: true,
-                            dateFormat: "H:i",
-                            time_24hr: true,
-                            closeOnSelect: false,
-                            allowInput: true,
-                        }}
-                        value={endTimeOnly}
-                        onChange={([time]) => {
-                            setEndTimeOnly(time);
-                            if (endDateOnly && time) {
-                                const combined = combineDateAndTime(endDateOnly, time);
-                                setPartyData(prev => ({ ...prev, endDate: combined }));
-                            }
-                        }}
-                    />
-                </div>
             </form>
         </div>
     );
