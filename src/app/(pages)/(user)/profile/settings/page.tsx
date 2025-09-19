@@ -10,6 +10,7 @@ import DefautButton from "@components/default/default_button";
 import "@styles/forms/login_form.scss"
 import "@styles/pages/settings.scss"
 import LogoutButton from "@/src/app/lib/components/default/logout_button";
+import ManagerPage from "@/src/app/lib/templates/manager_page";
 
 const Profile = () => {
     const { authUser, userProfile, loading } = useUserProfile();
@@ -51,36 +52,141 @@ const Profile = () => {
 
     return (
         <div className="main">
-            <BasePage>
+            <ManagerPage>
                 <div className="settings-page">
-                    <div className="form-container">
-                        <form onSubmit={handleSubmit} className="profile-form">
-                            {["username", "firstname", "lastname", "country", "zip", "city", "street", "housenumber", "unit"].map((field) => (
-                                (formData as Record<string, any>)[field] !== undefined && (
-                                    <div className="input-container" key={field}>
-                                        <label>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
-                                        <input 
-                                            name={field} 
-                                            value={(formData as Record<string, any>)[field]} 
-                                            onChange={handleChange} 
-                                            type={field === "zip" || field === "housenumber" ? "number" : "text"} 
-                                        />
+                    <div className="form-background"></div>
+                    <div className="form-content">
+                        <div className="form-header"></div>
+                        <div className="body">
+                            <div className="step-content">
+                                <form onSubmit={handleSubmit} className="profile-form">
+
+                                    <div className="row">
+                                        <div className="column">
+                                            <div className="input-container">
+                                                <label>Username</label>
+                                                <input
+                                                    name="username"
+                                                    value={formData.username || ""}
+                                                    onChange={handleChange}
+                                                    type="text"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="column">
+                                            <div className="input-container">
+                                                <label>Firstname</label>
+                                                <input
+                                                    name="firstname"
+                                                    value={formData.firstname || ""}
+                                                    onChange={handleChange}
+                                                    type="text"
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
-                                )
-                            ))}
-                            <div className="button-container">
-                                <DefautButton type="submit" label="Submit" />
+
+                                    <div className="row">
+                                        <div className="column">
+                                            <div className="input-container">
+                                                <label>Lastname</label>
+                                                <input
+                                                    name="lastname"
+                                                    value={formData.lastname || ""}
+                                                    onChange={handleChange}
+                                                    type="text"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="column">
+                                            <div className="input-container">
+                                                <label>Country</label>
+                                                <input
+                                                    name="country"
+                                                    value={formData.country || ""}
+                                                    onChange={handleChange}
+                                                    type="text"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="row">
+                                        <div className="column">
+                                            <div className="input-container">
+                                                <label>Zip</label>
+                                                <input
+                                                    name="zip"
+                                                    value={formData.zip || ""}
+                                                    onChange={handleChange}
+                                                    type="number"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="column">
+                                            <div className="input-container">
+                                                <label>City</label>
+                                                <input
+                                                    name="city"
+                                                    value={formData.city || ""}
+                                                    onChange={handleChange}
+                                                    type="text"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="row">
+                                        <div className="column">
+                                            <div className="input-container">
+                                                <label>Street</label>
+                                                <input
+                                                    name="street"
+                                                    value={formData.street || ""}
+                                                    onChange={handleChange}
+                                                    type="text"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="column">
+                                                <div className="input-container">
+                                                    <label>Housenumber</label>
+                                                    <input
+                                                        name="housenumber"
+                                                        value={formData.housenumber || ""}
+                                                        onChange={handleChange}
+                                                        type="number"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="column">
+                                                <div className="input-container">
+                                                    <label>Unit</label>
+                                                    <input
+                                                        name="unit"
+                                                        value={formData.unit || ""}
+                                                        onChange={handleChange}
+                                                        type="text"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    
+                                    {message && <p>{message}</p>}
+                                </form>
                             </div>
-                            {message && <p>{message}</p>}
-                        </form>
+                        </div>
                     </div>
-                    <div className="logout-container">
+                    <div className="footer">
                         <div className="button-container">
-                            <LogoutButton/>
+                            <DefautButton type="submit" label="Submit" />
                         </div>
                     </div>
                 </div>
-            </BasePage>
+            </ManagerPage>
         </div>
     );
 };

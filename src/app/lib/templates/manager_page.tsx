@@ -19,7 +19,7 @@ const ManagerPage = ({ children }: LayoutProps) => {
                     <div className="menu-items">
                         <div className="item"><Link href={"/profile/create-party"}>Neue Party erstellen</Link></div>
                         <div className="item"><Link href={"/profile/my-parties"}>Partys</Link></div>
-                        <div className="item">Option 3</div>
+                        <div className="item"><Link href={"/profile/settings"}>Einnstellungen</Link></div>
                         <div className="item">Option 4</div>
                         <div className="item">Option 5</div>
                         <div className="item">Option 6</div>
