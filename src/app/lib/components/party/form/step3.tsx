@@ -31,14 +31,17 @@ const Step3: React.FC<Step3Props> = ({
 
                 {/* Description */}
                 <div className="form-group">
-                    <label htmlFor="description">Beschreibung</label>
-                    <TiptapEditor
-                        content={partyData.description}
-                        onChange={(value) =>
-                            setPartyData((prev) => ({ ...prev, description: value }))
-                        }
-                    />
+                    <div className="column">
+                        <label htmlFor="description">Beschreibung</label>
+                        <TiptapEditor
+                            content={partyData.description}
+                            onChange={(value) =>
+                                setPartyData((prev) => ({ ...prev, description: value }))
+                            }
+                        />
+                    </div>
                 </div>
+                
             </form>
         </div>
     );

@@ -36,7 +36,8 @@ function Step5CategorySelector({
     };
 
     return (
-        <>
+        <div className="step-content basic-data">
+            <form className="party-form">
             <input
             className='category-search'
                 type="search"
@@ -68,7 +69,8 @@ function Step5CategorySelector({
                     </div>
                 ))}
             </div>
-        </>
+            </form>
+        </div>
     );
 }
 

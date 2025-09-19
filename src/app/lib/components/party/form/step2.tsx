@@ -34,30 +34,32 @@ const Step2: React.FC<Step2Props> = ({ partyData, setPartyData }) => {
                 />
 
                 <div className="form-group">
-                    <label htmlFor="latitude">Latitude</label>
-                    <input
-                        type="number"
-                        id="latitude"
-                        name="latitude"
-                        value={partyData.latitude ?? ""}
-                        onChange={handleCoordinateChange}
-                        step="any"
-                        placeholder="Latitude"
-                    />
+                    <div className="column">
+                        <label htmlFor="latitude">Latitude</label>
+                        <input
+                            type="number"
+                            id="latitude"
+                            name="latitude"
+                            value={partyData.latitude ?? ""}
+                            onChange={handleCoordinateChange}
+                            step="any"
+                            placeholder="Latitude"
+                        />
+                    </div>
+                    <div className="column">
+                        <label htmlFor="longitude">Longitude</label>
+                        <input
+                            type="number"
+                            id="longitude"
+                            name="longitude"
+                            value={partyData.longitude ?? ""}
+                            onChange={handleCoordinateChange}
+                            step="any"
+                            placeholder="Longitude"
+                        />
+                    </div>
                 </div>
                 
-                <div className="form-group">
-                    <label htmlFor="longitude">Longitude</label>
-                    <input
-                        type="number"
-                        id="longitude"
-                        name="longitude"
-                        value={partyData.longitude ?? ""}
-                        onChange={handleCoordinateChange}
-                        step="any"
-                        placeholder="Longitude"
-                    />
-                </div>
             </form>
         </div>
     );
