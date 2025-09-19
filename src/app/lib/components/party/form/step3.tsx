@@ -2,7 +2,6 @@
 import React from "react";
 import MultiImageUploader from "@/src/app/lib/components/default/multi_image_uploader";
 import TiptapEditor from "@/src/app/lib/components/default/tiptap_texteditor";
-import TextareaAutosize from "react-textarea-autosize";
 import { Party } from "@/src/app/lib/entities/party";
 
 type Step3Props = {
@@ -18,16 +17,19 @@ const Step3: React.FC<Step3Props> = ({
     setImageFiles,
     partyData,
     setPartyData,
-    handleChange,
 }) => {
     return (
         <div className="step-content additional-data">
             <form className="party-form">
-                <MultiImageUploader
-                    files={imageFiles}
-                    onImagesChange={setImageFiles}
-                />
 
+                <div className="form-group">
+                    <div className="column">
+                        <MultiImageUploader
+                            files={imageFiles}
+                            onImagesChange={setImageFiles}
+                        />
+                    </div>
+                </div>
 
                 {/* Description */}
                 <div className="form-group">
@@ -41,7 +43,7 @@ const Step3: React.FC<Step3Props> = ({
                         />
                     </div>
                 </div>
-                
+
             </form>
         </div>
     );
