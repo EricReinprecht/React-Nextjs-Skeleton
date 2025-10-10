@@ -18,7 +18,7 @@ import Step2 from "@components/party/form/step2";
 import Step3 from "@components/party/form/step3";
 import Step4 from "@components/party/form/step4";
 import Footer from "@components/party/form/footer";
-import Step5 from "@components/party/form/step5";
+import Step5 from "@/src/app/lib/components/party/form/step_final";
 import { Category } from "@/src/app/lib/entities/category";
 import { getCategories } from "@/src/app/lib/services/categoryService"; 
 import Loader from "@/src/app/lib/components/default/loader";
@@ -83,16 +83,16 @@ const EditParty: React.FC<Props> = ({ params }) => {
                     console.log(party)
 
                     const imageUrls = party.imageUrls ?? [];
-const files: File[] = await Promise.all(
-  imageUrls.map(async (path: string, index: number) => {
-    const storageRef = ref(storage, path); // path like 'parties/partyId/image_0.jpg'
-    const url = await getDownloadURL(storageRef); // this respects Firebase rules
-    const res = await fetch(url);
-    const blob = await res.blob();
-    return new File([blob], `image-${index}.jpg`, { type: blob.type });
-  })
-);
-setImageFiles(files);
+                    const files: File[] = await Promise.all(
+                        imageUrls.map(async (path: string, index: number) => {
+                            const storageRef = ref(storage, path); // path like 'parties/partyId/image_0.jpg'
+                            const url = await getDownloadURL(storageRef); // this respects Firebase rules
+                            const res = await fetch(url);
+                            const blob = await res.blob();
+                            return new File([blob], `image-${index}.jpg`, { type: blob.type });
+                        })
+                    );
+                    setImageFiles(files);
 
 
                     

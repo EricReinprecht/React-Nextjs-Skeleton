@@ -19,7 +19,7 @@ type Props = {
   categories?: CategoryEntity[];
 };
 
-const Step5: React.FC<Props> = ({ partyData, imagePreviews, categories = [] }) => {
+const StepFinal: React.FC<Props> = ({ partyData, imagePreviews, categories = [] }) => {
     return (
         <div className="party-wrapper preview">
             <div className="party-card">
@@ -105,4 +105,4 @@ const Step5: React.FC<Props> = ({ partyData, imagePreviews, categories = [] }) =
     );
 };
 
-export default Step5;
+export default StepFinal;

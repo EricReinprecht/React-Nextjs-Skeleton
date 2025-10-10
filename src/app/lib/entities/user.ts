@@ -1,36 +1,39 @@
-import { Timestamp } from "firebase/firestore";
+import prisma from "../prisma/prisma";
+import { User as PrismaUser } from "@prisma/client";
 
-// entities/user.ts
-export interface User {
-    id?: string;
-    username: string;
-    firstname: string;
-    lastname: string;
-    birthdate: Timestamp;
-    country: string;
-    zip: number;
-    city: string;
-    street: string
-    housenumber: number;
-    unit?: string;
-    createdParties?: string[];
-}
-  
 export class UserEntity {
-    constructor(public data: User) {}
+    constructor(public data: PrismaUser) {}
 
-    updateUser(data: Partial<User>) {
+    update(data: Partial<PrismaUser>) {
         Object.assign(this.data, data);
     }
 
-    addCreatedParty(partyId: string) {
-        if (!this.data.createdParties) {
-            this.data.createdParties = [];
-        }
-        this.data.createdParties.push(partyId);
+    async save() {
+        this.data = await prisma.user.update({
+            where: { id: this.data.id },
+            data: this.data,
+        });
+        return this;
     }
 
-    toJSON(): User {
+    static async create(
+        data: Omit<PrismaUser, "id" | "createdAt"> & { createdParties?: string[] }
+    ){
+        const user = await prisma.user.create({
+            data: {
+                ...data,
+                createdParties: data.createdParties ?? [],
+            },
+        });
+        return new UserEntity(user);
+    }
+
+    static async findById(id: string) {
+        const user = await prisma.user.findUnique({ where: { id } });
+        return user ? new UserEntity(user) : null;
+    }
+
+    toJSON() {
         return this.data;
     }
 }

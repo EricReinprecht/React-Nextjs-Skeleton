@@ -18,7 +18,7 @@ import Step2 from "@components/party/form/step2";
 import Step3 from "@components/party/form/step3";
 import Step4 from "@components/party/form/step4";
 import Footer from "@components/party/form/footer";
-import Step5 from "@components/party/form/step5";
+import Step_Final from "@/src/app/lib/components/party/form/step_final";
 import { Category } from "@/src/app/lib/entities/category";
 import { getCategories } from "@/src/app/lib/services/categoryService"; 
 import Loader from "@/src/app/lib/components/default/loader";
@@ -177,6 +177,8 @@ const CreateParty = () => {
                                         <div onClick={() => navigateToStep(4)} className={`step submit ${step === 4 ? "active" : ""}`}>4</div>
                                         <div className="step-seperator"></div>
                                         <div onClick={() => navigateToStep(5)} className={`step submit ${step === 5 ? "active" : ""}`}>5</div>
+                                        <div className="step-seperator"></div>
+                                        <div onClick={() => navigateToStep(6)} className={`step submit ${step === 6 ? "active" : ""}`}>6</div>
                                     </div>
                                     <div className="body">
                                         {step === 1 && 
@@ -216,8 +218,15 @@ const CreateParty = () => {
                                                 setSelectedCategories={setSelectedCategories}
                                             />
                                         }
-                                        {step === 5 && 
+                                        {/* {step === 5 && 
                                             <Step5
+                                                partyData={partyData}
+                                                imagePreviews={imageFiles.map(file => URL.createObjectURL(file))}
+                                                // categories={yourResolvedCategories} // Optional
+                                            />
+                                        } */}
+                                        {step === 6 && 
+                                            <Step_Final
                                                 partyData={partyData}
                                                 imagePreviews={imageFiles.map(file => URL.createObjectURL(file))}
                                                 // categories={yourResolvedCategories} // Optional
