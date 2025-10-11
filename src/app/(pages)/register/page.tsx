@@ -14,6 +14,7 @@ export default function Register() {
         city: "",
         street: "",
         housenumber: "",
+        unit: "",
         email: "",
         password: "",
         confirmPassword: "",
@@ -52,6 +53,7 @@ export default function Register() {
                 city: "",
                 street: "",
                 housenumber: "",
+                unit: "",
                 email: "",
                 password: "",
                 confirmPassword: "",
@@ -115,6 +117,15 @@ export default function Register() {
                           type="number"
                           name="zip"
                           placeholder="ZIP"
+                          value={formData.zip}
+                          onChange={handleChange}
+                          required
+                          className="border p-2 rounded"
+                        />
+                        <input
+                          type="number"
+                          name="unit"
+                          placeholder="unit"
                           value={formData.zip}
                           onChange={handleChange}
                           required

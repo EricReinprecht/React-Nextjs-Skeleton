@@ -1,0 +1,14 @@
+model Party {
+    id             String    @id @default(cuid())
+    created        String
+    name           String
+    location       String
+    latitude       Float
+    longitude      Float
+    startDate      DateTime
+    endDate        DateTime
+    description    String
+    teaser         String
+    categories     PartyCategory[]  @relation("PartyToCategory")
+    tickets        Ticket[]
+}

@@ -1,0 +1,6 @@
+model PartyCategory {
+    id             String    @id @default(cuid())
+    name           String
+    active         Boolean
+    parties   Party[]  @relation("PartyToCategory")
+}
