@@ -27,6 +27,7 @@
       "@entities/*": ["./src/app/lib/entities/*"],
       "@services/*": ["./src/app/lib/services/*"],
       "@firebase/*": ["./src/app/lib/firebase/*"],
+      "@prisma/*": ["./src/app/lib/prisma/*"],
       "@context/*": ["./src/app/lib/context/*"],
       "@hoc/*": ["./src/app/lib/hoc/*"],
       "@svgs/*": ["./src/app/lib/svgs/*"],
