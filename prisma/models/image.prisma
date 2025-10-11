@@ -1,0 +1,10 @@
+model Image {
+    id         String   @id @default(cuid())
+    url        String
+    alt        String?
+    caption    String?
+    createdAt  DateTime @default(now())
+
+    partyId    String
+    party      Party    @relation(fields: [partyId], references: [id])
+}

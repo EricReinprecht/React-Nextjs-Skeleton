@@ -11,4 +11,5 @@ model Party {
     teaser         String
     categories     PartyCategory[]  @relation("PartyToCategory")
     tickets        Ticket[]
+    images         Image[]
 }

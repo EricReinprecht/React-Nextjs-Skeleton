@@ -14,6 +14,17 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+model Image {
+    id         String   @id @default(cuid())
+    url        String
+    alt        String?
+    caption    String?
+    createdAt  DateTime @default(now())
+
+    partyId    String
+    party      Party    @relation(fields: [partyId], references: [id])
+}
+
 model Party {
     id             String    @id @default(cuid())
     created        String
@@ -27,6 +38,7 @@ model Party {
     teaser         String
     categories     PartyCategory[]  @relation("PartyToCategory")
     tickets        Ticket[]
+    images         Image[]
 }
 
 model PartyCategory {
