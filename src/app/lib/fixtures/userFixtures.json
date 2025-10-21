@@ -1,0 +1,62 @@
+[
+    {
+        "email": "alice@example.com",
+        "name": "Alice Johnson",
+        "password": "hashedpassword1",
+        "createdParties": []
+    },
+    {
+        "email": "bob@example.com",
+        "name": "Bob Smith",
+        "password": "hashedpassword2",
+        "createdParties": []
+    },
+    {
+        "email": "carol@example.com",
+        "name": "Carol Davis",
+        "password": "hashedpassword3",
+        "createdParties": []
+    },
+    {
+        "email": "daniel@example.com",
+        "name": "Daniel Lee",
+        "password": "hashedpassword4",
+        "createdParties": []
+    },
+    {
+        "email": "eve@example.com",
+        "name": "Eve Adams",
+        "password": "hashedpassword5",
+        "createdParties": []
+    },
+    {
+        "email": "frank@example.com",
+        "name": "Frank Martin",
+        "password": "hashedpassword6",
+        "createdParties": []
+    },
+    {
+        "email": "grace@example.com",
+        "name": "Grace Hall",
+        "password": "hashedpassword7",
+        "createdParties": []
+    },
+    {
+        "email": "henry@example.com",
+        "name": "Henry Brown",
+        "password": "hashedpassword8",
+        "createdParties": []
+    },
+    {
+        "email": "irene@example.com",
+        "name": "Irene Wilson",
+        "password": "hashedpassword9",
+        "createdParties": []
+    },
+    {
+        "email": "jack@example.com",
+        "name": "Jack White",
+        "password": "hashedpassword10",
+        "createdParties": []
+    }
+]

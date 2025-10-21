@@ -10,7 +10,8 @@
     "prod": "next build && next start",
     "prisma:build": "node prisma/merge.js",
     "prisma:generate": "npm run prisma:build && npx prisma generate",
-    "prisma:migrate": "npm run prisma:build && npx prisma migrate dev --name"
+    "prisma:migrate": "npm run prisma:build && npx prisma migrate dev --name",
+    "seed:users": "ts-node -r tsconfig-paths/register src/app/lib/commands/seedUsers.ts"
   },
   "dependencies": {
     "@firebase/auth": "^1.9.0",
@@ -54,6 +55,8 @@
     "eslint": "^9",
     "eslint-config-next": "15.1.6",
     "prisma": "^6.17.1",
-    "typescript": "^5"
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.9.3"
   }
 }
