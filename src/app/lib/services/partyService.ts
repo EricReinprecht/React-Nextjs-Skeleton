@@ -1,4 +1,4 @@
-import { prisma } from "@prisma/prisma";
+import prisma from "@prisma/prisma";
 import type { Party } from "@prisma/client";
 
 type PartyCreateInput = Omit<Party, "id"> & {
