@@ -4,6 +4,19 @@ import { User as PrismaUser } from "@prisma/client";
 export class UserEntity {
     constructor(public data: PrismaUser) {}
 
+    // Getter for convenience
+    get id() {
+        return this.data.id;
+    }
+
+    get email() {
+        return this.data.email;
+    }
+
+    get password() {
+        return this.data.password;
+    }
+
     update(data: Partial<PrismaUser>) {
         Object.assign(this.data, data);
     }
@@ -18,7 +31,7 @@ export class UserEntity {
 
     static async create(
         data: Omit<PrismaUser, "id" | "createdAt"> & { createdParties?: string[] }
-    ){
+    ) {
         const user = await prisma.user.create({
             data: {
                 ...data,
@@ -26,6 +39,11 @@ export class UserEntity {
             },
         });
         return new UserEntity(user);
+    }
+
+    static async findByEmail(email: string) {
+        const user = await prisma.user.findUnique({ where: { email } });
+        return user ? new UserEntity(user) : null;
     }
 
     static async findById(id: string) {

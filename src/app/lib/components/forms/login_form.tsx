@@ -19,27 +19,26 @@ const LoginForm: React.FC = () => {
         e.preventDefault();
         setError(null);
         setLoading(true);
-          
+
         try {
             const res = await fetch("/api/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),
             });
-          
+
             const data = await res.json();
-          
+
             if (!res.ok) throw new Error(data.message || "Login failed");
-          
-            // Save session token from backend (JWT or session id)
-            Cookies.set("authToken", data.token, { expires: 1 }); // expires in 1 day
+
             router.push("/profile");
+
         } catch (err: any) {
             setError(err.message || "Something went wrong");
             alert(err.message || "Login failed");
         } finally {
             setLoading(false);
-        }
+    }
     };
 
     return (

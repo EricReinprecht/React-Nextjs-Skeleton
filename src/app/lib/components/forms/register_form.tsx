@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import DefautButton from "../default/default_button";
 import "@styles/forms/register_form.scss";
+import Cookies from "js-cookie";
 
 const RegisterForm: React.FC = () => {
     
@@ -34,7 +35,6 @@ const RegisterForm: React.FC = () => {
             return;
         }
 
-        // Example API call to your backend
         try {
             const res = await fetch("/api/register", {
                 method: "POST",
@@ -42,9 +42,13 @@ const RegisterForm: React.FC = () => {
                 body: JSON.stringify(formData),
             });
 
-            if (!res.ok) throw new Error("Failed to register");
+            const data = await res.json();
+
+            if (!res.ok) throw new Error(data.message || "Failed to register");
 
             alert("Registration successful!");
+
+            // Reset form
             setFormData({
                 username: "",
                 firstname: "",
@@ -60,8 +64,11 @@ const RegisterForm: React.FC = () => {
                 password: "",
                 confirmPassword: "",
             });
+
+            window.location.href = "/profile";
+
         } catch (err: any) {
-            alert(err.message);
+            alert(err.message || "Registration failed");
         }
     };
 
