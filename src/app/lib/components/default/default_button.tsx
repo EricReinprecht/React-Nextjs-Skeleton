@@ -1,6 +1,6 @@
 import React from "react";
 
-import "@styles/components/default_button.scss"
+import "@styles/components/default_button.scss";
 
 interface DefaultButtonProps {
     label: string;

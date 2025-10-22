@@ -26,7 +26,7 @@
       "@components/*": ["./src/app/lib/components/*"],
       "@entities/*": ["./src/app/lib/entities/*"],
       "@services/*": ["./src/app/lib/services/*"],
-      "@firebase/*": ["./src/app/lib/firebase/*"],
+      "@auth/*": ["./src/app/lib/auth/*"],
       "@prisma/*": ["./src/app/lib/prisma/*"],
       "@commands/*": ["./src/app/lib/commands/*"],
       "@context/*": ["./src/app/lib/context/*"],
