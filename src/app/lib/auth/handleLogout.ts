@@ -1,16 +1,17 @@
-import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
-/**
- * Logs out the user by removing auth cookies and redirecting to login page.
- * @param router Next.js router instance from useRouter()
- */
-export const handleLogout = (router: ReturnType<typeof useRouter>) => {
-    console.log("Logging out...");
+export const handleLogout = async (router: ReturnType<typeof useRouter>) => {
+    try {
+        const res = await fetch("/api/logout", { method: "POST" });
 
-    Cookies.remove("authToken");
+        if (!res.ok) {
+            throw new Error("Logout failed");
+        }
 
-    router.push("/login");
+        console.log("User logged out successfully");
 
-    console.log("User logged out successfully");
+        router.push("/login");
+    } catch (err: any) {
+        console.error("Logout error:", err.message || err);
+    }
 };
