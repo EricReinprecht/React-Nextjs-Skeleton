@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import DefautButton from "../default/default_button";
 import "@styles/forms/login_form.scss";
+import Link from "next/link";
 
 
 const LoginForm: React.FC = () => {
@@ -69,6 +70,7 @@ const LoginForm: React.FC = () => {
                 <div className="button-container">
                     <DefautButton label="login" type="submit"/>
                 </div>
+                <Link href={"/register"}>Create an Account</Link>
             </form>
         </div>
     );
