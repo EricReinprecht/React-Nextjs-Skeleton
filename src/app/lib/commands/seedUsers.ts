@@ -1,11 +1,14 @@
 import fs from "fs";
 import path from "path";
 import bcrypt from "bcryptjs";
-import chalk from "chalk";
 import prisma from "@prisma/prisma";
 import { UserEntity } from "@entities/user";
 
-export async function seedUsers() {
+/**
+ * Seed users from JSON file.
+ * @param push Optional callback to stream log messages (for live frontend updates)
+ */
+export async function seedUsers(push?: (msg: string) => void) {
     const filePath = path.join(process.cwd(), "src/app/lib/fixtures/userFixtures.json");
 
     if (!fs.existsSync(filePath)) {
@@ -14,7 +17,7 @@ export async function seedUsers() {
 
     const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
 
-    console.log(`Creating ${data.length} users...`);
+    push?.(`🌱 Creating ${data.length} users...\n`);
 
     for (const [index, userData] of data.entries()) {
         try {
@@ -23,7 +26,7 @@ export async function seedUsers() {
             });
 
             if (existing) {
-                console.log(chalk.yellow(`User ${userData.email} already exists, skipping.`));
+                push?.(`⚠️ User ${userData.email} already exists, skipping.\n`);
                 continue;
             }
 
@@ -34,11 +37,12 @@ export async function seedUsers() {
                 password: hashedPassword,
             });
 
-            console.log(chalk.green(`Created user ${index + 1}: ${userData.email}`));
-        } catch (err) {
-            console.error(chalk.red(`❌ Failed to create user ${userData.email}`), err);
+            push?.(`✅ Created user ${index + 1}: ${userData.email}\n`);
+        } catch (err: any) {
+            push?.(`❌ Failed to create user ${userData.email}: ${err.message}\n`);
         }
     }
-    console.log(chalk.green("✅ Users created successfully!"));
+
+    push?.("✅ Users created successfully!\n");
     await prisma.$disconnect();
 }
