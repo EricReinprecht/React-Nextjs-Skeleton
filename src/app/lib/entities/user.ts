@@ -4,7 +4,6 @@ import { User as PrismaUser } from "@prisma/client";
 export class UserEntity {
     constructor(public data: PrismaUser) {}
 
-    // Getter for convenience
     get id() {
         return this.data.id;
     }
@@ -29,13 +28,13 @@ export class UserEntity {
         return this;
     }
 
-    static async create(
-        data: Omit<PrismaUser, "id" | "createdAt"> & { createdParties?: string[] }
-    ) {
+    static async create(data: Omit<PrismaUser, "id" | "createdAt"> & { createdParties?: string[] }){
         const user = await prisma.user.create({
             data: {
                 ...data,
-                createdParties: data.createdParties ?? [],
+                createdParties: data.createdParties ? {
+                        connect: data.createdParties.map((id) => ({ id })),
+                } : undefined,
             },
         });
         return new UserEntity(user);

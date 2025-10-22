@@ -25,6 +25,7 @@
       "@templates/*": ["./src/app/lib/templates/*"],
       "@components/*": ["./src/app/lib/components/*"],
       "@entities/*": ["./src/app/lib/entities/*"],
+      "@server/*": ["./src/app/lib/server/*"],
       "@services/*": ["./src/app/lib/services/*"],
       "@auth/*": ["./src/app/lib/auth/*"],
       "@prisma/*": ["./src/app/lib/prisma/*"],

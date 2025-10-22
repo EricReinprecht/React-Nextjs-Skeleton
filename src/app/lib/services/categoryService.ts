@@ -1,137 +1,72 @@
-// services/categoryService.ts
+import prisma from "../prisma/prisma";
+import { PartyCategory } from "@prisma/client";
 
-import { db } from "@firebase/firebase";
-import {
-  collection,
-  getDocs,
-  query,
-  // limit,
-  // startAfter,
-  addDoc,
-  doc,
-  getDoc,
-  where,
-  orderBy,
-  runTransaction,
-  deleteDoc,
-  updateDoc,
-  DocumentReference,
-} from "firebase/firestore";
-import { Category } from "../entities/category";
-
-const CATEGORIES_COLLECTION = "categories";
-
-// Get all parties
-export async function getCategories(): Promise<Category[]> {
-  const querySnapshot = await getDocs(collection(db, CATEGORIES_COLLECTION));
-  return querySnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  })) as Category[];
+// Get all categories
+export async function getCategories(): Promise<PartyCategory[]> {
+    return prisma.partyCategory.findMany();
 }
 
-// Get paginated parties
-export const getCategoriesPaginated = async (page: number, limit: number): Promise<{ categories: any[]; lastVisible: any | null }> => {
-  try {
-    let querySnapshot;
+// Get paginated categories
+export async function getCategoriesPaginated(
+    page: number,
+    limit: number
+): Promise<{ categories: PartyCategory[]; total: number }> {
+    const skip = (page - 1) * limit;
+    const [categories, total] = await prisma.$transaction([
+        prisma.partyCategory.findMany({
+            skip,
+            take: limit,
+            orderBy: { name: 'asc' },
+        }),
+        prisma.partyCategory.count(),
+    ]);
 
-    querySnapshot = await getDocs(query(
-      collection(db, CATEGORIES_COLLECTION),
-      orderBy("name"),
-      orderBy("startDate"),
-    ));
-
-    const data = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-
-    console.log(data);
-
-
-    return {
-      categories: data || [],
-      lastVisible: null
-    };
-  } catch (error) {
-    console.error("Error fetching paginated parties:", error);
-    return { categories: [], lastVisible: null };
-  }
-};
-
-// Get a single category by ID
-export async function getCategoryById(id: string): Promise<Category | null> {
-  const docRef = doc(db, CATEGORIES_COLLECTION, id);
-  const docSnap = await getDoc(docRef);
-  return docSnap.exists() ? { id: docSnap.id, ...docSnap.data() } as Category : null;
+    return { categories, total };
 }
 
-// Create new Category (name has to be uniqe)
-export async function createCategory(category: Category): Promise<string | null> {
-  const categoriesCol = collection(db, CATEGORIES_COLLECTION);
-
-  try {
-    const categoryId = await runTransaction(db, async (transaction) => {
-      // Query for existing category with the same name
-      const q = query(categoriesCol, where("name", "==", category.name));
-      const querySnapshot = await getDocs(q);
-
-      if (!querySnapshot.empty) {
-        throw new Error("Category with this name already exists.");
-      }
-
-      // If not exists, add new doc
-      const docRef = await addDoc(categoriesCol, category);
-      return docRef.id;
-    });
-
-    return categoryId;
-  } catch (error) {
-    console.error("Transaction failed:", error);
-    return null;
-  }
+// Get category by ID
+export async function getCategoryById(id: string): Promise<PartyCategory | null> {
+    return prisma.partyCategory.findUnique({ where: { id } });
 }
 
-// Delete a category by ID
+// Create category (unique name)
+export async function createCategory(category: Omit<PartyCategory, "id" | "createdAt" | "updatedAt">): Promise<PartyCategory | null> {
+    try {
+        return await prisma.partyCategory.create({ data: category });
+    } catch (error) {
+        console.error("Failed to create category:", error);
+        return null;
+    }
+}
+
+// Update category by ID
+export async function updateCategoryById(id: string, updatedFields: Partial<PartyCategory>): Promise<PartyCategory | null> {
+    try {
+        return await prisma.partyCategory.update({
+            where: { id },
+            data: updatedFields,
+        });
+    } catch (error) {
+        console.error("Failed to update category:", error);
+        return null;
+    }
+}
+
+// Delete category by ID
 export async function deleteCategoryById(id: string): Promise<boolean> {
-  try {
-    const categoryRef = doc(db, CATEGORIES_COLLECTION, id);
-    await deleteDoc(categoryRef);
-    return true;
-  } catch (error) {
-    console.error("Error deleting category:", error);
-    return false;
-  }
+    try {
+        await prisma.partyCategory.delete({ where: { id } });
+        return true;
+    } catch (error) {
+        console.error("Failed to delete category:", error);
+        return false;
+    }
 }
 
-// Update a category by ID
-export async function updateCategoryById(id: string, updatedFields: Partial<Category>): Promise<boolean> {
-  try {
-    const categoryRef = doc(db, CATEGORIES_COLLECTION, id);
-    await updateDoc(categoryRef, updatedFields);
-    return true;
-  } catch (error) {
-    console.error("Error updating category:", error);
-    return false;
-  }
-}
-
-/**
- * Resolves Firestore category document references to their `name` fields.
- */
-export async function resolveCategories(refs: DocumentReference[]): Promise<Category[]> {
-  if (!Array.isArray(refs)) return [];
-
-  const docs = await Promise.all(refs.map(ref => getDoc(ref)));
-
-  return docs
-    .filter(docSnap => docSnap.exists())
-    .map(docSnap => {
-      const data = docSnap.data();
-      return {
-        id: docSnap.id,
-        name: data?.name ?? 'Unbekannt',
-        active: data?.active ?? false,
-      } as Category;
+// Resolve categories for PartyCategory relations
+export async function resolveCategories(categoryIds: string[]): Promise<PartyCategory[]> {
+    if (!Array.isArray(categoryIds) || categoryIds.length === 0) return [];
+    return prisma.partyCategory.findMany({
+        where: { id: { in: categoryIds } },
     });
 }

@@ -14,6 +14,25 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+model Account {
+    id                 String  @id @default(cuid())
+    userId             String
+    type               String
+    provider           String
+    providerAccountId  String
+    refresh_token      String?
+    access_token       String?
+    expires_at         Int?
+    token_type         String?
+    scope              String?
+    id_token           String?
+    session_state      String?
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([provider, providerAccountId])
+}
+
 model Image {
     id         String   @id @default(cuid())
     url        String
@@ -52,6 +71,15 @@ model PartyCategory {
     parties   Party[]  @relation("PartyToCategory")
 }
 
+model Session {
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
 model Ticket {
     id String @id @default(cuid())
     categories     TicketCategory[]  @relation("TicketToCategory")
@@ -71,7 +99,11 @@ model User {
     id             String    @id @default(cuid())
     username       String    @unique
     email          String    @unique
+    emailVerified  DateTime?
     password       String
+    sessions       Session[]
+    accounts       Account[]
+
     firstname      String
     lastname       String
     birthdate      DateTime
@@ -84,4 +116,12 @@ model User {
     createdAt      DateTime  @default(now())
 
     createdParties Party[] @relation("UserToParty")
+}
+
+model VerificationToken {
+    identifier String
+    token      String   @unique
+    expires    DateTime
+
+    @@unique([identifier, token])
 }
