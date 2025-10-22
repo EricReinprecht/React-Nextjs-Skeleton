@@ -2,6 +2,7 @@
     {
         "username": "alicej",
         "email": "alice@example.com",
+        "password": "user_1",
         "firstname": "Alice",
         "lastname": "Johnson",
         "birthdate": "1990-04-12T00:00:00.000Z",
@@ -16,6 +17,7 @@
     {
         "username": "bobsmith",
         "email": "bob.smith@example.com",
+        "password": "user_2",
         "firstname": "Bob",
         "lastname": "Smith",
         "birthdate": "1988-09-22T00:00:00.000Z",
@@ -30,6 +32,7 @@
     {
         "username": "carold",
         "email": "carol.davis@example.com",
+        "password": "user_3",
         "firstname": "Carol",
         "lastname": "Davis",
         "birthdate": "1992-02-05T00:00:00.000Z",
@@ -44,6 +47,7 @@
     {
         "username": "danlee",
         "email": "daniel.lee@example.com",
+        "password": "user_4",
         "firstname": "Daniel",
         "lastname": "Lee",
         "birthdate": "1995-11-17T00:00:00.000Z",
@@ -58,6 +62,7 @@
     {
         "username": "eveadams",
         "email": "eve.adams@example.com",
+        "password": "user_5",
         "firstname": "Eve",
         "lastname": "Adams",
         "birthdate": "1987-07-09T00:00:00.000Z",
@@ -72,6 +77,7 @@
     {
         "username": "frankm",
         "email": "frank.martin@example.com",
+        "password": "user_6",
         "firstname": "Frank",
         "lastname": "Martin",
         "birthdate": "1993-03-28T00:00:00.000Z",
@@ -86,6 +92,7 @@
     {
         "username": "graceh",
         "email": "grace.hall@example.com",
+        "password": "user_7",
         "firstname": "Grace",
         "lastname": "Hall",
         "birthdate": "1991-05-15T00:00:00.000Z",
@@ -100,6 +107,7 @@
     {
         "username": "henryb",
         "email": "henry.brown@example.com",
+        "password": "user_8",
         "firstname": "Henry",
         "lastname": "Brown",
         "birthdate": "1989-10-02T00:00:00.000Z",
@@ -114,6 +122,7 @@
     {
         "username": "irenew",
         "email": "irene.wilson@example.com",
+        "password": "user_9",
         "firstname": "Irene",
         "lastname": "Wilson",
         "birthdate": "1994-12-21T00:00:00.000Z",
@@ -129,6 +138,7 @@
         "username": "jackwhite",
         "email": "jack.white@example.com",
         "firstname": "Jack",
+        "password": "user_10",
         "lastname": "White",
         "birthdate": "1996-08-13T00:00:00.000Z",
         "country": "Germany",

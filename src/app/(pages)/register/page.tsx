@@ -3,7 +3,7 @@
 import BasePage from "@templates/base_page";
 import { useState } from "react";
 
-export default function Register() {
+export default function Register(props) {
     const [formData, setFormData] = useState({
         username: "",
         firstname: "",

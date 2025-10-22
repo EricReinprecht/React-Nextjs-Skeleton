@@ -1,38 +1,45 @@
 "use client"
 
-import { useState } from "react";
-import { useRouter } from "next/navigation"; import React from 'react';
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-import { auth } from "@firebase/firebase";
-import { setPersistence, browserLocalPersistence } from "firebase/auth";
-import { signInWithEmailAndPassword, AuthError } from "firebase/auth";
 import DefautButton from "../default/default_button";
-import "@styles/forms/login_form.scss"
+import "@styles/forms/login_form.scss";
+
 
 const LoginForm: React.FC = () => {
     const router = useRouter();
     const [error, setError] = useState<string | null>(null);
     const [email, setEmail] = useState<string | "">("");
     const [password, setPassword] = useState<string | "">("");
+    const [loading, setLoading] = useState(false);
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
+        setError(null);
+        setLoading(true);
+          
         try {
-            const userCredential = await setPersistence(auth, browserLocalPersistence).then(() => {
-                return signInWithEmailAndPassword(auth, email, password);
+            const res = await fetch("/api/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password }),
             });
-            Cookies.set("authToken", userCredential.user.uid, { expires: 1 });
+          
+            const data = await res.json();
+          
+            if (!res.ok) throw new Error(data.message || "Login failed");
+          
+            // Save session token from backend (JWT or session id)
+            Cookies.set("authToken", data.token, { expires: 1 }); // expires in 1 day
             router.push("/profile");
-        } catch (error) {
-            const authError = error as AuthError;
-            setError(authError.message);
-            handleError();
+        } catch (err: any) {
+            setError(err.message || "Something went wrong");
+            alert(err.message || "Login failed");
+        } finally {
+            setLoading(false);
         }
     };
-
-    const handleError = () => {
-        alert(error);
-    }
 
     return (
         <div className="form-container">
