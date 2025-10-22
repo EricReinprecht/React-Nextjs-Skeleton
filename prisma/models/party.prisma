@@ -10,6 +10,10 @@ model Party {
     description    String
     teaser         String
     categories     PartyCategory[]  @relation("PartyToCategory")
+
+    userId         String
+    user           User  @relation ("UserToParty", fields: [userId], references: [id])
+
     tickets        Ticket[]
     images         Image[]
 }
