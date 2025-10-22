@@ -8,11 +8,11 @@ import Step4 from "@components/party/form/step4";
 import Step_Final from "@/src/app/lib/components/party/form/step_final";
 import Footer from "@components/party/form/footer";
 import { getNextDateTimeAt } from "@/src/app/lib/utils/formatDate";
-import { getCategories } from "@/src/app/lib/services/categoryService";
 import { Category } from "@/src/app/lib/entities/category";
 import Loader from "@/src/app/lib/components/default/loader";
 import DefautButton from "@/src/app/lib/components/default/default_button";
 import withAuth from "@/src/app/lib/hoc/withAuth";
+import"@styles/pages/create-party.scss"
 
 interface PartyFormData {
     name: string;
@@ -55,7 +55,8 @@ const CreatePartyForm = ({ authUser }: Props) => {
 
     useEffect(() => {
         async function fetchCategoriesData() {
-            const categories = await getCategories();
+            const res = await fetch("/api/categories");
+            const categories = await res.json();
             setAllCategories(categories);
         }
         fetchCategoriesData();
