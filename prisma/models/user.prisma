@@ -12,6 +12,7 @@ model User {
     street         String
     housenumber    Int
     unit           String?
-    createdParties String[]  @default([])
     createdAt      DateTime  @default(now())
+
+    createdParties Party[] @relation("UserToParty")
 }
