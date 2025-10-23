@@ -38,7 +38,7 @@ model Image {
     createdAt  DateTime @default(now())
     filename   String
 
-    partyId   String?  @unique(map: "partyId_idx")
+    partyId   String?
     party     Party?   @relation("PartyImages", fields: [partyId], references: [id])
 
     // userId    String?  @unique(map: "userId_idx")

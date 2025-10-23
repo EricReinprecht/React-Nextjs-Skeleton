@@ -99,6 +99,7 @@ const CreatePartyForm = ({ authUser }: Props) => {
             const partyId = data.partyId;
             
             const base64Images = await filesToBase64(imageFiles);
+            console.log(base64Images.length); 
 
             const res2 = await fetch("/api/image/upload", {
                 method: "POST",

@@ -1,5 +1,6 @@
 import prisma from "@prisma/prisma";
 import type { Party } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client"; // ✅ import Prisma namespace
 
 type PartyCreateInput = Omit<Party, "id"> & {
     images?: { url: string; caption?: string; alt?: string }[];
@@ -82,16 +83,15 @@ export const getPartiesPaginated = async (
     }
 }
 
-export async function getPartyById(id: string): Promise<Party | null> {
+export async function getPartyById(id: string): Promise<Prisma.PartyGetPayload<{ include: { images: true; categories: true } }> | null> {
     try {
         const party = await prisma.party.findUnique({
             where: { id },
             include: {
                 images: true,
-                cards: true,
+                categories: true,
             },
         });
-      
         return party;
     } catch (error) {
         console.error("Error fetching party by ID:", error);
