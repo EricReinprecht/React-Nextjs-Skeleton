@@ -27,13 +27,20 @@ const MyPartyList = () => {
         async (page: number, filters: Record<string, string>) => {
             setLoading(true);
             try {
-                const { parties: newParties, lastVisible } = await getPartiesPaginated(
-                    page,
-                    limit,
-                    filters
-                );
-                setParties((prev) => [...prev, ...newParties]);
-                setHasMore(!!lastVisible);
+               const res = await fetch("/api/user/get-parties", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ page, filters }),
+                });
+
+                if (!res.ok) {
+                    throw new Error(`Request failed with status ${res.status}`);
+                }
+
+                const data = await res.json();
+                
+                console.log("Fetched parties:", data);
+
             } catch (error) {
                 console.error("Error fetching parties:", error);
             } finally {

@@ -20,7 +20,7 @@ export async function seedPartyCategories(push?: (msg: string) => void) {
     for (const [index, categoryData] of data.entries()) {
         try {
             const existing = await prisma.partyCategory.findUnique({
-                where: { name: categoryData.name }, // Prisma requires a unique field; adjust if necessary
+                where: { name: categoryData.name },
             });
 
             if (existing) {

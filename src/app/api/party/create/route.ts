@@ -3,6 +3,7 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import { PrismaClient } from "@prisma/client";
+import { getAuthUser } from "@/src/app/lib/utils/getAuthUser";
 
 const prisma = new PrismaClient();
 
@@ -41,9 +42,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     try {
+        const authUser = await getAuthUser();
+        if (!authUser) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+
         await runMiddleware(req, res, upload.array("images"));
 
-        const body = req.body; // form fields
+        const body = req.body;
         const files = (req as any).files as Express.Multer.File[];
 
         const party = await prisma.party.create({
@@ -56,7 +62,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 longitude: Number(body.longitude),
                 startDate: new Date(body.startDate),
                 endDate: new Date(body.endDate),
-                createdBy: body.createdBy,
+                created: new Date(),
+                createdBy: {
+                    connect: { id: authUser.id },
+                },
             },
         });
 

@@ -1,6 +1,6 @@
 model Party {
     id             String    @id @default(cuid())
-    created        String
+    created        DateTime
     name           String
     location       String
     latitude       Float
@@ -12,7 +12,7 @@ model Party {
     categories     PartyCategory[]  @relation("PartyToCategory")
 
     userId         String
-    user           User  @relation ("UserToParty", fields: [userId], references: [id])
+    createdBy      User  @relation ("UserToParty", fields: [userId], references: [id])
 
     tickets        Ticket[]
     images         Image[]

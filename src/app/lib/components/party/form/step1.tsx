@@ -3,6 +3,7 @@ import React from "react";
 import Flatpickr from "react-flatpickr";
 import { Party } from "@/src/app/lib/entities/party";
 import TextareaAutosize from "react-textarea-autosize";
+import "flatpickr/dist/flatpickr.min.css";
 
 
 type Step1Props = {
@@ -157,7 +158,6 @@ const Step1: React.FC<Step1Props> = ({
                             onChange={handleChange}
                             placeholder="Enter teaser"
                             required
-                            className="your-custom-class"
                         />
                     </div>
                 </div>

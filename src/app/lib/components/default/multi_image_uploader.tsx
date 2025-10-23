@@ -104,7 +104,9 @@ const MultiImageUploader: React.FC<MultiImageUploaderProps> = ({
             <Image 
               src={src}
               alt="preview"
-              style={{ width: "150px", height: "150px", objectFit: "cover", display: "block" }}
+              width={150}
+              height={150}
+              style={{ objectFit: "cover", display: "block" }}
               draggable={false}
             />
             <button

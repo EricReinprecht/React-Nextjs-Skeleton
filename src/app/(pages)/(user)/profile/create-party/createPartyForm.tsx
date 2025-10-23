@@ -12,7 +12,8 @@ import { Category } from "@/src/app/lib/entities/category";
 import Loader from "@/src/app/lib/components/default/loader";
 import DefautButton from "@/src/app/lib/components/default/default_button";
 import withAuth from "@/src/app/lib/hoc/withAuth";
-import"@styles/pages/create-party.scss"
+import"@styles/pages/create-party.scss";
+import { getAuthUser } from "@/src/app/lib/utils/getAuthUser";
 
 interface PartyFormData {
     name: string;
@@ -55,7 +56,7 @@ const CreatePartyForm = ({ authUser }: Props) => {
 
     useEffect(() => {
         async function fetchCategoriesData() {
-            const res = await fetch("/api/categories");
+            const res = await fetch("/api/partyCategory/get");
             const categories = await res.json();
             setAllCategories(categories);
         }
@@ -63,7 +64,7 @@ const CreatePartyForm = ({ authUser }: Props) => {
     }, []);
 
     const navigateToStep = (nextStep: number) => {
-        if (nextStep >= 1 && nextStep <= 6) setStep(nextStep);
+        if (nextStep >= 1 && nextStep <= 5) setStep(nextStep);
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -133,8 +134,8 @@ const CreatePartyForm = ({ authUser }: Props) => {
                                         <div onClick={() => navigateToStep(4)} className={`step submit ${step === 4 ? "active" : ""}`}>4</div>
                                         <div className="step-seperator"></div>
                                         <div onClick={() => navigateToStep(5)} className={`step submit ${step === 5 ? "active" : ""}`}>5</div>
-                                        <div className="step-seperator"></div>
-                                        <div onClick={() => navigateToStep(6)} className={`step submit ${step === 6 ? "active" : ""}`}>6</div>
+                                        {/* <div className="step-seperator"></div>
+                                        <div onClick={() => navigateToStep(6)} className={`step submit ${step === 6 ? "active" : ""}`}>6</div> */}
                                     </div>
                                     <div className="body">
                                         {step === 1 && 
@@ -174,14 +175,7 @@ const CreatePartyForm = ({ authUser }: Props) => {
                                                 setSelectedCategories={setSelectedCategories}
                                             />
                                         }
-                                        {/* {step === 5 && 
-                                            <Step5
-                                                partyData={partyData}
-                                                imagePreviews={imageFiles.map(file => URL.createObjectURL(file))}
-                                                // categories={yourResolvedCategories} // Optional
-                                            />
-                                        } */}
-                                        {step === 6 && 
+                                        {step === 5 && 
                                             <Step_Final
                                                 partyData={partyData}
                                                 imagePreviews={imageFiles.map(file => URL.createObjectURL(file))}
