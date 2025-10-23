@@ -29,7 +29,6 @@ const MyPartyList = () => {
             try {
                const res = await fetch("/api/user/get-parties", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ page, filters }),
                 });
 

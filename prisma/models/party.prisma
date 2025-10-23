@@ -9,11 +9,12 @@ model Party {
     endDate        DateTime
     description    String
     teaser         String
-    categories     PartyCategory[]  @relation("PartyToCategory")
 
+    categories  PartyCategory[] @relation("PartyToCategory")
+    
     userId         String
     createdBy      User  @relation ("UserToParty", fields: [userId], references: [id])
 
     tickets        Ticket[]
-    images         Image[]
+    images         Image[]  @relation("PartyImages")
 }

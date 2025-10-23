@@ -14,6 +14,7 @@ import DefautButton from "@/src/app/lib/components/default/default_button";
 import withAuth from "@/src/app/lib/hoc/withAuth";
 import"@styles/pages/create-party.scss";
 import { getAuthUser } from "@/src/app/lib/utils/getAuthUser";
+import { filesToBase64 } from "@/src/app/lib/utils/filesToBase64";
 
 interface PartyFormData {
     name: string;
@@ -89,8 +90,24 @@ const CreatePartyForm = ({ authUser }: Props) => {
             selectedCategories.forEach(cat => formData.append("categories", cat.id!));
             imageFiles.forEach(file => formData.append("images", file));
 
-            const res = await fetch("/api/party/create", { method: "POST", body: formData });
+            const res = await fetch("/api/party/create", {
+                method: "POST",
+                body: formData,
+            });
+
             const data = await res.json();
+            const partyId = data.partyId;
+            
+            const base64Images = await filesToBase64(imageFiles);
+
+            const res2 = await fetch("/api/image/upload", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ partyId, images: base64Images }),
+            });
+
+            const data2 = await res2.json();
+            console.log(data2)
 
             if (!res.ok) throw new Error(data.message || "Failed to create party");
 

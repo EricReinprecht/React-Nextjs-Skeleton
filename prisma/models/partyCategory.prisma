@@ -2,5 +2,6 @@ model PartyCategory {
     id             String    @id @default(cuid())
     name           String    @unique
     active         Boolean
-    parties   Party[]  @relation("PartyToCategory")
+    
+    parties        Party[]  @relation("PartyToCategory")
 }
