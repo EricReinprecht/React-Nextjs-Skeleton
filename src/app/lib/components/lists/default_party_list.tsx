@@ -32,17 +32,17 @@ const DefaultPartyList: React.FC = () => {
     async (page: number) => {
       setLoading(true);
 
-      try {
-        const { parties: newParties, lastVisible } = await getPartiesPaginated(page, limit);
-        setParties((prevParties) => [...prevParties, ...newParties]);
-        console.log(parties);
+      // try {
+      //   const { parties: newParties, lastVisible } = await getPartiesPaginated(page, limit);
+      //   setParties((prevParties) => [...prevParties, ...newParties]);
+      //   console.log(parties);
 
-        setHasMore(!!lastVisible);
-      } catch (error) {
-        console.error("Error fetching parties:", error);
-      } finally {
-        setLoading(false);
-      }
+      //   setHasMore(!!lastVisible);
+      // } catch (error) {
+      //   console.error("Error fetching parties:", error);
+      // } finally {
+      //   setLoading(false);
+      // }
     }, [limit, parties]
   );
 

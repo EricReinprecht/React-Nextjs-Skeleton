@@ -1,6 +1,7 @@
 import prisma from "@prisma/prisma";
 import type { Party } from "@prisma/client";
-import { PrismaClient, Prisma } from "@prisma/client"; // ✅ import Prisma namespace
+import { PrismaClient, Prisma } from "@prisma/client";
+import { PARTY_PAGE_SIZE } from "../utils/env";
 
 type PartyCreateInput = Omit<Party, "id"> & {
     images?: { url: string; caption?: string; alt?: string }[];
@@ -29,10 +30,10 @@ export async function getParties(): Promise<Party[]> {
 
 export const getPartiesPaginated = async (
     page: number, 
-    limit: number, 
     filter?: Record<string, any>
 ): Promise<{ parties: any[]; lastVisible: any | null }> => {
     try {
+        const limit = PARTY_PAGE_SIZE;
         const skip = (page - 1) * limit;
         const where: any = {};
     

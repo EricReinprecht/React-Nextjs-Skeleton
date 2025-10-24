@@ -13,7 +13,6 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import Loader from "../default/loader";
 
-// Infinite Scroll Component
 const ExcelPartyList: React.FC = () => {
   const [parties, setParties] = useState<Party[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -26,14 +25,15 @@ const ExcelPartyList: React.FC = () => {
   }, [page]);
 
   const fetchParties = useCallback(async (page: number) => {
+    console.log("here");
       setLoading(true);
 
       try {
-        const { parties: newParties, lastVisible } = await getPartiesPaginated(page, limit);
-        setParties((prevParties) => [...prevParties, ...newParties]);
-        console.log(parties);
+        // const { parties: newParties, lastVisible } = await getPartiesPaginated(page, limit);
+        // setParties((prevParties) => [...prevParties, ...newParties]);
+        // console.log(parties);
 
-        setHasMore(!!lastVisible);
+        // setHasMore(!!lastVisible);
       } catch (error) {
         console.error("Error fetching parties:", error);
       } finally {
