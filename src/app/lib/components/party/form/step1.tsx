@@ -1,18 +1,18 @@
 "use client";
 import React from "react";
 import Flatpickr from "react-flatpickr";
-import { Party } from "@/src/app/lib/entities/party";
+import { Party } from "@prisma/client";
 import TextareaAutosize from "react-textarea-autosize";
 import "flatpickr/dist/flatpickr.min.css";
 
 
 type Step1Props = {
-    partyData: Party;
+    partyData: Party | null;
     startDateOnly: Date;
     startTimeOnly: Date;
     endDateOnly: Date;
     endTimeOnly: Date;
-    setPartyData: React.Dispatch<React.SetStateAction<Party>>;
+    setPartyData: React.Dispatch<React.SetStateAction<Party | null>>;
     setStartDateOnly: React.Dispatch<React.SetStateAction<Date>>;
     setStartTimeOnly: React.Dispatch<React.SetStateAction<Date>>;
     setEndDateOnly: React.Dispatch<React.SetStateAction<Date>>;

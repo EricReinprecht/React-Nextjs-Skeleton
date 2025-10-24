@@ -1,11 +1,10 @@
 "use client";
 import React from "react";
 import GeoPointPicker from "@/src/app/lib/components/default/geo_point_picker";
-import { Party } from "@/src/app/lib/entities/party";
-
+import { Party } from "@prisma/client";
 type Step2Props = {
     partyData: Party;
-    setPartyData: React.Dispatch<React.SetStateAction<Party>>;
+    setPartyData: React.Dispatch<React.SetStateAction<Party | null>>;
 };
 
 const Step2: React.FC<Step2Props> = ({ partyData, setPartyData }) => {
@@ -13,7 +12,7 @@ const Step2: React.FC<Step2Props> = ({ partyData, setPartyData }) => {
         const { name, value } = e.target;
         const num = parseFloat(value);
         setPartyData((prev) => ({
-            ...prev,
+            ...prev!,
             [name]: isNaN(num) ? 0 : num,
         }));
     };
@@ -24,9 +23,9 @@ const Step2: React.FC<Step2Props> = ({ partyData, setPartyData }) => {
                 <GeoPointPicker
                     lat={partyData.latitude}
                     lng={partyData.longitude}
-                    onLocationSelect={(lat, lng) => {
-                        setPartyData((prev) => ({
-                            ...prev,
+                    onLocationSelect={(lat: number, lng: number) => {
+                        setPartyData(prev => ({
+                            ...prev!,
                             latitude: lat,
                             longitude: lng,
                         }));

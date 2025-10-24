@@ -13,7 +13,6 @@ import Loader from "@/src/app/lib/components/default/loader";
 import DefautButton from "@/src/app/lib/components/default/default_button";
 import withAuth from "@/src/app/lib/hoc/withAuth";
 import"@styles/pages/create-party.scss";
-import { getAuthUser } from "@/src/app/lib/utils/getAuthUser";
 import { filesToBase64 } from "@/src/app/lib/utils/filesToBase64";
 
 interface PartyFormData {

@@ -2,13 +2,13 @@
 import React from "react";
 import MultiImageUploader from "@/src/app/lib/components/default/multi_image_uploader";
 import TiptapEditor from "@/src/app/lib/components/default/tiptap_texteditor";
-import { Party } from "@/src/app/lib/entities/party";
+import { Party } from "@prisma/client";
 
 type Step3Props = {
     imageFiles: File[];
     setImageFiles: React.Dispatch<React.SetStateAction<File[]>>;
     partyData: Party;
-    setPartyData: React.Dispatch<React.SetStateAction<Party>>;
+    setPartyData: React.Dispatch<React.SetStateAction<Party | null>>;
     handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 };
 
@@ -38,7 +38,7 @@ const Step3: React.FC<Step3Props> = ({
                         <TiptapEditor
                             content={partyData.description}
                             onChange={(value) =>
-                                setPartyData((prev) => ({ ...prev, description: value }))
+                                setPartyData((prev) => ({ ...prev!, description: value }))
                             }
                         />
                     </div>
