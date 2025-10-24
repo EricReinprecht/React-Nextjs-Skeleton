@@ -20,10 +20,6 @@ interface Filters {
     [key: string]: any;
 }
 
-interface PartyApiResponse {
-    parties: Party[];
-}
-
 const DefaultPartyList: React.FC = () => {
     const [parties, setParties] = useState<Party[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
