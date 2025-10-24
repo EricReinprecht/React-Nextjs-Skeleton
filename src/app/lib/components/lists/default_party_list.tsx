@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import qs from "qs";
-
 import InfiniteScroll from "react-infinite-scroll-component";
 import Link from "next/link";
 import "@styles/lists/party_list_card.scss";

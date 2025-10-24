@@ -1,23 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getPartiesPaginated } from "@/src/app/lib/services/partyService";
 import { getAuthUser } from "@/src/app/lib/utils/getAuthUser";
+import qs from "qs";
 
-export async function POST(req: NextRequest) {
-    try{
-        const { page = 1, filters = {} } = await req.json();
+export async function GET(req: NextRequest) {
+    try {
         const authUser = await getAuthUser();
 
         if (!authUser) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        
-        const parties = getPartiesPaginated(page, limit, filters);
+        const url = new URL(req.url);
+        const parsed = qs.parse(url.search, { ignoreQueryPrefix: true });
 
+        const cursorId = parsed.cursorId ? String(parsed.cursorId) : undefined;
+        const filters = (parsed.filters || {}) as Record<string, any>;
 
-        return NextResponse.json({ success: true, data: parties });;
-    }catch (error){
-        console.log("Error fetching parties: ", error);
-        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+        const { parties, nextCursor } = await getPartiesPaginated(cursorId, filters);
+
+        return NextResponse.json({ parties, nextCursor });
+    } catch (err) {
+        console.error(err);
+        return NextResponse.json({ message: "Failed to fetch parties" }, { status: 500 });
     }
 }

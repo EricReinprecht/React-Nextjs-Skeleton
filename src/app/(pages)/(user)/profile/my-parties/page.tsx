@@ -11,57 +11,53 @@ import { formatDateGerman } from "../../../../lib/utils/formatDate";
 import { useDebounce } from "use-debounce";
 import DatePickerComponent from "@/src/app/lib/components/default/date_picker";
 import Link from "next/link";
-
+import qs from "qs";
 
 const MyPartyList = () => {
     const [parties, setParties] = useState<Party[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [hasMore, setHasMore] = useState<boolean>(true);
-    const limit = 10;
     const [page, setPage] = useState<number>(1);
     const [filters, setFilters] = useState<Record<string, string>>({});
     const [debouncedFilters] = useDebounce(filters, 400);
-
+    const [nextCursor, setNextCursor] = useState<string | null>(null);
 
     const fetchParties = useCallback(
-        async (page: number, filters: Record<string, string>) => {
+        async (cursorId: string | null = null) => {
             setLoading(true);
             try {
-               const res = await fetch("/api/user/get-parties", {
-                    method: "POST",
-                    body: JSON.stringify({ page, filters }),
+                const queryString = qs.stringify({
+                    ...(cursorId ? { cursorId } : {}),
+                    filters,
                 });
+                const res = await fetch(`/api/user/get-parties?${queryString}`);
+                const data: { parties: Party[]; nextCursor: string | null } = await res.json();
 
-                if (!res.ok) {
-                    throw new Error(`Request failed with status ${res.status}`);
-                }
+                const transformed = data.parties.map(party => ({
+                    ...party,
+                }));
 
-                const data = await res.json();
+                setParties(prev => [...prev, ...transformed]);
+
                 
-                console.log("Fetched parties:", data);
-
-            } catch (error) {
-                console.error("Error fetching parties:", error);
+                setNextCursor(data.nextCursor);
+                setHasMore(!!data.nextCursor);
             } finally {
                 setLoading(false);
             }
-        }, [limit]
+        },
+        [filters]
     );
+
+    useEffect(() => {
+        fetchParties(nextCursor ?? undefined);
+    }, [filters]);
 
     const loadMoreData = () => {
         if (!loading && hasMore) {
-                setPage(page + 1);
+            fetchParties(nextCursor ?? undefined);
         }
     };
-
-    useEffect(() => {
-        fetchParties(page, filters);
-    }, [page, debouncedFilters, fetchParties]);
-
-    useEffect(() => {
-        setParties([]);
-        setPage(1);
-    }, [debouncedFilters]);
 
     return (
         <ManagerPage>
