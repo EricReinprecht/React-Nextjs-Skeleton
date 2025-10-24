@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import qs from "qs";
-import { Party } from "@entities/party";
+
 import InfiniteScroll from "react-infinite-scroll-component";
 import Link from "next/link";
 import "@styles/lists/party_list_card.scss";
@@ -15,7 +15,12 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import Loader from "../default/loader";
+import { Party } from "@prisma/client";
 
+type PartyWithImages = Party & {
+    images: { id: string; filename: string; partyId: string }[];
+    imageUrls?: string[];
+};
 interface Filters {
     [key: string]: any;
 }
@@ -37,10 +42,16 @@ const DefaultPartyList: React.FC = () => {
                     filters,
                 });
                 const res = await fetch(`/api/party/get-parties?${queryString}`);
-                const data: { parties: Party[]; nextCursor: string | null } = await res.json();
+                const data: { parties: PartyWithImages[]; nextCursor: string | null } = await res.json();
 
-                setParties(prev => [...prev, ...data.parties]);
-                console.log(parties);
+                const transformed = data.parties.map(p => ({
+                    ...p,
+                    imageUrls: p.images.map((img: any) => `/uploads/${p.id}/${img.filename}`),
+                }));
+
+                setParties(prev => [...prev, ...transformed]);
+
+                
                 setNextCursor(data.nextCursor);
                 setHasMore(!!data.nextCursor);
             } finally {
