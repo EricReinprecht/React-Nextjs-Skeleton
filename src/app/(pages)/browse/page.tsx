@@ -1,6 +1,6 @@
 "use client"
 
-import DefaultPartyList from '../../lib/components/lists/default_party_list'
+import DefaultPartyList from '../../lib/components/lists/default_party_list.tsx'
 import "@styles/components/filter.scss"
 import BasePage from '../../lib/templates/base_page'
 import $ from 'jquery';

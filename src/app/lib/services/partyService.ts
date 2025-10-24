@@ -29,60 +29,66 @@ export async function getParties(): Promise<Party[]> {
 }
 
 export const getPartiesPaginated = async (
-    page: number, 
+    cursorId?: string,
     filter?: Record<string, any>
-): Promise<{ parties: any[]; lastVisible: any | null }> => {
+): Promise<{ parties: any[]; nextCursor: string | null }> => {
     try {
         const limit = PARTY_PAGE_SIZE;
-        const skip = (page - 1) * limit;
+
         const where: any = {};
-    
-        if(filter){
-            for(const [key, value] of Object.entries(filter)){
+
+        if (filter) {
+            for (const [key, value] of Object.entries(filter)) {
                 if (!value) continue;
-                if(key === "id") {
+                if (key === "id") {
                     where.id = value;
-                } else if (["created", "startDate", "endDate"].includes(key)){
-                    const date = new Date("value");
+                } else if (["created", "startDate", "endDate"].includes(key)) {
+                    const date = new Date(value);
                     const startOfDay = new Date(date);
                     startOfDay.setHours(0, 0, 0, 0);
                     const endOfDay = new Date(date);
-                    endOfDay.setHours(13, 59, 59, 999);
-    
+                    endOfDay.setHours(23, 59, 59, 999);
+
                     where[key] = {
-                        startsWith: value,
+                        gte: startOfDay,
+                        lte: endOfDay,
+                    };
+                } else {
+                    where[key] = {
+                        contains: value,
                         mode: "insensitive",
-                    }
+                    };
                 }
             }
         }
-    
+
         const parties = await prisma.party.findMany({
             where,
             orderBy: [
-                {name: "asc"},
-                {startDate: "asc"}
+                { startDate: "asc" },
+                { id: "asc" },
             ],
-            skip,
-            take: limit,
+            take: limit + 1,
+            ...(cursorId ? { cursor: { id: cursorId }, skip: 1 } : {}),
             include: {
                 images: true,
-                tickets: true
-            }
+                tickets: true,
+            },
         });
-    
-        const totalCount = await prisma.party.count({ where });
-        const hasNextPage = skip + parties.length < totalCount;
-    
-        return {
-            parties,
-            lastVisible: hasNextPage ? page + 1 : null,
+
+        let nextCursor: string | null = null;
+        if (parties.length > limit) {
+            const nextParty = parties.pop();
+            nextCursor = nextParty!.id;
         }
+
+        return { parties, nextCursor };
     } catch (error) {
-        console.error("Error fetching paginated parties:", error)
-        return{ parties: [], lastVisible: null }
+        console.error("Error fetching paginated parties:", error);
+        return { parties: [], nextCursor: null };
     }
-}
+};
+
 
 export async function getPartyById(id: string): Promise<Prisma.PartyGetPayload<{ include: { images: true; categories: true } }> | null> {
     try {
