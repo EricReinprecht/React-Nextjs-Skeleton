@@ -44,9 +44,9 @@ const DefaultPartyList: React.FC = () => {
                 const res = await fetch(`/api/party/get-parties?${queryString}`);
                 const data: { parties: PartyWithImages[]; nextCursor: string | null } = await res.json();
 
-                const transformed = data.parties.map(p => ({
-                    ...p,
-                    imageUrls: p.images.map((img: any) => `/uploads/${p.id}/${img.filename}`),
+                const transformed = data.parties.map(party => ({
+                    ...party,
+                    imageUrls: party.images.map((img: any) => `/uploads/${party.id}/${img.filename}`),
                 }));
 
                 setParties(prev => [...prev, ...transformed]);
