@@ -22,10 +22,15 @@ interface EditUserFormProps {
 }
 
 const EditUserForm = ({ authUser }: EditUserFormProps) => {
-    console.log(authUser.firstname)
     const [formData, setFormData] = useState<User | null>(null);
     const [isChanged, setIsChanged] = useState(false);
     const [message, setMessage] = useState("");
+
+    useEffect(() => {
+        if (authUser) {
+            setFormData(authUser);
+        }
+    }, [authUser]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -39,7 +44,7 @@ const EditUserForm = ({ authUser }: EditUserFormProps) => {
 
 
         try {
-            const res = await fetch(`/api/user/${authUser.id}`, {
+            const res = await fetch(`/api/user/edit/${authUser.id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
@@ -53,7 +58,8 @@ const EditUserForm = ({ authUser }: EditUserFormProps) => {
             setMessage("Failed to update profile.");
         }
     };
-    
+
+    if (!formData) return <div>Loading...</div>;
 
     return (
         <div className="settings-page">
@@ -61,13 +67,13 @@ const EditUserForm = ({ authUser }: EditUserFormProps) => {
             <div className="form-content">
                 <div className="body">
                     <form onSubmit={handleSubmit} className="profile-form">
-                        {/* Username / Firstname / Lastname */}
+
                         <div className="row">
                             <div className="column">
                                 <label>Username</label>
                                 <input
                                     name="username"
-                                    value={authUser.username || ""}
+                                    value={formData.username || ""}
                                     onChange={handleChange}
                                     type="text"
                                 />
@@ -76,7 +82,7 @@ const EditUserForm = ({ authUser }: EditUserFormProps) => {
                                 <label>Firstname</label>
                                 <input
                                     name="firstname"
-                                    value={authUser.firstname || ""}
+                                    value={formData.firstname || ""}
                                     onChange={handleChange}
                                     type="text"
                                 />
@@ -85,7 +91,7 @@ const EditUserForm = ({ authUser }: EditUserFormProps) => {
                                 <label>Lastname</label>
                                 <input
                                     name="lastname"
-                                    value={authUser.lastname || ""}
+                                    value={formData.lastname || ""}
                                     onChange={handleChange}
                                     type="text"
                                 />
@@ -98,7 +104,7 @@ const EditUserForm = ({ authUser }: EditUserFormProps) => {
                                 <label>Country</label>
                                 <input
                                     name="country"
-                                    value={authUser.country || ""}
+                                    value={formData.country || ""}
                                     onChange={handleChange}
                                     type="text"
                                 />
@@ -107,7 +113,7 @@ const EditUserForm = ({ authUser }: EditUserFormProps) => {
                                 <label>City</label>
                                 <input
                                     name="city"
-                                    value={authUser.city || ""}
+                                    value={formData.city || ""}
                                     onChange={handleChange}
                                     type="text"
                                 />
@@ -116,7 +122,7 @@ const EditUserForm = ({ authUser }: EditUserFormProps) => {
                                 <label>Zip</label>
                                 <input
                                     name="zip"
-                                    value={authUser.zip || ""}
+                                    value={formData.zip || ""}
                                     onChange={handleChange}
                                     type="number"
                                 />
@@ -128,7 +134,7 @@ const EditUserForm = ({ authUser }: EditUserFormProps) => {
                                 <label>Street</label>
                                 <input
                                     name="street"
-                                    value={authUser.street || ""}
+                                    value={formData.street || ""}
                                     onChange={handleChange}
                                     type="text"
                                 />
@@ -137,7 +143,7 @@ const EditUserForm = ({ authUser }: EditUserFormProps) => {
                                 <label>Housenumber</label>
                                 <input
                                     name="housenumber"
-                                    value={authUser.housenumber || ""}
+                                    value={formData.housenumber || ""}
                                     onChange={handleChange}
                                     type="number"
                                 />
@@ -146,7 +152,7 @@ const EditUserForm = ({ authUser }: EditUserFormProps) => {
                                 <label>Unit</label>
                                 <input
                                     name="unit"
-                                    value={authUser.unit || ""}
+                                    value={formData.unit || ""}
                                     onChange={handleChange}
                                     type="text"
                                 />
