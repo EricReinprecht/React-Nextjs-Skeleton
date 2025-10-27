@@ -1,24 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import DefautButton from "@/src/app/lib/components/default/default_button";
+import DefaultButton from "@/src/app/lib/components/default/default_button";
 import withAuth from "@/src/app/lib/hoc/withAuth";
-import"@styles/pages/create-party.scss";
+import "@styles/pages/create-party.scss";
 import { User } from "@prisma/client";
 
-interface PartyFormData {
-    name: string;
-    location: string;
-    latitude: number;
-    longitude: number;
-    startDate: Date;
-    endDate: Date;
-    description: string;
-    teaser: string;
-}
-
 interface EditUserFormProps {
-  authUser: User;
+    authUser: User;
 }
 
 const EditUserForm = ({ authUser }: EditUserFormProps) => {
@@ -27,30 +16,33 @@ const EditUserForm = ({ authUser }: EditUserFormProps) => {
     const [message, setMessage] = useState("");
 
     useEffect(() => {
-        if (authUser) {
-            setFormData(authUser);
-        }
+        if (authUser) setFormData(authUser);
     }, [authUser]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setFormData(prev => prev ? { ...prev, [name]: value } : prev);
+        setFormData(prev => (prev ? { ...prev, [name]: value } : prev));
         setIsChanged(true);
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!formData) return;
         if (!isChanged) return setMessage("No changes to update.");
 
-
         try {
+            const form = new FormData();
+            for (const [key, val] of Object.entries(formData)) {
+                form.append(key, String(val ?? ""));
+            }
+
             const res = await fetch(`/api/user/edit/${authUser.id}`, {
                 method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
+                body: form,
             });
 
             if (!res.ok) throw new Error("Failed to update profile");
+
             setMessage("Profile updated successfully.");
             setIsChanged(false);
         } catch (err) {
@@ -162,13 +154,13 @@ const EditUserForm = ({ authUser }: EditUserFormProps) => {
                         {message && <p>{message}</p>}
 
                         <div className="button-container">
-                            <DefautButton type="submit" label="Submit" />
+                            <DefaultButton type="submit" label="Submit" />
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     );
-}
+};
 
 export default withAuth(EditUserForm);

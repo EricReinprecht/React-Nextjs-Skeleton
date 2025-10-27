@@ -44,6 +44,6 @@ export async function PUT(req: NextRequest) {
         return NextResponse.json({ user: user.id });
     } catch (err) {
         console.error(err);
-        return NextResponse.json({ message: "Failed to fetch parties" }, { status: 500 });
+        return NextResponse.json({ message: "Failed to update user" }, { status: 500 });
     }
 }
