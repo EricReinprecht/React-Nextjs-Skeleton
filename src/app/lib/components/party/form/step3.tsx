@@ -8,7 +8,7 @@ type Step3Props = {
     imageFiles: File[];
     setImageFiles: React.Dispatch<React.SetStateAction<File[]>>;
     partyData: Party;
-    setPartyData: React.Dispatch<React.SetStateAction<Party | null>>;
+    setPartyData: React.Dispatch<React.SetStateAction<Party>>;
     handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 };
 

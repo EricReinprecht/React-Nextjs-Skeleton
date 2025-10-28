@@ -4,7 +4,7 @@ import GeoPointPicker from "@/src/app/lib/components/default/geo_point_picker";
 import { Party } from "@prisma/client";
 type Step2Props = {
     partyData: Party;
-    setPartyData: React.Dispatch<React.SetStateAction<Party | null>>;
+    setPartyData: React.Dispatch<React.SetStateAction<Party>>;
 };
 
 const Step2: React.FC<Step2Props> = ({ partyData, setPartyData }) => {

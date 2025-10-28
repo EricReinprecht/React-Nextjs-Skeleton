@@ -174,8 +174,11 @@ const CreatePartyForm = ({ authUser }: Props) => {
                                         handleChange={handleChange}
                                     />
                                 )}
-                                {/* {step === 2 && (
-                                    <Step2 partyData={partyData} setPartyData={setPartyData} />
+                                {step === 2 && (
+                                    <Step2 
+                                        partyData={partyData} 
+                                        setPartyData={setPartyData} 
+                                    />
                                 )}
                                 {step === 3 && (
                                     <Step3
@@ -200,7 +203,7 @@ const CreatePartyForm = ({ authUser }: Props) => {
                                             URL.createObjectURL(file)
                                         )}
                                     />
-                                )} */}
+                                )}
                             </div>
                         </div>
 
