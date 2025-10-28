@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import MultiImageUploader from "@/src/app/lib/components/default/multi_image_uploader";
+import MultiImageUploader from "@components/default/multi_image_uploader";
 import TiptapEditor from "@/src/app/lib/components/default/tiptap_texteditor";
 import { Party } from "@prisma/client";
 

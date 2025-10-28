@@ -7,12 +7,12 @@ import "flatpickr/dist/flatpickr.min.css";
 
 
 type Step1Props = {
-    partyData: Party | null;
+    partyData: Party;
     startDateOnly: Date;
     startTimeOnly: Date;
     endDateOnly: Date;
     endTimeOnly: Date;
-    setPartyData: React.Dispatch<React.SetStateAction<Party | null>>;
+    setPartyData: React.Dispatch<React.SetStateAction<Party>>;
     setStartDateOnly: React.Dispatch<React.SetStateAction<Date>>;
     setStartTimeOnly: React.Dispatch<React.SetStateAction<Date>>;
     setEndDateOnly: React.Dispatch<React.SetStateAction<Date>>;
@@ -95,7 +95,7 @@ const Step1: React.FC<Step1Props> = ({
                                 dateFormat: "H:i",
                                 time_24hr: true,
                                 closeOnSelect: false,
-                                allowInput: true,
+                                allowInput: false,
                             }}
                             value={startTimeOnly}
                             onChange={([time]) => {
@@ -134,7 +134,7 @@ const Step1: React.FC<Step1Props> = ({
                                 dateFormat: "H:i",
                                 time_24hr: true,
                                 closeOnSelect: false,
-                                allowInput: true,
+                                allowInput: false,
                             }}
                             value={endTimeOnly}
                             onChange={([time]) => {
