@@ -19,17 +19,17 @@ import { CSS } from "@dnd-kit/utilities";
 import "@styles/components/multi_image_uploader.scss";
 
 type ImageFile = {
-    id: string; // unique id
-    file?: File; // local file
-    url: string; // local preview or server URL
+    id: string;
+    file?: File;
+    url: string;
     isServerFile?: boolean;
 };
 
 type MultiImageUploaderProps = {
-    files: File[]; // selected files
+    imageFiles: File[];
     onImagesChange: (files: File[]) => void;
-    imagePath?: string; // path for server images
-    serverFiles?: string[]; // list of server image URLs
+    imagePath?: string;
+    serverFiles?: string[];
 };
 
 const SortableImage: React.FC<{
@@ -45,18 +45,17 @@ const SortableImage: React.FC<{
 
     return (
         <div className="sortable-image" ref={setNodeRef} style={style}>
-    <img {...listeners} src={image.url} alt={`img-${index}`} />
-    <button type="button" className="remove-btn" onClick={() => onRemove(image.id)}>
-        ✕
-    </button>
-</div>
+            <img {...listeners} src={image.url} alt={`img-${index}`} />
+            <button type="button" className="remove-btn" onClick={() => onRemove(image.id)}>
+                ✕
+            </button>
+        </div>
     );
 };
 
 const MultiImageUploader: React.FC<MultiImageUploaderProps> = ({
-    files,
+    imageFiles,
     onImagesChange,
-    serverFiles = [],
     imagePath = "",
 }) => {
     const [images, setImages] = useState<ImageFile[]>([]);
@@ -64,17 +63,15 @@ const MultiImageUploader: React.FC<MultiImageUploaderProps> = ({
     const sensors = useSensors(useSensor(PointerSensor));
 
     useEffect(() => {
-        // Initialize server images only once
-        if (serverFiles.length > 0) {
-            const serverImages = serverFiles.map((url, i) => ({
-                id: `server-${i}-${url}`,
-                url: imagePath + url,
+        if (imageFiles.length > 0) {
+            const serverImages = imageFiles.map((file, i) => ({
+                id: `server-${i}-${file.name}`,
+                url: imagePath + file.name,
                 isServerFile: true,
             }));
             setImages((prev) => [...serverImages, ...prev.filter(img => !img.isServerFile)]);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [serverFiles, imagePath]);
+    }, [imageFiles, imagePath]);
 
     const onDrop = (acceptedFiles: File[]) => {
         const newFiles = acceptedFiles.map((file) => ({

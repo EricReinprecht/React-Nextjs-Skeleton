@@ -28,7 +28,7 @@ const Step3: React.FC<Step3Props> = ({
                     <div className="column">
                         <MultiImageUploader
                             imagePath={imagePath}
-                            files={imageFiles}
+                            imageFiles={imageFiles}
                             onImagesChange={setImageFiles}
                         />
                     </div>

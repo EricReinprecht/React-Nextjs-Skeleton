@@ -32,7 +32,7 @@ const EditPartyForm = ({ authUser }: Props) => {
     const partyId = params?.id;
     if (!partyId) return <ManagerPage><div>Invalid party ID</div></ManagerPage>;
 
-    const [partyData, setPartyData] = useState<Party | null>(null);
+    const [partyData, setPartyData] = useState<Party>();
     const [allCategories, setAllCategories] = useState<Category[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
     const [imageFiles, setImageFiles] = useState<File[]>([]);
@@ -53,23 +53,39 @@ const EditPartyForm = ({ authUser }: Props) => {
                 if (!res.ok) throw new Error("Failed to fetch party");
                 const data: PartyWithImages = await res.json();
                 setPartyData(data);
-
                 setSelectedCategories(data.categories || []);
 
-                const files: File[] = await Promise.all(
-                    (data.images || []).map(async (img, idx) => {
-                        const url = `/uploads/${partyId}/${img.filename}`;
-                        const resp = await fetch(url);
-                        const blob = await resp.blob();
-                        return new File([blob], img.filename, { type: blob.type });
-                    })
-                );
-                console.log(files)
-                setImageFiles(files);
+                // Parse start and end dates
+                if (data.startDate) {
+                    const start = new Date(data.startDate);
+                    setStartDateOnly(start);
+                    setStartTimeOnly(start);
+                }
+                if (data.endDate) {
+                    const end = new Date(data.endDate);
+                    setEndDateOnly(end);
+                    setEndTimeOnly(end);
+                }
+
+                // Convert server images to File objects for MultiImageUploader
+                if (data.images && data.images.length > 0) {
+                    const files: File[] = await Promise.all(
+                        data.images.map(async (img) => {
+                            const url = `/uploads/${partyId}/${img.filename}`;
+                            const resp = await fetch(url);
+                            const blob = await resp.blob();
+                            return new File([blob], img.filename, { type: blob.type });
+                        })
+                    );
+                                console.log(files);
+
+                    setImageFiles(files);
+                }
             } catch (err) {
                 console.error(err);
             }
         }
+
         fetchParty();
     }, [partyId]);
 
@@ -175,11 +191,11 @@ const EditPartyForm = ({ authUser }: Props) => {
                                     {step === 1 && 
                                         <Step1
                                             partyData={partyData}
+                                            setPartyData={setPartyData as React.Dispatch<React.SetStateAction<Party>>}
                                             startDateOnly={startDateOnly}
                                             startTimeOnly={startTimeOnly}
                                             endDateOnly={endDateOnly}
                                             endTimeOnly={endTimeOnly}
-                                            setPartyData={setPartyData}
                                             setStartDateOnly={setStartDateOnly}
                                             setStartTimeOnly={setStartTimeOnly}
                                             setEndDateOnly={setEndDateOnly}
@@ -190,13 +206,13 @@ const EditPartyForm = ({ authUser }: Props) => {
                                     {step===2 && 
                                         <Step2 
                                             partyData={partyData} 
-                                            setPartyData={setPartyData}
+                                            setPartyData={setPartyData as React.Dispatch<React.SetStateAction<Party>>}
                                         />
                                     }
                                     {step===3 && 
                                         <Step3 
                                             partyData={partyData} 
-                                            setPartyData={setPartyData} 
+                                            setPartyData={setPartyData as React.Dispatch<React.SetStateAction<Party>>} 
                                             imageFiles={imageFiles} 
                                             setImageFiles={setImageFiles} 
                                             handleChange={handleChange} 
