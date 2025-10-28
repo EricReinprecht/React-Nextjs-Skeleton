@@ -1,40 +1,45 @@
-.multi-image-uploader{
-    width: 100%;
-    .dropzone{
-        border: 3px dashed $black;
-        padding: 32px;
+.multi-image-uploader {
+    .dropzone {
+        border: 2px dashed #aaa;
+        padding: 20px;
+        text-align: center;
         cursor: pointer;
-        &.active{
-            border-color: dodgerblue;
-        }
+        margin-bottom: 15px;
+        border-radius: 6px;
     }
-    .previews{
-        margin-top: 24px;
+
+    .images-list {
         display: flex;
-        flex-direction: row;
-        gap: 12px;
-        max-width: 836px;
         flex-wrap: wrap;
-        .image-wrapper{
-            width: 200px;
-            max-width: unset !important;
-            max-height: unset !important;
-            height: 150px;
-            border-radius: 0px !important;
-            img{
-                width: 100% !important;
-                height: 100% !important;
-            }
-            button{
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: 0.2s ease-in-out;
-                &:hover{
-                    color: red !important;
-                }
-            }
+        gap: 10px;
+    }
+
+    .sortable-image {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        overflow: hidden;
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
-        
+        .remove-btn {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     }
 }
