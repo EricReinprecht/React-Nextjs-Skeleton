@@ -1,6 +1,0 @@
-model TicketCategory {
-    id             String    @id @default(cuid())
-    name           String
-    active         Boolean
-    tickets        Ticket[]  @relation("TicketToCategory")
-}

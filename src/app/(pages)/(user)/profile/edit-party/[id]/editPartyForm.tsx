@@ -61,9 +61,10 @@ const EditPartyForm = ({ authUser }: Props) => {
                         const url = `/uploads/${partyId}/${img.filename}`;
                         const resp = await fetch(url);
                         const blob = await resp.blob();
-                        return new File([blob], `image-${idx}.jpg`, { type: blob.type });
+                        return new File([blob], img.filename, { type: blob.type });
                     })
                 );
+                console.log(files)
                 setImageFiles(files);
             } catch (err) {
                 console.error(err);
@@ -199,7 +200,8 @@ const EditPartyForm = ({ authUser }: Props) => {
                                             imageFiles={imageFiles} 
                                             setImageFiles={setImageFiles} 
                                             handleChange={handleChange} 
-                                        />}
+                                        />
+                                    }
                                     {step===4 && 
                                         <Step4 
                                             allCategories={allCategories} 

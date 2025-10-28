@@ -18,6 +18,8 @@ const Step3: React.FC<Step3Props> = ({
     partyData,
     setPartyData,
 }) => {
+    const imagePath = `/uploads/${partyData.id}/`;
+
     return (
         <div className="step-content additional-data">
             <form className="party-form">
@@ -25,6 +27,7 @@ const Step3: React.FC<Step3Props> = ({
                 <div className="form-group">
                     <div className="column">
                         <MultiImageUploader
+                            imagePath={imagePath}
                             files={imageFiles}
                             onImagesChange={setImageFiles}
                         />

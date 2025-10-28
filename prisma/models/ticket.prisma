@@ -1,7 +1,9 @@
 model Ticket {
-    id String @id @default(cuid())
-    categories     TicketCategory[]  @relation("TicketToCategory")
+    id              String @id @default(cuid())
 
-    partyId   String
-    party     Party   @relation(fields: [partyId], references: [id])
+    partyId         String
+    party           Party   @relation(fields: [partyId], references: [id])
+
+    ticketClassId   String
+    ticketClass     TicketClass   @relation(fields: [ticketClassId], references: [id])
 }

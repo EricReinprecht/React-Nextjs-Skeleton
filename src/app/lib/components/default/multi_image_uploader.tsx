@@ -11,12 +11,14 @@ type ImagePreview = {
 };
 
 type MultiImageUploaderProps = {
+  imagePath: string;
   files: File[]
   onImagesChange: (files: File[]) => void;
   maxImages?: number;
 };
 
 const MultiImageUploader: React.FC<MultiImageUploaderProps> = ({ 
+  imagePath,
   files, 
   onImagesChange,
   maxImages = 8,
