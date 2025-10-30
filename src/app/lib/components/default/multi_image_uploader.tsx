@@ -8,9 +8,11 @@ import {
     useSensor,
     useSensors,
     DragEndEvent,
+    DragStartEvent,
 } from "@dnd-kit/core";
 import {
     arrayMove,
+    horizontalListSortingStrategy,
     SortableContext,
     useSortable,
     verticalListSortingStrategy,
@@ -36,7 +38,8 @@ const SortableImage: React.FC<{
     image: ImageFile;
     index: number;
     onRemove: (id: string) => void;
-}> = ({ image, index, onRemove }) => {
+    isActive?: boolean;
+}> = ({ image, index, onRemove, isActive = false }) => {
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: image.id });
     const style = {
         transform: CSS.Transform.toString(transform),
@@ -44,7 +47,7 @@ const SortableImage: React.FC<{
     };
 
     return (
-        <div className="sortable-image" ref={setNodeRef} style={style}>
+        <div className={`sortable-image ${isActive ? "active" : ""}`} ref={setNodeRef} style={style}>
             <img {...listeners} src={image.url} alt={`img-${index}`} />
             <button type="button" className="remove-btn" onClick={() => onRemove(image.id)}>
                 ✕
@@ -59,23 +62,35 @@ const MultiImageUploader: React.FC<MultiImageUploaderProps> = ({
     imagePath = "",
 }) => {
     const [images, setImages] = useState<ImageFile[]>([]);
+    const [activeId, setActiveId] = useState<string | null>(null);
 
     const sensors = useSensors(useSensor(PointerSensor));
 
     useEffect(() => {
-        if (imageFiles.length > 0) {
-            const serverImages = imageFiles.map((file, i) => ({
-                id: `server-${i}-${file.name}`,
-                url: imagePath + file.name,
-                isServerFile: true,
-            }));
-            setImages((prev) => [...serverImages, ...prev.filter(img => !img.isServerFile)]);
-        }
+        if (!imageFiles.length) return;
+        
+        console.log(imageFiles);
+         const serverImages = imageFiles
+        .filter((file) => !(file as any).path)
+        .map((file, i) => ({
+            id: `server-${i}-${file.name}`,
+            url: imagePath + file.name,
+            isServerFile: true,
+        }));
+
+
+        setImages((prev) => {
+            const existingIds = new Set(prev.map(img => img.id));
+            const newServerImages = serverImages.filter(img => !existingIds.has(img.id));
+            
+            return [...prev, ...newServerImages];
+        });
     }, [imageFiles, imagePath]);
+
 
     const onDrop = (acceptedFiles: File[]) => {
         const newFiles = acceptedFiles.map((file) => ({
-            id: `${file.name}-${file.size}-${file.lastModified}`,
+            id: crypto.randomUUID(),
             file,
             url: URL.createObjectURL(file),
         }));
@@ -85,10 +100,15 @@ const MultiImageUploader: React.FC<MultiImageUploaderProps> = ({
     };
 
     const onRemove = (id: string) => {
-        console.log()
+        const target = images.find((img) => img.id === id);
+        if (target?.file) URL.revokeObjectURL(target.url);
         const filtered = images.filter((img) => img.id !== id);
         setImages(filtered);
         onImagesChange(filtered.filter((img) => img.file).map((img) => img.file!));
+    };
+
+     const onDragStart = (event: DragStartEvent) => {
+        setActiveId(event.active.id as string);
     };
 
     const onDragEnd = (event: DragEndEvent) => {
@@ -115,11 +135,11 @@ const MultiImageUploader: React.FC<MultiImageUploaderProps> = ({
                 {isDragActive ? <p>Drop the files here...</p> : <p>Drag & drop images here, or click to select</p>}
             </div>
 
-            <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
-                <SortableContext items={images.map((img) => img.id)} strategy={verticalListSortingStrategy}>
+            <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd} onDragStart={onDragStart}>
+                <SortableContext items={images.map((img) => img.id)} strategy={horizontalListSortingStrategy }>
                     <div className="images-list">
                         {images.map((img, i) => (
-                            <SortableImage key={img.id} image={img} index={i} onRemove={onRemove} />
+                            <SortableImage key={img.id} image={img} index={i} onRemove={onRemove} isActive={activeId === img.id}/>
                         ))}
                     </div>
                 </SortableContext>

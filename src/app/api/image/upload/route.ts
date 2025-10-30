@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
-import prisma from "@/src/app/lib/prisma/prisma";
 
 export async function POST(req: NextRequest) {
     try {
@@ -16,7 +15,7 @@ export async function POST(req: NextRequest) {
         if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
         const uploadedFiles = await Promise.all(
-            images.map(async (base64: string) => {
+            images.map(async (base64: string, index: number) => {
                 const [, base64Data] = base64.split(",");
                 if (!base64Data) throw new Error("Invalid base64 image format");
 
@@ -26,15 +25,7 @@ export async function POST(req: NextRequest) {
 
                 fs.writeFileSync(filePath, buffer);
 
-                // Create image record in DB
-                await prisma.image.create({
-                    data: {
-                        filename,
-                        partyId,
-                    },
-                });
-
-                return filename;
+                return { index, filename };
             })
         );
 

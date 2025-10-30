@@ -1,6 +1,7 @@
 // app/api/fixtures/route.ts
 import { seedUsers } from "@/src/app/lib/commands/seedUsers";
 import { seedPartyCategories } from "@/src/app/lib/commands/seedPartyCategories";
+import { seedParties } from "../../lib/commands/seedParties";
 
 export async function GET() {
     const stream = new ReadableStream({
@@ -21,6 +22,9 @@ export async function GET() {
 
                 push("🌱 Seeding party categories...");
                 await seedPartyCategories(push);
+
+                push("🌱 Seeding parties ...");
+                await seedParties(push);
 
                 push("✅ All fixtures seeded successfully!");
                 pushEvent("done", "fixtures_completed");

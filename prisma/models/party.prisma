@@ -1,20 +1,21 @@
 model Party {
-    id             String    @id @default(cuid())
-    created        DateTime
-    name           String
-    location       String
-    latitude       Float
-    longitude      Float
-    startDate      DateTime
-    endDate        DateTime
-    description    String
-    teaser         String
-
-    categories  PartyCategory[] @relation("PartyToCategory")
+    id           String        @id @default(cuid())
+    created      DateTime
+    name         String
+    location     String
+    latitude     Float
+    longitude    Float
+    startDate    DateTime
+    endDate      DateTime
+    description  String
+    teaser       String
     
-    userId         String
-    createdBy      User  @relation ("UserToParty", fields: [userId], references: [id])
-
-    tickets        Ticket[]
-    images         Image[]  @relation("PartyImages")
+    categories   PartyCategory[] @relation("PartyToCategory")
+    
+    userId       String
+    createdBy    User           @relation("UserToParty", fields: [userId], references: [id])
+    
+    tickets      Ticket[]       @relation("PartyToTicket")
+    ticketClasses TicketClass[] @relation("PartyToTicketClass")
+    images       Image[]        @relation("PartyImages")
 }

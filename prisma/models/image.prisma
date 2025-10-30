@@ -1,10 +1,10 @@
 model Image {
-    id         String   @id @default(cuid())
-    createdAt  DateTime @default(now())
-    filename   String
+    id          String   @id @default(cuid())
+    createdAt   DateTime @default(now())
+    path        String
 
-    partyId   String?
-    party     Party?   @relation("PartyImages", fields: [partyId], references: [id])
+    partyId     String?
+    party       Party?   @relation("PartyImages", fields: [partyId], references: [id])
 
     // userId    String?  @unique(map: "userId_idx")
     // user      User?    @relation("UserImage", fields: [userId], references: [id])

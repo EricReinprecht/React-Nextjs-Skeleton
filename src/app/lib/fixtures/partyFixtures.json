@@ -1,0 +1,24 @@
+[
+    {
+        "created": "2025-10-30T12:00:00.000Z",
+        "name": "Autumn Music Festival",
+        "location": "Central Park, New York",
+        "latitude": 40.785091,
+        "longitude": -73.968285,
+        "startDate": "2025-11-15T18:00:00.000Z",
+        "endDate": "2025-11-16T23:00:00.000Z",
+        "description": "A vibrant two-day festival featuring local and international artists.",
+        "teaser": "Get ready for the ultimate autumn vibes!"
+    },
+    {
+      "created": "2025-10-01T09:30:00.000Z",
+      "name": "Tech Conference 2025",
+      "location": "Berlin Expo Center",
+      "latitude": 52.520008,
+      "longitude": 13.404954,
+      "startDate": "2025-12-05T09:00:00.000Z",
+      "endDate": "2025-12-07T17:00:00.000Z",
+      "description": "Annual tech conference with talks, workshops, and networking opportunities.",
+      "teaser": "Innovate, connect, and learn from the best."
+    }
+]

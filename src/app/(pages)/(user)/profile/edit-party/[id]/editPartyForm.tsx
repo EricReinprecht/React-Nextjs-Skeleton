@@ -16,6 +16,7 @@ import Loader from "@/src/app/lib/components/default/loader";
 import DefautButton from "@/src/app/lib/components/default/default_button";
 import withAuth from "@/src/app/lib/hoc/withAuth";
 import { Party } from "@prisma/client";
+import { filesToBase64 } from "@/src/app/lib/utils/filesToBase64";
 
 type PartyWithImages = Party & {
     images: { id: string; filename: string; partyId: string }[];
@@ -55,7 +56,6 @@ const EditPartyForm = ({ authUser }: Props) => {
                 setPartyData(data);
                 setSelectedCategories(data.categories || []);
 
-                // Parse start and end dates
                 if (data.startDate) {
                     const start = new Date(data.startDate);
                     setStartDateOnly(start);
@@ -67,7 +67,6 @@ const EditPartyForm = ({ authUser }: Props) => {
                     setEndTimeOnly(end);
                 }
 
-                // Convert server images to File objects for MultiImageUploader
                 if (data.images && data.images.length > 0) {
                     const files: File[] = await Promise.all(
                         data.images.map(async (img) => {
@@ -77,8 +76,6 @@ const EditPartyForm = ({ authUser }: Props) => {
                             return new File([blob], img.filename, { type: blob.type });
                         })
                     );
-                                console.log(files);
-
                     setImageFiles(files);
                 }
             } catch (err) {
@@ -150,6 +147,24 @@ const EditPartyForm = ({ authUser }: Props) => {
             if (!res.ok) throw new Error("Failed to update party");
             const data = await res.json();
             setCreatedPartyId(data.partyId);
+
+            console.log(imageFiles);
+            
+            if (imageFiles.length > 0) {
+                const base64Images = await filesToBase64(imageFiles);
+                console.log(base64Images);
+                const res2 = await fetch("/api/image/upload", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ partyId, images: base64Images }),
+                });
+
+                if (!res2.ok) {
+                    console.warn("Image upload failed", await res2.text());
+                }
+            }
+
+
             setShowSuccess(true);
         } catch (err) {
             console.error(err);
