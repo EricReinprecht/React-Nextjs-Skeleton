@@ -43,7 +43,7 @@
             background: #f9f9f9;
             cursor: grab;
             z-index: 1;
-            &[aria-pressed="true"] {
+            &[aria-pressed="true"]{
                 z-index: 2;
             }
 

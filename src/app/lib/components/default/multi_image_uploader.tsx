@@ -5,7 +5,7 @@ import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from 
 import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { Party } from "@prisma/client";
-import "@styles/pages/shit.scss";
+import "@styles/components/multi_image_uploader.scss";
 
 type ImageItem = {
     id: string;
