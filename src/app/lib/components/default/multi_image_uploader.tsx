@@ -4,15 +4,9 @@ import { useEffect, useRef } from "react";
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { Party } from "@prisma/client";
 import "@styles/components/multi_image_uploader.scss";
-
-type ImageItem = {
-    id: string;
-    url: string;
-    isNew: boolean;
-    file?: File;
-};
+import { ImageItem } from "@types_ts/ImageItemType";
+import { PartyWithImages } from "@types_ts/PartyWithImagesType";
 
 function SortableImage({ image, onRemove }: { image: ImageItem; onRemove: (img: ImageItem) => void }) {
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: image.id });
@@ -28,12 +22,6 @@ function SortableImage({ image, onRemove }: { image: ImageItem; onRemove: (img: 
         </div>
     );
 }
-
-type PartyWithImages = Party & {
-    images: { id: string; filename: string; partyId: string; path: string }[];
-    imageUrls?: string[];
-    categories: { id: string; name: string; active: boolean }[];
-};
 
 interface MultiImageUploaderProps {
     party: PartyWithImages;
@@ -121,7 +109,6 @@ export default function MultiImageUploader({ party, setOldImages, setImages, ima
                 <p>Drag images here or click to select</p>
             </div>
 
-            {/* Hidden file input for click */}
             <input
                 type="file"
                 multiple

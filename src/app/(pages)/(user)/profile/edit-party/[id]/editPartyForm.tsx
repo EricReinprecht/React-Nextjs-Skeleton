@@ -11,6 +11,7 @@ import Step3 from "@components/party/form/step3";
 import Step4 from "@components/party/form/step4";
 import Step_Final from "@/src/app/lib/components/party/form/step_final";
 import { ImageItem } from "@types_ts/ImageItemType";
+import { PartyWithImages } from "@types_ts/PartyWithImagesType";
 import Footer from "@components/party/form/footer";
 import Loader from "@/src/app/lib/components/default/loader";
 import withAuth from "@/src/app/lib/hoc/withAuth";
@@ -20,14 +21,6 @@ import { filesToBase64 } from "@/src/app/lib/utils/filesToBase64";
 
 import { Party } from "@prisma/client";
 import { Category } from "@/src/app/lib/entities/category";
-
-type PartyWithImages = Party & {
-    images: { id: string; filename: string; partyId: string; path: string }[];
-    imageUrls?: string[];
-    categories: { id: string; name: string; active: boolean }[];
-};
-
-
 
 interface Props {
     authUser: { id: string };
