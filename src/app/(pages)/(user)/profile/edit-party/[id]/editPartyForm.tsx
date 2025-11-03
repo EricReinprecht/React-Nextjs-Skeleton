@@ -138,7 +138,6 @@ const EditPartyForm = ({ authUser }: Props) => {
             formData.append("createdBy", authUser.id);
 
             selectedCategories.forEach(cat => formData.append("categories", cat.id!));
-            // imageFiles.forEach(file => formData.append("images", file));
 
             const mappedImages = new Set(images.map(img => img.id));
             const imagesToRemove = oldImages.filter(img => !mappedImages.has(img.id));
@@ -161,7 +160,7 @@ const EditPartyForm = ({ authUser }: Props) => {
                 method: "PUT",
                 body: formData,
             });
-            
+
             console.log(res)
 
             if (!res.ok) throw new Error("Failed to update party");
@@ -247,7 +246,7 @@ const EditPartyForm = ({ authUser }: Props) => {
                                     {step===5 && 
                                         <Step_Final 
                                             partyData={partyData} 
-                                            // imagePreviews={imageFiles.map(f => URL.createObjectURL(f))} 
+                                            images={images} 
                                         />
                                     }
                                 </div>

@@ -1,5 +1,4 @@
 .container {
-    max-width: 800px;
     margin: 0 auto;
     padding: 20px;
 
@@ -30,19 +29,23 @@
     }
 
     .previews {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        gap: 12px;
 
         .image-wrapper {
             position: relative;
-            width: 120px;
-            height: 120px;
+            width: 160px;
+            height: 160px;
             border: 1px solid #ddd;
             border-radius: 8px;
             overflow: hidden;
             background: #f9f9f9;
             cursor: grab;
+            z-index: 1;
+            &[aria-pressed="true"] {
+                z-index: 2;
+            }
 
             img {
                 width: 100%;

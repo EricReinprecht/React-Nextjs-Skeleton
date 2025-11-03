@@ -14,12 +14,19 @@ import "@styles/pages/single-party.scss";
 import PinnedMap from "@/src/app/lib/components/default/map";
 
 type Props = {
-  partyData: Party;
-//   imagePreviews: string[];
-  categories?: CategoryEntity[];
+    partyData: Party;
+    images: ImageItem[];
+    categories?: CategoryEntity[];
 };
 
-const StepFinal: React.FC<Props> = ({ partyData, categories = [] }) => {
+type ImageItem = {
+    id: string;
+    url: string;
+    isNew: boolean;
+    file?: File;
+};
+
+const StepFinal: React.FC<Props> = ({ partyData, images, categories = [] }) => {
     return (
         <div className="party-wrapper preview">
             <div className="party-card">
@@ -27,7 +34,7 @@ const StepFinal: React.FC<Props> = ({ partyData, categories = [] }) => {
                 <div className="party-content">
                     <div className="left-side">
                         <div className="image-container">
-                            {/* {imagePreviews.length > 1 ? (
+                            {images.length > 1 ? (
                                 <Swiper
                                     modules={[Navigation, A11y]}
                                     spaceBetween={0}
@@ -38,19 +45,25 @@ const StepFinal: React.FC<Props> = ({ partyData, categories = [] }) => {
                                     }}
                                     loop={true}
                                 >
-                                    {imagePreviews.map((url, index) => (
-                                        <SwiperSlide key={index}>
-                                            <div className="image" style={{ backgroundImage: `url(${url})` }}></div>
+                                    {images.map((image) => (
+                                        <SwiperSlide key={image.id}>
+                                            <div
+                                                className="image"
+                                                style={{ backgroundImage: `url(${image.url})` }}
+                                            ></div>
                                         </SwiperSlide>
                                     ))}
                                 </Swiper>
                             ) : (
-                                imagePreviews.length === 1 && (
-                                    <div className="image" style={{ backgroundImage: `url(${imagePreviews[0]})` }}></div>
+                                images.length === 1 && (
+                                    <div
+                                        className="image"
+                                        style={{ backgroundImage: `url(${images[0].url})` }}
+                                    ></div>
                                 )
                             )}
-                            
-                            {imagePreviews.length > 1 && (
+
+                            {images.length > 1 && (
                                 <>
                                     <div className="swiper-button prev">
                                         <SwiperArrowLeft />
@@ -58,14 +71,15 @@ const StepFinal: React.FC<Props> = ({ partyData, categories = [] }) => {
                                     <div className="swiper-button next">
                                         <SwiperArrowLeft />
                                     </div>
-                                </> */}
-                            {/* )} */}
+                                </>
+                            )}
                         </div>
+
                         <div className="content">
                             <div className="heading">{partyData.name}</div>
                             <div className="info date">
                                 <span className="label">Datum: </span>
-                                {formatDateGerman(partyData.startDate)}{" "}
+                                {formatDateGerman(partyData.startDate)}
                                 {partyData.endDate && ` – ${formatDateGerman(partyData.endDate)}`}
                             </div>
                             <div className="info location">
@@ -89,13 +103,19 @@ const StepFinal: React.FC<Props> = ({ partyData, categories = [] }) => {
                             ></div>
                         </div>
                     </div>
+
                     <div className="right-side">
                         <div className="map">
                             <PinnedMap
-                              latitude={partyData.latitude}
-                              longitude={partyData.longitude}
+                                latitude={partyData.latitude}
+                                longitude={partyData.longitude}
                             />
-                            <a href={`https://www.google.com/maps/dir/?api=1&destination=${partyData.latitude},${partyData.longitude}`} target="_blank">Route berechnen</a>
+                            <a
+                                href={`https://www.google.com/maps/dir/?api=1&destination=${partyData.latitude},${partyData.longitude}`}
+                                target="_blank"
+                            >
+                                Route berechnen
+                            </a>
                         </div>
                         <div className="content"></div>
                     </div>
