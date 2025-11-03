@@ -3,9 +3,9 @@ import prisma from "@prisma/prisma";
 
 export async function GET(
     req: NextRequest,
-    { params }: { params: { id: string } }
+    context: { params: Promise<{ id: string }> }
 ) {
-    const { id } = params;
+    const { id } = await context.params; 
 
     if (!id) {
         return NextResponse.json({ message: "ID is required" }, { status: 400 });
@@ -25,7 +25,6 @@ export async function GET(
             return NextResponse.json({ message: "Party not found" }, { status: 404 });
         }
 
-        // Ensure relations are never undefined
         const safeParty = {
             ...party,
             images: party.images || [],

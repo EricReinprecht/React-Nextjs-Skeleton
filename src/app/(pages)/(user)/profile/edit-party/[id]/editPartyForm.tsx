@@ -15,7 +15,6 @@ import { PartyWithImages } from "@types_ts/PartyWithImagesType";
 import Footer from "@components/party/form/footer";
 import Loader from "@/src/app/lib/components/default/loader";
 import withAuth from "@/src/app/lib/hoc/withAuth";
-import MultiImageUploader from "@/src/app/lib/components/default/multi_image_uploader";
 import { getNextDateTimeAt } from "@/src/app/lib/utils/formatDate";
 import { filesToBase64 } from "@/src/app/lib/utils/filesToBase64";
 
@@ -132,6 +131,7 @@ const EditPartyForm = ({ authUser }: Props) => {
             const res = await fetch(`/api/party/${partyId}/edit`, { method: "PUT", body: formData });
             if (!res.ok) throw new Error("Failed to update party");
 
+            window.location.reload();
         } catch (err) {
             console.error(err);
             alert("Error updating party");
@@ -179,7 +179,7 @@ const EditPartyForm = ({ authUser }: Props) => {
                                     handleChange={handleChange}
                                 />}
                                 {step === 2 && <Step2 partyData={partyData} setPartyData={setPartyData as React.Dispatch<React.SetStateAction<Party>>} />}
-                                {step === 3 && <MultiImageUploader party={partyData} setOldImages={setOldImages} setImages={setImages} images={images} />}
+                                {step === 3 && <Step3 party={partyData} setOldImages={setOldImages} setImages={setImages} images={images} setPartyData={setPartyData} />}
                                 {step === 4 && <Step4 allCategories={allCategories} selectedCategories={selectedCategories} setSelectedCategories={setSelectedCategories} />}
                                 {step === 5 && <Step_Final partyData={partyData} images={images} />}
                             </div>
