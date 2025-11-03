@@ -3,34 +3,30 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import "@styles/pages/create-party.scss";
+
 import ManagerPage from "@/src/app/lib/templates/manager_page";
 import Step1 from "@components/party/form/step1";
 import Step2 from "@components/party/form/step2";
 import Step3 from "@components/party/form/step3";
 import Step4 from "@components/party/form/step4";
 import Step_Final from "@/src/app/lib/components/party/form/step_final";
+import { ImageItem } from "@types_ts/ImageItemType";
 import Footer from "@components/party/form/footer";
-import { getNextDateTimeAt } from "@/src/app/lib/utils/formatDate";
-import { Category } from "@/src/app/lib/entities/category";
 import Loader from "@/src/app/lib/components/default/loader";
-import DefautButton from "@/src/app/lib/components/default/default_button";
 import withAuth from "@/src/app/lib/hoc/withAuth";
-import { Party } from "@prisma/client";
-import { filesToBase64 } from "@/src/app/lib/utils/filesToBase64";
 import MultiImageUploader from "@/src/app/lib/components/default/multi_image_uploader";
+import { getNextDateTimeAt } from "@/src/app/lib/utils/formatDate";
+import { filesToBase64 } from "@/src/app/lib/utils/filesToBase64";
+
+import { Party } from "@prisma/client";
+import { Category } from "@/src/app/lib/entities/category";
 
 type PartyWithImages = Party & {
-    images: { id: string; filename: string; partyId: string }[];
+    images: { id: string; filename: string; partyId: string; path: string }[];
     imageUrls?: string[];
     categories: { id: string; name: string; active: boolean }[];
 };
 
-type ImageItem = {
-    id: string;
-    url: string;
-    isNew: boolean;
-    file?: File;
-};
 
 
 interface Props {
@@ -39,18 +35,15 @@ interface Props {
 
 const EditPartyForm = ({ authUser }: Props) => {
     const params = useParams();
-    let partyId = params?.id;
-    if (!partyId) return <ManagerPage><div>Invalid party ID</div></ManagerPage>;
+    const partyId = Array.isArray(params?.id) ? params.id[0] : params?.id;
 
-    partyId = Array.isArray(partyId) ? partyId[0] : partyId;
+    if (!partyId) return <ManagerPage><div>Invalid party ID</div></ManagerPage>;
 
     const [partyData, setPartyData] = useState<PartyWithImages>();
     const [allCategories, setAllCategories] = useState<Category[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
     const [step, setStep] = useState(1);
     const [creating, setCreating] = useState(false);
-    const [showSuccess, setShowSuccess] = useState(false);
-    const [createdPartyId, setCreatedPartyId] = useState<string>("");
 
     const [startDateOnly, setStartDateOnly] = useState<Date>(getNextDateTimeAt("friday", 18));
     const [startTimeOnly, setStartTimeOnly] = useState<Date>(getNextDateTimeAt("friday", 18));
@@ -61,12 +54,11 @@ const EditPartyForm = ({ authUser }: Props) => {
     const [images, setImages] = useState<ImageItem[]>([]);
 
     useEffect(() => {
-        async function fetchParty() {
+        const fetchParty = async () => {
             try {
                 const res = await fetch(`/api/party/${partyId}/get`);
                 if (!res.ok) throw new Error("Failed to fetch party");
                 const data: PartyWithImages = await res.json();
-                console.log(data)
                 setPartyData(data);
                 setSelectedCategories(data.categories || []);
 
@@ -83,25 +75,21 @@ const EditPartyForm = ({ authUser }: Props) => {
             } catch (err) {
                 console.error(err);
             }
-        }
-
+        };
         fetchParty();
     }, [partyId]);
 
     useEffect(() => {
-        if (partyData) console.log("Updated state:", partyData);
-    }, [partyData]);
-
-    useEffect(() => {
-        async function fetchCategories() {
+        const fetchCategories = async () => {
             try {
                 const res = await fetch("/api/partyCategory/get");
+                if (!res.ok) throw new Error("Failed to fetch categories");
                 const data = await res.json();
                 setAllCategories(data);
             } catch (err) {
                 console.error(err);
             }
-        }
+        };
         fetchCategories();
     }, []);
 
@@ -140,36 +128,17 @@ const EditPartyForm = ({ authUser }: Props) => {
             selectedCategories.forEach(cat => formData.append("categories", cat.id!));
 
             const mappedImages = new Set(images.map(img => img.id));
-            const imagesToRemove = oldImages.filter(img => !mappedImages.has(img.id));
-            const newImages = images.filter(img => img.isNew);
+            oldImages.filter(img => !mappedImages.has(img.id)).forEach(img => formData.append("removeImages", img.id));
 
-            imagesToRemove.forEach((file) => formData.append("removeImages", file.id));
-
-            if (newImages.length > 0) {
-                const files = newImages
-                    .map((img) => img.file)
-                    .filter((file): file is File => !!file);
-                          
-                if (files.length > 0) {
-                    const base64Images = await filesToBase64(files);
-                    base64Images.forEach((b64) => formData.append("newImages", b64));
-                }
+            const newFiles = images.filter(img => img.isNew && img.file).map(img => img.file!) as File[];
+            if (newFiles.length) {
+                const base64Images = await filesToBase64(newFiles);
+                base64Images.forEach(b64 => formData.append("newImages", b64));
             }
 
-            const res = await fetch(`/api/party/${partyId}/edit`, {
-                method: "PUT",
-                body: formData,
-            });
-
-            console.log(res)
-
+            const res = await fetch(`/api/party/${partyId}/edit`, { method: "PUT", body: formData });
             if (!res.ok) throw new Error("Failed to update party");
-            const data = await res.json();
-            setCreatedPartyId(data.partyId);
 
-
-
-            setShowSuccess(true);
         } catch (err) {
             console.error(err);
             alert("Error updating party");
@@ -178,97 +147,56 @@ const EditPartyForm = ({ authUser }: Props) => {
         }
     };
 
-    const resetForm = () => {
-        setCreating(false);
-        setShowSuccess(false);
-        setStep(1);
-        setCreatedPartyId("");
-    };
-
-    const viewParty = () => window.location.href = `/party/${createdPartyId}`;
-
     if (!partyData) return <Loader type="rgb-lettering" content="Loading party..." />;
 
     return (
-        <div>
-            <div className="create-party-wrapper">
-                <div className="create-party-container" style={showSuccess ? { minHeight: "unset" } : {}}>
-                    <div className="create-party-background"></div>
+        <div className="create-party-wrapper">
+            <div className="create-party-container">
+                <div className="create-party-background"></div>
 
-                    {!creating && !showSuccess && (
-                        <>
-                            <div className="create-party-content">
-                                <div className="steps">
-                                    {[1,2,3,4,5].map(n => (
-                                        <React.Fragment key={n}>
-                                            <div onClick={() => navigateToStep(n)} className={`step ${n===1?"basic-data":n===2?"exact-location":n===3?"additional-data":"submit"} ${step===n?"active":""}`}>{n}</div>
-                                            {n<5 && <div className="step-seperator"></div>}
-                                        </React.Fragment>
-                                    ))}
-                                </div>
-                                <div className="body">
-                                    {step === 1 && 
-                                        <Step1
-                                            partyData={partyData}
-                                            setPartyData={setPartyData as React.Dispatch<React.SetStateAction<Party>>}
-                                            startDateOnly={startDateOnly}
-                                            startTimeOnly={startTimeOnly}
-                                            endDateOnly={endDateOnly}
-                                            endTimeOnly={endTimeOnly}
-                                            setStartDateOnly={setStartDateOnly}
-                                            setStartTimeOnly={setStartTimeOnly}
-                                            setEndDateOnly={setEndDateOnly}
-                                            setEndTimeOnly={setEndTimeOnly}
-                                            handleChange={handleChange}
-                                        />
-                                    }
-                                    {step===2 && 
-                                        <Step2 
-                                            partyData={partyData} 
-                                            setPartyData={setPartyData as React.Dispatch<React.SetStateAction<Party>>}
-                                        />
-                                    }
-                                    {step===3 && 
-                                        <MultiImageUploader
-                                            party={partyData}
-                                            setOldImages={setOldImages}
-                                            setImages={setImages}
-                                            images={images}
-                                        />
-                                    }
-                                    {step===4 && 
-                                        <Step4 
-                                            allCategories={allCategories} 
-                                            selectedCategories={selectedCategories} 
-                                            setSelectedCategories={setSelectedCategories} 
-                                        />
-                                        }
-                                    {step===5 && 
-                                        <Step_Final 
-                                            partyData={partyData} 
-                                            images={images} 
-                                        />
-                                    }
-                                </div>
+                {!creating ? (
+                    <>
+                        <div className="create-party-content">
+                            <div className="steps">
+                                {[1,2,3,4,5].map(n => (
+                                    <React.Fragment key={n}>
+                                        <div 
+                                            onClick={() => navigateToStep(n)}
+                                            className={`step ${["basic-data", "exact-location", "additional-data", "submit", "final"][n-1]} ${step===n?"active":""}`}
+                                        >
+                                            {n}
+                                        </div>
+                                        {n<5 && <div className="step-seperator"></div>}
+                                    </React.Fragment>
+                                ))}
                             </div>
-                            <Footer step={step} navigateToStep={navigateToStep} onSubmit={handleSubmit} />
-                        </>
-                    )}
 
-                    {creating && <Loader type="rgb-lettering" content="Updating Party..." />}
-                    {showSuccess && (
-                        <div className="success-message-wrapper">
-                            <div className="success-message"><Loader type="rgb-lettering" content="Successfully updated party!" /></div>
-                            <div className="operations">
-                                <DefautButton label="Edit Another" type="button" onClick={resetForm} styles={{ bgColor:"black", textColor:"white", borderColor:"black", hoverBgColor:"white", hoverTextColor:"black", hoverBorderColor:"black" }} />
-                                <DefautButton label="View Party" type="button" onClick={viewParty} styles={{ bgColor:"black", textColor:"white", borderColor:"black", hoverBgColor:"white", hoverTextColor:"black", hoverBorderColor:"black" }} />
+                            <div className="body">
+                                {step === 1 && <Step1 
+                                    partyData={partyData}
+                                    setPartyData={setPartyData as React.Dispatch<React.SetStateAction<Party>>}
+                                    startDateOnly={startDateOnly}
+                                    startTimeOnly={startTimeOnly}
+                                    endDateOnly={endDateOnly}
+                                    endTimeOnly={endTimeOnly}
+                                    setStartDateOnly={setStartDateOnly}
+                                    setStartTimeOnly={setStartTimeOnly}
+                                    setEndDateOnly={setEndDateOnly}
+                                    setEndTimeOnly={setEndTimeOnly}
+                                    handleChange={handleChange}
+                                />}
+                                {step === 2 && <Step2 partyData={partyData} setPartyData={setPartyData as React.Dispatch<React.SetStateAction<Party>>} />}
+                                {step === 3 && <MultiImageUploader party={partyData} setOldImages={setOldImages} setImages={setImages} images={images} />}
+                                {step === 4 && <Step4 allCategories={allCategories} selectedCategories={selectedCategories} setSelectedCategories={setSelectedCategories} />}
+                                {step === 5 && <Step_Final partyData={partyData} images={images} />}
                             </div>
                         </div>
-                    )}
-                </div>
+                        <Footer step={step} navigateToStep={navigateToStep} onSubmit={handleSubmit} />
+                    </>
+                ) : <Loader type="rgb-lettering" content="Updating Party..." />}
             </div>
         </div>
     );
-}
+};
 
 export default withAuth(EditPartyForm);
