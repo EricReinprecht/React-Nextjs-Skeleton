@@ -1,45 +1,20 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { useDropzone } from "react-dropzone";
-import {
-    DndContext,
-    closestCenter,
-    PointerSensor,
-    useSensor,
-    useSensors,
-    DragEndEvent,
-    DragStartEvent,
-} from "@dnd-kit/core";
-import {
-    arrayMove,
-    horizontalListSortingStrategy,
-    SortableContext,
-    useSortable,
-    verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
+
+import { useEffect, useState } from "react";
+import { DndContext, closestCenter, PointerSensor, useSensor, useSensors, DragEndEvent } from "@dnd-kit/core";
+import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import "@styles/components/multi_image_uploader.scss";
+import { Party } from "@prisma/client";
+import "@styles/pages/shit.scss";
 
-type ImageFile = {
+type ImageItem = {
     id: string;
-    file?: File;
     url: string;
-    isServerFile?: boolean;
+    isNew: boolean;
+    file?: File;
 };
 
-type MultiImageUploaderProps = {
-    imageFiles: File[];
-    onImagesChange: (files: File[]) => void;
-    imagePath?: string;
-    serverFiles?: string[];
-};
-
-const SortableImage: React.FC<{
-    image: ImageFile;
-    index: number;
-    onRemove: (id: string) => void;
-    isActive?: boolean;
-}> = ({ image, index, onRemove, isActive = false }) => {
+function SortableImage({ image, onRemove }: { image: ImageItem; onRemove: (img: ImageItem) => void }) {
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: image.id });
     const style = {
         transform: CSS.Transform.toString(transform),
@@ -47,105 +22,101 @@ const SortableImage: React.FC<{
     };
 
     return (
-        <div className={`sortable-image ${isActive ? "active" : ""}`} ref={setNodeRef} style={style}>
-            <img {...listeners} src={image.url} alt={`img-${index}`} />
-            <button type="button" className="remove-btn" onClick={() => onRemove(image.id)}>
-                ✕
-            </button>
+        <div ref={setNodeRef} style={style} {...attributes} {...listeners} className="image-wrapper">
+            <img src={image.url} alt="party image" />
+            <button onClick={() => onRemove(image)}>Remove</button>
         </div>
     );
+}
+
+type PartyWithImages = Party & {
+    images: { id: string; filename: string; partyId: string }[];
+    imageUrls?: string[];
+    categories: { id: string; name: string; active: boolean }[];
 };
 
-const MultiImageUploader: React.FC<MultiImageUploaderProps> = ({
-    imageFiles,
-    onImagesChange,
-    imagePath = "",
-}) => {
-    const [images, setImages] = useState<ImageFile[]>([]);
-    const [activeId, setActiveId] = useState<string | null>(null);
+interface MultiImageUploaderProps {
+    party: PartyWithImages;
+    setImages: React.Dispatch<React.SetStateAction<ImageItem[]>>;
+    setOldImages: React.Dispatch<React.SetStateAction<ImageItem[]>>;
+    images: ImageItem[];
+}
 
-    const sensors = useSensors(useSensor(PointerSensor));
+export default function MultiImageUploader({ party, setOldImages, setImages, images }: MultiImageUploaderProps) {
+   
+   const sensors = useSensors(
+       useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
+   );
 
-    useEffect(() => {
-        if (!imageFiles.length) return;
-        
-        console.log(imageFiles);
-         const serverImages = imageFiles
-        .filter((file) => !(file as any).path)
-        .map((file, i) => ({
-            id: `server-${i}-${file.name}`,
-            url: imagePath + file.name,
-            isServerFile: true,
-        }));
+   useEffect(() => {
+        const prepareImages = async () => {
+            try {
+                const existingImages = party.images?.map((img: any) => ({
+                    id: img.id,
+                    path: img.path,
+                    url: img.path,
+                    isNew: false
+                })) || [];
+                setOldImages(existingImages);
+                setImages(existingImages);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+        prepareImages();
+    }, [party.id]);
 
-
-        setImages((prev) => {
-            const existingIds = new Set(prev.map(img => img.id));
-            const newServerImages = serverImages.filter(img => !existingIds.has(img.id));
-            
-            return [...prev, ...newServerImages];
-        });
-    }, [imageFiles, imagePath]);
-
-
-    const onDrop = (acceptedFiles: File[]) => {
-        const newFiles = acceptedFiles.map((file) => ({
+    const handleDropFiles = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        const files = Array.from(e.dataTransfer.files);
+        const newImages = files.map(file => ({
             id: crypto.randomUUID(),
-            file,
             url: URL.createObjectURL(file),
+            isNew: true,
+            file
         }));
-        const newImages = [...images, ...newFiles];
-        setImages(newImages);
-        onImagesChange(newImages.filter((img) => img.file).map((img) => img.file!));
+        setImages(prev => [...prev, ...newImages]);
     };
 
-    const onRemove = (id: string) => {
-        const target = images.find((img) => img.id === id);
-        if (target?.file) URL.revokeObjectURL(target.url);
-        const filtered = images.filter((img) => img.id !== id);
-        setImages(filtered);
-        onImagesChange(filtered.filter((img) => img.file).map((img) => img.file!));
+    const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => e.preventDefault();
+
+    const handleRemove = (img: ImageItem) => {
+        setImages(prev => prev.filter(i => i.id !== img.id));
     };
 
-     const onDragStart = (event: DragStartEvent) => {
-        setActiveId(event.active.id as string);
-    };
-
-    const onDragEnd = (event: DragEndEvent) => {
+    const handleDragEnd = (event: any) => {
         const { active, over } = event;
-        if (active.id !== over?.id) {
-            const oldIndex = images.findIndex((img) => img.id === active.id);
-            const newIndex = images.findIndex((img) => img.id === over?.id);
-            const newImages = arrayMove(images, oldIndex, newIndex);
-            setImages(newImages);
-            onImagesChange(newImages.filter((img) => img.file).map((img) => img.file!));
+        if (over && active.id !== over.id) {
+            setImages((items) => {
+                const oldIndex = items.findIndex(i => i.id === active.id);
+                const newIndex = items.findIndex(i => i.id === over.id);
+                return arrayMove(items, oldIndex, newIndex);
+            });
         }
     };
 
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({
-        onDrop,
-        accept: { "image/*": [] },
-        multiple: true,
-    });
-
     return (
-        <div className="multi-image-uploader">
-            <div {...getRootProps({ className: "dropzone" })}>
-                <input {...getInputProps()} />
-                {isDragActive ? <p>Drop the files here...</p> : <p>Drag & drop images here, or click to select</p>}
+        <>
+        <div className="container">
+                <h2>Drag & Drop Images</h2>
+                <div
+                    className="dropzone"
+                    onDrop={handleDropFiles}
+                    onDragOver={handleDragOver}
+                >
+                    <p>Drag images here or click to select</p>
+                </div>
+
+                <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                    <SortableContext items={images.map(i => i.id)} strategy={verticalListSortingStrategy}>
+                        <div className="previews">
+                            {images.map(img => (
+                                <SortableImage key={img.id} image={img} onRemove={handleRemove} />
+                            ))}
+                        </div>
+                    </SortableContext>
+                </DndContext>
             </div>
-
-            <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd} onDragStart={onDragStart}>
-                <SortableContext items={images.map((img) => img.id)} strategy={horizontalListSortingStrategy }>
-                    <div className="images-list">
-                        {images.map((img, i) => (
-                            <SortableImage key={img.id} image={img} index={i} onRemove={onRemove} isActive={activeId === img.id}/>
-                        ))}
-                    </div>
-                </SortableContext>
-            </DndContext>
-        </div>
+        </>
     );
-};
-
-export default MultiImageUploader;
+}

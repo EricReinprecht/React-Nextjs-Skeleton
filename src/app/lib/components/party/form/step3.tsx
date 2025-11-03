@@ -26,11 +26,11 @@ const Step3: React.FC<Step3Props> = ({
 
                 <div className="form-group">
                     <div className="column">
-                        <MultiImageUploader
+                        {/* <MultiImageUploader
                             imagePath={imagePath}
                             imageFiles={imageFiles}
                             onImagesChange={setImageFiles}
-                        />
+                        /> */}
                     </div>
                 </div>
 

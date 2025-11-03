@@ -17,6 +17,7 @@ import DefautButton from "@/src/app/lib/components/default/default_button";
 import withAuth from "@/src/app/lib/hoc/withAuth";
 import { Party } from "@prisma/client";
 import { filesToBase64 } from "@/src/app/lib/utils/filesToBase64";
+import MultiImageUploader from "@/src/app/lib/components/default/multi_image_uploader";
 
 type PartyWithImages = Party & {
     images: { id: string; filename: string; partyId: string }[];
@@ -24,19 +25,28 @@ type PartyWithImages = Party & {
     categories: { id: string; name: string; active: boolean }[];
 };
 
+type ImageItem = {
+    id: string;
+    url: string;
+    isNew: boolean;
+    file?: File;
+};
+
+
 interface Props {
     authUser: { id: string };
 }
 
 const EditPartyForm = ({ authUser }: Props) => {
     const params = useParams();
-    const partyId = params?.id;
+    let partyId = params?.id;
     if (!partyId) return <ManagerPage><div>Invalid party ID</div></ManagerPage>;
 
-    const [partyData, setPartyData] = useState<Party>();
+    partyId = Array.isArray(partyId) ? partyId[0] : partyId;
+
+    const [partyData, setPartyData] = useState<PartyWithImages>();
     const [allCategories, setAllCategories] = useState<Category[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
-    const [imageFiles, setImageFiles] = useState<File[]>([]);
     const [step, setStep] = useState(1);
     const [creating, setCreating] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
@@ -47,12 +57,16 @@ const EditPartyForm = ({ authUser }: Props) => {
     const [endDateOnly, setEndDateOnly] = useState<Date>(getNextDateTimeAt("saturday", 3));
     const [endTimeOnly, setEndTimeOnly] = useState<Date>(getNextDateTimeAt("saturday", 3));
 
+    const [oldImages, setOldImages] = useState<ImageItem[]>([]);
+    const [images, setImages] = useState<ImageItem[]>([]);
+
     useEffect(() => {
         async function fetchParty() {
             try {
-                const res = await fetch(`/api/party/${partyId}`);
+                const res = await fetch(`/api/party/${partyId}/get`);
                 if (!res.ok) throw new Error("Failed to fetch party");
                 const data: PartyWithImages = await res.json();
+                console.log(data)
                 setPartyData(data);
                 setSelectedCategories(data.categories || []);
 
@@ -65,18 +79,6 @@ const EditPartyForm = ({ authUser }: Props) => {
                     const end = new Date(data.endDate);
                     setEndDateOnly(end);
                     setEndTimeOnly(end);
-                }
-
-                if (data.images && data.images.length > 0) {
-                    const files: File[] = await Promise.all(
-                        data.images.map(async (img) => {
-                            const url = `/uploads/${partyId}/${img.filename}`;
-                            const resp = await fetch(url);
-                            const blob = await resp.blob();
-                            return new File([blob], img.filename, { type: blob.type });
-                        })
-                    );
-                    setImageFiles(files);
                 }
             } catch (err) {
                 console.error(err);
@@ -136,33 +138,36 @@ const EditPartyForm = ({ authUser }: Props) => {
             formData.append("createdBy", authUser.id);
 
             selectedCategories.forEach(cat => formData.append("categories", cat.id!));
-            imageFiles.forEach(file => formData.append("images", file));
+            // imageFiles.forEach(file => formData.append("images", file));
 
-            const res = await fetch(`/api/party/edit/${partyId}`, {
+            const mappedImages = new Set(images.map(img => img.id));
+            const imagesToRemove = oldImages.filter(img => !mappedImages.has(img.id));
+            const newImages = images.filter(img => img.isNew);
+
+            imagesToRemove.forEach((file) => formData.append("removeImages", file.id));
+
+            if (newImages.length > 0) {
+                const files = newImages
+                    .map((img) => img.file)
+                    .filter((file): file is File => !!file);
+                          
+                if (files.length > 0) {
+                    const base64Images = await filesToBase64(files);
+                    base64Images.forEach((b64) => formData.append("newImages", b64));
+                }
+            }
+
+            const res = await fetch(`/api/party/${partyId}/edit`, {
                 method: "PUT",
                 body: formData,
             });
+            
             console.log(res)
 
             if (!res.ok) throw new Error("Failed to update party");
             const data = await res.json();
             setCreatedPartyId(data.partyId);
 
-            console.log(imageFiles);
-            
-            if (imageFiles.length > 0) {
-                const base64Images = await filesToBase64(imageFiles);
-                console.log(base64Images);
-                const res2 = await fetch("/api/image/upload", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ partyId, images: base64Images }),
-                });
-
-                if (!res2.ok) {
-                    console.warn("Image upload failed", await res2.text());
-                }
-            }
 
 
             setShowSuccess(true);
@@ -225,12 +230,11 @@ const EditPartyForm = ({ authUser }: Props) => {
                                         />
                                     }
                                     {step===3 && 
-                                        <Step3 
-                                            partyData={partyData} 
-                                            setPartyData={setPartyData as React.Dispatch<React.SetStateAction<Party>>} 
-                                            imageFiles={imageFiles} 
-                                            setImageFiles={setImageFiles} 
-                                            handleChange={handleChange} 
+                                        <MultiImageUploader
+                                            party={partyData}
+                                            setOldImages={setOldImages}
+                                            setImages={setImages}
+                                            images={images}
                                         />
                                     }
                                     {step===4 && 
@@ -243,7 +247,7 @@ const EditPartyForm = ({ authUser }: Props) => {
                                     {step===5 && 
                                         <Step_Final 
                                             partyData={partyData} 
-                                            imagePreviews={imageFiles.map(f => URL.createObjectURL(f))} 
+                                            // imagePreviews={imageFiles.map(f => URL.createObjectURL(f))} 
                                         />
                                     }
                                 </div>

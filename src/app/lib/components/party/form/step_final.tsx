@@ -15,11 +15,11 @@ import PinnedMap from "@/src/app/lib/components/default/map";
 
 type Props = {
   partyData: Party;
-  imagePreviews: string[];
+//   imagePreviews: string[];
   categories?: CategoryEntity[];
 };
 
-const StepFinal: React.FC<Props> = ({ partyData, imagePreviews, categories = [] }) => {
+const StepFinal: React.FC<Props> = ({ partyData, categories = [] }) => {
     return (
         <div className="party-wrapper preview">
             <div className="party-card">
@@ -27,7 +27,7 @@ const StepFinal: React.FC<Props> = ({ partyData, imagePreviews, categories = [] 
                 <div className="party-content">
                     <div className="left-side">
                         <div className="image-container">
-                            {imagePreviews.length > 1 ? (
+                            {/* {imagePreviews.length > 1 ? (
                                 <Swiper
                                     modules={[Navigation, A11y]}
                                     spaceBetween={0}
@@ -58,8 +58,8 @@ const StepFinal: React.FC<Props> = ({ partyData, imagePreviews, categories = [] 
                                     <div className="swiper-button next">
                                         <SwiperArrowLeft />
                                     </div>
-                                </>
-                            )}
+                                </> */}
+                            {/* )} */}
                         </div>
                         <div className="content">
                             <div className="heading">{partyData.name}</div>

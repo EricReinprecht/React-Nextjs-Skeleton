@@ -131,7 +131,7 @@ export default function Party(props) {
             const res = await fetch(`/api/party/${partyId}/edit`, {
                 method: "PUT",
                 body: formData,
-            });            
+            });
 
             // console.log(res);
         }catch{
