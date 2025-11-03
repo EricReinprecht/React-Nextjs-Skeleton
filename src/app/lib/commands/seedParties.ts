@@ -9,9 +9,14 @@ import prisma from "@prisma/prisma";
  */
 export async function seedParties(push?: (msg: string) => void) {
     const filePath = path.join(process.cwd(), "src/app/lib/fixtures/partyFixtures.json");
+    const imagesDir = path.join(process.cwd(), "public/seed/images");
 
     if (!fs.existsSync(filePath)) {
         throw new Error(`File not found at ${filePath}`);
+    }
+
+    if (!fs.existsSync(imagesDir)) {
+        throw new Error(`Images directory not found at ${imagesDir}`);
     }
 
     const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
@@ -21,6 +26,10 @@ export async function seedParties(push?: (msg: string) => void) {
     if (users.length === 0) {
         throw new Error("No users found in the database. Please seed users first.");
     }
+
+    const imageFiles = fs.readdirSync(imagesDir).filter(f =>
+        /\.(jpg|jpeg|png|webp|gif)$/i.test(f)
+    );
 
     push?.(`🌱 Creating ${data.length} parties with random users...\n`);
 
@@ -39,6 +48,9 @@ export async function seedParties(push?: (msg: string) => void) {
             // Pick a random user
             const randomUser = users[Math.floor(Math.random() * users.length)];
 
+            const randomImageFile = imageFiles[Math.floor(Math.random() * imageFiles.length)];
+            const imageUrl = `/seed/images/${randomImageFile}`;
+
             const createdParty = await prisma.party.create({
                 data: {
                     created: new Date(partyData.created),
@@ -51,13 +63,20 @@ export async function seedParties(push?: (msg: string) => void) {
                     description: partyData.description,
                     teaser: partyData.teaser,
                     userId: randomUser.id,
+                    images: {
+                        create: [
+                            {
+                                path: imageUrl,
+                            },
+                        ],
+                    },
                 },
-                // include: {
+                include: {
                 //     categories: true,
                 //     tickets: true,
                 //     ticketClasses: true,
-                //     images: true,
-                // },
+                    images: true,
+                },
             });
 
             push?.(`✅ Created party ${index + 1}: ${createdParty.name} (User: ${randomUser.email})\n`);

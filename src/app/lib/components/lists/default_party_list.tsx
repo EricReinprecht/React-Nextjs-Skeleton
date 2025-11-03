@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState, useEffect, useCallback } from "react";
 import qs from "qs";
@@ -7,52 +7,61 @@ import Link from "next/link";
 import "@styles/lists/party_list_card.scss";
 import { formatDateGerman } from "../../utils/formatDate";
 import SwiperArrowLeft from "../../svgs/swiper_arrow_left";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, A11y } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, A11y } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
 import Loader from "../default/loader";
 import { Party } from "@prisma/client";
 
 type PartyWithImages = Party & {
-    images: { id: string; filename: string; partyId: string }[];
+    images: { id: string; filename: string; path: string; partyId: string }[];
     imageUrls?: string[];
 };
+
 interface Filters {
     [key: string]: any;
 }
 
 const DefaultPartyList: React.FC = () => {
-    const [parties, setParties] = useState<Party[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [hasMore, setHasMore] = useState<boolean>(true);
+    const [parties, setParties] = useState<PartyWithImages[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [hasMore, setHasMore] = useState(true);
     const [nextCursor, setNextCursor] = useState<string | null>(null);
-
-    const [filters, setFilters] = useState<Filters>();
+    const [filters, setFilters] = useState<Filters>({});
+    const [error, setError] = useState<string | null>(null);
 
     const fetchParties = useCallback(
-        async (cursorId: string | null = null) => {
-            setLoading(true);
+        async (cursorId: string | null = null, reset = false) => {
             try {
+                setLoading(true);
+                setError(null);
+
                 const queryString = qs.stringify({
                     ...(cursorId ? { cursorId } : {}),
                     filters,
                 });
+
                 const res = await fetch(`/api/party/get-parties?${queryString}`);
+
+                if (!res.ok) {
+                    throw new Error(`Failed to fetch parties: ${res.status}`);
+                }
+
                 const data: { parties: PartyWithImages[]; nextCursor: string | null } = await res.json();
 
-                const transformed = data.parties.map(party => ({
+                const transformed = data.parties.map((party) => ({
                     ...party,
-                    imageUrls: party.images.map((img: any) => `/uploads/${party.id}/${img.filename}`),
+                    imageUrls: party.images?.map((img) => img.path) || [],
                 }));
 
-                setParties(prev => [...prev, ...transformed]);
-
-                
+                setParties((prev) => (reset ? transformed : [...prev, ...transformed]));
                 setNextCursor(data.nextCursor);
-                setHasMore(!!data.nextCursor);
+                setHasMore(Boolean(data.nextCursor));
+            } catch (err: any) {
+                console.error(err);
+                setError(err.message || "Error fetching parties.");
+                setHasMore(false);
             } finally {
                 setLoading(false);
             }
@@ -61,30 +70,41 @@ const DefaultPartyList: React.FC = () => {
     );
 
     useEffect(() => {
-        fetchParties(nextCursor ?? undefined);
-    }, [filters]);
+        setParties([]);
+        setNextCursor(null);
+        fetchParties(null, true);
+    }, [filters, fetchParties]);
 
     const loadMoreData = () => {
         if (!loading && hasMore) {
-            fetchParties(nextCursor ?? undefined);
+            fetchParties(nextCursor);
         }
     };
 
+    if (error) {
+        return (
+            <div className="party-list-wrapper">
+                <p className="error-message">⚠️ {error}</p>
+            </div>
+        );
+    }
+
     return (
         <div className="party-list-wrapper">
-            {loading && <Loader type={"rgb-lettering"} />}
+            {loading && parties.length === 0 && <Loader type="rgb-lettering" />}
+
             <InfiniteScroll
                 dataLength={parties.length}
                 next={loadMoreData}
                 hasMore={hasMore}
-                loader={<h4>Loading...</h4>}
-                endMessage={<p>No more data</p>}
+                loader={<h4>Loading more...</h4>}
+                endMessage={<p className="end-message">No more parties to load.</p>}
             >
                 <div className="party-list cards">
                     {parties.map((party) => (
                         <Link className="party-wrapper" key={party.id} href={`/party/${party.id}`}>
                             <div className="party">
-                                <div className="background"></div>
+                                <div className="background" />
                                 <div className="content">
                                     {party.imageUrls && party.imageUrls.length > 0 && (
                                         <div className="image-container">
@@ -97,44 +117,62 @@ const DefaultPartyList: React.FC = () => {
                                                         nextEl: `#swiper-next-${party.id}`,
                                                         prevEl: `#swiper-prev-${party.id}`,
                                                     }}
-                                                    loop={true}
+                                                    loop
                                                 >
-                                                    {party.imageUrls.map((image_url, idx) => (
+                                                    {party.imageUrls.map((imageUrl, idx) => (
                                                         <SwiperSlide key={idx}>
-                                                            <div className="image" style={{ backgroundImage: `url(${image_url})` }}></div>
+                                                            <div
+                                                                className="image"
+                                                                style={{ backgroundImage: `url(${imageUrl})` }}
+                                                            />
                                                         </SwiperSlide>
                                                     ))}
                                                 </Swiper>
                                             ) : (
-                                                <div className="image" style={{ backgroundImage: `url(${party.imageUrls[0]})` }}></div>
+                                                <div
+                                                    className="image"
+                                                    style={{ backgroundImage: `url(${party.imageUrls[0]})` }}
+                                                />
                                             )}
 
                                             {party.imageUrls.length > 1 && (
                                                 <>
-                                                    <div id={`swiper-prev-${party.id}`} className="swiper-button prev">
+                                                    <div
+                                                        id={`swiper-prev-${party.id}`}
+                                                        className="swiper-button prev"
+                                                    >
                                                         <SwiperArrowLeft />
                                                     </div>
-                                                    <div id={`swiper-next-${party.id}`} className="swiper-button next">
+                                                    <div
+                                                        id={`swiper-next-${party.id}`}
+                                                        className="swiper-button next"
+                                                    >
                                                         <SwiperArrowLeft />
                                                     </div>
                                                 </>
                                             )}
                                         </div>
                                     )}
+
                                     <div className="title">{party.name}</div>
                                     <div className="location">{party.location}</div>
-                                    <div className="date-form">{formatDateGerman(party.startDate)}</div>
-                                    <div className="from">18:00</div>
-                                    <div className="date-till">{formatDateGerman(party.endDate)}</div>
-                                    <div className="till">03:00</div>
-                                    <div className="description" dangerouslySetInnerHTML={{ __html: party.teaser }}></div>
+                                    <div className="date">
+                                        {formatDateGerman(party.startDate)} – {formatDateGerman(party.endDate)}
+                                    </div>
+                                    <div
+                                        className="description"
+                                        dangerouslySetInnerHTML={{ __html: party.teaser }}
+                                    />
                                 </div>
                             </div>
                         </Link>
                     ))}
                 </div>
             </InfiniteScroll>
-            {!hasMore && <div>No more Parties.</div>}
+
+            {/* {!hasMore && !loading && (
+                <div className="no-more">🎉 You’ve reached the end of the party list!</div>
+            )} */}
         </div>
     );
 };

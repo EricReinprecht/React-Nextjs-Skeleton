@@ -28,6 +28,7 @@ export default function Party(props) {
                 if (!res.ok) throw new Error("Failed to fetch party");
                 const data = await res.json();
                 const imageUrls = data.images?.map((img: any) => `/uploads/${partyId}/${img.filename}`) || [];
+                console.log(imageUrls);
                 const categories = data.categories || [];
                 setParty({ ...data, imageUrls, categories });
             } catch (err) {
