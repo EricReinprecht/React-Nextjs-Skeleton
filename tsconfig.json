@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "lib": ["dom", "dom.iterable", "ESNext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "ESNext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -23,6 +27,7 @@
       "@styles/*": ["./src/assets/styles/*"],
       "@fonts/*": ["./src/assets/fonts/*"],
       "@templates/*": ["./src/app/lib/templates/*"],
+      "@types_ts/*": ["./src/app/lib/types/*"],
       "@components/*": ["./src/app/lib/components/*"],
       "@entities/*": ["./src/app/lib/entities/*"],
       "@server/*": ["./src/app/lib/server/*"],
@@ -35,12 +40,23 @@
       "@svgs/*": ["./src/app/lib/svgs/*"],
       "@utils/*": ["./src/app/lib/utils/*"],
       "@styles_ts/*": ["./src/app/lib/styles/*"],
-
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "../firebase.ts", "src/middleware.ts", "src/app/lib/components/lists/default_party_list.tsx"],
-  "exclude": ["node_modules"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "../firebase.ts",
+    "src/middleware.ts",
+    "src/app/lib/components/lists/default_party_list.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
   "ts-node": {
-    "require": ["tsconfig-paths/register"]
+    "require": [
+      "tsconfig-paths/register"
+    ]
   }
 }
