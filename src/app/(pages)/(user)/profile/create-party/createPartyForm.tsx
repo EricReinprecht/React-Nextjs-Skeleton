@@ -19,6 +19,8 @@ import { Party } from "@prisma/client";
 import "@styles/pages/create-party.scss";
 import { ImageItem } from "@/src/app/lib/types/ImageItemType";
 
+import Chain from "@svgs/chain";
+
 interface Props {
     authUser: { id: string; email: string; username: string };
 }
@@ -37,6 +39,8 @@ const CreatePartyForm = ({ authUser }: Props) => {
 
     const [oldImages, setOldImages] = useState<ImageItem[]>([]);
     const [images, setImages] = useState<ImageItem[]>([]);
+
+    const [hoverStep, setHoverStep] = React.useState<number | null>(null);
 
     const [partyData, setPartyData] = useState<Party>({
         id: "",
@@ -117,11 +121,30 @@ const CreatePartyForm = ({ authUser }: Props) => {
 
     return (
         <div className="create-party-wrapper">
-            <div
-                className="create-party-container">
+            <div className="step-assistant-container">
+                <div className="step-assistant">
+                    {[1,2,3,4,5].map(n => (
+                        <React.Fragment key={n}>
+                            <div className={`step ${n===1?"basic-data":n===2?"exact-location":n===3?"additional-data":"submit"} ${step===n?"active":""} ${hoverStep===n?"hovered":""}`}>
+                                <div className="number"
+                                    onClick={() => navigateToStep(n)} 
+                                    onMouseEnter={() => setHoverStep(n)}
+                                    onMouseLeave={() => setHoverStep(null)}
+                                >{n}</div>
+                                <div className="name"
+                                    onClick={() => navigateToStep(n)} 
+                                    onMouseEnter={() => setHoverStep(n)}
+                                    onMouseLeave={() => setHoverStep(null)}
+                                >{n}. Schritt</div>
+                            </div>
+                            {n<5 && <div className="separator"><Chain/></div>}
+                        </React.Fragment>
+                    ))}
+                </div>
+            </div>
+            <div className="create-party-container">
                 <div className="create-party-background"/>
-
-                {!creating && (
+                {/* {!creating && (
                     <>
                         <div className="create-party-content">
                             <div className="steps">
@@ -162,7 +185,7 @@ const CreatePartyForm = ({ authUser }: Props) => {
                     <div className="loader-wrapper">
                         <Loader type="rgb-lettering" content="Creating Party..." />
                     </div>
-                )}
+                )} */}
             </div>
         </div>
     );

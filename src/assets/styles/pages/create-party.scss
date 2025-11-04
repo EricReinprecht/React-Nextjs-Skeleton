@@ -1,15 +1,82 @@
+.manager_page-template{
+    .main{
+        padding: 0;
+    }
+}
+
 .create-party-wrapper{
+    position: absolute;
     padding: 65px;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
     width: 100%;
+    .step-assistant-container{
+        width: max-content;
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding-top: 50px;
+        padding-left: 80px;
+        .step{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            .number, .name{
+                transition: 0.25s ease-in-out;
+                cursor: pointer;
+            }
+            .number{
+                background-color: white;
+                width: 60px;
+                height: 60px;
+                border-radius: 100%;
+                border: 1px solid black;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 2;
+            }
+            .name{
+                background-color: white;
+                font-size: 20px;
+                border: 1px solid black;
+                border-left: unset;
+                position: relative;
+                left: -8px;
+                padding: 4px 0px;
+                padding-left: 14px;
+                padding-right: 10px;
+                z-index: 1;
+            }
+            &.hovered{
+                .number{
+                    background-color: rgb(158, 152, 152);
+                }
+                .name{
+                    background-color: rgb(158, 152, 152);
+                }
+                
+            }
+        }
+        .separator {
+            transform: rotate(90deg);
+            height: 70px;
+            svg{
+                height: 120px;
+                position: absolute;
+                left: 25px;
+                top: 30px;
+                path{
+                    fill: white;
+                }
+            }
+        }
+
+    }
 }
 .create-party-container{
-    min-height: 950px;
-    height: 100%;
-    width: 100%;
 
     position: relative;
     display: flex;
