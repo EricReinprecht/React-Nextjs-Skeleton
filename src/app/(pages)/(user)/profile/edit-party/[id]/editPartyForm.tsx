@@ -29,9 +29,21 @@ const EditPartyForm = ({ authUser }: Props) => {
     const params = useParams();
     const partyId = Array.isArray(params?.id) ? params.id[0] : params?.id;
 
-    if (!partyId) return <ManagerPage><div>Invalid party ID</div></ManagerPage>;
-
-    const [partyData, setPartyData] = useState<PartyWithImages>();
+    const [partyData, setPartyData] = useState<PartyWithImages>({
+        id: "",
+        name: "",
+        location: "",
+        description: "",
+        teaser: "",
+        latitude: Number(process.env.NEXT_PUBLIC_DEFAULT_LATITUDE ?? 0),
+        longitude: Number(process.env.NEXT_PUBLIC_DEFAULT_LONGITUDE ?? 0),
+        startDate: getNextDateTimeAt("friday", 18),
+        endDate: getNextDateTimeAt("saturday", 3),
+        created: new Date(),
+        userId: authUser.id,
+        images: [],
+        categories: [],
+    });
     const [allCategories, setAllCategories] = useState<Category[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
     const [step, setStep] = useState(1);
@@ -44,6 +56,8 @@ const EditPartyForm = ({ authUser }: Props) => {
 
     const [oldImages, setOldImages] = useState<ImageItem[]>([]);
     const [images, setImages] = useState<ImageItem[]>([]);
+
+    if (!partyData) return <Loader type="rgb-lettering" content="Loading party..." />;
 
     useEffect(() => {
         const fetchParty = async () => {
@@ -140,7 +154,7 @@ const EditPartyForm = ({ authUser }: Props) => {
         }
     };
 
-    if (!partyData) return <Loader type="rgb-lettering" content="Loading party..." />;
+    if (!partyId) return <ManagerPage><div>Invalid party ID</div></ManagerPage>;
 
     return (
         <div className="create-party-wrapper">

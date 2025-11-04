@@ -48,7 +48,7 @@ const StepManager: React.FC<StepManagerProps> = ({ steps, currentStep, setStep }
                                 onMouseEnter={() => setHoverStep(stepNumber)}
                                 onMouseLeave={() => setHoverStep(null)}
                             >
-                                {stepNumber}. {stepItem.name}
+                                {stepItem.name}
                             </div>
                         </div>
                         {stepNumber < steps.length && (

@@ -11,7 +11,7 @@ interface Step3Props {
     setImages: React.Dispatch<React.SetStateAction<ImageItem[]>>;
     setOldImages: React.Dispatch<React.SetStateAction<ImageItem[]>>;
     images: ImageItem[];
-    setPartyData: React.Dispatch<React.SetStateAction<PartyWithImages | undefined>>;
+    setPartyData: React.Dispatch<React.SetStateAction<PartyWithImages>>;
 }
 
 const Step3: React.FC<Step3Props> = ({

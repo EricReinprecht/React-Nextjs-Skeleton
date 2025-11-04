@@ -22,6 +22,7 @@ import { ImageItem } from "@/src/app/lib/types/ImageItemType";
 import Chain from "@svgs/chain";
 import StepAssistant from "@/src/app/lib/components/default/step_manager";
 import StepManager from "@/src/app/lib/components/default/step_manager";
+import { PartyWithImages } from "@/src/app/lib/types/PartyWithImagesType";
 
 interface Props {
     authUser: { id: string; email: string; username: string };
@@ -52,7 +53,7 @@ const CreatePartyForm = ({ authUser }: Props) => {
 
     const [hoverStep, setHoverStep] = React.useState<number | null>(null);
 
-    const [partyData, setPartyData] = useState<Party>({
+    const [partyData, setPartyData] = useState<PartyWithImages>({
         id: "",
         name: "",
         location: "",
@@ -64,6 +65,8 @@ const CreatePartyForm = ({ authUser }: Props) => {
         endDate: getNextDateTimeAt("saturday", 3),
         created: new Date(),
         userId: authUser.id,
+        images: [],
+        categories: [],
     });
 
     useEffect(() => {
@@ -136,7 +139,7 @@ const CreatePartyForm = ({ authUser }: Props) => {
             </div>
             <div className="create-party-container">
                 <div className="create-party-background"/>
-                {/* {!creating && (
+                {!creating && (
                     <>
                         <div className="create-party-content">
                             <div className="steps">
@@ -177,7 +180,7 @@ const CreatePartyForm = ({ authUser }: Props) => {
                     <div className="loader-wrapper">
                         <Loader type="rgb-lettering" content="Creating Party..." />
                     </div>
-                )} */}
+                )}
             </div>
         </div>
     );
