@@ -8,34 +8,43 @@
             cursor: pointer;
         }
         .number{
-            background-color: white;
+            color: $white;
+            background-color: $charcoal;
+            font-weight: 700;
+            font-size: 18px;
             width: 60px;
             height: 60px;
             border-radius: 100%;
-            border: 1px solid black;
+            border: 1px solid $white;
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 2;
         }
         .name{
-            background-color: white;
-            font-size: 20px;
-            border: 1px solid black;
+            color: $white;
+            background-color: $charcoal;
+            font-weight: 700;
+            font-size: 16px;
+            border: 1px solid $white;
             border-left: unset;
             position: relative;
             left: -8px;
-            padding: 4px 0px;
+            padding: 6px 0px;
             padding-left: 14px;
             padding-right: 10px;
             z-index: 1;
         }
-        &.hovered{
+        &.hovered, &.active{
             .number{
-                background-color: rgb(158, 152, 152);
+                color: $charcoal;
+                background-color: $white;
+                border-color: $charcoal;
             }
             .name{
-                background-color: rgb(158, 152, 152);
+                color: $charcoal;
+                background-color: $white;
+                border-color: $charcoal;
             }
             
         }
@@ -47,9 +56,9 @@
             height: 120px;
             position: absolute;
             left: 81px;
-            top: 97px;
+            top: 79px;
             path{
-                fill: white;
+                fill: $white;
             }
         }
     }

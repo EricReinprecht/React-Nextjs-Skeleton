@@ -152,6 +152,7 @@ const CreatePartyForm = ({ authUser }: Props) => {
                             </div>
 
                             <div className="body">
+                                <div className="header">{steps[step - 1].name}</div>
                                 {step === 1 && <Step1 
                                     partyData={partyData}
                                     setPartyData={setPartyData as React.Dispatch<React.SetStateAction<Party>>}
