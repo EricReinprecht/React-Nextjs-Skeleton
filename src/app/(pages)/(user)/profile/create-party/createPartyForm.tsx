@@ -20,6 +20,8 @@ import "@styles/pages/create-party.scss";
 import { ImageItem } from "@/src/app/lib/types/ImageItemType";
 
 import Chain from "@svgs/chain";
+import StepAssistant from "@/src/app/lib/components/default/step_manager";
+import StepManager from "@/src/app/lib/components/default/step_manager";
 
 interface Props {
     authUser: { id: string; email: string; username: string };
@@ -27,6 +29,14 @@ interface Props {
 
 const CreatePartyForm = ({ authUser }: Props) => {
     const [step, setStep] = useState(1);
+    const steps = [
+        { name: "Basisdaten" },
+        { name: "Geografische Daten" },
+        { name: "Bilder & Beschreibung" },
+        { name: "Kategorien" },
+        { name: "Tickets" },
+        { name: "Veröffentlichung" },
+    ];
     const [creating, setCreating] = useState(false);
     const [allCategories, setAllCategories] = useState<Category[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
@@ -121,26 +131,8 @@ const CreatePartyForm = ({ authUser }: Props) => {
 
     return (
         <div className="create-party-wrapper">
-            <div className="step-assistant-container">
-                <div className="step-assistant">
-                    {[1,2,3,4,5].map(n => (
-                        <React.Fragment key={n}>
-                            <div className={`step ${n===1?"basic-data":n===2?"exact-location":n===3?"additional-data":"submit"} ${step===n?"active":""} ${hoverStep===n?"hovered":""}`}>
-                                <div className="number"
-                                    onClick={() => navigateToStep(n)} 
-                                    onMouseEnter={() => setHoverStep(n)}
-                                    onMouseLeave={() => setHoverStep(null)}
-                                >{n}</div>
-                                <div className="name"
-                                    onClick={() => navigateToStep(n)} 
-                                    onMouseEnter={() => setHoverStep(n)}
-                                    onMouseLeave={() => setHoverStep(null)}
-                                >{n}. Schritt</div>
-                            </div>
-                            {n<5 && <div className="separator"><Chain/></div>}
-                        </React.Fragment>
-                    ))}
-                </div>
+            <div className="step-manager-container">
+                <StepManager steps={steps} currentStep={step} setStep={setStep} />
             </div>
             <div className="create-party-container">
                 <div className="create-party-background"/>
