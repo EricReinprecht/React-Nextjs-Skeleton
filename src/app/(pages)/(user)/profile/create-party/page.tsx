@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import CreatePartyForm from "./createPartyForm"; // Client Component
 import { cookies } from "next/headers";
 
-export default async function CreatePartyPage() {
+export default async function CreatePartyPage(props) {
     // Get auth token from cookies
     const cookieStore = await cookies();
     const token = cookieStore.get("authToken")?.value;

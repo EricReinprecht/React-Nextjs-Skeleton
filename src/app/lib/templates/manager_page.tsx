@@ -31,7 +31,7 @@ const ManagerPage = ({ children }: LayoutProps) => {
                     <div className="item logout"><LogoutButton disable_style={true}/></div>
                 </div>
             </div>
-            <main className="main">{children}</main>
+            <main className="main gradient-animation"><div className="wave"></div>{children}</main>
         </div>
     );
 };

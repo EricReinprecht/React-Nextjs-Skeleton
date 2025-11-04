@@ -153,12 +153,7 @@ const EditPartyForm = ({ authUser }: Props) => {
                             <div className="steps">
                                 {[1,2,3,4,5].map(n => (
                                     <React.Fragment key={n}>
-                                        <div 
-                                            onClick={() => navigateToStep(n)}
-                                            className={`step ${["basic-data", "exact-location", "additional-data", "submit", "final"][n-1]} ${step===n?"active":""}`}
-                                        >
-                                            {n}
-                                        </div>
+                                        <div onClick={() => navigateToStep(n)} className={`step ${["basic-data", "exact-location", "additional-data", "submit", "final"][n-1]} ${step===n?"active":""}`}>{n}</div>
                                         {n<5 && <div className="step-seperator"></div>}
                                     </React.Fragment>
                                 ))}
