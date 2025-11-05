@@ -4,15 +4,20 @@ import DefautButton from "@components/default/default_button";
 import "@styles/components/default_button.scss"
 
 type PartyFormFooterProps = {
-  step: number;
-  navigateToStep: (step: number) => void;
-  onSubmit: () => void;
+    steps: Step[];
+    step: number;
+    navigateToStep: (step: number) => void;
+    onSubmit: () => void;
 };
+interface Step {
+    name: string;
+}
 
 const Footer: React.FC<PartyFormFooterProps> = ({
-  step,
-  navigateToStep,
-  onSubmit,
+    steps,
+    step,
+    navigateToStep,
+    onSubmit,
 }) => {
     return (
         <div className="footer">
@@ -31,7 +36,7 @@ const Footer: React.FC<PartyFormFooterProps> = ({
                 }}
             />
 
-            {step !== 5 && (
+            {step !== steps.length && (
                 <DefautButton
                     label="Next"
                     type="button"
@@ -47,7 +52,7 @@ const Footer: React.FC<PartyFormFooterProps> = ({
                 />
             )}
 
-            {step === 5 && (
+            {step === steps.length && (
                 <DefautButton
                     label="Submit"
                     type="button"

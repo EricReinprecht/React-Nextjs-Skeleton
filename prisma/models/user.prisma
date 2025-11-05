@@ -1,7 +1,7 @@
 model User {
-    id             String    @id @default(cuid())
-    username       String    @unique
-    email          String    @unique
+    id             String      @id @default(cuid())
+    username       String      @unique
+    email          String      @unique
     emailVerified  DateTime?
     password       String
     sessions       Session[]
@@ -16,7 +16,11 @@ model User {
     street         String
     housenumber    Int
     unit           String?
-    createdAt      DateTime  @default(now())
+    
+    createdAt      DateTime     @default(now())
+    updatedAt      DateTime?    @updatedAt
 
-    createdParties Party[] @relation("UserToParty")
+    
+    // relations
+    createdParties Party[]      @relation("UserToParty")
 }

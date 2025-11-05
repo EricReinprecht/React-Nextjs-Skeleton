@@ -1,10 +1,18 @@
 model TicketClass {
-    id          String   @id @default(cuid())
-    name        String
-    description String
+    id             String       @id @default(cuid())
+    name           String
+    description    String
+    validFrom      DateTime
+    validTo        DateTime
+
+    createdAt      DateTime     @default(now())
+    updatedAt      DateTime?    @updatedAt
+
+    // relations 
+    prices          TicketClassPrice[]
     
-    partyId     String
-    party       Party    @relation("PartyToTicketClass", fields: [partyId], references: [id])
+    partyId         String
+    party           Party       @relation("PartyToTicketClass", fields: [partyId], references: [id])
     
-    tickets     Ticket[] @relation("TicketClassToTickets")
+    tickets         Ticket[]    @relation("TicketClassToTickets")
 }

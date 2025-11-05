@@ -2,6 +2,9 @@ model PartyCategory {
     id             String    @id @default(cuid())
     name           String    @unique
     active         Boolean
+
+    createdAt      DateTime     @default(now())
     
+    // relations
     parties        Party[]  @relation("PartyToCategory")
 }

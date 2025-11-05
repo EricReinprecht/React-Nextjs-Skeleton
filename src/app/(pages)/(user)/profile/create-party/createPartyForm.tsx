@@ -175,7 +175,7 @@ const CreatePartyForm = ({ authUser }: Props) => {
                             </div>
                         </div>
 
-                        <Footer step={step} navigateToStep={navigateToStep} onSubmit={handleSubmit} />
+                        <Footer steps={steps} step={step} navigateToStep={navigateToStep} onSubmit={handleSubmit} />
                     </>
                 )}
 

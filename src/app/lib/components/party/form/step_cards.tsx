@@ -23,18 +23,13 @@ type Props = {
 
 const StepTickets: React.FC<Props> = ({ tickets = [], setTickets, ticketClasses = [], setTicketClasses }) => {
     return (
-        <div className="party-wrapper preview">
-            <div className="party-card">
-                <div className="background"></div>
-                <div className="party-content">
-                    <div className="left-side">
-                        
-                    </div>
-                    <div className="right-side">
-                        
-                    </div>
+        <div className="step-content basic-data">
+            <form className="party-form">
+                <div className="form-group">
+                    <div className="column"></div>
                 </div>
-            </div>
+
+            </form>
         </div>
     );
 };
