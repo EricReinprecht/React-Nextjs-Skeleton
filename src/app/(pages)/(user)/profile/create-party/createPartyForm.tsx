@@ -10,17 +10,12 @@ import Step_Final from "@/src/app/lib/components/party/form/step_final";
 import Footer from "@components/party/form/footer";
 import Loader from "@/src/app/lib/components/default/loader";
 import withAuth from "@/src/app/lib/hoc/withAuth";
-
 import { getNextDateTimeAt } from "@/src/app/lib/utils/formatDate";
 import { filesToBase64 } from "@/src/app/lib/utils/filesToBase64";
 import { Category } from "@/src/app/lib/entities/category";
 import { Party, Ticket, TicketClass } from "@prisma/client";
-
 import "@styles/pages/create-party.scss";
 import { ImageItem } from "@/src/app/lib/types/ImageItemType";
-
-import Chain from "@svgs/chain";
-import StepAssistant from "@/src/app/lib/components/default/step_manager";
 import StepManager from "@/src/app/lib/components/default/step_manager";
 import { PartyWithImages } from "@/src/app/lib/types/PartyWithImagesType";
 import StepCards from "@/src/app/lib/components/party/form/step_cards";
@@ -42,7 +37,6 @@ const CreatePartyForm = ({ authUser }: Props) => {
     const [creating, setCreating] = useState(false);
     const [allCategories, setAllCategories] = useState<Category[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
-    const [imageFiles, setImageFiles] = useState<File[]>([]);
 
     const [startDateOnly, setStartDateOnly] = useState<Date>(getNextDateTimeAt("friday", 18));
     const [startTimeOnly, setStartTimeOnly] = useState<Date>(getNextDateTimeAt("friday", 18));
@@ -54,8 +48,6 @@ const CreatePartyForm = ({ authUser }: Props) => {
 
     const [tickets, setTickets] = useState<Ticket[]>([]);
     const [ticketClasses, setTicketClasses] = useState<TicketClass[]>([]);
-
-    const [hoverStep, setHoverStep] = React.useState<number | null>(null);
 
     const [partyData, setPartyData] = useState<PartyWithImages>({
         id: "",

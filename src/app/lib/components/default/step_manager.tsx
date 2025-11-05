@@ -11,7 +11,6 @@ interface StepManagerProps {
 
 interface Step {
     name: string;
-    // type?: "basic-data" | "exact-location" | "additional-data" | "submit";
 }
 
 const StepManager: React.FC<StepManagerProps> = ({ steps, currentStep, setStep }) => {
