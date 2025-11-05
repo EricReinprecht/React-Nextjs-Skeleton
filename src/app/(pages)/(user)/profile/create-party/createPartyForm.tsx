@@ -46,11 +46,12 @@ const CreatePartyForm = ({ authUser }: Props) => {
     const [oldImages, setOldImages] = useState<ImageItem[]>([]);
     const [images, setImages] = useState<ImageItem[]>([]);
 
-    const [tickets, setTickets] = useState<Ticket[]>([]);
     const [ticketClasses, setTicketClasses] = useState<TicketClass[]>([]);
 
     const [partyData, setPartyData] = useState<PartyWithImages>({
         id: "",
+        createdAt: new Date(),
+        updatedAt: new Date(),
         name: "",
         location: "",
         description: "",
@@ -59,7 +60,6 @@ const CreatePartyForm = ({ authUser }: Props) => {
         longitude: Number(process.env.NEXT_PUBLIC_DEFAULT_LONGITUDE ?? 0),
         startDate: getNextDateTimeAt("friday", 18),
         endDate: getNextDateTimeAt("saturday", 3),
-        created: new Date(),
         userId: authUser.id,
         images: [],
         categories: [],
@@ -170,7 +170,7 @@ const CreatePartyForm = ({ authUser }: Props) => {
                                 {step === 2 && <Step2 partyData={partyData} setPartyData={setPartyData as React.Dispatch<React.SetStateAction<Party>>} />}
                                 {step === 3 && <Step3 party={partyData} setOldImages={setOldImages} setImages={setImages} images={images} setPartyData={setPartyData} />}
                                 {step === 4 && <Step4 allCategories={allCategories} selectedCategories={selectedCategories} setSelectedCategories={setSelectedCategories} />}
-                                {step === 5 && <StepCards tickets={tickets} setTickets={setTickets} ticketClasses={ticketClasses} setTicketClasses={setTicketClasses} />}
+                                {step === 5 && <StepCards ticketClasses={ticketClasses} setTicketClasses={setTicketClasses} />}
                                 {step === 6 && <Step_Final partyData={partyData} images={images} />}
                             </div>
                         </div>

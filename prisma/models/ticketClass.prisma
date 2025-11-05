@@ -4,6 +4,7 @@ model TicketClass {
     description    String
     validFrom      DateTime
     validTo        DateTime
+    ticketAmount   Int
 
     createdAt      DateTime     @default(now())
     updatedAt      DateTime?    @updatedAt

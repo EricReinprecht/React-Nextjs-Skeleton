@@ -15,13 +15,11 @@ import PinnedMap from "@/src/app/lib/components/default/map";
 import { Ticket, TicketClass } from "@prisma/client";
 
 type Props = {
-    tickets: Ticket[];
-    setTickets: React.Dispatch<React.SetStateAction<Ticket[]>>;
     ticketClasses: TicketClass[];
     setTicketClasses: React.Dispatch<React.SetStateAction<TicketClass[]>>;
 };
 
-const StepTickets: React.FC<Props> = ({ tickets = [], setTickets, ticketClasses = [], setTicketClasses }) => {
+const StepTickets: React.FC<Props> = ({ ticketClasses = [], setTicketClasses }) => {
     return (
         <div className="step-content basic-data">
             <form className="party-form">

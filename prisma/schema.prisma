@@ -47,7 +47,6 @@ model Image {
 
 model Party {
     id             String              @id @default(cuid())
-    created        DateTime
     name           String
     location       String
     latitude       Float
@@ -56,6 +55,8 @@ model Party {
     endDate        DateTime
     description    String
     teaser         String
+
+    status         PartyStatus          @default(draft)
     
     createdAt      DateTime             @default(now())
     updatedAt      DateTime?            @updatedAt
@@ -69,6 +70,13 @@ model Party {
     tickets         Ticket[]           @relation("PartyToTicket")
     ticketClasses   TicketClass[]      @relation("PartyToTicketClass")
     images          Image[]            @relation("PartyImages")
+}
+
+enum PartyStatus {
+    draft
+    hot
+    published
+    hidden
 }
 
 model PartyCategory {
@@ -110,6 +118,7 @@ model TicketClass {
     description    String
     validFrom      DateTime
     validTo        DateTime
+    ticketAmount   Int
 
     createdAt      DateTime     @default(now())
     updatedAt      DateTime?    @updatedAt

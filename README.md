@@ -55,5 +55,9 @@ npx prisma generate
 to update the databse run
 
 ```bash
+node prisma/merge.js
+```
+
+```bash
 npm run prisma:migrate --name init
 ```
