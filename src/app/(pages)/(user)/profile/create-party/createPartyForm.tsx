@@ -60,6 +60,7 @@ const CreatePartyForm = ({ authUser }: Props) => {
         longitude: Number(process.env.NEXT_PUBLIC_DEFAULT_LONGITUDE ?? 0),
         startDate: getNextDateTimeAt("friday", 18),
         endDate: getNextDateTimeAt("saturday", 3),
+        status: "draft",
         userId: authUser.id,
         images: [],
         categories: [],
