@@ -14,7 +14,7 @@ import withAuth from "@/src/app/lib/hoc/withAuth";
 import { getNextDateTimeAt } from "@/src/app/lib/utils/formatDate";
 import { filesToBase64 } from "@/src/app/lib/utils/filesToBase64";
 import { Category } from "@/src/app/lib/entities/category";
-import { Party } from "@prisma/client";
+import { Party, Ticket, TicketClass } from "@prisma/client";
 
 import "@styles/pages/create-party.scss";
 import { ImageItem } from "@/src/app/lib/types/ImageItemType";
@@ -23,6 +23,7 @@ import Chain from "@svgs/chain";
 import StepAssistant from "@/src/app/lib/components/default/step_manager";
 import StepManager from "@/src/app/lib/components/default/step_manager";
 import { PartyWithImages } from "@/src/app/lib/types/PartyWithImagesType";
+import StepCards from "@/src/app/lib/components/party/form/step_cards";
 
 interface Props {
     authUser: { id: string; email: string; username: string };
@@ -50,6 +51,9 @@ const CreatePartyForm = ({ authUser }: Props) => {
 
     const [oldImages, setOldImages] = useState<ImageItem[]>([]);
     const [images, setImages] = useState<ImageItem[]>([]);
+
+    const [tickets, setTickets] = useState<Ticket[]>([]);
+    const [ticketClasses, setTicketClasses] = useState<TicketClass[]>([]);
 
     const [hoverStep, setHoverStep] = React.useState<number | null>(null);
 
@@ -84,7 +88,7 @@ const CreatePartyForm = ({ authUser }: Props) => {
     }, []);
 
     const navigateToStep = (nextStep: number) => {
-        if (nextStep >= 1 && nextStep <= 5) setStep(nextStep);
+        if (nextStep >= 1 && nextStep <= steps.length) setStep(nextStep);
     };
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -143,13 +147,18 @@ const CreatePartyForm = ({ authUser }: Props) => {
                     <>
                         <div className="create-party-content">
                             <div className="steps">
-                                {[1,2,3,4,5].map(n => (
-                                    <React.Fragment key={n}>
-                                        <div onClick={() => navigateToStep(n)} className={`step ${n===1?"basic-data":n===2?"exact-location":n===3?"additional-data":"submit"} ${step===n?"active":""}`}>{n}</div>
-                                        {n<5 && <div className="step-seperator"></div>}
-                                    </React.Fragment>
-                                ))}
-                            </div>
+                                    {steps.map((stepItem, index) => {
+                                        const stepNumber = index + 1;
+                                        return (
+                                            <React.Fragment key={stepNumber}>
+                                                <div onClick={() => navigateToStep(stepNumber)} className={`step ${stepNumber === 1 ? "basic-data" : stepNumber === 2 ? "exact-location" : stepNumber === 3 ? "additional-data" : "submit"} ${step === stepNumber ? "active" : ""}`}>
+                                                    {stepNumber}
+                                                </div>
+                                                {stepNumber < steps.length && <div className="step-seperator"></div>}
+                                            </React.Fragment>
+                                        );
+                                    })}
+                                </div>
 
                             <div className="body">
                                 <div className="header">{steps[step - 1].name}</div>
@@ -169,7 +178,8 @@ const CreatePartyForm = ({ authUser }: Props) => {
                                 {step === 2 && <Step2 partyData={partyData} setPartyData={setPartyData as React.Dispatch<React.SetStateAction<Party>>} />}
                                 {step === 3 && <Step3 party={partyData} setOldImages={setOldImages} setImages={setImages} images={images} setPartyData={setPartyData} />}
                                 {step === 4 && <Step4 allCategories={allCategories} selectedCategories={selectedCategories} setSelectedCategories={setSelectedCategories} />}
-                                {step === 5 && <Step_Final partyData={partyData} images={images} />}
+                                {step === 5 && <StepCards tickets={tickets} setTickets={setTickets} ticketClasses={ticketClasses} setTicketClasses={setTicketClasses} />}
+                                {step === 6 && <Step_Final partyData={partyData} images={images} />}
                             </div>
                         </div>
 

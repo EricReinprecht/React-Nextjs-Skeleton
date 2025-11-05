@@ -12,92 +12,26 @@ import "swiper/css/pagination";
 import SwiperArrowLeft from "@/src/app/lib/svgs/swiper_arrow_left";
 import "@styles/pages/single-party.scss";
 import PinnedMap from "@/src/app/lib/components/default/map";
+import { Ticket, TicketClass } from "@prisma/client";
 
 type Props = {
-  partyData: Party;
-  imagePreviews: string[];
-  categories?: CategoryEntity[];
+    tickets: Ticket[];
+    setTickets: React.Dispatch<React.SetStateAction<Ticket[]>>;
+    ticketClasses: TicketClass[];
+    setTicketClasses: React.Dispatch<React.SetStateAction<TicketClass[]>>;
 };
 
-const StepCards: React.FC<Props> = ({ partyData, imagePreviews, categories = [] }) => {
+const StepTickets: React.FC<Props> = ({ tickets = [], setTickets, ticketClasses = [], setTicketClasses }) => {
     return (
         <div className="party-wrapper preview">
             <div className="party-card">
                 <div className="background"></div>
                 <div className="party-content">
                     <div className="left-side">
-                        <div className="image-container">
-                            {imagePreviews.length > 1 ? (
-                                <Swiper
-                                    modules={[Navigation, A11y]}
-                                    spaceBetween={0}
-                                    slidesPerView={1}
-                                    navigation={{
-                                        nextEl: ".swiper-button.next",
-                                        prevEl: ".swiper-button.prev",
-                                    }}
-                                    loop={true}
-                                >
-                                    {imagePreviews.map((url, index) => (
-                                        <SwiperSlide key={index}>
-                                            <div className="image" style={{ backgroundImage: `url(${url})` }}></div>
-                                        </SwiperSlide>
-                                    ))}
-                                </Swiper>
-                            ) : (
-                                imagePreviews.length === 1 && (
-                                    <div className="image" style={{ backgroundImage: `url(${imagePreviews[0]})` }}></div>
-                                )
-                            )}
-                            
-                            {imagePreviews.length > 1 && (
-                                <>
-                                    <div className="swiper-button prev">
-                                        <SwiperArrowLeft />
-                                    </div>
-                                    <div className="swiper-button next">
-                                        <SwiperArrowLeft />
-                                    </div>
-                                </>
-                            )}
-                        </div>
-                        <div className="content">
-                            <div className="heading">{partyData.name}</div>
-                            <div className="info date">
-                                <span className="label">Datum: </span>
-                                {formatDateGerman(partyData.startDate)}{" "}
-                                {partyData.endDate && ` – ${formatDateGerman(partyData.endDate)}`}
-                            </div>
-                            <div className="info location">
-                                <span className="label">Ort: </span>
-                                {partyData.location}
-                            </div>
-                            {categories.length > 0 && (
-                                <div className="info categories">
-                                    <span className="label">Art: </span>
-                                    {categories.map((cat, idx) => (
-                                        <span key={cat.getId()}>
-                                            {cat.getName()}
-                                            {idx < categories.length - 1 ? ", " : ""}
-                                        </span>
-                                    ))}
-                                </div>
-                            )}
-                            <div
-                                className="info description"
-                                dangerouslySetInnerHTML={{ __html: partyData.description }}
-                            ></div>
-                        </div>
+                        
                     </div>
                     <div className="right-side">
-                        <div className="map">
-                            <PinnedMap
-                              latitude={partyData.latitude}
-                              longitude={partyData.longitude}
-                            />
-                            <a href={`https://www.google.com/maps/dir/?api=1&destination=${partyData.latitude},${partyData.longitude}`} target="_blank">Route berechnen</a>
-                        </div>
-                        <div className="content"></div>
+                        
                     </div>
                 </div>
             </div>
@@ -105,4 +39,4 @@ const StepCards: React.FC<Props> = ({ partyData, imagePreviews, categories = [] 
     );
 };
 
-export default StepCards;
+export default StepTickets;
