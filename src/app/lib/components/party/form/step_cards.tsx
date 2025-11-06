@@ -84,52 +84,60 @@ const StepTickets: React.FC<Props> = ({ ticketClasses = [], setTicketClasses, pa
     const days = getAllDays();
 
     return (
-        <div className="step-content basic-data">
+        <div className="step-content ticket-classes">
             <form className="party-form">
                 {ticketClasses.map((ticketClass, ticketIndex) => (
-                    <div key={ticketClass.id} className="ticket-class-repeater border p-4 mb-4 rounded">
-                        <div className="column">
-                            <label>Name</label>
-                            <input
-                                type="text"
-                                value={ticketClass.name}
-                                onChange={(e) => {
-                                    const updated = [...ticketClasses];
-                                    updated[ticketIndex].name = e.target.value;
-                                    setTicketClasses(updated);
-                                }}
-                                placeholder="Name der Ticketklasse"
-                            />
-                        </div>
-                        <div className="column">
-                            <label>Beschreibung</label>
-                            <textarea
-                                value={ticketClass.description}
-                                onChange={(e) => {
-                                    const updated = [...ticketClasses];
-                                    updated[ticketIndex].description = e.target.value;
-                                    setTicketClasses(updated);
-                                }}
-                                placeholder="Beschreibung der Ticketklasse"
-                            />
+                    <div key={ticketClass.id} className="ticket-class-repeater">
+                        <div className="form-group">
+                            <div className="column">
+                                <label>Name</label>
+                                <input
+                                    type="text"
+                                    value={ticketClass.name}
+                                    onChange={(e) => {
+                                        const updated = [...ticketClasses];
+                                        updated[ticketIndex].name = e.target.value;
+                                        setTicketClasses(updated);
+                                    }}
+                                    placeholder="Name der Ticketklasse"
+                                />
+                            </div>
+                            <div className="column"></div>
                         </div>
 
-                        <div className="column">
-                            <label>Gültige Tage auswählen</label>
-                            <div className="valid-date-selector-container">
-                                {days.map(day => {
-                                    const dayStr = day.toISOString().split("T")[0];
-                                    const selected = ticketClass.validDays?.includes(dayStr);
-                                    return (
-                                        <div
-                                            key={dayStr}
-                                            className={`date-selector ${selected ? "active" : ""}`}
-                                            onClick={() => toggleDay(ticketIndex, day)}
-                                        >
-                                            {day.getDate()}.{day.getMonth() + 1}
-                                        </div>
-                                    );
-                                })}
+                        <div className="form-group">
+                            <div className="column">
+                                <label>Gültige Tage auswählen</label>
+                                <div className="valid-date-selector-container">
+                                    {days.map(day => {
+                                        const dayStr = day.toISOString().split("T")[0];
+                                        const selected = ticketClass.validDays?.includes(dayStr);
+                                        return (
+                                            <div
+                                                key={dayStr}
+                                                className={`date-selector ${selected ? "active" : ""}`}
+                                                onClick={() => toggleDay(ticketIndex, day)}
+                                            >
+                                                {day.getDate()}.{day.getMonth() + 1}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="form-group">
+                            <div className="column">
+                                <label>Beschreibung</label>
+                                <textarea
+                                    value={ticketClass.description}
+                                    onChange={(e) => {
+                                        const updated = [...ticketClasses];
+                                        updated[ticketIndex].description = e.target.value;
+                                        setTicketClasses(updated);
+                                    }}
+                                    placeholder="Beschreibung der Ticketklasse"
+                                />
                             </div>
                         </div>
 
