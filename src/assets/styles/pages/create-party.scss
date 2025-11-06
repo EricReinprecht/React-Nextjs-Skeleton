@@ -129,6 +129,33 @@
                         }
                     }
                 }
+                .valid-date-selector-container{
+                    display: flex;
+                    flex-direction: row;
+                    gap: 12px;
+                    padding: 12px 0px;
+                    .date-selector{
+                        cursor: pointer;
+                        border-radius: 100%;
+                        width: 40px;
+                        height: 40px;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border: 1px solid $black;
+                        transition: 0.05s ease-in-out;
+                        &.active, &:hover{
+                            background-color: rgba(223, 0, 48, 0.63);
+                            color: $white;
+                        }
+                        &.active{
+                            border-color: rgba(223, 0, 48, 0.63);
+                            &:hover{
+                                border-color: $black;
+                            }
+                        }
+                    }
+                }
             }
             .preview{
                 max-height: 790px;

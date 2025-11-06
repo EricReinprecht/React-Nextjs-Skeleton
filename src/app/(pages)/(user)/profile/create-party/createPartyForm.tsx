@@ -184,7 +184,7 @@ const CreatePartyForm = ({ authUser }: Props) => {
                                 {step === 2 && <Step2 partyData={partyData} setPartyData={setPartyData as React.Dispatch<React.SetStateAction<Party>>} />}
                                 {step === 3 && <Step3 party={partyData} setOldImages={setOldImages} setImages={setImages} images={images} setPartyData={setPartyData} />}
                                 {step === 4 && <Step4 allCategories={allCategories} selectedCategories={selectedCategories} setSelectedCategories={setSelectedCategories} />}
-                                {step === 5 && <StepCards ticketClasses={ticketClasses} setTicketClasses={setTicketClasses} />}
+                                {step === 5 && <StepCards ticketClasses={ticketClasses} setTicketClasses={setTicketClasses} partyData={partyData} />}
                                 {step === 6 && <Step_Final partyData={partyData} images={images} />}
                             </div>
                         </div>
