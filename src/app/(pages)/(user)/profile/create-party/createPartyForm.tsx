@@ -131,26 +131,16 @@ const CreatePartyForm = ({ authUser }: Props) => {
     };
 
     useEffect(() => {
-        const handleKeyDown = (event: KeyboardEvent) => {
-            console.log('Global key pressed:', event.key);
-            if (event.key === 'ArrowUp' || event.key === "ArrowLeft") {
-                if(step > 1){
-                    setStep(step - 1);
-                }else{
-                    setStep(steps.length);
-                }
-            }
-            if (event.key === 'ArrowDown' || event.key === "ArrowRight") {
-                if(step < steps.length){
-                    setStep(step + 1);
-                }else{
-                    setStep(1);
-                }
-            }
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (['ArrowUp', 'ArrowLeft'].includes(e.key))
+                setStep(step > 1 ? step - 1 : steps.length);
+            if (['ArrowDown', 'ArrowRight'].includes(e.key))
+                setStep(step < steps.length ? step + 1 : 1);
         };
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [step]);
+    }, [step, steps.length]);
+
 
     return (
         <div className="create-party-wrapper">
