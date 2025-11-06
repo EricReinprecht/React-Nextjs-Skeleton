@@ -25,6 +25,7 @@ interface Props {
 }
 
 const CreatePartyForm = ({ authUser }: Props) => {
+    const [key, setKey] = useState('');
     const [step, setStep] = useState(1);
     const steps = [
         { name: "Basisdaten" },
@@ -128,6 +129,28 @@ const CreatePartyForm = ({ authUser }: Props) => {
             setCreating(false);
         }
     };
+
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            console.log('Global key pressed:', event.key);
+            if (event.key === 'ArrowUp' || event.key === "ArrowLeft") {
+                if(step > 1){
+                    setStep(step - 1);
+                }else{
+                    setStep(steps.length);
+                }
+            }
+            if (event.key === 'ArrowDown' || event.key === "ArrowRight") {
+                if(step < steps.length){
+                    setStep(step + 1);
+                }else{
+                    setStep(1);
+                }
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [step]);
 
     return (
         <div className="create-party-wrapper">
