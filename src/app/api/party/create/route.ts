@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
                 longitude: Number(longitude),
                 startDate: new Date(startDate),
                 endDate: new Date(endDate),
-                created: new Date(),
+                createdAt: new Date(),
                 createdBy: { connect: { id: authUser.id } },
                 categories: {
                     connect: Array.isArray(categories) ? categories.map((id: string) => ({ id })) : [],
