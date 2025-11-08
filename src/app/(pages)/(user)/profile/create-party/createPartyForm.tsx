@@ -19,6 +19,7 @@ import { ImageItem } from "@/src/app/lib/types/ImageItemType";
 import StepManager from "@/src/app/lib/components/default/step_manager";
 import { PartyWithImages } from "@/src/app/lib/types/PartyWithImagesType";
 import StepCards from "@/src/app/lib/components/party/form/step_cards";
+import { TicketClassWithExtendedDate } from "@/src/app/lib/types/TicketClassWithExtendedDate";
 
 interface Props {
     authUser: { id: string; email: string; username: string };
@@ -47,7 +48,7 @@ const CreatePartyForm = ({ authUser }: Props) => {
     const [oldImages, setOldImages] = useState<ImageItem[]>([]);
     const [images, setImages] = useState<ImageItem[]>([]);
 
-    const [ticketClasses, setTicketClasses] = useState<TicketClass[]>([]);
+    const [ticketClasses, setTicketClasses] = useState<TicketClassWithExtendedDate[]>([]);
 
     const [partyData, setPartyData] = useState<PartyWithImages>({
         id: "",

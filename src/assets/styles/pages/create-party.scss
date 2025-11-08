@@ -118,7 +118,7 @@
             }
             .step-content{
                 max-height: 710px;
-                overflow-y: scroll;
+                overflow-y: auto;
                 .party-form{
                     display: flex;
                     flex-direction: column;
