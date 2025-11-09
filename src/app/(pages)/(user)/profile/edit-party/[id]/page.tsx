@@ -1,9 +1,8 @@
 import ManagerPage from "@/src/app/lib/templates/manager_page";
 import prisma from "@prisma/prisma";
 import jwt from "jsonwebtoken";
-import CreatePartyForm from "./editPartyForm"; // Client Component
+import CreatePartyForm from "../createPartyForm"; // Client Component
 import { cookies } from "next/headers";
-import EditPartyForm from "./editPartyForm";
 
 export default async function CreatePartyPage(props) {
     // Get auth token from cookies
@@ -20,6 +19,7 @@ export default async function CreatePartyPage(props) {
         }
     }
 
+
     if (!authUser) {
         return <div>Unauthorized</div>;
     }
@@ -27,7 +27,7 @@ export default async function CreatePartyPage(props) {
     return (
         <div className="main">
             <ManagerPage>
-                <EditPartyForm authUser={authUser} />
+                <CreatePartyForm authUser={authUser} />
             </ManagerPage>
         </div>
     );

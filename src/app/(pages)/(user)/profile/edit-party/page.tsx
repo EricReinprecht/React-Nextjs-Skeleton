@@ -1,7 +1,7 @@
 import ManagerPage from "@/src/app/lib/templates/manager_page";
 import prisma from "@prisma/prisma";
 import jwt from "jsonwebtoken";
-import CreatePartyForm from "./[id]/createPartyForm"; // Client Component
+import CreatePartyForm from "./createPartyForm"; // Client Component
 import { cookies } from "next/headers";
 
 export default async function CreatePartyPage(props) {

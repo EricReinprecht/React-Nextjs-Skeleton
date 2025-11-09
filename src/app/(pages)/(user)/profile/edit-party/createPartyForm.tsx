@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, ChangeEvent, JSX } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import Step1 from "@components/party/form/step1";
 import Step2 from "@components/party/form/step2";
 import Step3 from "@components/party/form/step3";
@@ -18,12 +18,14 @@ import { createFormDataForParty } from "@/src/app/lib/utils/createFormDataForPar
 import withAuth from "@/src/app/lib/hoc/withAuth";
 import "@styles/pages/create-party.scss";
 import Footer from "@/src/app/lib/components/party/form/footer";
+import { useParams } from "next/navigation";
 
 interface Props {
     authUser: { id: string; email: string; username: string };
 }
 
 const CreatePartyForm = ({ authUser }: Props) => {
+    const [isLoading, setIsLoading] = useState(true);
     const [step, setStep] = useState(1);
     const [allCategories, setAllCategories] = useState<Category[]>([]);
     const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
@@ -55,8 +57,18 @@ const CreatePartyForm = ({ authUser }: Props) => {
         categories: [],
     });
 
+    const params = useParams();
+    const partyId = Array.isArray(params?.id) ? params.id[0] : params?.id;
+
     useEffect(() => {
-        saveParty();
+        if (partyId && !isCreated) {
+            fetchParty(partyId);
+            setIsCreated(true);
+            setPartyData((p) => ({ ...p, id: partyId }));
+            setLastSavedPartyData((prev) => prev ?? partyData);
+        }else{
+            saveParty();
+        }
     }, [step]);
 
     useEffect(() => {
@@ -76,6 +88,34 @@ const CreatePartyForm = ({ authUser }: Props) => {
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
         setPartyData((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const fetchParty = async (partyId: string) => {
+        console.log("here");
+        try {
+            const res = await fetch(`/api/party/${partyId}/get`);
+            if (!res.ok) throw new Error("Failed to fetch party");
+            const data: PartyWithImages = await res.json();
+            setPartyData(data);
+            setSelectedCategories(data.categories || []);
+            const start = data.startDate ? new Date(data.startDate) : getNextDateTimeAt("friday", 18);
+            const end = data.endDate ? new Date(data.endDate) : getNextDateTimeAt("saturday", 3);
+            setPartyData({
+                ...data,
+                startDate: start,
+                endDate: end,
+            });
+            setSelectedCategories(data.categories || []);
+            setStartDateOnly(start);
+            setStartTimeOnly(start);
+            setEndDateOnly(end);
+            setEndTimeOnly(end);
+
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const saveParty = async () => {
@@ -107,6 +147,7 @@ const CreatePartyForm = ({ authUser }: Props) => {
             alert("Error saving party");
         } finally {
             setIsSavingParty(false);
+            setIsLoading(false);
         }
     };
 
@@ -155,19 +196,23 @@ const CreatePartyForm = ({ authUser }: Props) => {
 
     return (
         <div className="create-party-wrapper">
-            <div className="step-manager-container">
-                <StepManager steps={steps} currentStep={step} setStep={setStep} />
-            </div>
-            <div className="create-party-container">
-                <div className="create-party-background" />
-                <div className="create-party-content">
-                    <div className="body">
-                        <div className="header">{steps[step - 1].name}</div>
-                        {stepComponents[step]}
+            { !isLoading && 
+                <>
+                    <div className="step-manager-container">
+                        <StepManager steps={steps} currentStep={step} setStep={setStep} />
                     </div>
-                </div>
-                <Footer steps={steps} step={step} navigateToStep={setStep} onSubmit={saveParty} />
-            </div>
+                    <div className="create-party-container">
+                        <div className="create-party-background" />
+                        <div className="create-party-content">
+                            <div className="body">
+                                <div className="header">{steps[step - 1].name}</div>
+                                {stepComponents[step]}
+                            </div>
+                        </div>
+                        <Footer steps={steps} step={step} navigateToStep={setStep} onSubmit={saveParty} />
+                    </div>
+                </>
+            }
         </div>
     );
 };

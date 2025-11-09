@@ -5,13 +5,13 @@ import withAuth from "@hoc/withAuth";
 import "@styles/pages/create-party.scss";
 import ManagerPage from "@/src/app/lib/templates/manager_page";
 import "@styles/tables/manager_table.scss"
-import { Party } from "@entities/party";
 import { getPartiesPaginated } from "@services/partyService";
 import { formatDateGerman } from "../../../../lib/utils/formatDate";
 import { useDebounce } from "use-debounce";
 import DatePickerComponent from "@/src/app/lib/components/default/date_picker";
 import Link from "next/link";
 import qs from "qs";
+import { Party } from "@prisma/client";
 
 const MyPartyList = () => {
     const [parties, setParties] = useState<Party[]>([]);
@@ -146,7 +146,7 @@ const MyPartyList = () => {
                             <tr key={party.id}>
                                 <td>{party.id}</td>
                                 <td>{party.name}</td>
-                                <td>{formatDateGerman(party.created)}</td>
+                                <td>{formatDateGerman(party.createdAt)}</td>
                                 <td>{formatDateGerman(party.startDate)}</td>
                                 <td>{formatDateGerman(party.endDate)}</td>
                                 <td>{party.location}</td>
