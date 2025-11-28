@@ -1,4 +1,4 @@
-@import "security_form";
+@use "security_form" as *;
 
 .form-container form.register-form{
     min-width: 800px;

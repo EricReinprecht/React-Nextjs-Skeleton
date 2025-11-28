@@ -1,4 +1,4 @@
-@import "../animations/background.scss";
+@use "../animations/background.scss" as *;
 
 .main{
     z-index: 2;
