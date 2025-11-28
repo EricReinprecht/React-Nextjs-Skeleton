@@ -1,183 +1,143 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-    provider = "prisma-client-js"
-    // output   = "../src/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Account {
-    id                 String  @id @default(cuid())
-    userId             String
-    type               String
-    provider           String
-    providerAccountId  String
-    refresh_token      String?
-    access_token       String?
-    expires_at         Int?
-    token_type         String?
-    scope              String?
-    id_token           String?
-    session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-    @@unique([provider, providerAccountId])
+  @@unique([provider, providerAccountId])
 }
 
 model Image {
-    id          String   @id @default(cuid())
-    createdAt   DateTime @default(now())
-    path        String
-
-    partyId     String?
-    party       Party?   @relation("PartyImages", fields: [partyId], references: [id])
-
-    // userId    String?  @unique(map: "userId_idx")
-    // user      User?    @relation("UserImage", fields: [userId], references: [id])
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  path      String
+  partyId   String?
+  party     Party?   @relation("PartyImages", fields: [partyId], references: [id])
 }
 
 model Party {
-    id             String              @id @default(cuid())
-    name           String
-    location       String
-    latitude       Float
-    longitude      Float
-    startDate      DateTime
-    endDate        DateTime
-    description    String
-    teaser         String
-
-    status         PartyStatus          @default(draft)
-    
-    createdAt      DateTime             @default(now())
-    updatedAt      DateTime?            @updatedAt
-
-    // relations
-    categories      PartyCategory[]    @relation("PartyToCategory")
-    
-    userId          String
-    createdBy       User               @relation("UserToParty", fields: [userId], references: [id])
-    
-    tickets         Ticket[]           @relation("PartyToTicket")
-    ticketClasses   TicketClass[]      @relation("PartyToTicketClass")
-    images          Image[]            @relation("PartyImages")
-}
-
-enum PartyStatus {
-    draft
-    hot
-    published
-    hidden
+  id            String          @id @default(cuid())
+  name          String
+  location      String
+  latitude      Float
+  longitude     Float
+  startDate     DateTime
+  endDate       DateTime
+  description   String
+  teaser        String
+  userId        String
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime?       @updatedAt
+  status        PartyStatus     @default(draft)
+  images        Image[]         @relation("PartyImages")
+  createdBy     User            @relation("UserToParty", fields: [userId], references: [id])
+  tickets       Ticket[]        @relation("PartyToTicket")
+  ticketClasses TicketClass[]   @relation("PartyToTicketClass")
+  categories    PartyCategory[] @relation("PartyToCategory")
 }
 
 model PartyCategory {
-    id             String    @id @default(cuid())
-    name           String    @unique
-    active         Boolean
-
-    createdAt      DateTime     @default(now())
-    
-    // relations
-    parties        Party[]  @relation("PartyToCategory")
+  id        String   @id @default(cuid())
+  name      String   @unique
+  active    Boolean
+  createdAt DateTime @default(now())
+  parties   Party[]  @relation("PartyToCategory")
 }
 
 model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    userId       String
-    expires      DateTime
-
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Ticket {
-    id            String       @id @default(cuid())
-    
-    createdAt      DateTime     @default(now())
-    
-    // relations
-    partyId       String
-    party         Party        @relation("PartyToTicket", fields: [partyId], references: [id])
-    
-    ticketClassId String
-    ticketClass   TicketClass  @relation("TicketClassToTickets", fields: [ticketClassId], references: [id])
+  id            String      @id @default(cuid())
+  partyId       String
+  ticketClassId String
+  createdAt     DateTime    @default(now())
+  party         Party       @relation("PartyToTicket", fields: [partyId], references: [id])
+  ticketClass   TicketClass @relation("TicketClassToTickets", fields: [ticketClassId], references: [id])
 }
 
 model TicketClass {
-    id             String       @id @default(cuid())
-    name           String
-    description    String
-    validFrom      DateTime
-    validTo        DateTime
-    ticketAmount   Int
-
-    createdAt      DateTime     @default(now())
-    updatedAt      DateTime?    @updatedAt
-
-    // relations 
-    prices          TicketClassPrice[]
-    
-    partyId         String
-    party           Party       @relation("PartyToTicketClass", fields: [partyId], references: [id])
-    
-    tickets         Ticket[]    @relation("TicketClassToTickets")
+  id           String             @id @default(cuid())
+  name         String
+  description  String
+  partyId      String
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime?          @updatedAt
+  validFrom    DateTime
+  validTo      DateTime
+  ticketAmount Int
+  tickets      Ticket[]           @relation("TicketClassToTickets")
+  party        Party              @relation("PartyToTicketClass", fields: [partyId], references: [id])
+  prices       TicketClassPrice[]
 }
 
 model TicketClassPrice {
-    id             String       @id @default(cuid())
-    amount         Int
-    price          Decimal
-    currency       String
-
-    createdAt      DateTime     @default(now())
-    updatedAt      DateTime?    @updatedAt
-
-    // relations
-    ticketClassId  String
-    ticketClass    TicketClass  @relation(fields: [ticketClassId], references: [id])
+  id            String      @id @default(cuid())
+  amount        Int
+  price         Decimal
+  currency      String
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime?   @updatedAt
+  ticketClassId String
+  ticketClass   TicketClass @relation(fields: [ticketClassId], references: [id])
 }
 
-
 model User {
-    id             String      @id @default(cuid())
-    username       String      @unique
-    email          String      @unique
-    emailVerified  DateTime?
-    password       String
-    sessions       Session[]
-    accounts       Account[]
-
-    firstname      String
-    lastname       String
-    birthdate      DateTime
-    country        String
-    zip            Int
-    city           String
-    street         String
-    housenumber    Int
-    unit           String?
-    
-    createdAt      DateTime     @default(now())
-    updatedAt      DateTime?    @updatedAt
-
-    
-    // relations
-    createdParties Party[]      @relation("UserToParty")
+  id             String    @id @default(cuid())
+  username       String    @unique
+  email          String    @unique
+  emailVerified  DateTime?
+  password       String
+  firstname      String
+  lastname       String
+  birthdate      DateTime
+  country        String
+  zip            Int
+  city           String
+  street         String
+  housenumber    Int
+  unit           String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime? @updatedAt
+  accounts       Account[]
+  createdParties Party[]   @relation("UserToParty")
+  sessions       Session[]
 }
 
 model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
+  identifier String
+  token      String   @unique
+  expires    DateTime
 
-    @@unique([identifier, token])
+  @@unique([identifier, token])
+}
+
+enum PartyStatus {
+  draft
+  hot
+  published
+  hidden
 }

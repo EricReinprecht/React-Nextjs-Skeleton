@@ -4,8 +4,10 @@ import DefaultPartyList from "@components/lists/default_party_list";
 export default function Home(props) {
   return (
     <div className="main">
-      <BasePage>
-        <DefaultPartyList />
+      <BasePage backgroundType="default">
+
+      <div></div>
+        {/* <DefaultPartyList /> */}
       </BasePage>
     </div>
   );

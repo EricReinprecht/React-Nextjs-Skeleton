@@ -3,12 +3,14 @@
     position: relative;
 }
 .base_page-template{
-    min-height: 100vh;
     .background{
-        position: fixed;
+        position: relative;
         top: 0;
-        height: 100vh;
         width: 100%;
+        min-height: calc(100vh - $header_height);
+        &.type-default{
+            background-color: $white;
+        }
         &.type-red_gradient{
             background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255, 80, 120, 0.25), transparent 70%), #000000;
             background: radial-gradient(105% 105% at 50% 0, #ff507840, #0000 80%), #000;
@@ -20,9 +22,5 @@
     }
     *{
         color: $black;
-    }
-    main{
-        padding: 50px $sidespace;
-        height: calc(100vh - $header_height)
     }
 }

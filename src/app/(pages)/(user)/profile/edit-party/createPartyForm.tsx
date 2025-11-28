@@ -19,6 +19,7 @@ import withAuth from "@/src/app/lib/hoc/withAuth";
 import "@styles/pages/create-party.scss";
 import Footer from "@/src/app/lib/components/party/form/footer";
 import { useParams } from "next/navigation";
+import Loader from "@/src/app/lib/components/default/loader";
 
 interface Props {
     authUser: { id: string; email: string; username: string };
@@ -196,6 +197,7 @@ const CreatePartyForm = ({ authUser }: Props) => {
 
     return (
         <div className="create-party-wrapper">
+            <Loader type="rgb-lettering" />
             { !isLoading && 
                 <>
                     <div className="step-manager-container">

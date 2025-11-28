@@ -5,13 +5,14 @@ import "../../../assets/styles/templates/base_page.scss";
 
 interface LayoutProps {
     children: ReactNode;
+    backgroundType?: string;
 }
 
-const BasePage = ({ children }: LayoutProps) => {
+const BasePage = ({ children, backgroundType = "default" }: LayoutProps) => {
+    console.log(backgroundType)
     return (
         <div className="base_page-template">
-            <div className="background type-red_gradient"></div>
-            <Header />
+            <div className={`background type-${backgroundType}`}></div>
                 <main className="master-main">{children}</main>
             <Footer />
         </div>
