@@ -13,8 +13,7 @@ const BasePage = ({ children, backgroundType = "default" }: LayoutProps) => {
     return (
         <div className="base_page-template">
             <div className={`background type-${backgroundType}`}></div>
-                <main className="master-main">{children}</main>
-            <Footer />
+            <main className="master-main">{children}</main>
         </div>
     );
 };
