@@ -2,8 +2,8 @@ import "@styles/components/header.scss";
 import Link from "next/link";
 
 import React from "react";
-import Profile from "../../svgs/profile";
-import { getAuthUser } from "../../utils/getAuthUser";
+import Profile from "@svgs/profile";
+import { getAuthUser } from "@utils/getAuthUser";
 
 const Header: React.FC = async () => {
 
