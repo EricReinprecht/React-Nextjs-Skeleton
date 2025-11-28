@@ -1,9 +1,8 @@
 footer{
-    // position: absolute;
-    // bottom: 0;
+    padding: 0 $sidespace_header;
     padding-top: 80px;
+    padding-bottom: 80px;
     background-color: transparent;
-    padding: 50px $sidespace 65px $sidespace;
     width: 100%;
     .footer-inner{
         display: flex;
