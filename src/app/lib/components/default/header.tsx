@@ -1,22 +1,26 @@
 import "@styles/components/header.scss";
 import Link from "next/link";
-
-import React from "react";
 import Profile from "@svgs/profile";
 import { getAuthUser } from "@utils/getAuthUser";
+import { getTranslations } from "next-intl/server";
 
-const Header: React.FC = async () => {
-
+export default async function Header() {
     const user = await getAuthUser();
 
     return (
         <header>
             <div className="left">
-                <Link href="/" className="logo"><img src={"/logo.png"} style={{ height: "70px", width: "auto" }}/><div className="text">Pfautec</div></Link>
+                <Link href="/" className="logo">
+                    <img src="/logo.png" style={{ height: "70px", width: "auto" }} />
+                    <div className="text">Pfautec</div>
+                </Link>
             </div>
 
             <div className="header-inner">
-                <Link href="/browse" className="nav-item-outer"><div className="nav-item">Stöbern</div></Link>
+                <Link href="/browse" className="nav-item-outer">
+                    {/* <div className="nav-item">{t("header.menu.browse" )}</div> */}
+                </Link>
+
                 {user && (
                     <>
                         <Link href="/profile/my-cards" className="nav-item-outer"><div className="nav-item">Meine Karten</div></Link>
@@ -28,10 +32,12 @@ const Header: React.FC = async () => {
             </div>
 
             <div className="right">
-                <Link href="/profile" className="nav-item-outer"><div className="nav-item"><Profile width={40} height={40} color="white" border_color="white"/></div></Link>
+                <Link href="/profile" className="nav-item-outer">
+                    <div className="nav-item">
+                        <Profile width={40} height={40} color="white" border_color="white" />
+                    </div>
+                </Link>
             </div>
         </header>
     );
-};
-
-export default Header;
+}
