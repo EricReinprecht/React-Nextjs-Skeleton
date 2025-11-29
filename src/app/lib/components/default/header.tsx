@@ -2,9 +2,14 @@ import "@styles/components/header.scss";
 import Link from "next/link";
 import Profile from "@svgs/profile";
 import { getAuthUser } from "@utils/getAuthUser";
-import { getTranslations } from "next-intl/server";
+import { getMessages, getTranslations } from 'next-intl/server';
+import { useTranslations } from "next-intl";
 
-export default async function Header() {
+interface HeaderProps {
+  messages: Record<string, string>;
+}
+
+export default async function Header({ messages }: HeaderProps) {
     const user = await getAuthUser();
 
     return (
@@ -18,7 +23,7 @@ export default async function Header() {
 
             <div className="header-inner">
                 <Link href="/browse" className="nav-item-outer">
-                    {/* <div className="nav-item">{t("header.menu.browse" )}</div> */}
+                    <div className="nav-item">{messages.browse}</div>
                 </Link>
 
                 {user && (
