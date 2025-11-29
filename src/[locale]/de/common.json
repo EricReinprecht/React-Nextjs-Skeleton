@@ -1,0 +1,11 @@
+{
+    "header": {
+        "menu": {
+            "browse": "Stöbern",
+            "my_cards": "Meine Karten",
+            "my_parties": "Meine Partys",
+            "create_new_party": "Neue Party erstellen",
+            "settings": "Einstellungen"
+        }
+    }
+}
