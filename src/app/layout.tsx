@@ -4,6 +4,8 @@ import "./globals.css";
 import { AuthProvider } from "./lib/context/authProvider";
 import Header from "./lib/components/default/header";
 import Footer from "./lib/components/default/footer";
+import { getMessages } from 'next-intl/server';
+import { NextIntlClientProvider } from 'next-intl';
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -22,16 +24,21 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
     children,
+    // params: { locale }
 }: Readonly<{
     children: React.ReactNode;
+    // params: { locale: string };
 }>) {
+
     return (
         <AuthProvider>
-            <html lang="en">
+            <html lang="de">
                 <body className={`${geistSans.variable} ${geistMono.variable}`}>
-                    <Header />
-                    {children}
-                    <Footer />
+                    {/* <NextIntlClientProvider locale={locale} messages={messages}> */}
+                        <Header />
+                        {children}
+                        <Footer />
+                    {/* </NextIntlClientProvider> */}
                 </body>
             </html>
         </AuthProvider>
