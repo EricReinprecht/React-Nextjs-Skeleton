@@ -5,9 +5,11 @@
     top: 0;
     width: 100%;
     min-height: calc(100vh - map-get(vars.$height, header));
+    display: flex;
     .master-main{
         position: relative;
         z-index: 2;
+        flex: 1;
     }
     .background{
         position: absolute;
