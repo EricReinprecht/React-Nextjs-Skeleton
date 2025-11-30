@@ -24,8 +24,8 @@
                 border-radius: 24px;
                 font-weight: 400;
                 background-color: transparent;
-                border-color: $white;
-                color: $white;
+                border-color: map-get(vars.$colors, white);
+                color: map-get(vars.$colors, white);
             }
         }
     }

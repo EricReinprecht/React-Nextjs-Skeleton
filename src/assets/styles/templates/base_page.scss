@@ -1,3 +1,5 @@
+@use "../abstracts/variables" as vars;
+
 .master-main{
     z-index: 2;
     position: relative;
@@ -7,9 +9,9 @@
         position: relative;
         top: 0;
         width: 100%;
-        min-height: calc(100vh - $header_height);
+        min-height: calc(100vh - map-get(vars.$height, header));
         &.type-default{
-            background-color: $white;
+            background-color: map-get(vars.$colors, white);
         }
         &.type-red_gradient{
             background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255, 80, 120, 0.25), transparent 70%), #000000;
@@ -21,6 +23,6 @@
         }
     }
     *{
-        color: $black;
+        color: map-get(vars.$colors, black);
     }
 }

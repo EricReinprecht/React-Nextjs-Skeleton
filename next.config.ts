@@ -1,9 +1,16 @@
 import type { NextConfig } from "next";
 import path from "path";
+import createNextIntlPlugin from 'next-intl/plugin';
 // import dotenv from 'dotenv';
 
 // Load the environment variables from `.env.local`
 // dotenv.config({ path: '.env.local' });
+
+const withNextIntl = createNextIntlPlugin({
+    request: './i18n/request.ts',
+} as any);
+
+console.log("here")
 
 const nextConfig: NextConfig = {
   reactStrictMode: false, // TODO REMOVE WHEN PRODUCTION
@@ -14,9 +21,6 @@ const nextConfig: NextConfig = {
       ...process.env, 
     },
     additionalData: `
-      @use "variables" as *;
-      @use "default" as *;
-      @use "reset" as *; 
     ` // Combine both @use statements into one string
   },
   //  i18n: {
@@ -26,4 +30,4 @@ const nextConfig: NextConfig = {
   // },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

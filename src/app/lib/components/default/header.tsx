@@ -28,10 +28,10 @@ export default async function Header({ messages }: HeaderProps) {
 
                 {user && (
                     <>
-                        <Link href="/profile/my-cards" className="nav-item-outer"><div className="nav-item">Meine Karten</div></Link>
-                        <Link href="/profile/my-parties" className="nav-item-outer"><div className="nav-item">Meine Partys</div></Link>
-                        <Link href="/profile/create-party" className="nav-item-outer"><div className="nav-item">Neue Party erstellen</div></Link>
-                        <Link href="/profile/settings" className="nav-item-outer"><div className="nav-item">Einstellungen</div></Link>
+                        <Link href="/profile/my-cards" className="nav-item-outer"><div className="nav-item">{messages.my_cards}</div></Link>
+                        <Link href="/profile/my-parties" className="nav-item-outer"><div className="nav-item">{messages.my_parties}</div></Link>
+                        <Link href="/profile/create-party" className="nav-item-outer"><div className="nav-item">{messages.create_new_party}</div></Link>
+                        <Link href="/profile/settings" className="nav-item-outer"><div className="nav-item">{messages.settings}</div></Link>
                     </>
                 )}
             </div>

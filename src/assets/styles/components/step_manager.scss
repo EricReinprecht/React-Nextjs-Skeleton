@@ -9,25 +9,25 @@
             cursor: pointer;
         }
         .number{
-            color: $white;
-            background-color: $charcoal;
+            color: map-get(vars.$colors, white);
+            background-color: map-get(vars.$colors, charcoal);
             font-weight: 700;
             font-size: 18px;
             width: 60px;
             height: 60px;
             border-radius: 100%;
-            border: 1px solid $white;
+            border: 1px solid map-get(vars.$colors, white);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 2;
         }
         .name{
-            color: $white;
-            background-color: $charcoal;
+            color: map-get(vars.$colors, white);
+            background-color: map-get(vars.$colors, charcoal);
             font-weight: 700;
             font-size: 16px;
-            border: 1px solid $white;
+            border: 1px solid map-get(vars.$colors, white);
             border-left: unset;
             position: relative;
             left: -8px;
@@ -44,14 +44,14 @@
         }
         &.hovered, &.active{
             .number{
-                color: $charcoal;
-                background-color: $white;
-                border-color: $charcoal;
+                color: map-get(vars.$colors, charcoal);
+                background-color: map-get(vars.$colors, white);
+                border-color: map-get(vars.$colors, charcoal);
             }
             .name{
-                color: $charcoal;
-                background-color: $white;
-                border-color: $charcoal;
+                color: map-get(vars.$colors, charcoal);
+                background-color: map-get(vars.$colors, white);
+                border-color: map-get(vars.$colors, charcoal);
                 width: unset;
             }
             
@@ -66,7 +66,7 @@
             left: 81px;
             top: 94px;
             path{
-                fill: $white;
+                fill: map-get(vars.$colors, white);
             }
         }
     }

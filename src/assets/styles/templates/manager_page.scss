@@ -12,7 +12,7 @@
     .sidebar{
         height: 100%;
         width: 100%;
-        background-color: $white;
+        background-color: map-get(vars.$colors, white);
         max-width: 400px;
         display: flex;
         flex-direction: column;
@@ -33,7 +33,7 @@
         }
     }
     *{
-        color: $black;
+        color: map-get(vars.$colors, black);
     }
     main{
         width: 100%;

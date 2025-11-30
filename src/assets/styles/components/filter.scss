@@ -1,14 +1,14 @@
 .main{
     position: relative;
     padding: 0 !important;
-    height: calc(100vh - $header_height - 50px);
+    height: calc(100vh - map-get(vars.$height, header) - 50px);
     overflow-y: auto;
 }
 
 .filter{
     display: flex;
     flex-direction: column;
-    background-color: $charcoal;
+    background-color: map-get(vars.$colors, charcoal);
     width: 400px;
     height: 100%;
     padding: 20px;
@@ -34,7 +34,7 @@
                 display: flex;
                 flex-direction: row;
                 label{
-                    color: $white;
+                    color: map-get(vars.$colors, white);
                     cursor: pointer;
                     transition: 0.2s ease-in-out;
                     svg{

@@ -2,12 +2,12 @@
     height: 100%;
 }
 table.manager-table{
-    background-color: $white;
+    background-color: map-get(vars.$colors, white);
     width: 100%;
     border-spacing: 0;
 
     th, td{
-        // background-color: $white;
+        // background-color: map-get(vars.$colors, white);
         
         text-align: unset;
         padding: 10px 20px;

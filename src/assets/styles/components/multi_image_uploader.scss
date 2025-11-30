@@ -64,7 +64,7 @@
                 cursor: pointer;
                 transition: background 0.2s;
                 svg{
-                    fill: $white;
+                    fill: map-get(vars.$colors, white);
                 }
                 &:hover{
                     svg{
