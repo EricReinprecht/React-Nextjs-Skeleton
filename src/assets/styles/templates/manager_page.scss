@@ -18,9 +18,24 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        padding: 20px 20px;
+        .content{
+            .menu-items{
+                .item{
+                    display: block;
+                    padding: 25px 30px;
+                    font-size: 28px;
+                    font-weight: 700;
+                    transition: 0.2s ease-in-out;
+                    cursor: pointer;
+                    &:hover{
+                        background-color: map-get(vars.$colors, charcoal);
+                        color: map-get(vars.$colors, white);
+                    }
+                }
+            }
+        }
         .footer{
-            border: 1px solid black;
+            border: 1px solid map-get(vars.$colors, black);
             .item{
                 height: 40px;
                 display: flex;
@@ -28,7 +43,7 @@
                 padding: 10px;
                 cursor: pointer;
                 &:hover{
-                    background-color: red;
+                    background-color: map-get(vars.$colors, red);;
                 }
             }
         }
