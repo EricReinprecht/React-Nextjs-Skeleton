@@ -1,15 +1,20 @@
 @use "../abstracts/variables" as vars;
 
-.master-main{
-    z-index: 2;
-    position: relative;
-}
 .base_page-template{
-    .background{
+    position: relative;
+    top: 0;
+    width: 100%;
+    min-height: calc(100vh - map-get(vars.$height, header));
+    .master-main{
         position: relative;
+        z-index: 2;
+    }
+    .background{
+        position: absolute;
         top: 0;
         width: 100%;
         min-height: calc(100vh - map-get(vars.$height, header));
+        z-index: 1;
         &.type-default{
             background-color: map-get(vars.$colors, white);
         }

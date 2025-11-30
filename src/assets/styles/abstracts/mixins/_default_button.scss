@@ -1,33 +1,15 @@
 @use "../../abstracts/variables" as vars;
 
-@mixin button-styles($color-map) {
+@mixin default_button-styles($color-map) {
     @each $name, $color in $color-map {
-        // Background color
-        .bg-#{$name} {
-            background-color: $color;
-        }
-      
-        // Text color
-        .text-#{$name} {
-            color: $color;
-        }
-      
-        // Border color
-        .border-#{$name} {
-            border-color: $color;
-        }
-      
-        // Hover variants
+        .bg-#{$name} { background-color: $color; }
+        .text-#{$name} { color: $color; }
+        .border-#{$name} { border-color: $color; }
+        
         &:hover {
-            &.hover-bg-#{$name} {
-                background-color: $color !important;
-            }
-            &.hover-text-#{$name} {
-                color: $color;
-            }
-            &.hover-border-#{$name} {
-                border-color: $color;
-            }
+            &.hover-bg-#{$name} { background-color: $color !important; }
+            &.hover-text-#{$name} { color: $color; }
+            &.hover-border-#{$name} { border-color: $color; }
         }
     }
 }

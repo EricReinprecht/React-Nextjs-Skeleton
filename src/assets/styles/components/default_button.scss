@@ -24,5 +24,5 @@
     }
 
     // Apply all color variants
-    @include mixins.button-styles(vars.$colors);
+    @include mixins.default_button-styles(vars.$colors);
 }
