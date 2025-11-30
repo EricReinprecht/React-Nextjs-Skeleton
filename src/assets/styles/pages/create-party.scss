@@ -1,3 +1,5 @@
+@use "../abstracts/variables" as vars;
+
 .manager_page-template{
     .main{
         padding: 0;
@@ -218,7 +220,7 @@
             flex-direction: row;
             &:hover{
                 label{
-                    color: $red;
+                    color: map-get(vars.$colors, red);;
                 }
             }
             label{
