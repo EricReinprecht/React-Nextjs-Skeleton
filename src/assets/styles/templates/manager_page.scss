@@ -1,3 +1,4 @@
+@use "../abstracts/variables" as vars;
 @use "../animations/background.scss" as *;
 
 .main{
@@ -6,7 +7,7 @@
     height: 100%;
 }
 .manager_page-template{
-    height: 100%;
+    height: calc(100% - map-get(vars.$height, header));
     display: flex;
     flex-direction: row;
     .sidebar{
