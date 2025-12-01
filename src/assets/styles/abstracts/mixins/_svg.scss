@@ -1,0 +1,9 @@
+@use "../../abstracts/variables" as vars;
+
+@mixin svg-styles($colors-map) {
+    @each $name, $color in $colors-map {
+        .fill-#{$name} {
+            fill: $color;
+        }
+    }
+}

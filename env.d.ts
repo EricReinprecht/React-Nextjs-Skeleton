@@ -1,5 +1,5 @@
 declare namespace NodeJS {
     interface ProcessEnv {
-        PARTY_PAGE_SIZE: string;
+        NEXT_PUBLIC_PARTY_PAGE_SIZE: string;
     }
 }

@@ -2,28 +2,73 @@
 
 .table-wrapper{
     height: 100%;
-}
-table.manager-table{
-    background-color: map-get(vars.$colors, white);
-    width: 100%;
-    border-spacing: 0;
+    top: 0;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    table.manager-table{
+        background-color: map-get(vars.$colors, white);
+        width: 100%;
+        border-spacing: 0;
 
-    th, td{
-        // background-color: map-get(vars.$colors, white);
-        
-        text-align: unset;
-        padding: 10px 20px;
-        .inner{
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
+        tr{
+            &:nth-child(even) {
+                background-color: map-get(vars.$colors, dark_white);
+            }
+        }
+
+        tr
+
+        th, td{
+            // background-color: map-get(vars.$colors, white);
+
+            font-size: 22px;
+            text-align: unset;
+            padding: 40px 20px;
+            .inner{
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+            }
+        }
+
+        th{
+            border-bottom: 2px solid  map-get(vars.$colors, black);
+            padding: 16px 20px;
         }
     }
-
-    th{
-        border-bottom: 2px solid black;
-        padding: 16px 20px;
+    .pagination{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        gap: 12px;
+        button{
+            background-color: map-get(vars.$colors, charcoal);
+            height: 40px;
+            width: 40px;
+            min-width: 40px;
+            border-radius: 100%;
+            color: map-get(vars.$colors, white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            border: 1px solid map-get(vars.$colors, charcoal);
+            font-weight: 700;
+            transition: 0.2s ease-in-out;
+            &:hover, &.active{
+                background-color: map-get(vars.$colors, white);
+                color: map-get(vars.$colors, charcoal);
+                svg{
+                    path{
+                        fill: map-get(vars.$colors, charcoal);
+                    }
+                }
+            }
+            &:disabled{
+                fill-opacity: 0.3;
+            }
+        }
     }
-
-    
 }

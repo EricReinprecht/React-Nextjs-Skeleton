@@ -1,0 +1,6 @@
+@use "../abstracts/mixins/mixins" as mixins;
+@use "../abstracts/variables" as vars;
+
+.pagination-arrow{
+    @include mixins.svg-styles(vars.$colors);
+}

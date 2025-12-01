@@ -1,5 +1,7 @@
+"use client";
+
 import { ReactNode } from "react";
-import Header from "../components/default/header";
+import { usePathname } from "next/navigation";
 import "../../../assets/styles/templates/manager_page.scss";
 import LogoutButton from "../components/default/logout_button";
 import Link from "next/link";
@@ -9,6 +11,18 @@ interface LayoutProps {
 }
 
 const ManagerPage = ({ children }: LayoutProps) => {
+    const pathname = usePathname();
+
+    const menuItems = [
+        { label: "Neue Party erstellen", href: "/profile/edit-party" },
+        { label: "Partys", href: "/profile/my-parties" },
+        { label: "Einstellungen", href: "/profile/settings" },
+        { label: "Karten", href: "/profile/cards" },
+        { label: "Option 5", href: "#" },
+        { label: "Option 6", href: "#" },
+        { label: "Option 7", href: "#" },
+    ];
+
     return (
         <div className="manager_page-template">
             {/* <div className="background type-orange_gradient"></div> */}
@@ -17,13 +31,15 @@ const ManagerPage = ({ children }: LayoutProps) => {
                 <div className="content">
                     <div className="header"></div>
                     <div className="menu-items">
-                        <Link className="item" href={"/profile/edit-party"}>Neue Party erstellen</Link>
-                        <Link className="item" href={"/profile/my-parties"}>Partys</Link>
-                        <Link className="item" href={"/profile/settings"}>Einstellungen</Link>
-                        <Link className="item" href={"/profile/cards"}>Karten</Link>
-                        <div className="item">Option 5</div>
-                        <div className="item">Option 6</div>
-                        <div className="item">Option 7</div>
+                        {menuItems.map((item, index) => (
+                            <Link
+                                key={index}
+                                href={item.href}
+                                className={`item${pathname === item.href ? " active" : ""}`}
+                            >
+                                {item.label}
+                            </Link>
+                        ))}
                     </div>
                 </div>
                 <div className="footer">
