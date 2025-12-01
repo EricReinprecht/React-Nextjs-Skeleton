@@ -17,25 +17,39 @@
                 background-color: map-get(vars.$colors, dark_white);
             }
         }
-
-        tr
-
+        
         th, td{
             // background-color: map-get(vars.$colors, white);
 
             font-size: 22px;
             text-align: unset;
-            padding: 40px 20px;
+            padding: 34px 20px;
             .inner{
                 display: flex;
                 flex-direction: column;
                 gap: 6px;
+                input{
+                    all: unset;
+                    background-color: map-get(vars.$colors, white);
+                    font-size: 16px;
+                    font-weight: 400;
+                    padding: 6px 10px;
+                    outline: none;
+                    border: 1px solid map-get(vars.$colors, charcoal);
+                    border-radius: 18px;
+                }
             }
         }
 
         th{
             border-bottom: 2px solid  map-get(vars.$colors, black);
             padding: 16px 20px;
+        }
+
+        thead{
+            th, td{
+                padding-bottom: 30px;
+            }
         }
     }
     .pagination{
