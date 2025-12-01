@@ -23,7 +23,7 @@
 
             font-size: 22px;
             text-align: unset;
-            padding: 34px 20px;
+            padding: 32px 20px;
             .inner{
                 display: flex;
                 flex-direction: column;
@@ -37,6 +37,22 @@
                     outline: none;
                     border: 1px solid map-get(vars.$colors, charcoal);
                     border-radius: 18px;
+                }
+            }
+            .action{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 30px;
+                width: 30px;
+                &:hover{
+                    svg{
+                        path{
+                            transition: fill 0.3s ease, stroke 0.3s ease;
+                            fill: url(#pencilGradient);
+                            stroke: url(#pencilGradient);
+                        }
+                    }
                 }
             }
         }

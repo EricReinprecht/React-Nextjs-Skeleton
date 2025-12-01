@@ -14,6 +14,8 @@ import { Party } from "@prisma/client";
 import PaginationArrow from "@/src/app/lib/svgs/pagination_arrow";
 import Loader from "@components/default/loader";
 import { PARTY_PAGE_SIZE } from "@/src/app/lib/utils/env";
+import { useRouter } from "next/navigation";
+import Pencil from "@/src/app/lib/svgs/pencil";
 
 const MyPartyList = () => {
     const [parties, setParties] = useState<Party[]>([]);
@@ -23,6 +25,7 @@ const MyPartyList = () => {
     const [debouncedFilters] = useDebounce(filters, 400);
     const [pagesCount, setPagesCount] = useState<number>(0);
     const [cachedPages, setCachedPages] = useState<Record<number, Party[]>>({});
+    const router = useRouter();
 
     const buildPagination = async function name() {
         const queryString = qs.stringify({
@@ -161,7 +164,11 @@ const MyPartyList = () => {
                         </thead>
                         <tbody>
                             {parties.map((party, index) => (
-                                <tr key={party.id}>
+                                <tr 
+                                    key={party.id}
+                                    onClick={() => router.push(`/profile/show-party/${party.id}`)}
+                                    style={{ cursor: "pointer" }}
+                                >
                                     <td>{party.id}</td>
                                     <td>{party.name}</td>
                                     <td>{formatDateGerman(party.createdAt)}</td>
@@ -169,7 +176,7 @@ const MyPartyList = () => {
                                     <td>{formatDateGerman(party.endDate)}</td>
                                     <td>{party.location}</td>
                                     <td>
-                                        <Link href={`/profile/edit-party/${party.id}`}>Edit</Link>
+                                        <Link className="action" onClick={(e) => e.stopPropagation()} href={`/profile/edit-party/${party.id}`}><Pencil height={24} width={24} color={"black"}/></Link>
                                     </td>
                                 </tr>
                             ))}
