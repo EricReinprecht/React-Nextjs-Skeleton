@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
         const filters = (parsed.filters || {}) as Record<string, any>;
 
         const total = await countParties(filters);
-        return NextResponse.json({ total });
+        return NextResponse.json(total);
     } catch (err) {
         console.error(err);
         return NextResponse.json({ message: "Failed to fetch parties" }, { status: 500 });

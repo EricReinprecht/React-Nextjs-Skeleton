@@ -11,13 +11,13 @@ import DatePickerComponent from "@/src/app/lib/components/default/date_picker";
 import Link from "next/link";
 import qs from "qs";
 import { Party, PartyStatus } from "@prisma/client";
-import PaginationArrow from "@/src/app/lib/svgs/pagination_arrow";
 import Loader from "@components/default/loader";
 import { PARTY_PAGE_SIZE } from "@/src/app/lib/utils/env";
 import { useRouter } from "next/navigation";
 import Pencil from "@/src/app/lib/svgs/pencil";
 import Select from "react-select";
 import { PartyFilter } from "@types_ts/party/PartyFilterType";
+import Pagination from "./pagination";
 
 const MyPartyList = () => {
     const [parties, setParties] = useState<Party[]>([]);
@@ -40,7 +40,7 @@ const MyPartyList = () => {
         });
 
         const res = await fetch(`/api/user/count-parties?${queryString}`);
-        const data: { total: number; } = await res.json();
+        const data: { total: number } = await res.json();
         const count = data.total;
         const pagesCount = Math.ceil(count / PARTY_PAGE_SIZE);
         setPagesCount(pagesCount);
@@ -87,106 +87,104 @@ const MyPartyList = () => {
     return (
         <ManagerPage>
             <div className="table-wrapper">
-                {loading ? (
-                    <Loader type={"rgb-lettering"} content={"loading..."}/>
-                ) : (
-                    <table className="manager-table">
-                        <thead>
-                            <tr>
-                               {/* <th>
-                                    <div className="inner">
-                                        <div>ID</div>
-                                        <input
-                                            id="input-id"
-                                            value={filters.id || ""}
-                                            onChange={(e) =>
-                                                setFilters((prev) => ({ ...prev, id: e.target.value }))
-                                            }
-                                            style={{
-                                                opacity: 0,
-                                                pointerEvents: "none",
-                                            }}
-                                        />
-                                    </div>
-                                </th> */}
-                                <th>
-                                    <div className="inner">
-                                        <div>Name</div>
-                                        <input
-                                            id="input-name"
-                                            value={filters.name || ""}
-                                            onChange={(e) =>
-                                                setFilters((prev) => ({ ...prev, name: e.target.value }))
-                                            }
-                                        />
-                                    </div>
-                                </th>
-                                <th>
-                                    <div className="inner">
-                                        <div>Erstellt am</div>
-                                        <DatePickerComponent
-                                            value={filters.createdAt || ""}
-                                            onChange={(val) =>
-                                                setFilters((prev) => ({ ...prev, created: val }))
-                                            }
-                                        />
-                                    </div>
-                                </th>
-                                <th>
-                                    <div className="inner">
-                                        <div>Startdatum</div>
-                                        <DatePickerComponent
-                                            value={filters.startDate || ""}
-                                            onChange={(val) =>
-                                                setFilters((prev) => ({ ...prev, startDate : val }))
-                                            }
-                                        />
-                                    </div>
-                                </th>
-                                <th>
-                                    <div className="inner">
-                                        <div>Enddatum</div>
-                                        <DatePickerComponent
-                                            value={filters.endDate || ""}
-                                            onChange={(val) =>
-                                                setFilters((prev) => ({ ...prev, endDate : val }))
-                                            }
-                                        />
-                                    </div>
-                                </th>
-                                <th>
-                                    <div className="inner">
-                                        <div>Ort</div>
-                                        <input
-                                            id="input-name"
-                                            value={filters.location || ""}
-                                            onChange={(e) =>
-                                                setFilters((prev) => ({ ...prev, location: e.target.value }))
-                                            }
-                                        />
-                                    </div>
-                                </th>
-                                <th>
-                                    <div className="inner">
-                                        <div>Status</div>
-                                        <Select
-                                            options={statusOptions}
-                                            value={statusOptions.find(o => o.value === (filters.status || ""))}
-                                            onChange={(selected) =>
-                                                setFilters(prev => ({
-                                                    ...prev,
-                                                    status: (selected?.value as PartyStatus) || "",
-                                                }))
-                                            }
-                                            isClearable
-                                        />
-                                    </div>
-                                </th>
-                                <th></th>
-                            </tr>
-                        </thead>
+                <table className="manager-table">
+                    <thead>
+                        <tr>
+                           {/* <th>
+                                <div className="inner">
+                                    <div>ID</div>
+                                    <input
+                                        id="input-id"
+                                        value={filters.id || ""}
+                                        onChange={(e) =>
+                                            setFilters((prev) => ({ ...prev, id: e.target.value }))
+                                        }
+                                        style={{
+                                            opacity: 0,
+                                            pointerEvents: "none",
+                                        }}
+                                    />
+                                </div>
+                            </th> */}
+                            <th>
+                                <div className="inner">
+                                    <div>Name</div>
+                                    <input
+                                        id="input-name"
+                                        value={filters.name || ""}
+                                        onChange={(e) =>
+                                            setFilters((prev) => ({ ...prev, name: e.target.value }))
+                                        }
+                                    />
+                                </div>
+                            </th>
+                            <th>
+                                <div className="inner">
+                                    <div>Erstellt am</div>
+                                    <DatePickerComponent
+                                        value={filters.createdAt || ""}
+                                        onChange={(val) =>
+                                            setFilters((prev) => ({ ...prev, created: val }))
+                                        }
+                                    />
+                                </div>
+                            </th>
+                            <th>
+                                <div className="inner">
+                                    <div>Startdatum</div>
+                                    <DatePickerComponent
+                                        value={filters.startDate || ""}
+                                        onChange={(val) =>
+                                            setFilters((prev) => ({ ...prev, startDate : val }))
+                                        }
+                                    />
+                                </div>
+                            </th>
+                            <th>
+                                <div className="inner">
+                                    <div>Enddatum</div>
+                                    <DatePickerComponent
+                                        value={filters.endDate || ""}
+                                        onChange={(val) =>
+                                            setFilters((prev) => ({ ...prev, endDate : val }))
+                                        }
+                                    />
+                                </div>
+                            </th>
+                            <th>
+                                <div className="inner">
+                                    <div>Ort</div>
+                                    <input
+                                        id="input-name"
+                                        value={filters.location || ""}
+                                        onChange={(e) =>
+                                            setFilters((prev) => ({ ...prev, location: e.target.value }))
+                                        }
+                                    />
+                                </div>
+                            </th>
+                            <th>
+                                <div className="inner">
+                                    <div>Status</div>
+                                    <Select
+                                        options={statusOptions}
+                                        value={statusOptions.find(o => o.value === (filters.status || ""))}
+                                        onChange={(selected) =>
+                                            setFilters(prev => ({
+                                                ...prev,
+                                                status: (selected?.value as PartyStatus) || "",
+                                            }))
+                                        }
+                                        isClearable
+                                    />
+                                </div>
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    {!loading && 
                         <tbody>
-                            {parties.map((party, index) => (
+                            {parties.map((party) => (
                                 <tr 
                                     key={party.id}
                                     onClick={() => router.push(`/profile/show-party/${party.id}`)}
@@ -205,73 +203,11 @@ const MyPartyList = () => {
                                 </tr>
                             ))}
                         </tbody>
-                    </table>
-                )}
+                    }
+                </table>
+                {loading && <Loader type="rgb-lettering" content="loading..." />}
                 {pagesCount > 0 &&
-                    <div className="pagination">
-                        <button
-                            key={"prev"}
-                            onClick={() => setPage((p) => Math.max(1, p - 1))}
-                            disabled={page === 1}
-                        >
-                            <PaginationArrow
-                                height={24}
-                                width={24}
-                                color="white"
-                                hoverColor="black"
-                                orientation="right"
-                            />
-                        </button>
-
-                        {pagesCount <= 5 ? (
-                            Array.from({ length: pagesCount }).map((_, idx) => (
-                                <button
-                                    key={idx}
-                                    onClick={() => setPage(idx + 1)}
-                                    disabled={page === idx + 1}
-                                    className={page === idx + 1 ? "active" : ""}
-                                >
-                                    {idx + 1}
-                                </button>
-                            ))
-                        ) : (
-                            <>
-                                {Array.from({ length: 4 }).map((_, idx) => (
-                                    <button
-                                        key={idx}
-                                        onClick={() => setPage(idx + 1)}
-                                        disabled={page === idx + 1}
-                                        className={page === idx + 1 ? "active" : ""}
-                                    >
-                                        {idx + 1}
-                                    </button>
-                                ))}
-                                <button style={{ pointerEvents: "none" }}>...</button>
-                                <button
-                                    key={pagesCount - 1}
-                                    onClick={() => setPage(pagesCount)}
-                                    disabled={page === pagesCount}
-                                    className={page === pagesCount ? "active" : ""}
-                                >
-                                    {pagesCount}
-                                </button>
-                            </>
-                        )}
-
-                        <button
-                            key={"next"}
-                            onClick={() => setPage((p) => Math.min(pagesCount, p + 1))}
-                            disabled={page === pagesCount}
-                        >
-                            <PaginationArrow
-                                height={24}
-                                width={24}
-                                color="white"
-                                hoverColor="black"
-                                orientation="left"
-                            />
-                        </button>
-                    </div>
+                    <Pagination page={page} pagesCount={pagesCount} setPage={setPage}/>
                 }
             </div>
         </ManagerPage>
