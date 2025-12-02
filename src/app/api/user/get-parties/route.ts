@@ -10,9 +10,9 @@ export async function GET(req: NextRequest) {
         const filtersParam = url.searchParams.get("filters");
         const filters = filtersParam ? JSON.parse(filtersParam) : {};
 
-        const { parties, total } = await getPartiesPaginated(page, filters);
+        const { parties } = await getPartiesPaginated(page, filters);
 
-        return NextResponse.json({ parties, total });
+        return NextResponse.json({ parties });
     } catch (error) {
         console.error(error);
         return NextResponse.json({ parties: [], total: 0 }, { status: 500 });

@@ -11,13 +11,10 @@ type PaginationProps = {
 };
 
 const Pagination: React.FC<PaginationProps> = ({
-        page,
-        setPage,
-        pagesCount
-    }) => {
-
-        console.log(pagesCount)
-
+    page,
+    setPage,
+    pagesCount
+}) => {
     return (
         <div className="pagination">
             <button
