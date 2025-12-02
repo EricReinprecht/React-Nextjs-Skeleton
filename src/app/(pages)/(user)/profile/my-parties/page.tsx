@@ -10,22 +10,29 @@ import { useDebounce } from "use-debounce";
 import DatePickerComponent from "@/src/app/lib/components/default/date_picker";
 import Link from "next/link";
 import qs from "qs";
-import { Party } from "@prisma/client";
+import { Party, PartyStatus } from "@prisma/client";
 import PaginationArrow from "@/src/app/lib/svgs/pagination_arrow";
 import Loader from "@components/default/loader";
 import { PARTY_PAGE_SIZE } from "@/src/app/lib/utils/env";
 import { useRouter } from "next/navigation";
 import Pencil from "@/src/app/lib/svgs/pencil";
+import Select from "react-select";
+import { PartyFilter } from "@types_ts/party/PartyFilterType";
 
 const MyPartyList = () => {
     const [parties, setParties] = useState<Party[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [page, setPage] = useState<number>(1);
-    const [filters, setFilters] = useState<Record<string, string>>({});
+    const [filters, setFilters] = useState<PartyFilter>({});
     const [debouncedFilters] = useDebounce(filters, 400);
     const [pagesCount, setPagesCount] = useState<number>(0);
     const [cachedPages, setCachedPages] = useState<Record<number, Party[]>>({});
     const router = useRouter();
+
+    const statusOptions = [
+        { value: "", label: "–" },
+        ...Object.values(PartyStatus).map((s) => ({ value: s, label: s }))
+    ];
 
     const buildPagination = async function name() {
         const queryString = qs.stringify({
@@ -86,7 +93,7 @@ const MyPartyList = () => {
                     <table className="manager-table">
                         <thead>
                             <tr>
-                               <th>
+                               {/* <th>
                                     <div className="inner">
                                         <div>ID</div>
                                         <input
@@ -101,7 +108,7 @@ const MyPartyList = () => {
                                             }}
                                         />
                                     </div>
-                                </th>
+                                </th> */}
                                 <th>
                                     <div className="inner">
                                         <div>Name</div>
@@ -118,7 +125,7 @@ const MyPartyList = () => {
                                     <div className="inner">
                                         <div>Erstellt am</div>
                                         <DatePickerComponent
-                                            value={filters.created || ""}
+                                            value={filters.createdAt || ""}
                                             onChange={(val) =>
                                                 setFilters((prev) => ({ ...prev, created: val }))
                                             }
@@ -159,6 +166,22 @@ const MyPartyList = () => {
                                         />
                                     </div>
                                 </th>
+                                <th>
+                                    <div className="inner">
+                                        <div>Status</div>
+                                        <Select
+                                            options={statusOptions}
+                                            value={statusOptions.find(o => o.value === (filters.status || ""))}
+                                            onChange={(selected) =>
+                                                setFilters(prev => ({
+                                                    ...prev,
+                                                    status: (selected?.value as PartyStatus) || "",
+                                                }))
+                                            }
+                                            isClearable
+                                        />
+                                    </div>
+                                </th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -169,12 +192,13 @@ const MyPartyList = () => {
                                     onClick={() => router.push(`/profile/show-party/${party.id}`)}
                                     style={{ cursor: "pointer" }}
                                 >
-                                    <td>{party.id}</td>
+                                    {/* <td>{party.id}</td> */}
                                     <td>{party.name}</td>
                                     <td>{formatDateGerman(party.createdAt)}</td>
                                     <td>{formatDateGerman(party.startDate)}</td>
                                     <td>{formatDateGerman(party.endDate)}</td>
                                     <td>{party.location}</td>
+                                    <td>{party.status}</td>
                                     <td>
                                         <Link className="action" onClick={(e) => e.stopPropagation()} href={`/profile/edit-party/${party.id}`}><Pencil height={24} width={24} color={"black"}/></Link>
                                     </td>

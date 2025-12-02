@@ -27,7 +27,7 @@
       "@styles/*": ["./src/assets/styles/*"],
       "@fonts/*": ["./src/assets/fonts/*"],
       "@templates/*": ["./src/app/lib/templates/*"],
-      "@types_ts/*": ["src/app/lib/types/*"],
+      "@types_ts/*": ["./src/app/lib/types/*"],
       "@components/*": ["./src/app/lib/components/*"],
       "@entities/*": ["./src/app/lib/entities/*"],
       "@server/*": ["./src/app/lib/server/*"],

@@ -2,6 +2,7 @@ import prisma from "@prisma/prisma";
 import type { Party } from "@prisma/client";
 import { PrismaClient, Prisma } from "@prisma/client";
 import { PARTY_PAGE_SIZE } from "../utils/env";
+import { PartyFilter } from "@types_ts/party/PartyFilterType";
 
 type PartyCreateInput = Omit<Party, "id"> & {
     images?: { url: string; caption?: string; alt?: string }[];
@@ -91,111 +92,72 @@ export const getPartiesByCursor = async (
 
 export const getPartiesPaginated = async (
     page: number = 1,
-    filter?: Record<string, any>
-): Promise<{ parties: any[]; total: number }> => {
+    filter?: PartyFilter
+): Promise<{ parties: any[] }> => {
     try {
         const limit = PARTY_PAGE_SIZE;
         const skip = (page - 1) * limit;
+        
+        const where = filter ? Object.fromEntries(
+            Object.entries(filter)
+                .filter(([_, v]) => v)
+                .map(([key, value]) => [
+                  key,
+                  ["createdAt", "startDate", "endDate"].includes(key)
+                      ? {
+                          gte: new Date(new Date(value).setHours(0, 0, 0, 0)),
+                          lte: new Date(new Date(value).setHours(23, 59, 59, 999)),
+                        }
+                      : ["id", "status"].includes(key)
+                      ? value
+                      : { contains: value, mode: "insensitive" },
+                ])
+            )
+        : {};
 
-        const where: any = {};
-
-        // Apply filters
-        if (filter) {
-            for (const [key, value] of Object.entries(filter)) {
-                if (!value) continue;
-
-                if (key === "id") {
-                    where.id = value;
-                } else if (["created", "startDate", "endDate"].includes(key)) {
-                    const date = new Date(value);
-                    const startOfDay = new Date(date);
-                    startOfDay.setHours(0, 0, 0, 0);
-                    const endOfDay = new Date(date);
-                    endOfDay.setHours(23, 59, 59, 999);
-
-                    where[key] = {
-                        gte: startOfDay,
-                        lte: endOfDay,
-                    };
-                } else {
-                    where[key] = {
-                        contains: value,
-                        mode: "insensitive",
-                    };
-                }
-            }
-        }
-
-        // Fetch total count for pagination
-        const total = await prisma.party.count({ where });
-
-        // Fetch data with offset
         const parties = await prisma.party.findMany({
-            where,
-            orderBy: [
-                { startDate: "asc" },
-                { id: "asc" },
-            ],
-            skip,
-            take: limit,
-            include: {
-                images: true,
-                tickets: true,
-            },
+          where,
+          skip,
+          take: limit,
+          orderBy: [{ startDate: "asc" }, { id: "asc" }],
+          include: { images: true, tickets: true },
         });
-
-        return { parties, total };
+      
+        return { parties };
     } catch (error) {
         console.error("Error fetching paginated parties:", error);
-        return { parties: [], total: 0 };
+        return { parties: [] };
     }
 };
 
+export const countParties = async (
+    filter?: PartyFilter
+): Promise<{ total: number }> => {
+    try {        
+        const where = filter ? Object.fromEntries(
+            Object.entries(filter)
+                .filter(([_, v]) => v)
+                .map(([key, value]) => [
+                  key,
+                  ["createdAt", "startDate", "endDate"].includes(key)
+                      ? {
+                          gte: new Date(new Date(value).setHours(0, 0, 0, 0)),
+                          lte: new Date(new Date(value).setHours(23, 59, 59, 999)),
+                        }
+                      : ["id", "status"].includes(key)
+                      ? value
+                      : { contains: value, mode: "insensitive" },
+                ])
+            )
+        : {};
 
-type PartyFilter = {
-  id?: string;
-  created?: string | Date;
-  startDate?: string | Date;
-  endDate?: string | Date;
-  [key: string]: any; // allow other fields for string search
-};
-
-export async function countParties(filter?: PartyFilter) {
-  const where: Prisma.PartyWhereInput = {};
-
-  if (filter) {
-    for (const [key, value] of Object.entries(filter)) {
-      if (value === null || value === undefined) continue;
-
-      if (key === "id") {
-        where.id = value;
-      } else if (["created", "startDate", "endDate"].includes(key)) {
-        const date = new Date(value);
-        if (isNaN(date.getTime())) continue;
-
-        const startOfDay = new Date(date);
-        startOfDay.setHours(0, 0, 0, 0);
-
-        const endOfDay = new Date(date);
-        endOfDay.setHours(23, 59, 59, 999);
-
-        // Type assertion here because TS can't infer dynamic keys
-        (where as any)[key] = {
-          gte: startOfDay,
-          lte: endOfDay,
-        };
-      } else {
-        // Type assertion here too
-        (where as any)[key] = {
-          contains: String(value),
-          mode: "insensitive",
-        };
-      }
+        const total = await prisma.party.count({ where });
+      
+        return { total };
+    } catch (error) {
+        console.error("Error fetching paginated parties:", error);
+        return { total: 0 };
     }
-  }
-
-  const total = await prisma.party.count({ where });
-  return total;
 }
 
 
