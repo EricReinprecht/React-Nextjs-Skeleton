@@ -26,7 +26,7 @@ const MyPartyList = () => {
 
     return (
         <ManagerPage>
-            <ManagerTable fields={fields} entity="parties" basePath="user" />
+            <ManagerTable fields={fields} entity="cards" basePath="user" />
         </ManagerPage>
     );
 };

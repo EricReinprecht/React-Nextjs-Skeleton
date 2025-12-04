@@ -2,7 +2,7 @@
 
 import "@styles/pages/create-party.scss";
 import "@styles/tables/manager_table.scss"
-import { formatDateGerman } from "../../../../lib/utils/formatDate";
+import { formatDateGerman } from "@utils/formatDate";
 import DatePickerComponent from "@/src/app/lib/components/default/date_picker";
 import Link from "next/link";
 import { Party, PartyStatus } from "@prisma/client";
@@ -34,11 +34,6 @@ const Table: React.FC<TableProps> = ({
     fields
 }) => {
     const router = useRouter();
-
-    const statusOptions = [
-        { value: "", label: "–" },
-        ...Object.values(PartyStatus).map((s) => ({ value: s, label: s })),
-    ];
 
     return (
         <table className="manager-table">

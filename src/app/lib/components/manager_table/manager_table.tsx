@@ -38,11 +38,19 @@ const ManagerTable: React.FC<ManagerTableProps> = ({
     };
 
     const buildPagination = async () => {
-        const queryString = qs.stringify({ filters: debouncedFilters });
-        const res = await fetch(`${getApiPath("count")}?${queryString}`);
-        console.log(res);
-        const data: { total: number } = await res.json();
-        setPagesCount(Math.ceil(data.total / PARTY_PAGE_SIZE));
+        try {
+            const queryString = qs.stringify({ filters: debouncedFilters });
+            const url = `${getApiPath("count")}?${queryString}`;
+            const res = await fetch(url);
+            if (!res.ok) {
+                console.error(`Route '${url}' has following Problem: `, res.statusText);
+                throw new Error(`API Request failed: ${res.status}`);
+            }
+            const data: { total: number } = await res.json();
+            setPagesCount(Math.ceil(data.total / PARTY_PAGE_SIZE));
+        }catch(error){
+            console.error("buildPagination error:", error);
+        }
     };
 
     const fetchData = useCallback(async () => {
@@ -54,12 +62,21 @@ const ManagerTable: React.FC<ManagerTableProps> = ({
         setLoading(true);
         try {
             const queryString = qs.stringify({ page, filters: debouncedFilters });
-            const res = await fetch(`${getApiPath("paginated")}?${queryString}`);
+            const url = `${getApiPath("paginated")}?${queryString}`; 
+            const res = await fetch(url);
+
+            if (!res.ok) {
+                console.error(`Route '${url}' has following Problem: `, res.statusText);
+                throw new Error(`API Request failed: ${res.status}`);
+            }
+
             const responseData: { [key: string]: any[] } = await res.json();
             const key = pluralize(entity);
             const list = responseData[key] || [];
             setData(list);
             setCachedPages((prev) => ({ ...prev, [page]: list }));
+        } catch(error) {
+            console.error(`Failed fetching ${pluralize(entity)}: `, error);
         } finally {
             setLoading(false);
         }
