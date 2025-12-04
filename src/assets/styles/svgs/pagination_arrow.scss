@@ -1,4 +1,5 @@
 @use "../abstracts/mixins/mixins" as mixins;
+@use "sass:map";
 @use "../abstracts/variables" as vars;
 
 .pagination-arrow{

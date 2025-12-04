@@ -1,7 +1,8 @@
+@use "sass:map";
 @use "../abstracts/variables" as vars;
 
 .sidebar{
-    background-color: map-get(vars.$colors, white);
+    background-color: map.get(vars.$colors, "white");
     height: 100%;
     width: 200px;
 }

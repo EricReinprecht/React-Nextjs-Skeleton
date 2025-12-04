@@ -1,17 +1,18 @@
+@use "sass:map";
 @use "../abstracts/variables" as vars;
 
 header{
     position: relative;
-    height: map-get(vars.$height, header);
-    padding: 0 map-get(vars.$height, header);
+    height: map.get(vars.$height, "header");
+    padding: 0 map.get(vars.$height, "header");
     padding-left: 36px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid map-get(vars.$colors, black);
+    border-bottom: 1px solid map.get(vars.$colors, "black");
     width: 100%;
-    background-color: map-get(vars.$colors, white);
+    background-color: map.get(vars.$colors, "white");
     .header-inner{
         height: 100%;
         width: 100%;
@@ -56,7 +57,7 @@ header{
                 height: 100%;
                 display: flex;
                 align-items: center;
-                color: map-get(vars.$colors, charcoal);
+                color: map.get(vars.$colors, "charcoal");
             }
         }
     }
@@ -69,7 +70,7 @@ header{
             justify-content: space-between;
             flex-direction: row;
             align-items: center;
-            color: map-get(vars.$colors, black);
+            color: map.get(vars.$colors, "black");
             gap: 8px;
             .text{
                 font-size: 26px;

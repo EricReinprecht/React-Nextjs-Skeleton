@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import BasePage from "@templates/base_page";
-import "@styles/pages/shit.scss";
 
 import {
     DndContext,

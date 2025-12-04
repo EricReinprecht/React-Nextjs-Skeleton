@@ -1,8 +1,8 @@
 "use client"
 
-import DefaultPartyList from '../../lib/components/lists/default_party_list.jsx'
+import DefaultPartyList from '@components/lists/default_party_list.jsx'
 import "@styles/components/filter.scss"
-import BasePage from '../../lib/templates/base_page.jsx'
+import BasePage from '@templates/base_page';
 import $ from 'jquery';
 import React, { useState, useEffect, useRef } from "react";
 import { getCategories } from "@/src/app/lib/services/categoryService";
@@ -11,11 +11,11 @@ import { getCategories } from "@/src/app/lib/services/categoryService";
 import CarentDown from "@svgs/carent_down";
 import CheckboxFilled from "@svgs/checkbox_filled";
 import CheckboxEmpty from "@svgs/checkbox_empty";
-import { Category } from '../../lib/entities/category.js'
-import ExcelPartyList from '../../lib/components/lists/excel_party_list.jsx';
-import DefaultSearch from '../../lib/components/search/default_search.jsx';
+import { Category } from '@entities/category.js'
+import ExcelPartyList from '@components/lists/excel_party_list';
+import DefaultSearch from '@components/search/default_search';
 
-export default function Page() {
+export default function Page(props) {
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 

@@ -2,5 +2,5 @@
 // @use 'reset';
 .main{
     position: relative;
-    background-color: map-get(vars.$colors, red);;
+    background-color: map.get(vars.$colors, "red");;
 }

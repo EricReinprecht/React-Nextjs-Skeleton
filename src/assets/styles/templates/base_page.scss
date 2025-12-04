@@ -1,10 +1,11 @@
+@use "sass:map";
 @use "../abstracts/variables" as vars;
 
 .base_page-template{
     position: relative;
     top: 0;
     width: 100%;
-    min-height: calc(100vh - map-get(vars.$height, header));
+    min-height: calc(100vh - map.get(vars.$height, "header"));
     display: flex;
     .master-main{
         position: relative;
@@ -15,10 +16,10 @@
         position: absolute;
         top: 0;
         width: 100%;
-        min-height: calc(100vh - map-get(vars.$height, header));
+        min-height: calc(100vh - map.get(vars.$height, "header"));
         z-index: 1;
         &.type-default{
-            background-color: map-get(vars.$colors, white);
+            background-color: map.get(vars.$colors, "white");
         }
         &.type-red_gradient{
             background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255, 80, 120, 0.25), transparent 70%), #000000;
@@ -30,6 +31,6 @@
         }
     }
     *{
-        color: map-get(vars.$colors, black);
+        color: map.get(vars.$colors, "black");
     }
 }

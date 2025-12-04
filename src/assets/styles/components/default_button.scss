@@ -1,4 +1,5 @@
 @use "../abstracts/mixins/mixins" as mixins;
+@use "sass:map";
 @use "../abstracts/variables" as vars;
 
 .default-button:not(.disable-style-true) {
@@ -6,15 +7,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: map-get(vars.$colors, white);
-    color: map-get(vars.$colors, black);
+    background-color: map.get(vars.$colors, "white");
+    color: map.get(vars.$colors, "black");
     cursor: pointer;
     height: 40px;
     max-width: 200px;
     padding: 0 20px;
     width: 90%;
     border-radius: 5px;
-    border: 1px solid map-get(vars.$colors, white);
+    border: 1px solid map.get(vars.$colors, "white");
     transition: 0.3s ease-in-out;
 
     &:disabled, &.disabled {

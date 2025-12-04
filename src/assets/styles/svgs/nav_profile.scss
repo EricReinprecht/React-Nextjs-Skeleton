@@ -1,14 +1,15 @@
 @use "sass:color";
+@use "sass:map";
 @use "../abstracts/variables" as vars;
 
 .nav-profile-icon{
     circle, path{
-        stroke: color.scale(map-get(vars.$colors, white), $lightness: -20%);
+        stroke: color.scale(map.get(vars.$colors, "white"), $lightness: -20%);
         transition: 0.2s ease-in-out;
     }
     &:hover{
         circle, path{
-            stroke: color.scale(map-get(vars.$colors, white), $lightness: -20%);
+            stroke: color.scale(map.get(vars.$colors, "white"), $lightness: -20%);
         }
     }
 }

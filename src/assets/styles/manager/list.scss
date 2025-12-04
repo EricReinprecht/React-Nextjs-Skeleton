@@ -1,3 +1,6 @@
+@use "sass:map";
+@use "../abstracts/variables" as vars;
+
 .manager-list-wrapper{
     position: relative;
     background-color: lightblue;
@@ -29,14 +32,14 @@
                     justify-content: center;
                 }
                 input{
-                    background-color: map-get(vars.$colors, white);
+                    background-color: map.get(vars.$colors, "white");
                 }
             }
         }
     }
 }
 .add-list-element-container{
-    background-color: map-get(vars.$colors, charcoal);
+    background-color: map.get(vars.$colors, "charcoal");
     position: absolute;
     bottom: 0;
     padding: 0 80px;
@@ -51,12 +54,12 @@
         flex-direction: column;
         gap: 5px;
         label{
-            color: map-get(vars.$colors, white);
+            color: map.get(vars.$colors, "white");
             cursor: pointer;
         }
         input{
             padding: 0 4px;
-            background-color: map-get(vars.$colors, white);
+            background-color: map.get(vars.$colors, "white");
             max-width: 300px;
             height: 28px;
             outline: none;
@@ -77,7 +80,7 @@
     .inner{
         position: relative;
         border-radius: 12px;
-        background-color: map-get(vars.$colors, white);
+        background-color: map.get(vars.$colors, "white");
         max-width: 400px;
         width: max-content;
         min-width: 200px;

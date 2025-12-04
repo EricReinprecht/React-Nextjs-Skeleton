@@ -1,3 +1,4 @@
+@use "sass:map";
 @use "../abstracts/variables" as vars;
 
 .form-container{
@@ -11,7 +12,7 @@
         flex-direction: column;
         padding: 40px 20px;
         min-width: 400px;
-        background-color: map-get(vars.$colors, charcoal);
+        background-color: map.get(vars.$colors, "charcoal");
         gap: 25px;
         border-radius: 15px;
         &.profile-form{
@@ -45,14 +46,14 @@
             flex-direction: column;
             gap: 10px;
             label{
-                color: map-get(vars.$colors, white);
+                color: map.get(vars.$colors, "white");
                 font-size: 24px;
             }
             input{
                 height: 40px;
                 padding: 0 10px;
                 border-radius: 5px;
-                color: map-get(vars.$colors, black);
+                color: map.get(vars.$colors, "black");
             }
         }
         .button-container{

@@ -1,3 +1,5 @@
+@use "sass:map";
+@use "../abstracts/variables" as vars;
 
 .party-list-wrapper{
     padding: 65px;
@@ -27,7 +29,7 @@
                     height: 100%;
                     width: 100%;
                     opacity: 0.2;
-                    background-color: map-get(vars.$colors, white);
+                    background-color: map.get(vars.$colors, "white");
                     transition: 0.3s ease-in-out;
                 }
                 .content{
@@ -61,7 +63,7 @@
                             justify-content: center;
                             align-items: center;
                             display: flex;
-                            background-color: map-get(vars.$colors, white);
+                            background-color: map.get(vars.$colors, "white");
                             opacity: 0;
                             transition: 0.2s ease-in-out;
                             svg{
@@ -92,7 +94,7 @@
                         }
                     }
                     div{
-                        color: map-get(vars.$colors, white);
+                        color: map.get(vars.$colors, "white");
                         transition: 0.3s ease-in-out;
                     }
                 }

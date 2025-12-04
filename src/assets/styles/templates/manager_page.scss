@@ -1,3 +1,4 @@
+@use "sass:map";
 @use "../abstracts/variables" as vars;
 @use "../animations/background.scss" as *;
 
@@ -7,13 +8,13 @@
     height: 100%;
 }
 .manager_page-template{
-    height: calc(100% - map-get(vars.$height, header));
+    height: calc(100% - map.get(vars.$height, "header"));
     display: flex;
     flex-direction: row;
     .sidebar{
         height: 100%;
         width: 100%;
-        background-color: map-get(vars.$colors, white);
+        background-color: map.get(vars.$colors, "white");
         max-width: 400px;
         display: flex;
         flex-direction: column;
@@ -28,14 +29,14 @@
                     transition: 0.2s ease-in-out;
                     cursor: pointer;
                     &:hover, &.active{
-                        background-color: map-get(vars.$colors, charcoal);
-                        color: map-get(vars.$colors, white);
+                        background-color: map.get(vars.$colors, "charcoal");
+                        color: map.get(vars.$colors, "white");
                     }
                 }
             }
         }
         .footer{
-            border: 1px solid map-get(vars.$colors, black);
+            border: 1px solid map.get(vars.$colors, "black");
             .item{
                 height: 40px;
                 display: flex;
@@ -43,13 +44,13 @@
                 padding: 10px;
                 cursor: pointer;
                 &:hover{
-                    background-color: map-get(vars.$colors, red);;
+                    background-color: map.get(vars.$colors, "red");;
                 }
             }
         }
     }
     *{
-        color: map-get(vars.$colors, black);
+        color: map.get(vars.$colors, "black");
     }
     main{
         width: 100%;

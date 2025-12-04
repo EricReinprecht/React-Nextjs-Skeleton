@@ -1,7 +1,8 @@
+@use "sass:map";
 @use "../abstracts/variables" as vars;
 
 footer{
-    padding: 0 map-get(vars.$sidespace, header);
+    padding: 0 map.get(vars.$sidespace, "header");
     padding-top: 80px;
     padding-bottom: 80px;
     background-color: transparent;
@@ -17,9 +18,9 @@ footer{
                 flex-direction: column;
                 gap: 20px;
                 .item{
-                    color: map-get(vars.$colors, white);
+                    color: map.get(vars.$colors, "white");
                     &:hover{
-                        color: map-get(vars.$colors, orange);
+                        color: map.get(vars.$colors, "orange");
                     }
                 }
             }

@@ -1,3 +1,4 @@
+@use "sass:map";
 @use "../abstracts/variables" as vars;
 
 .table-wrapper{
@@ -8,18 +9,18 @@
     flex-direction: column;
     justify-content: space-between;
     table.manager-table{
-        background-color: map-get(vars.$colors, white);
+        background-color: map.get(vars.$colors, "white");
         width: 100%;
         border-spacing: 0;
 
         tr{
             &:nth-child(even) {
-                background-color: map-get(vars.$colors, dark_white);
+                background-color: map.get(vars.$colors, "dark_white");
             }
         }
         
         th, td{
-            // background-color: map-get(vars.$colors, white);
+            // background-color: map.get(vars.$colors, "white");
 
             font-size: 22px;
             text-align: unset;
@@ -30,12 +31,12 @@
                 gap: 6px;
                 input{
                     all: unset;
-                    background-color: map-get(vars.$colors, white);
+                    background-color: map.get(vars.$colors, "white");
                     font-size: 16px;
                     font-weight: 400;
                     padding: 6px 10px;
                     outline: none;
-                    border: 1px solid map-get(vars.$colors, charcoal);
+                    border: 1px solid map.get(vars.$colors, "charcoal");
                     border-radius: 18px;
                 }
             }
@@ -58,7 +59,7 @@
         }
 
         th{
-            border-bottom: 2px solid  map-get(vars.$colors, black);
+            border-bottom: 2px solid  map.get(vars.$colors, "black");
             padding: 16px 20px;
         }
 
@@ -74,25 +75,25 @@
         flex-direction: row;
         gap: 12px;
         button{
-            background-color: map-get(vars.$colors, charcoal);
+            background-color: map.get(vars.$colors, "charcoal");
             height: 40px;
             width: 40px;
             min-width: 40px;
             border-radius: 100%;
-            color: map-get(vars.$colors, white);
+            color: map.get(vars.$colors, "white");
             display: flex;
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            border: 1px solid map-get(vars.$colors, charcoal);
+            border: 1px solid map.get(vars.$colors, "charcoal");
             font-weight: 700;
             transition: 0.2s ease-in-out;
             &:hover, &.active{
-                background-color: map-get(vars.$colors, white);
-                color: map-get(vars.$colors, charcoal);
+                background-color: map.get(vars.$colors, "white");
+                color: map.get(vars.$colors, charcoal);
                 svg{
                     path{
-                        fill: map-get(vars.$colors, charcoal);
+                        fill: map.get(vars.$colors, "charcoal");
                     }
                 }
             }

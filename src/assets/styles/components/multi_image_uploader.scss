@@ -1,3 +1,4 @@
+@use "sass:map";
 @use "../abstracts/variables" as vars;
 
 .container {
@@ -66,7 +67,7 @@
                 cursor: pointer;
                 transition: background 0.2s;
                 svg{
-                    fill: map-get(vars.$colors, white);
+                    fill: map.get(vars.$colors, "white");
                 }
                 &:hover{
                     svg{
