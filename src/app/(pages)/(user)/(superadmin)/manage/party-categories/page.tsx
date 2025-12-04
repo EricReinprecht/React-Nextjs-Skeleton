@@ -1,9 +1,7 @@
 "use client"
 
 import "@styles/components/filter.scss"
-import BasePage from '@/src/app/lib/templates/base_page';
 import React, { useState, useEffect, useRef } from "react";
-import $ from 'jquery';
 
 import { Category } from "@/src/app/lib/entities/category";
 import { createCategory, getCategories, deleteCategoryById, updateCategoryById } from "@/src/app/lib/services/categoryService";
@@ -14,9 +12,9 @@ import LoadingSpinner from "@/src/app/lib/components/default/loading_spinner";
 import EditPen from "@/src/app/lib/svgs/edit_pen";
 import EditAccept from "@/src/app/lib/svgs/edit_accept";
 import ManagerPage from "@/src/app/lib/templates/manager_page";
+import withAuth from "@/src/app/lib/hoc/withAuth";
 
-
-export default function Page() {
+const PartyCategories = () => {
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
@@ -37,7 +35,7 @@ export default function Page() {
     const fetchCategories = async () => {
         setLoading(true);
         try {
-          let categories_response = await getCategories();
+          const categories_response = await getCategories();
           setCategories(categories_response);
         } catch (error) {
           console.error("Error fetching parties:", error);
@@ -47,27 +45,26 @@ export default function Page() {
     };
 
     const addCategory = async () => {
-        setLoading(true);
         const input = categoryInputRef.current;
         const category_name = input?.value;
-        if(!category_name?.trim()) return false;
+        if (!category_name?.trim()) return;
+
         const trimmedName = category_name.trim();
+        setLoading(true);
         try {
-            const newCategoryId = await createCategory({ name: trimmedName, active: true });
-            if (newCategoryId) {
-                setCategories((prev) => [
-                    ...prev,
-                    { id: newCategoryId, name: trimmedName, active: true },
-                ]);
-                if(!input) return false;
-                input.value = '';
+            const newCategory = await createCategory({ name: trimmedName, active: true });
+            if (newCategory) {
+                setCategories((prev) => [...prev, newCategory]);
+                if (input) input.value = '';
             } else {
                 alert("Category name must be unique or creation failed.");
             }
         } catch (error) {
             console.error("Error creating category:", error);
+            alert("An error occurred while creating the category.");
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     const handleDeleteCategory = (category: Category) => {
@@ -215,3 +212,5 @@ export default function Page() {
     </div>
   )
 }
+
+export default withAuth(PartyCategories);

@@ -2,8 +2,9 @@
 
 import BasePage from "@templates/base_page";
 import { useState } from "react";
+import withAuth from "../../lib/hoc/withAuth";
 
-export default function GenerateFixtures(props) {
+const GenerateFixturesPage = () => {
     const [logs, setLogs] = useState("");
 
     const generateFixtures = () => {
@@ -51,3 +52,5 @@ export default function GenerateFixtures(props) {
         </BasePage>
     );
 }
+
+export default withAuth(GenerateFixturesPage);

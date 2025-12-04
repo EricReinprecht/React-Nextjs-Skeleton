@@ -44,7 +44,7 @@ function SortableImage({ image, onRemove }: { image: ImageItem, onRemove: (img: 
     );
 }
 
-export default function Party(props) {
+const Party: React.FC = () =>  {
     const partyId = "cmhdvgw7x000l46t44khlq4kw";
 
     const [party, setParty] = useState<any | null>(null);
@@ -177,3 +177,5 @@ export default function Party(props) {
         </BasePage>
     );
 }
+
+export default Party;

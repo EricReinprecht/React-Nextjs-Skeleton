@@ -15,48 +15,48 @@ import { Category } from '@entities/category.js'
 import ExcelPartyList from '@components/lists/excel_party_list';
 import DefaultSearch from '@components/search/default_search';
 
-export default function Page(props) {
-    const [categories, setCategories] = useState<Category[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
+const BrowsePage = () => {
+    // const [categories, setCategories] = useState<Category[]>([]);
+    // const [loading, setLoading] = useState<boolean>(true);
 
     // Store which sections are open; keys = section names, values = boolean open/close
-    const [sectionsOpen, setSectionsOpen] = useState<{ [key: string]: boolean }>({
-        calendar: true,
-        terms: true,
-    });
+    // const [sectionsOpen, setSectionsOpen] = useState<{ [key: string]: boolean }>({
+    //     calendar: true,
+    //     terms: true,
+    // });
 
     // Store which terms are checked: keys = category IDs, values = boolean checked
-    const [checkedTerms, setCheckedTerms] = useState<{ [key: string]: boolean }>({});
+    // const [checkedTerms, setCheckedTerms] = useState<{ [key: string]: boolean }>({});
 
-    useEffect(() => {
-        fetchCategories();
-      }, []);
+    // useEffect(() => {
+    //     fetchCategories();
+    //   }, []);
     
 
-    const fetchCategories = async () => {
-        setLoading(true);
-        try {
-          let categories_response = await getCategories();
-          setCategories(categories_response);
-        } catch (error) {
-          console.error("Error fetching parties:", error);
-        } finally {
-          setLoading(false);
-        }
-    };
+    // const fetchCategories = async () => {
+    //     setLoading(true);
+    //     try {
+    //       const categories_response = await getCategories();
+    //       setCategories(categories_response);
+    //     } catch (error) {
+    //       console.error("Error fetching parties:", error);
+    //     } finally {
+    //       setLoading(false);
+    //     }
+    // };
 
-    const openSection = (el: JQuery<HTMLElement>) => {
-        let current_section = el.closest(".section");
-        current_section.toggleClass("active");
-    };
+    // const openSection = (el: JQuery<HTMLElement>) => {
+    //     const current_section = el.closest(".section");
+    //     current_section.toggleClass("active");
+    // };
 
     // Toggle checkbox for a term
-    const toggleTermChecked = (categoryId: string) => {
-        setCheckedTerms(prev => ({
-            ...prev,
-            [categoryId]: !prev[categoryId],
-        }));
-    };
+    // const toggleTermChecked = (categoryId: string) => {
+    //     setCheckedTerms(prev => ({
+    //         ...prev,
+    //         [categoryId]: !prev[categoryId],
+    //     }));
+    // };
 
   return (
     <div className="main">
@@ -118,3 +118,5 @@ export default function Page(props) {
     </div>
   )
 }
+
+export default BrowsePage;

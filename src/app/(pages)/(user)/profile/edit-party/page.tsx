@@ -3,8 +3,9 @@ import prisma from "@prisma/prisma";
 import jwt from "jsonwebtoken";
 import CreatePartyForm from "./createPartyForm"; // Client Component
 import { cookies } from "next/headers";
+import withAuth from "@/src/app/lib/hoc/withAuth";
 
-export default async function CreatePartyPage(props) {
+const CreatePartyPage = async () => {
     // Get auth token from cookies
     const cookieStore = await cookies();
     const token = cookieStore.get("authToken")?.value;
@@ -32,3 +33,5 @@ export default async function CreatePartyPage(props) {
         </div>
     );
 }
+
+export default withAuth(CreatePartyPage);

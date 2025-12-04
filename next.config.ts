@@ -10,8 +10,6 @@ const withNextIntl = createNextIntlPlugin({
     request: './i18n/request.ts',
 } as any);
 
-console.log("here")
-
 const nextConfig: NextConfig = {
   reactStrictMode: false, // TODO REMOVE WHEN PRODUCTION
   sassOptions: {
