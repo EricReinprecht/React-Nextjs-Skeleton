@@ -53,7 +53,7 @@ export async function seedParties(push?: (msg: string) => void) {
 
             const createdParty = await prisma.party.create({
                 data: {
-                    created: new Date(partyData.created),
+                    createdAt: new Date(partyData.created),
                     name: partyData.name,
                     location: partyData.location,
                     latitude: partyData.latitude,

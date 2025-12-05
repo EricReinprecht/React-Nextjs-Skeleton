@@ -1,37 +1,22 @@
 import ManagerPage from "@/src/app/lib/templates/manager_page";
-import prisma from "@prisma/prisma";
-import jwt from "jsonwebtoken";
 import CreatePartyForm from "./createPartyForm"; // Client Component
-import { cookies } from "next/headers";
-import withAuth from "@/src/app/lib/hoc/withAuth";
+import { getAuthUser } from "@utils/getAuthUser";
+import { redirect } from "next/navigation";
+import type { ReactElement } from "react";
 
-const CreatePartyPage = async () => {
-    // Get auth token from cookies
-    const cookieStore = await cookies();
-    const token = cookieStore.get("authToken")?.value;
-    let authUser = null;
-
-    if (token && process.env.JWT_SECRET) {
-        try {
-            const payload = jwt.verify(token, process.env.JWT_SECRET) as { id: string };
-            authUser = await prisma.user.findUnique({ where: { id: payload.id } });
-        } catch (err) {
-            console.error("Invalid token:", err);
-        }
-    }
-
-
-    if (!authUser) {
-        return <div>Unauthorized</div>;
+const CreatePartyPage = async (): Promise<ReactElement> => {
+    const user = await getAuthUser();
+    if (!user) {
+        return redirect("/login");
     }
 
     return (
         <div className="main">
             <ManagerPage>
-                <CreatePartyForm authUser={authUser} />
+                <CreatePartyForm authUser={user} />
             </ManagerPage>
         </div>
     );
 }
 
-export default withAuth(CreatePartyPage);
+export default CreatePartyPage;

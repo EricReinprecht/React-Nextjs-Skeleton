@@ -1,8 +1,8 @@
 import Link from "next/link";
 
-export default function Custom404(props) {
+const Custom404Page = () => {
     return (
-        <div style={{ textAlign: "center", padding: "4rem 1rem" }}>
+        <div>
             <h1>404 - Seite nicht gefunden</h1>
             <p>Bitte überprüfe die URL oder gehe zurück zur Startseite.</p>
             <Link
@@ -12,3 +12,5 @@ export default function Custom404(props) {
         </div>
     );
 }
+
+export default Custom404Page;

@@ -11,11 +11,11 @@ import "swiper/css";
 import "swiper/css/navigation";
 import SwiperArrowLeft from "@/src/app/lib/svgs/swiper_arrow_left";
 import PinnedMap from "@/src/app/lib/components/default/map";
-import { PartyWithImages } from "@/src/app/lib/types/PartyWithImagesType";
+import { PartyWithImages } from "@types_ts/party/PartyWithImagesType";
 import { notFound } from "next/navigation";
 
 
-export default function PartyPublicView(props) {
+const PartyPublicViewPage = () => {
     const params = useParams();
     const partyId = params?.id as string | undefined;
 
@@ -160,3 +160,5 @@ export default function PartyPublicView(props) {
         </BasePage>
     );
 }
+
+export default PartyPublicViewPage;

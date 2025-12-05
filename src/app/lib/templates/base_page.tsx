@@ -1,15 +1,14 @@
-import { ReactNode } from "react";
+import { ReactNode, FC } from "react";
 import Footer from "../components/default/footer";
 import Header from "../components/default/header";
-import "../../../assets/styles/templates/base_page.scss";
+import "@styles/templates/base_page.scss";
 
 interface LayoutProps {
     children: ReactNode;
     backgroundType?: string;
 }
 
-const BasePage = ({ children, backgroundType = "default" }: LayoutProps) => {
-    console.log(backgroundType)
+const BasePage: FC<LayoutProps> = ({ children, backgroundType = "default" }) => {
     return (
         <div className="base_page-template">
             <div className={`background type-${backgroundType}`}></div>

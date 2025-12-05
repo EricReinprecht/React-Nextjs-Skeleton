@@ -1,3 +1,6 @@
+@use "sass:map";
+@use "../abstracts/variables" as vars;
+
 .party-list-wrapper{
     padding: 65px;
     .party-list{

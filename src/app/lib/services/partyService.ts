@@ -18,7 +18,7 @@ export async function getParties(): Promise<Party[]> {
             ],
             include: {
                 images: true,
-                cards: true,
+                tickets: true,
             },
         });
 
@@ -102,25 +102,25 @@ export const getPartiesPaginated = async (
             Object.entries(filter)
                 .filter(([_, v]) => v)
                 .map(([key, value]) => [
-                  key,
-                  ["createdAt", "startDate", "endDate"].includes(key)
-                      ? {
-                          gte: new Date(new Date(value).setHours(0, 0, 0, 0)),
-                          lte: new Date(new Date(value).setHours(23, 59, 59, 999)),
+                    key,
+                    ["createdAt", "startDate", "endDate"].includes(key)
+                        ? {
+                            gte: new Date(new Date(value).setHours(0, 0, 0, 0)),
+                            lte: new Date(new Date(value).setHours(23, 59, 59, 999)),
                         }
-                      : ["id", "status"].includes(key)
-                      ? value
-                      : { contains: value, mode: "insensitive" },
+                        : ["id", "status"].includes(key)
+                        ? value
+                        : { contains: value, mode: "insensitive" },
                 ])
             )
         : {};
 
         const parties = await prisma.party.findMany({
-          where,
-          skip,
-          take: limit,
-          orderBy: [{ startDate: "asc" }, { id: "asc" }],
-          include: { images: true, tickets: true },
+            where,
+            skip,
+            take: limit,
+            orderBy: [{ startDate: "asc" }, { id: "asc" }],
+            include: { images: true, tickets: true },
         });
       
         return { parties };
@@ -173,23 +173,6 @@ export async function getPartyById(id: string): Promise<Prisma.PartyGetPayload<{
         return party;
     } catch (error) {
         console.error("Error fetching party by ID:", error);
-        return null;
-    }
-}
-
-export async function createParty(party: PartyCreateInput): Promise<string | null> {
-    try {
-        const createdParty = await prisma.party.create({
-            data: {
-                ...party,
-                images: party.images ? { create: party.images } : undefined,
-                tickets: party.tickets ? { create: party.tickets } : undefined,
-            },
-        });
-      
-        return createdParty.id;
-    } catch (error) {
-        console.error("Error creating party:", error);
         return null;
     }
 }

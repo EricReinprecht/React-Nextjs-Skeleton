@@ -1,9 +1,9 @@
 "use client"; 
 
 import BasePage from "@templates/base_page";
-import RegisterForm from "../../lib/components/forms/register_form";
+import RegisterForm from "@components/forms/register_form";
 
-export default function Register(props) {
+const Register: React.FC  = () => {
     return (
         <div className="main">
             <BasePage>
@@ -12,3 +12,5 @@ export default function Register(props) {
         </div>
     );
 }
+
+export default Register;

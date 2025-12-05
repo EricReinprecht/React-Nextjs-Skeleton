@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
-import prisma from "@/src/app/lib/prisma/prisma";
+import prisma from "@prisma/prisma";
 
 /**
  * Retrieves the currently authenticated user from the JWT stored in cookies.

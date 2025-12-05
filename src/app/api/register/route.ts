@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { UserEntity } from "@entities/user";
+import prisma from "@prisma/prisma";
+import { PrismaClient, Prisma } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -7,7 +8,23 @@ export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
 
-        if (!body.username || !body.email || !body.password) {
+        const {
+            username,
+            email,
+            password,
+            firstname,
+            lastname,
+            birthdate,
+            country,
+            zip,
+            city,
+            street,
+            housenumber,
+            unit,
+        } = body;
+
+        // Validate required fields
+        if (!username || !email || !password) {
             return NextResponse.json(
                 { success: false, message: "Missing required fields" },
                 { status: 400 }
@@ -15,7 +32,10 @@ export async function POST(req: NextRequest) {
         }
 
         // Check if user already exists
-        const existingUser = await UserEntity.findByEmail(body.email);
+        const existingUser = await prisma.user.findUnique({
+            where: { email },
+        });
+
         if (existingUser) {
             return NextResponse.json(
                 { success: false, message: "Email already in use" },
@@ -24,23 +44,25 @@ export async function POST(req: NextRequest) {
         }
 
         // Hash password
-        const hashedPassword = await bcrypt.hash(body.password, 10);
+        const hashedPassword = await bcrypt.hash(password, 10);
 
         // Create user
-        const newUser = await UserEntity.create({
-            username: body.username,
-            email: body.email,
-            password: hashedPassword,
-            firstname: body.firstname,
-            lastname: body.lastname,
-            birthdate: new Date(body.birthdate),
-            country: body.country,
-            zip: Number(body.zip),
-            city: body.city,
-            street: body.street,
-            housenumber: Number(body.housenumber),
-            unit: body.unit || null,
-            createdParties: [],
+        const newUser = await prisma.user.create({
+            data: {
+                username,
+                email,
+                password: hashedPassword,
+                firstname,
+                lastname,
+                birthdate: new Date(birthdate),
+                country,
+                zip: Number(zip),
+                city,
+                street,
+                housenumber: Number(housenumber),
+                unit: unit || null,
+                language: "en", // default enum value (optional)
+            },
         });
 
         // Generate JWT
@@ -54,8 +76,12 @@ export async function POST(req: NextRequest) {
             { expiresIn: "1d" }
         );
 
-        // Set HttpOnly cookie
-        const response = NextResponse.json({ success: true, user: newUser.toJSON() });
+        // Send response + HttpOnly cookie
+        const response = NextResponse.json({
+            success: true,
+            user: newUser,
+        });
+
         response.cookies.set("authToken", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
@@ -69,7 +95,13 @@ export async function POST(req: NextRequest) {
     } catch (err: any) {
         console.error("Error creating user:", err);
         return NextResponse.json(
-            { success: false, message: err.message || "Internal server error" },
+            {
+                success: false,
+                message:
+                    err.code === "P2002"
+                        ? "Email or Username already exists"
+                        : err.message || "Internal server error",
+            },
             { status: 500 }
         );
     }

@@ -3,7 +3,7 @@ import React from "react";
 import MultiImageUploader from "@components/default/multi_image_uploader";
 import TiptapEditor from "@/src/app/lib/components/default/tiptap_texteditor";
 import { Party } from "@prisma/client";
-import { PartyWithImages } from "@/src/app/lib/types/PartyWithImagesType";
+import { PartyWithImages } from "@types_ts/party/PartyWithImagesType";
 import { ImageItem } from "@/src/app/lib/types/ImageItemType";
 
 interface Step3Props {
