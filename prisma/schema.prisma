@@ -136,7 +136,7 @@ model TicketClassPrice {
     id             String       @id @default(cuid())
     amount         Int
     price          Decimal
-    currency       String
+    currency       Currency     @default(EUR)
 
     createdAt      DateTime     @default(now())
     updatedAt      DateTime?    @updatedAt
@@ -146,6 +146,10 @@ model TicketClassPrice {
     ticketClass    TicketClass  @relation(fields: [ticketClassId], references: [id])
 }
 
+enum Currency {
+    EUR
+    USD
+}
 
 model User {
     id             String      @id @default(cuid())

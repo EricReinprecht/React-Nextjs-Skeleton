@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Silver",
+        "description": "Silver basic shit.",
+        "ticketAmount": 500
+    },
+    {
+        "name": "Gold",
+        "description": "Gold basic shit.",
+        "ticketAmount": 150
+    },
+    {
+        "name": "Platium",
+        "description": "Platium basic shit.",
+        "ticketAmount": 50
+    }
+]
