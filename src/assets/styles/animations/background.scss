@@ -1,7 +1,19 @@
 .gradient-animation{
-    background: radial-gradient(105% 105% at 50% 0, rgba(255, 70, 113, 0.377), transparent 80%), rgba(73, 1, 18, 0.377);
-    background-size: 200% 200%;
-    animation: redGradientShift 15s ease infinite;
+    &.red{
+        background: radial-gradient(105% 105% at 50% 0, rgba(255, 70, 113, 0.377), transparent 80%), rgba(122, 49, 0, 0.644);
+        background-size: 200% 200%;
+        animation: redGradientShift 15s ease infinite;
+    }
+    &.orange{
+        background: radial-gradient(105% 105% at 50% 0, rgb(255, 107, 39), transparent 80%), rgba(73, 1, 18, 0.377);
+        background-size: 200% 200%;
+        animation: redGradientShift 15s ease infinite;
+    }
+    &.blue{
+        background: radial-gradient(105% 105% at 50% 0, rgba(126, 70, 255, 0.377), transparent 80%), rgba(26, 0, 122, 0.644);
+        background-size: 200% 200%;
+        animation: redGradientShift 15s ease infinite;
+    }
 }
 
 @keyframes redGradientShift {

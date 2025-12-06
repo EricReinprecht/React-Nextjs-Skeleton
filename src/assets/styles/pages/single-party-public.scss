@@ -1,0 +1,135 @@
+@use "sass:map";
+@use "../abstracts/variables" as vars;
+
+.party-wrapper{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .party-card{
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        min-height: 800px;
+        width: 100%;
+        height: 100%;
+        padding: 24;
+        border: 1px solid black;
+        overflow: hidden;
+        .background{
+            z-index: 1;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: map.get(vars.$colors, "white");
+            transition: 0.5s ease-in-out;
+            opacity: 0.75;
+        }
+        &:hover{
+            .background{
+                opacity: 0.9;
+            }
+        }
+        .party-content{
+            display: flex;
+            flex-direction: row;
+            gap: 96px;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            .left-side{
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: flex-start;
+                min-width: 500px;
+                gap: 48px;
+                .image-container{
+                    position: relative;
+                    height: 350px;
+                    width: 500px;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    border: 1px solid black;
+                    .image{
+                        height: 100%;
+                        width: 100%;
+                        background-size: cover;
+                        background-position: center;
+                    }
+                    .swiper{
+                        position: relative;
+                        width: 100%;
+                        height: 100%;
+                    }
+                    .swiper-button{
+                        height: 40px;
+                        width: 40px;
+                        border-radius: 100%;
+                        position: absolute;
+                        top: calc(50% - 20px);
+                        z-index: 2;
+                        cursor: pointer;
+                        justify-content: center;
+                        align-items: center;
+                        display: flex;
+                        background-color: map.get(vars.$colors, "white");
+                        opacity: 0;
+                        transition: 0.2s ease-in-out;
+                        svg{
+                            position: relative;
+                        }
+                        &.prev{
+                            left: 0;
+                            svg{
+                                right: 1px;
+                            }
+                        }
+                        &.next{
+                            right: 0;
+                            transform: rotate(180deg);
+                            right: 12px;
+                            svg{
+                                right: 1px;
+                            }
+                        }
+                    }
+                    &:hover{
+                        .swiper-button{
+                            opacity: 0.7;
+                            &:hover{
+                                opacity: 1;
+                            }
+                        }
+                    }
+                }
+                .content{
+                    max-width: 900px;
+                    .heading{
+                        font-size: 36px;
+                        font-weight: 800;
+                    }
+                    .info{
+                        .label{
+                            font-weight: 800;
+                        }
+                    }
+                }
+            }
+            .right-side{
+                width: 100%;
+                height: 100%;
+                .map{
+                    height: 500px;
+                    width: 100%;
+                    background-color: beige;
+                }
+            }
+        }
+    }
+}

@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react";
 import { usePathname } from "next/navigation";
-import "../../../assets/styles/templates/manager_page.scss";
+import "@styles/templates/manager_page.scss";
 import LogoutButton from "../components/default/logout_button";
 import Link from "next/link";
 
@@ -47,7 +47,7 @@ const ManagerPage = ({ children }: LayoutProps) => {
                     <div className="item logout"><LogoutButton disable_style={true}/></div>
                 </div>
             </div>
-            <main className="main gradient-animation"><div className="wave"></div>{children}</main>
+            <main className="main gradient-animation red"><div className="wave"></div>{children}</main>
         </div>
     );
 };

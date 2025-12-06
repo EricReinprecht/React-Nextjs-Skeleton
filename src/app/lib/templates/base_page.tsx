@@ -1,6 +1,4 @@
 import { ReactNode, FC } from "react";
-import Footer from "../components/default/footer";
-import Header from "../components/default/header";
 import "@styles/templates/base_page.scss";
 
 interface LayoutProps {
@@ -12,7 +10,7 @@ const BasePage: FC<LayoutProps> = ({ children, backgroundType = "default" }) => 
     return (
         <div className="base_page-template">
             <div className={`background type-${backgroundType}`}></div>
-            <main className="master-main">{children}</main>
+            <main className="main gradient-animation blue"><div className="wave"></div>{children}</main>
         </div>
     );
 };

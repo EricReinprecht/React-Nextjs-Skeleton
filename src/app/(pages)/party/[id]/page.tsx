@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import BasePage from "@templates/base_page";
-import "@styles/pages/single-party.scss";
+import "@styles/pages/single-party-public.scss";
 import { formatDateGerman } from "@/src/app/lib/utils/formatDate";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, A11y } from "swiper/modules";
@@ -15,7 +15,7 @@ import { PartyWithImages } from "@types_ts/party/PartyWithImagesType";
 import { notFound } from "next/navigation";
 
 
-const PartyPublicViewPage = () => {
+const PartyPublicViewPage = (props) => {
     const params = useParams();
     const partyId = params?.id as string | undefined;
 
@@ -55,7 +55,7 @@ const PartyPublicViewPage = () => {
     const hasMultipleImages = party.images.length > 1;
 
     return (
-        <BasePage>
+        <BasePage backgroundType={"orange_gradient"}>
             <div className="party-wrapper">
                 <div className="party-card">
                     <div className="background" />

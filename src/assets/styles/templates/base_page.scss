@@ -1,36 +1,60 @@
 @use "sass:map";
 @use "../abstracts/variables" as vars;
+@use "../animations/background.scss" as *;
 
-.base_page-template{
+.main{
+    z-index: 2;
     position: relative;
-    top: 0;
-    width: 100%;
-    min-height: calc(100vh - map.get(vars.$height, "header"));
+    height: 100%;
+}
+.base_page-template{
+    height: calc(100% - map.get(vars.$height, "header"));
     display: flex;
-    .master-main{
-        position: relative;
-        z-index: 2;
-        flex: 1;
-    }
-    .background{
-        position: absolute;
-        top: 0;
+    flex-direction: row;
+    .sidebar{
+        height: 100%;
         width: 100%;
-        min-height: calc(100vh - map.get(vars.$height, "header"));
-        z-index: 1;
-        &.type-default{
-            background-color: map.get(vars.$colors, "white");
+        background-color: map.get(vars.$colors, "white");
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .content{
+            .menu-items{
+                .item{
+                    display: block;
+                    padding: 25px 30px;
+                    font-size: 28px;
+                    font-weight: 700;
+                    transition: 0.2s ease-in-out;
+                    cursor: pointer;
+                    &:hover, &.active{
+                        background-color: map.get(vars.$colors, "charcoal");
+                        color: map.get(vars.$colors, "white");
+                    }
+                }
+            }
         }
-        &.type-red_gradient{
-            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255, 80, 120, 0.25), transparent 70%), #000000;
-            background: radial-gradient(105% 105% at 50% 0, #ff507840, #0000 80%), #000;
-        }
-        &.type-orange_gradient{
-            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255, 102, 0, 0.25), transparent 70%), #000000;
-            background: radial-gradient(105% 105% at 50% 0, #ff7b0040, #0000 80%), #000;
+        .footer{
+            border: 1px solid map.get(vars.$colors, "black");
+            .item{
+                height: 40px;
+                display: flex;
+                align-items: center;
+                padding: 10px;
+                cursor: pointer;
+                &:hover{
+                    background-color: map.get(vars.$colors, "red");;
+                }
+            }
         }
     }
     *{
         color: map.get(vars.$colors, "black");
+    }
+    main{
+        width: 100%;
+        height: 100%;
+        padding: 24px;
     }
 }
