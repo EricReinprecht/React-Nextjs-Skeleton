@@ -1,0 +1,29 @@
+@use "sass:map";
+@use "../abstracts/variables" as vars;
+
+.checkout-wrapper{
+    padding: 24px;
+    height: 100%;
+    &.paypal{
+        display: flex;
+        justify-content: center;
+        .paypal-wrapper {
+            border: 1px solid map.get(vars.$colors, "black");
+            background-color: map.get(vars.$colors, "white");
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 24px;
+            max-width: 800px;
+            width: 100%;
+        }
+        .paypal-buttons {
+            width: 100%;
+        }
+        #buttons-container{
+            display: flex;
+            justify-content: center;
+        }
+    }
+}

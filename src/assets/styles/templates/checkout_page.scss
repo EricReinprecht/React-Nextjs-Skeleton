@@ -1,0 +1,19 @@
+@use "sass:map";
+@use "../abstracts/variables" as vars;
+@use "../animations/background.scss" as *;
+
+.main{
+    z-index: 2;
+    position: relative;
+    height: 100%;
+}
+.checkout_page-template{
+    height: calc(100% - map.get(vars.$height, "header"));
+    display: flex;
+    flex-direction: row;
+    main{
+        width: 100%;
+        height: 100%;
+        padding: 24px;
+    }
+}

@@ -20,6 +20,7 @@
     "@firebase/auth": "^1.9.0",
     "@netlify/next": "^1.4.9",
     "@next-auth/prisma-adapter": "^1.0.7",
+    "@paypal/react-paypal-js": "^8.9.2",
     "@prisma/client": "^6.19.0",
     "@react-google-maps/api": "^2.20.7",
     "@shadcn/ui": "^0.0.4",

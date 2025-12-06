@@ -14,6 +14,11 @@
         background-size: 200% 200%;
         animation: redGradientShift 15s ease infinite;
     }
+    &.green{
+        background: radial-gradient(105% 105% at 50% 0, rgba(34, 248, 177, 0.377), transparent 80%), rgba(0, 110, 86, 0.644);
+        background-size: 200% 200%;
+        animation: redGradientShift 15s ease infinite;
+    }
 }
 
 @keyframes redGradientShift {
