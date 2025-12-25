@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, notFound } from "next/navigation";
 import BasePage from "@templates/base_page";
 import "@styles/pages/single-party-public.scss";
 import { formatDateGerman } from "@/src/app/lib/utils/formatDate";
@@ -12,10 +12,8 @@ import "swiper/css/navigation";
 import SwiperArrowLeft from "@/src/app/lib/svgs/swiper_arrow_left";
 import PinnedMap from "@/src/app/lib/components/default/map";
 import { PartyWithImages } from "@types_ts/party/PartyWithImagesType";
-import { notFound } from "next/navigation";
 
-
-const PartyPublicViewPage = (props) => {
+const PartyPublicViewPage = () => {
     const params = useParams();
     const partyId = params?.id as string | undefined;
 
@@ -31,8 +29,8 @@ const PartyPublicViewPage = (props) => {
                 if (!res.ok) throw new Error("Failed to fetch party data");
                 const data = await res.json();
                 setParty(data);
-            } catch (err: any) {
-                console.error("Failed to fetch party:", err);
+            } catch (err) {
+                console.error(err);
                 setError("Fehler beim Laden der Party-Daten.");
             }
         };
@@ -54,8 +52,17 @@ const PartyPublicViewPage = (props) => {
 
     const hasMultipleImages = party.images.length > 1;
 
+    /** 🔹 Build dynamic amount columns (1x, 2x, 3x, ...) */
+    const amounts = Array.from(
+        new Set(
+            party.ticketClasses.flatMap(tc =>
+                tc.prices?.map(p => p.amount) ?? []
+            )
+        )
+    ).sort((a, b) => a - b);
+
     return (
-        <BasePage backgroundType={"orange_gradient"}>
+        <BasePage backgroundType="orange_gradient">
             <div className="party-wrapper">
                 <div className="party-card">
                     <div className="background" />
@@ -68,7 +75,6 @@ const PartyPublicViewPage = (props) => {
                                     <>
                                         <Swiper
                                             modules={[Navigation, A11y]}
-                                            spaceBetween={0}
                                             slidesPerView={1}
                                             navigation={{
                                                 nextEl: ".swiper-button.next",
@@ -81,16 +87,15 @@ const PartyPublicViewPage = (props) => {
                                                     <div
                                                         className="image"
                                                         style={{ backgroundImage: `url(${image.path})` }}
-                                                        aria-label={`Party image ${i + 1}`}
                                                     />
                                                 </SwiperSlide>
                                             ))}
                                         </Swiper>
 
-                                        <div className="swiper-button prev" aria-label="Vorheriges Bild">
+                                        <div className="swiper-button prev">
                                             <SwiperArrowLeft />
                                         </div>
-                                        <div className="swiper-button next" aria-label="Nächstes Bild">
+                                        <div className="swiper-button next">
                                             <SwiperArrowLeft />
                                         </div>
                                     </>
@@ -100,7 +105,6 @@ const PartyPublicViewPage = (props) => {
                                         style={{
                                             backgroundImage: `url(${party.images[0]?.path || "/placeholder.jpg"})`,
                                         }}
-                                        aria-label="Party image"
                                     />
                                 )}
                             </div>
@@ -153,12 +157,50 @@ const PartyPublicViewPage = (props) => {
                                     Route berechnen
                                 </a>
                             </div>
+
+                            {/* 🎟️ TICKET TABLE */}
+                            <div className="ticket-shop">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Description</th>
+                                            {amounts.map(amount => (
+                                                <th key={amount}>{amount}x</th>
+                                            ))}
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {party.ticketClasses.map(ticket => (
+                                            <tr key={ticket.id}>
+                                                <td>{ticket.name}</td>
+                                                <td>{ticket.description}</td>
+
+                                                {amounts.map(amount => {
+                                                    const price = ticket.prices?.find(
+                                                        p => p.amount === amount
+                                                    );
+
+                                                    return (
+                                                        <td key={amount}>
+                                                            {price
+                                                                ? `${price.price} ${price.currency}`
+                                                                : "—"}
+                                                        </td>
+                                                    );
+                                                })}
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </BasePage>
     );
-}
+};
 
 export default PartyPublicViewPage;

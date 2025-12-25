@@ -1,3 +1,4 @@
+import { TicketClass } from '@prisma/client';
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@prisma/prisma";
 
@@ -18,6 +19,11 @@ export async function GET(
                 images: true,
                 categories: true,
                 createdBy: true,
+                ticketClasses: {
+                    include: {
+                        prices: true,
+                    },
+                },
             },
         });
 
@@ -30,6 +36,7 @@ export async function GET(
             images: party.images || [],
             categories: party.categories || [],
             createdBy: party.createdBy || null,
+            ticketClasses: party.ticketClasses || [],
         };
 
         return NextResponse.json(safeParty);

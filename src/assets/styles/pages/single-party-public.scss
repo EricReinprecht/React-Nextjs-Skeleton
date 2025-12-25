@@ -125,9 +125,31 @@
                 width: 100%;
                 height: 100%;
                 .map{
+                    padding-bottom: 30px;
                     height: 500px;
                     width: 100%;
-                    background-color: beige;
+                    > a{
+                    }
+                }
+                .ticket-shop{
+                    table{
+                        border-collapse: collapse;
+                        border-spacing: 0px;
+                        th, td{
+                            padding: 10px 20px;
+                        }
+                        thead{
+                            th{
+                                border: 1px solid black;
+                                border-bottom: 2px solid black;
+                            }
+                        }
+                        tbody{
+                            td{
+                                border: 1px solid black;
+                            }
+                        }
+                    }
                 }
             }
         }
