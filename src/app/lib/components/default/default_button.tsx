@@ -20,7 +20,7 @@ interface StyleProps {
   hoverBorderColor?: string;
 }
 
-const DefautButton:React.FC<DefaultButtonProps> = ({ label, type, onClick, styles = {}, disabled, disable_style }) => {
+const DefaultButton:React.FC<DefaultButtonProps> = ({ label, type, onClick, styles = {}, disabled, disable_style }) => {
 
     const classNames = [
         "default-button",
@@ -47,4 +47,4 @@ const DefautButton:React.FC<DefaultButtonProps> = ({ label, type, onClick, style
     )
 };
 
-export default DefautButton;
+export default DefaultButton;

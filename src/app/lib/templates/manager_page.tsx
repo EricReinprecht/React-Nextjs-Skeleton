@@ -18,7 +18,7 @@ const ManagerPage = ({ children }: LayoutProps) => {
         { label: "Partys", href: "/profile/my-parties" },
         { label: "Einstellungen", href: "/profile/settings" },
         { label: "Karten", href: "/profile/my-cards" },
-        { label: "Option 5", href: "#" },
+        { label: "Warenkorb", href: "/profile/shopping-cart" },
         { label: "Option 6", href: "#" },
         { label: "Option 7", href: "#" },
     ];

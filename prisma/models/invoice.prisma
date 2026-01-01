@@ -1,0 +1,20 @@
+model Invoice {
+    id        String      @id @default(cuid())
+    total     Float
+
+    status    InvoiceStatus @default(PENDING)
+
+    createdAt DateTime    @default(now())
+    updatedAt DateTime    @updatedAt
+
+    // relations
+    user      User?       @relation(fields: [userId], references: [id], name: "UserToInvoice")
+    userId    String?
+    items     InvoiceItem[]
+}
+
+enum InvoiceStatus {
+    PENDING
+    PAID
+    CANCELLED
+}

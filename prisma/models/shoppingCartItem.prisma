@@ -1,0 +1,10 @@
+model ShoppingCartItem {
+    id                  String          @id @default(cuid())
+    shoppingCart        ShoppingCart    @relation(fields: [shoppingCartId], references: [id])
+    shoppingCartId      String
+    ticketClass         TicketClass     @relation(fields: [ticketClassId], references: [id])
+    ticketClassId       String
+    quantity            Int
+    createdAt           DateTime        @default(now())
+    updatedAt           DateTime        @updatedAt
+}

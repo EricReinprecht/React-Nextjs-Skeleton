@@ -1,0 +1,13 @@
+model TicketReservation {
+    id              String          @id @default(cuid())
+    quantity        Int
+    expiresAt       DateTime     
+    createdAt       DateTime        @default(now())
+    updatedAt       DateTime        @updatedAt
+
+    // relations
+    ticketClass     TicketClass     @relation(fields: [ticketClassId], references: [id], "TicketClassToTicketReservation")
+    ticketClassId   String
+    cart            ShoppingCart    @relation(fields: [shoppingCartId], references: [id])
+    shoppingCartId  String
+}

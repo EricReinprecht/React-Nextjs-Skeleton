@@ -1,0 +1,12 @@
+model InvoiceItem {
+    id           String      @id @default(cuid())
+    invoice      Invoice     @relation(fields: [invoiceId], references: [id])
+    invoiceId    String
+    ticketClass  TicketClass @relation(fields: [ticketClassId], references: [id])
+    ticketClassId String
+    quantity     Int
+    price        Float       
+    currency     String
+    createdAt    DateTime    @default(now())
+    updatedAt    DateTime    @updatedAt
+}

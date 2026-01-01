@@ -45,6 +45,40 @@ model Image {
     // user      User?    @relation("UserImage", fields: [userId], references: [id])
 }
 
+model Invoice {
+    id        String      @id @default(cuid())
+    total     Float
+
+    status    InvoiceStatus @default(PENDING)
+
+    createdAt DateTime    @default(now())
+    updatedAt DateTime    @updatedAt
+
+    // relations
+    user      User?       @relation(fields: [userId], references: [id], name: "UserToInvoice")
+    userId    String?
+    items     InvoiceItem[]
+}
+
+enum InvoiceStatus {
+    PENDING
+    PAID
+    CANCELLED
+}
+
+model InvoiceItem {
+    id           String      @id @default(cuid())
+    invoice      Invoice     @relation(fields: [invoiceId], references: [id])
+    invoiceId    String
+    ticketClass  TicketClass @relation(fields: [ticketClassId], references: [id])
+    ticketClassId String
+    quantity     Int
+    price        Float       
+    currency     String
+    createdAt    DateTime    @default(now())
+    updatedAt    DateTime    @updatedAt
+}
+
 model Party {
     id             String              @id @default(cuid())
     name           String
@@ -99,6 +133,38 @@ model Session {
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model ShoppingCart {
+    id        String                @id @default(cuid())
+    
+    status    ShoppingCartStatus    @default(ACTIVE)
+    createdAt DateTime              @default(now())
+    updatedAt DateTime              @updatedAt
+    expiresAt DateTime?
+
+    // relations
+    user      User?                 @relation(fields: [userId], references: [id], "UserToShoppingCart")
+    userId    String?
+    items     ShoppingCartItem[]
+    reservations TicketReservation[]
+}
+
+enum ShoppingCartStatus {
+    ACTIVE
+    CHECKED_OUT
+    EXPIRED
+}
+
+model ShoppingCartItem {
+    id                  String          @id @default(cuid())
+    shoppingCart        ShoppingCart    @relation(fields: [shoppingCartId], references: [id])
+    shoppingCartId      String
+    ticketClass         TicketClass     @relation(fields: [ticketClassId], references: [id])
+    ticketClassId       String
+    quantity            Int
+    createdAt           DateTime        @default(now())
+    updatedAt           DateTime        @updatedAt
+}
+
 model Ticket {
     id            String       @id @default(cuid())
     
@@ -124,12 +190,14 @@ model TicketClass {
     updatedAt      DateTime?    @updatedAt
 
     // relations 
-    prices          TicketClassPrice[]
+    prices              TicketClassPrice[]
+    invoiceItems        InvoiceItem[]
+    shoppingCartItems   ShoppingCartItem[] 
     
     partyId         String
-    party           Party       @relation("PartyToTicketClass", fields: [partyId], references: [id])
-    
-    tickets         Ticket[]    @relation("TicketClassToTickets")
+    party           Party                   @relation("PartyToTicketClass", fields: [partyId], references: [id])
+    tickets         Ticket[]                @relation("TicketClassToTickets")
+    reservations    TicketReservation[]     @relation("TicketClassToTicketReservation")
 }
 
 model TicketClassPrice {
@@ -151,33 +219,49 @@ enum Currency {
     USD
 }
 
-model User {
-    id             String      @id @default(cuid())
-    username       String      @unique
-    email          String      @unique
-    emailVerified  DateTime?
-    password       String
-    sessions       Session[]
-    accounts       Account[]
+model TicketReservation {
+    id              String          @id @default(cuid())
+    quantity        Int
+    expiresAt       DateTime     
+    createdAt       DateTime        @default(now())
+    updatedAt       DateTime        @updatedAt
 
-    firstname      String
-    lastname       String
-    birthdate      DateTime
-    country        String
-    zip            Int
-    city           String
-    street         String
-    housenumber    Int
-    unit           String?
-
-    language       Language     @default(en)
-    
-    createdAt      DateTime     @default(now())
-    updatedAt      DateTime?    @updatedAt
-
-    
     // relations
-    createdParties Party[]      @relation("UserToParty")
+    ticketClass     TicketClass     @relation(fields: [ticketClassId], references: [id], "TicketClassToTicketReservation")
+    ticketClassId   String
+    cart            ShoppingCart    @relation(fields: [shoppingCartId], references: [id])
+    shoppingCartId  String
+}
+
+model User {
+    id                  String          @id @default(cuid())
+    username            String          @unique
+    email               String          @unique
+    emailVerified       DateTime?
+    password            String
+    sessions            Session[]
+    accounts            Account[]
+
+    firstname           String
+    lastname            String
+    birthdate           DateTime
+    country             String
+    zip                 Int
+    city                String
+    street              String
+    housenumber         Int
+    unit                String?
+
+    language            Language        @default(en)
+
+    createdAt           DateTime        @default(now())
+    updatedAt           DateTime?       @updatedAt
+
+
+    // relations        
+    createdParties      Party[]         @relation("UserToParty")
+    shoppingCarts       ShoppingCart[]  @relation("UserToShoppingCart")
+    invoices            Invoice[]       @relation("UserToInvoice")
 }
 
 enum Language {

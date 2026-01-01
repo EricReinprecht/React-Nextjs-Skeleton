@@ -1,0 +1,20 @@
+model ShoppingCart {
+    id        String                @id @default(cuid())
+    
+    status    ShoppingCartStatus    @default(ACTIVE)
+    createdAt DateTime              @default(now())
+    updatedAt DateTime              @updatedAt
+    expiresAt DateTime?
+
+    // relations
+    user      User?                 @relation(fields: [userId], references: [id], "UserToShoppingCart")
+    userId    String?
+    items     ShoppingCartItem[]
+    reservations TicketReservation[]
+}
+
+enum ShoppingCartStatus {
+    ACTIVE
+    CHECKED_OUT
+    EXPIRED
+}

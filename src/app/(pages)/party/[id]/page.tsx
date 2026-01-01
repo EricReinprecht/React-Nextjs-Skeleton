@@ -12,7 +12,7 @@ import "swiper/css/navigation";
 import SwiperArrowLeft from "@/src/app/lib/svgs/swiper_arrow_left";
 import PinnedMap from "@/src/app/lib/components/default/map";
 import { PartyWithImages } from "@types_ts/party/PartyWithImagesType";
-import DefautButton from "@/src/app/lib/components/default/default_button";
+import DefaultButton from "@components/default/default_button";
 import Modal from "@/src/app/lib/components/ui/Modal";
 import { TicketShop } from "../ticketShop";
 
@@ -154,7 +154,7 @@ const PartyPublicViewPage = (props) => {
                                 </a>
                             </div>
 
-                            <DefautButton
+                            <DefaultButton
                                 label="Tickets"
                                 type="button"
                                 onClick={() => setTicketShopOpen(true)}

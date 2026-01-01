@@ -10,10 +10,12 @@ model TicketClass {
     updatedAt      DateTime?    @updatedAt
 
     // relations 
-    prices          TicketClassPrice[]
+    prices              TicketClassPrice[]
+    invoiceItems        InvoiceItem[]
+    shoppingCartItems   ShoppingCartItem[] 
     
     partyId         String
-    party           Party       @relation("PartyToTicketClass", fields: [partyId], references: [id])
-    
-    tickets         Ticket[]    @relation("TicketClassToTickets")
+    party           Party                   @relation("PartyToTicketClass", fields: [partyId], references: [id])
+    tickets         Ticket[]                @relation("TicketClassToTickets")
+    reservations    TicketReservation[]     @relation("TicketClassToTicketReservation")
 }

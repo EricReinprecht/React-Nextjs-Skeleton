@@ -23,3 +23,18 @@
         }
     }
 }
+
+.ticket-operator{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    .name{
+        font-weight: bold;
+    }
+    .operator{
+        display: flex;
+        flex-direction: row;
+    }
+}
