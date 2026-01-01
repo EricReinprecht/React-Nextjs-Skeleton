@@ -12,13 +12,18 @@ import "swiper/css/navigation";
 import SwiperArrowLeft from "@/src/app/lib/svgs/swiper_arrow_left";
 import PinnedMap from "@/src/app/lib/components/default/map";
 import { PartyWithImages } from "@types_ts/party/PartyWithImagesType";
+import DefautButton from "@/src/app/lib/components/default/default_button";
+import Modal from "@/src/app/lib/components/ui/Modal";
+import { TicketShop } from "../ticketShop";
 
-const PartyPublicViewPage = () => {
+const PartyPublicViewPage = (props) => {
     const params = useParams();
     const partyId = params?.id as string | undefined;
 
     const [party, setParty] = useState<PartyWithImages | null>(null);
     const [error, setError] = useState<string | null>(null);
+
+    const [ticketShopOpen, setTicketShopOpen] = useState<boolean>(false);
 
     useEffect(() => {
         if (!partyId) return;
@@ -51,15 +56,6 @@ const PartyPublicViewPage = () => {
     }
 
     const hasMultipleImages = party.images.length > 1;
-
-    /** 🔹 Build dynamic amount columns (1x, 2x, 3x, ...) */
-    const amounts = Array.from(
-        new Set(
-            party.ticketClasses.flatMap(tc =>
-                tc.prices?.map(p => p.amount) ?? []
-            )
-        )
-    ).sort((a, b) => a - b);
 
     return (
         <BasePage backgroundType="orange_gradient">
@@ -158,43 +154,27 @@ const PartyPublicViewPage = () => {
                                 </a>
                             </div>
 
-                            {/* 🎟️ TICKET TABLE */}
-                            <div className="ticket-shop">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Description</th>
-                                            {amounts.map(amount => (
-                                                <th key={amount}>{amount}x</th>
-                                            ))}
-                                        </tr>
-                                    </thead>
+                            <DefautButton
+                                label="Tickets"
+                                type="button"
+                                onClick={() => setTicketShopOpen(true)}
+                                disabled={ticketShopOpen}
+                                styles={{
+                                    bgColor: "submit_green", 
+                                    textColor: "white", 
+                                    borderColor: "submit_green", 
+                                    hoverBgColor: "white", 
+                                    hoverTextColor: "submit_green", 
+                                    hoverBorderColor: "submit_green" 
+                                }}
+                            />
 
-                                    <tbody>
-                                        {party.ticketClasses.map(ticket => (
-                                            <tr key={ticket.id}>
-                                                <td>{ticket.name}</td>
-                                                <td>{ticket.description}</td>
-
-                                                {amounts.map(amount => {
-                                                    const price = ticket.prices?.find(
-                                                        p => p.amount === amount
-                                                    );
-
-                                                    return (
-                                                        <td key={amount}>
-                                                            {price
-                                                                ? `${price.price} ${price.currency}`
-                                                                : "—"}
-                                                        </td>
-                                                    );
-                                                })}
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                            <Modal
+                                open={ticketShopOpen}
+                                onClose={() => setTicketShopOpen(false)}
+                            >
+                                <TicketShop partyId={partyId!} />
+                            </Modal>
                         </div>
                     </div>
                 </div>
