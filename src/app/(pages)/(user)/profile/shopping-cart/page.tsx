@@ -8,7 +8,17 @@ import ManagerTable from "@/src/app/lib/components/manager_table/manager_table";
 import { TableField } from "@/src/app/lib/types/tableFieldType";
 
 const ShoppingCartPage = () => {
-    const fields: TableField[] = [
+
+    type TicketReservationRow = {
+        id: string;
+        ticketName: string;
+        ticketDescription: string;
+        amount: number;
+        price: number;
+        totalPrice: number;
+    };
+
+    const fields: TableField<TicketReservationRow>[] = [
         { key: "ticketName", label: "Ticket", type: "text" },
         { key: "ticketDescription", label: "Description", type: "text" },
         { key: "amount", label: "Menge", type: "text" },
@@ -18,7 +28,11 @@ const ShoppingCartPage = () => {
 
     return (
         <ManagerPage>
-            <ManagerTable fields={fields} entity="ticketReservations" basePath="shopping-cart" />
+            <ManagerTable<TicketReservationRow>
+                fields={fields}
+                entity="ticketReservations"
+                basePath="shopping-cart"
+            />
         </ManagerPage>
     );
 };

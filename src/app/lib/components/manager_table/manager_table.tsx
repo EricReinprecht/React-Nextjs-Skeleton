@@ -12,24 +12,26 @@ import Table from "./table";
 import { PARTY_PAGE_SIZE } from "@/src/app/lib/utils/env";
 import pluralize from "pluralize";
 
-type ManagerTableProps = {
-    fields: TableField[];
+type ManagerTableProps<T extends { id: string }> = {
+    fields: TableField<T>[];
     entity: string;
     basePath?: string;
 };
 
-const ManagerTable: React.FC<ManagerTableProps> = ({
+const ManagerTable = <T extends { id: string }>({
     fields,
     entity,
     basePath,
-}) => {
-    const [data, setData] = useState<any[]>([]);
+}: ManagerTableProps<T>) => {
     const [loading, setLoading] = useState<boolean>(true);
+    const [data, setData] = useState<T[]>([]);
+    const [filters, setFilters] = useState<Partial<Record<keyof T, any>>>({});
+    const [cachedPages, setCachedPages] = useState<Record<number, T[]>>({});
     const [page, setPage] = useState<number>(1);
-    const [filters, setFilters] = useState<Record<string, any>>({});
     const [debouncedFilters] = useDebounce(filters, 400);
     const [pagesCount, setPagesCount] = useState<number>(0);
-    const [cachedPages, setCachedPages] = useState<Record<number, any[]>>({});
+
+    
 
     const getApiPath = (action: "paginated" | "count") => {
         const pluralEntity = pluralize(entity);
@@ -96,7 +98,7 @@ const ManagerTable: React.FC<ManagerTableProps> = ({
     return (
         <div className="table-wrapper">
             <Table
-                parties={data}
+                data={data}
                 loading={loading}
                 filters={filters}
                 setFilters={setFilters}

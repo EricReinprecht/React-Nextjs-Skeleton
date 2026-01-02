@@ -1,6 +1,6 @@
-export type TableField = {
-    key: string;
+export type TableField<T> = {
+    key: Extract<keyof T, string | number>;
     label: string;
     type: "text" | "date" | "select";
-    options?: { value: string; label: string }[]; 
+    options?: { label: string; value: any }[];
 };

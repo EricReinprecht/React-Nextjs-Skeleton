@@ -5,34 +5,32 @@ import "@styles/tables/manager_table.scss"
 import { formatDateGerman } from "@utils/formatDate";
 import DatePickerComponent from "@/src/app/lib/components/default/date_picker";
 import Link from "next/link";
-import { Party, PartyStatus } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import Pencil from "@/src/app/lib/svgs/pencil";
 import Select from "react-select";
-import { PartyFilter } from "@types_ts/party/PartyFilterType";
 import { TableField } from "@/src/app/lib/types/tableFieldType";
 
-type TableProps = {
-    parties: Party[];
+type TableProps<T extends { id: string }> = {
+    data: T[];
     loading: boolean;
-    filters: Record<string, any>;
-    setFilters: React.Dispatch<React.SetStateAction<PartyFilter>>;
-    fields: TableField[]
+    filters: Partial<Record<keyof T, any>>;
+    setFilters: React.Dispatch<React.SetStateAction<Partial<Record<keyof T, any>>>>;
+    fields: TableField<T>[];
 };
 
-const renderCell = (partyValue: any, fieldType: string) => {
-    if (partyValue === null || partyValue === undefined) return "";
-    if (fieldType === "date") return formatDateGerman(partyValue as Date);
-    return partyValue.toString();
+const renderCell = (value: unknown, type: string) => {
+    if (value === null || value === undefined) return "";
+    if (type === "date") return formatDateGerman(value as Date);
+    return String(value);
 };
 
-const Table: React.FC<TableProps> = ({
-    parties,
+const Table = <T extends { id: string }>({
+    data,
     loading,
     filters,
     setFilters,
     fields
-}) => {
+}: TableProps<T>) => {
     const router = useRouter();
 
     return (
@@ -40,7 +38,7 @@ const Table: React.FC<TableProps> = ({
             <thead>
                 <tr>
                    {fields.map((field) => (
-                        <th key={field.key}>
+                        <th key={String(field.key)}>
                             <div className="inner">
                                 <div>{field.label}</div>
                                 {field.type === "text" && (
@@ -88,19 +86,19 @@ const Table: React.FC<TableProps> = ({
             </thead>
             {!loading && 
                 <tbody>
-                    {parties.map((party) => (
+                    {data.map((data) => (
                         <tr 
-                            key={party.id}
-                            onClick={() => router.push(`/profile/show-party/${party.id}`)}
+                            key={data.id}
+                            onClick={() => router.push(`/profile/show-party/${data.id}`)}
                             style={{ cursor: "pointer" }}
                         >
                             {fields.map((field) => (
-                                <td key={field.key}>
-                                    {renderCell(party[field.key as keyof Party], field.type)}
+                                <td key={String(field.key)}>
+                                    {renderCell(data[field.key], field.type)}
                                 </td>
                             ))}
                             <td>
-                                <Link className="action" onClick={(e) => e.stopPropagation()} href={`/profile/edit-party/${party.id}`}><Pencil height={24} width={24} color={"black"}/></Link>
+                                <Link className="action" onClick={(e) => e.stopPropagation()} href={`/profile/edit-party/${data.id}`}><Pencil height={24} width={24} color={"black"}/></Link>
                             </td>
                         </tr>
                     ))}
