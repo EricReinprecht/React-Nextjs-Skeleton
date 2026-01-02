@@ -1,45 +1,25 @@
-import { NextResponse } from "next/server";
-import prisma from "@prisma/prisma";
-import { getAuthUser } from "@utils/getAuthUser";
+import { NextRequest, NextResponse } from "next/server";
+import { countTicketReservations } from "@/src/app/lib/services/ticketReservationService";
+import { getAuthUser } from "@/src/app/lib/utils/getAuthUser";
+import qs from "qs";
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
     try {
-        const user = await getAuthUser();
-        if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        const authUser = await getAuthUser();
+
+        if (!authUser) {
+            return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+        }
 
         const url = new URL(req.url);
+        const parsed = qs.parse(url.search, { ignoreQueryPrefix: true });
 
-        const page = Number(url.searchParams.get("page") || 1);
+        const filters = (parsed.filters || {}) as Record<string, any>;
 
-        const filtersParam = url.searchParams.get("filters");
-        const filters = filtersParam ? JSON.parse(filtersParam) : {};
-
-        return NextResponse.json({ total: filters });
-
-        const where: any = {
-            cart: { userId: user.id, status: "ACTIVE" },
-        };
-
-        if (filters.ticketName) {
-            where.ticketClass = {
-                ...where.ticketClass,
-                name: { contains: filters.ticketName, mode: "insensitive" },
-            };
-        }
-
-        if (filters.ticketDescription) {
-            where.ticketClass = {
-                ...where.ticketClass,
-                description: { contains: filters.ticketDescription, mode: "insensitive" },
-            };
-        }
-
-        // Use the same 'where' for count
-        const count = await prisma.ticketReservation.count({ where });
-
-        return NextResponse.json({ total: count });
+        const total = await countTicketReservations(filters);
+        return NextResponse.json(total);
     } catch (err) {
         console.error(err);
-        return NextResponse.json({ error: "Failed to count reservations" }, { status: 500 });
+        return NextResponse.json({ message: "Failed to fetch parties" }, { status: 500 });
     }
 }
