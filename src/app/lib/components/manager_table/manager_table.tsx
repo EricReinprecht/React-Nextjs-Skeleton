@@ -11,6 +11,7 @@ import { TableField } from "@/src/app/lib/types/tableFieldType";
 import Table from "./table";
 import { PARTY_PAGE_SIZE } from "@/src/app/lib/utils/env";
 import pluralize from "pluralize";
+import { useRouter } from "next/navigation";
 
 type ManagerTableProps<T extends { id: string }> = {
     fields: TableField<T>[];
@@ -23,6 +24,7 @@ const ManagerTable = <T extends { id: string }>({
     entity,
     basePath,
 }: ManagerTableProps<T>) => {
+    const router = useRouter();
     const [loading, setLoading] = useState<boolean>(true);
     const [data, setData] = useState<T[]>([]);
     const [filters, setFilters] = useState<Partial<Record<keyof T, any>>>({});
@@ -30,8 +32,6 @@ const ManagerTable = <T extends { id: string }>({
     const [page, setPage] = useState<number>(1);
     const [debouncedFilters] = useDebounce(filters, 400);
     const [pagesCount, setPagesCount] = useState<number>(0);
-
-    
 
     const getApiPath = (action: "paginated" | "count") => {
         const pluralEntity = pluralize(entity);
@@ -103,6 +103,7 @@ const ManagerTable = <T extends { id: string }>({
                 filters={filters}
                 setFilters={setFilters}
                 fields={fields}
+                onRowClick={(row) => router.push(`/profile/show-${entity}/${row.id}`)}
             />
             {loading && <Loader type="rgb-lettering" content="loading..." />}
             {pagesCount > 0 && (

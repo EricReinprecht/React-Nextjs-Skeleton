@@ -5,7 +5,6 @@ import "@styles/tables/manager_table.scss"
 import { formatDateGerman } from "@utils/formatDate";
 import DatePickerComponent from "@/src/app/lib/components/default/date_picker";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import Pencil from "@/src/app/lib/svgs/pencil";
 import Select from "react-select";
 import { TableField } from "@/src/app/lib/types/tableFieldType";
@@ -16,8 +15,8 @@ type TableProps<T extends { id: string }> = {
     filters: Partial<Record<keyof T, any>>;
     setFilters: React.Dispatch<React.SetStateAction<Partial<Record<keyof T, any>>>>;
     fields: TableField<T>[];
+    onRowClick?: (row: T) => void;
 };
-
 const renderCell = (value: unknown, type: string) => {
     if (value === null || value === undefined) return "";
     if (type === "date") return formatDateGerman(value as Date);
@@ -29,10 +28,9 @@ const Table = <T extends { id: string }>({
     loading,
     filters,
     setFilters,
-    fields
+    fields,
+    onRowClick
 }: TableProps<T>) => {
-    const router = useRouter();
-
     return (
         <table className="manager-table">
             <thead>
@@ -86,19 +84,19 @@ const Table = <T extends { id: string }>({
             </thead>
             {!loading && 
                 <tbody>
-                    {data.map((data) => (
+                    {data.map((row) => (
                         <tr 
-                            key={data.id}
-                            onClick={() => router.push(`/profile/show-party/${data.id}`)}
-                            style={{ cursor: "pointer" }}
+                            key={row.id}
+                            onClick={() => onRowClick?.(row)}
+                            style={{ cursor: onRowClick ? "pointer" : "default" }}
                         >
                             {fields.map((field) => (
                                 <td key={String(field.key)}>
-                                    {renderCell(data[field.key], field.type)}
+                                    {renderCell(row[field.key], field.type)}
                                 </td>
                             ))}
                             <td>
-                                <Link className="action" onClick={(e) => e.stopPropagation()} href={`/profile/edit-party/${data.id}`}><Pencil height={24} width={24} color={"black"}/></Link>
+                                <Link className="action" onClick={(e) => e.stopPropagation()} href={`/profile/edit-party/${row.id}`}><Pencil height={24} width={24} color={"black"}/></Link>
                             </td>
                         </tr>
                     ))}
