@@ -7,6 +7,7 @@ import ManagerTable from "@/src/app/lib/components/manager_table/manager_table";
 import { TableField } from "@/src/app/lib/types/tableFieldType";
 import { TableAction } from "@/src/app/lib/types/TableActionType";
 import Pencil from "@/src/app/lib/svgs/pencil";
+import Bin from "@/src/app/lib/svgs/bin";
 
 const ShoppingCartPage = () => {
 
@@ -30,7 +31,7 @@ const ShoppingCartPage = () => {
     const actions: TableAction<TicketReservationRow>[] = [
         {
             label: "Delete",
-            icon: <Pencil width={20} height={20} color="black" />,
+            icon: <Bin width={20} height={20} color="black" />,
             onClick: async (row, { removeRow }) => {
                 const confirmed = confirm("Remove this item from the cart?");
                 if (!confirmed) return;

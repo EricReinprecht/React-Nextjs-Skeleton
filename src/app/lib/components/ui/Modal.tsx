@@ -37,7 +37,7 @@ export default function Modal({ open, onClose, children }: ModalProps) {
                 className="modal-content"
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className="close"  onClick={onClose}><CloseModal/></div>
+                <div className="close" onClick={onClose}><CloseModal/></div>
                 {children}
             </div>
         </div>,

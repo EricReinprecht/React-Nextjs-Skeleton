@@ -106,9 +106,8 @@ const Table = <T extends { id: string }>({
                                     <div className="actions">
                                         {actions.map((action, index) => {
                                             const content = action.icon ?? action.label;
-                                        
                                             return (
-                                                <button
+                                                <span
                                                     key={index}
                                                     className="action"
                                                     onClick={async (e) => {
@@ -123,7 +122,7 @@ const Table = <T extends { id: string }>({
                                                     }}
                                                 >
                                                     {content}
-                                                </button>
+                                                </span>
                                             );
                                         })}
                                     </div>
