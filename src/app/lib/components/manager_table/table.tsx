@@ -8,6 +8,7 @@ import Link from "next/link";
 import Pencil from "@/src/app/lib/svgs/pencil";
 import Select from "react-select";
 import { TableField } from "@/src/app/lib/types/tableFieldType";
+import { TableAction } from "@types_ts/TableActionType";
 
 type TableProps<T extends { id: string }> = {
     data: T[];
@@ -16,7 +17,10 @@ type TableProps<T extends { id: string }> = {
     setFilters: React.Dispatch<React.SetStateAction<Partial<Record<keyof T, any>>>>;
     fields: TableField<T>[];
     onRowClick?: (row: T) => void;
-};
+    actions?: TableAction<T>[];
+    removeRow?: (id: string) => void;
+}
+
 const renderCell = (value: unknown, type: string) => {
     if (value === null || value === undefined) return "";
     if (type === "date") return formatDateGerman(value as Date);
@@ -29,7 +33,9 @@ const Table = <T extends { id: string }>({
     filters,
     setFilters,
     fields,
-    onRowClick
+    onRowClick,
+    actions,
+    removeRow
 }: TableProps<T>) => {
     return (
         <table className="manager-table">
@@ -85,7 +91,7 @@ const Table = <T extends { id: string }>({
             {!loading && 
                 <tbody>
                     {data.map((row) => (
-                        <tr 
+                        <tr
                             key={row.id}
                             onClick={() => onRowClick?.(row)}
                             style={{ cursor: onRowClick ? "pointer" : "default" }}
@@ -95,9 +101,34 @@ const Table = <T extends { id: string }>({
                                     {renderCell(row[field.key], field.type)}
                                 </td>
                             ))}
-                            <td>
-                                <Link className="action" onClick={(e) => e.stopPropagation()} href={`/profile/edit-party/${row.id}`}><Pencil height={24} width={24} color={"black"}/></Link>
-                            </td>
+                            {actions && (
+                                <td>
+                                    <div className="actions">
+                                        {actions.map((action, index) => {
+                                            const content = action.icon ?? action.label;
+                                        
+                                            return (
+                                                <button
+                                                    key={index}
+                                                    className="action"
+                                                    onClick={async (e) => {
+                                                        e.stopPropagation();
+                                                        if (action.onClick) {
+                                                            await action.onClick(row, {
+                                                                removeRow: (id: string) => {
+                                                                    removeRow?.(id);
+                                                                },
+                                                            });
+                                                        }
+                                                    }}
+                                                >
+                                                    {content}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                </td>
+                            )}
                         </tr>
                     ))}
                 </tbody>

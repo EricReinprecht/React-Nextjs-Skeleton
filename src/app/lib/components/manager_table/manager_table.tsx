@@ -12,17 +12,20 @@ import Table from "./table";
 import { PARTY_PAGE_SIZE } from "@/src/app/lib/utils/env";
 import pluralize from "pluralize";
 import { useRouter } from "next/navigation";
+import { TableAction } from "@types_ts/TableActionType";
 
 type ManagerTableProps<T extends { id: string }> = {
     fields: TableField<T>[];
     entity: string;
     basePath?: string;
+    actions?: TableAction<T>[];
 };
 
 const ManagerTable = <T extends { id: string }>({
     fields,
     entity,
     basePath,
+    actions,
 }: ManagerTableProps<T>) => {
     const router = useRouter();
     const [loading, setLoading] = useState<boolean>(true);
@@ -104,6 +107,8 @@ const ManagerTable = <T extends { id: string }>({
                 setFilters={setFilters}
                 fields={fields}
                 onRowClick={(row) => router.push(`/profile/show-${entity}/${row.id}`)}
+                actions={actions}
+                removeRow={(id) => setData((prev) => prev.filter((row) => row.id !== id))}
             />
             {loading && <Loader type="rgb-lettering" content="loading..." />}
             {pagesCount > 0 && (

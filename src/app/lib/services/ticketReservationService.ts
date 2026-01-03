@@ -2,6 +2,21 @@ import { TicketReservationFilter } from "@types_ts/ticketReservation/ticketReser
 import { PARTY_PAGE_SIZE } from "../utils/env";
 import prisma from "@prisma/prisma";
 
+export const deleteTicketReservation = async (
+    reservationId: string,
+    userId: string
+) => {
+    return prisma.ticketReservation.deleteMany({
+        where: {
+            id: reservationId,
+            cart: {
+                userId: userId,
+                status: "ACTIVE",
+            },
+        },
+    });
+};
+
 export const getTicketReservationsPaginated = async (
     page: number = 1,
     filter?: TicketReservationFilter
