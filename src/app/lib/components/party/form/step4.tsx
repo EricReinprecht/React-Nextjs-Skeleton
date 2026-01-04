@@ -1,5 +1,6 @@
-import { Category } from '@/src/app/lib/entities/category';
 import { useState, useEffect } from 'react';
+
+import { Category } from '@entities/category';
 
 interface Step5CategorySelectorProps {
     allCategories: Category[];

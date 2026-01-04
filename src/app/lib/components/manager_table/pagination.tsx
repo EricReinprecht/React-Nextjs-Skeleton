@@ -1,8 +1,9 @@
 "use client";
 
+import PaginationArrow from "@svgs/pagination_arrow";
+
 import "@styles/pages/create-party.scss";
 import "@styles/tables/manager_table.scss"
-import PaginationArrow from "@/src/app/lib/svgs/pagination_arrow";
 
 type PaginationProps = {
     page: number;

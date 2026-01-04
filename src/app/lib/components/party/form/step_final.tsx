@@ -1,18 +1,21 @@
 "use client";
 
 import React from "react";
-import { Party } from "@/src/app/lib/entities/party";
-import { formatDateGerman } from "@/src/app/lib/utils/formatDate";
-import { CategoryEntity } from "@/src/app/lib/entities/category";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, A11y } from "swiper/modules";
+
+import { formatDateGerman } from "@utils/formatDate";
+import { CategoryEntity } from "@entities/category";
+
+import SwiperArrowLeft from "@svgs/swiper_arrow_left";
+import "@styles/pages/single-party.scss";
+import { PinnedMap } from "@components";
+import { PartyWithImages } from "@types_ts";
+
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import SwiperArrowLeft from "@/src/app/lib/svgs/swiper_arrow_left";
-import "@styles/pages/single-party.scss";
-import PinnedMap from "@/src/app/lib/components/default/map";
-import { PartyWithImages } from "@types_ts";/party/PartyWithImagesType";
+
 
 type Props = {
     partyData: PartyWithImages;

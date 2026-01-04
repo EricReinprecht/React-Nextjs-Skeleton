@@ -1,5 +1,6 @@
-import "@styles/components/default_search.scss"
 import React from "react";
+
+import "@styles/components/default_search.scss"
 
 interface DeafualtSearchProps {
     id: string;

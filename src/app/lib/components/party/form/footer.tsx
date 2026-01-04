@@ -1,6 +1,7 @@
 "use client";
 
-import DefautButton from "@components/default/default_button";
+import { DefaultButton } from "@components";
+
 import "@styles/components/default_button.scss"
 
 type PartyFormFooterProps = {
@@ -21,7 +22,7 @@ const Footer: React.FC<PartyFormFooterProps> = ({
 }) => {
     return (
         <div className="footer">
-            <DefautButton
+            <DefaultButton
                 label="Prev"
                 type="button"
                 onClick={() => navigateToStep(step - 1)}
@@ -37,7 +38,7 @@ const Footer: React.FC<PartyFormFooterProps> = ({
             />
 
             {step !== steps.length && (
-                <DefautButton
+                <DefaultButton
                     label="Next"
                     type="button"
                     onClick={() => navigateToStep(step + 1)}
@@ -53,7 +54,7 @@ const Footer: React.FC<PartyFormFooterProps> = ({
             )}
 
             {step === steps.length && (
-                <DefautButton
+                <DefaultButton
                     label="Submit"
                     type="button"
                     onClick={onSubmit}

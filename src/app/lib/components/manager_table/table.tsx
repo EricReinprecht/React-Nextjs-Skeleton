@@ -1,14 +1,14 @@
 "use client";
 
+
+import Select from "react-select";
+
+import { formatDateGerman } from "@utils/formatDate";
+import { DatePickerComponent } from "@components";
+import { TableField, TableAction } from "@types_ts";
+
 import "@styles/pages/create-party.scss";
 import "@styles/tables/manager_table.scss"
-import { formatDateGerman } from "@utils/formatDate";
-import DatePickerComponent from "@/src/app/lib/components/default/date_picker";
-import Link from "next/link";
-import Pencil from "@/src/app/lib/svgs/pencil";
-import Select from "react-select";
-import { TableField } from "@/src/app/lib/types/tableFieldType";
-import { TableAction } from "@types_ts";/TableActionType";
 
 type TableProps<T extends { id: string }> = {
     data: T[];

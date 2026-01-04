@@ -3,7 +3,7 @@
 import "@styles/checkouts/paypal.scss";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import CheckoutPage from "@templates/checkout_page";
-import Loader from "@components/default/loader";
+import { Loader } from "@components";
 
 export interface TicketItem {
     name: string;

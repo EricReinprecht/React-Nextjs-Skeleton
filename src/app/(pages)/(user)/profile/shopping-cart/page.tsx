@@ -4,24 +4,17 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import withAuth from "@hoc/withAuth";
-
-
 import ManagerPage from "@templates/manager_page";
 
-import ManagerTable from "@components/manager_table/manager_table";
-import Modal from "@components/ui/Modal";
-import Loader from "@components/default/loader";
-import CheckoutPaypal from "@components/default/checkout_paypal";
-
+import { ManagerTable, Modal, Loader, CheckoutPaypal } from "@components";
 import { TableField, TableAction, TicketItem, TicketReservationRow } from "@types_ts"
 
 import Bin from "@svgs/bin";
 
-
 import "@styles/pages/shopping-cart.scss";
 
 /* -------------------------------------------------------------------------- */
-/*                              Shopping Cart Page                             */
+/*                              Shopping Cart Page                            */
 /* -------------------------------------------------------------------------- */
 const ShoppingCartPage = () => {
     const [checkoutOpen, setCheckoutOpen] = useState(false);

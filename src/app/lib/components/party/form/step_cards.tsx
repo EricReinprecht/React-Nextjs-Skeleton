@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { TicketClass } from "@prisma/client";
 import Flatpickr from "react-flatpickr";
-import { TicketClassWithExtendedDate } from "../../../types/TicketClassWithExtendedDate";
+
+import { TicketClassWithExtendedDate } from "@types_ts";
 
 type Props = {
     ticketClasses: TicketClassWithExtendedDate[] & { validDays?: string[] }[]; // Add validDays

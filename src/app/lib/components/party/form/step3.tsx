@@ -1,10 +1,7 @@
 "use client";
 import React from "react";
-import MultiImageUploader from "@components/default/multi_image_uploader";
-import TiptapEditor from "@/src/app/lib/components/default/tiptap_texteditor";
-import { Party } from "@prisma/client";
-import { PartyWithImages } from "@types_ts";/party/PartyWithImagesType";
-import { ImageItem } from "@/src/app/lib/types/ImageItemType";
+import { MultiImageUploader, TiptapEditor } from "@components";
+import { PartyWithImages, ImageItem } from "@types_ts";
 
 interface Step3Props {
     party: PartyWithImages;

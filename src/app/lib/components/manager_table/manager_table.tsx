@@ -1,20 +1,17 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
+import { useDebounce } from "use-debounce";
+import pluralize from "pluralize";
+import qs from "qs";
+
+import { Loader, Pagination, Table, DefaultButton } from "@components";
+import { TableField, TableAction, TableOption  } from "@types_ts";
+import { PARTY_PAGE_SIZE } from "@utils/env";
+
 import "@styles/pages/create-party.scss";
 import "@styles/tables/manager_table.scss";
-import { useDebounce } from "use-debounce";
-import qs from "qs";
-import Loader from "@components/default/loader";
-import Pagination from "./pagination";
-import { TableField } from "@/src/app/lib/types/tableFieldType";
-import Table from "./table";
-import { PARTY_PAGE_SIZE } from "@/src/app/lib/utils/env";
-import pluralize from "pluralize";
-import { useRouter } from "next/navigation";
-import { TableAction } from "@types_ts";/TableActionType";
-import { TableOption } from "@types_ts";/TableOptionType";
-import DefaultButton from "../default/default_button";
 
 type ManagerTableProps<T extends { id: string }> = {
     fields: TableField<T>[];

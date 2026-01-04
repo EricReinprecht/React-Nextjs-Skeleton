@@ -1,8 +1,10 @@
 "use client";
 import React from "react";
 import Flatpickr from "react-flatpickr";
-import { Party } from "@prisma/client";
 import TextareaAutosize from "react-textarea-autosize";
+
+import { Party } from "@prisma/client";
+
 import "flatpickr/dist/flatpickr.min.css";
 
 

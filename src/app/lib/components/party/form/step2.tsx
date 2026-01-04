@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import GeoPointPicker from "@/src/app/lib/components/default/geo_point_picker";
+import { GeoPointPicker } from "@components";
 import { Party } from "@prisma/client";
 type Step2Props = {
     partyData: Party;

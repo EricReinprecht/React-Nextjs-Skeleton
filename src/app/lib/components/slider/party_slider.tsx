@@ -6,7 +6,7 @@ import React from 'react';
 
 // import { Navigation, Pagination } from 'swiper/modules';
 
-const DefaultSlider: React.FC = () => {
+const PartySlider: React.FC = () => {
   return (
     <div className="default-slider">
       {/* <Swiper
@@ -41,7 +41,7 @@ const DefaultSlider: React.FC = () => {
   );
 };
 
-export default DefaultSlider;
+export default PartySlider;
 
 
 
