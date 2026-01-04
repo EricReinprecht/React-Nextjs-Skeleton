@@ -1,19 +1,24 @@
 "use client";
 
 import { useState } from "react";
-import withAuth from "@hoc/withAuth";
-import ManagerPage from "@/src/app/lib/templates/manager_page";
-import ManagerTable from "@/src/app/lib/components/manager_table/manager_table";
-import "@styles/pages/shopping-cart.scss";
-import { TableField } from "@/src/app/lib/types/tableFieldType";
-import { TableAction } from "@/src/app/lib/types/TableActionType";
-import Bin from "@/src/app/lib/svgs/bin";
-import Modal from "@components/ui/Modal";
-import CheckoutPaypal from "@components/default/checkout_paypal";
-import Loader from "@components/default/loader";
 import { useRouter } from "next/navigation";
-import { TicketReservationRow } from "@types_ts/ticketReservation/ticketReservationRowType";
-import { TicketItem } from "@types_ts/ticket/ticketItemType";
+
+import withAuth from "@hoc/withAuth";
+
+
+import ManagerPage from "@templates/manager_page";
+
+import ManagerTable from "@components/manager_table/manager_table";
+import Modal from "@components/ui/Modal";
+import Loader from "@components/default/loader";
+import CheckoutPaypal from "@components/default/checkout_paypal";
+
+import { TableField, TableAction, TicketItem, TicketReservationRow } from "@types_ts";
+
+import Bin from "@svgs/bin";
+
+
+import "@styles/pages/shopping-cart.scss";
 
 /* -------------------------------------------------------------------------- */
 /*                              Shopping Cart Page                             */
@@ -98,7 +103,6 @@ const ShoppingCartPage = () => {
             setLoadingCheckout(false);
         }
     };
-
 
     const tableOptions = [
         { label: "Clear cart", onClick: handleClearCart },

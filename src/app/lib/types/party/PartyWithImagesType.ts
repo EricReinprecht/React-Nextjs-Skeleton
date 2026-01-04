@@ -1,4 +1,4 @@
-import { Currency, Party } from "@prisma/client";
+import { Party } from "@prisma/client";
 
 export type PartyWithImages = Party & {
     images: { id: string; filename: string; partyId: string; path: string }[];
