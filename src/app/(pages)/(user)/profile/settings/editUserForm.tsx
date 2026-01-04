@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import DefaultButton from "@/src/app/lib/components/default/default_button";
-import withAuth from "@/src/app/lib/hoc/withAuth";
-import "@styles/pages/create-party.scss";
+import { DefaultButton } from "@components";
+import withAuth from "@hoc/withAuth";
 import { User } from "@prisma/client";
+
+import "@styles/pages/create-party.scss";
 
 interface EditUserFormProps {
     authUser: User;

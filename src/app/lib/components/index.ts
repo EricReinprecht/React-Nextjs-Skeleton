@@ -20,11 +20,12 @@ export { default as DefaultSearch } from "./search/default_search";
 // Party Components
 export { default as Footer } from "./party/form/footer";
 export { default as StepCards } from "./party/form/step_cards";
-export { default as StepFinal } from "./party/form/step_final";
 export { default as Step1 } from "./party/form/step1";
 export { default as Step2 } from "./party/form/step2";
 export { default as Step3 } from "./party/form/step3";
+export { default as Step4 } from "./party/form/step4";
 export { default as Step5CategorySelector } from "./party/form/step4";
+export { default as StepFinal } from "./party/form/step_final";
 
 // Default Components
 export { default as DefaultButton } from "./default/default_button";
@@ -34,6 +35,9 @@ export { default as GeoPointPicker } from "./default/geo_point_picker";
 export { default as MultiImageUploader } from "./default/multi_image_uploader";
 export { default as TiptapEditor } from "./default/tiptap_texteditor";
 export { default as LoadingSpinner } from "./default/loading_spinner";
+export { default as StepManager } from "./default/step_manager";
+export { default as HeaderMain } from "./default/header";
+export { default as FooterMain } from "./default/footer";
 
 // List components
 export { default as DefaultPartyList } from "./lists/default_party_list";

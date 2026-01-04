@@ -1,7 +1,7 @@
 import "@styles/components/header.scss";
 import Link from "next/link";
 
-import Profile from "@svgs/profile";
+import { Profile } from "@svgs";
 import { getAuthUser } from "@utils/getAuthUser";
 
 interface HeaderProps {

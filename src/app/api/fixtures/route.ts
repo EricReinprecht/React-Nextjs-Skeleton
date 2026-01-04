@@ -1,7 +1,7 @@
 // app/api/fixtures/route.ts
-import { seedUsers } from "@/src/app/lib/commands/seedUsers";
-import { seedPartyCategories } from "@/src/app/lib/commands/seedPartyCategories";
-import { seedParties } from "../../lib/commands/seedParties";
+import { seedUsers } from "@commands/seedUsers";
+import { seedPartyCategories } from "@commands/seedPartyCategories";
+import { seedParties } from "@commands/seedParties";
 
 export async function GET() {
     const stream = new ReadableStream({

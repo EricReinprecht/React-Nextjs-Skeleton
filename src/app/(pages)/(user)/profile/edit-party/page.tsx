@@ -1,10 +1,12 @@
-import ManagerPage from "@/src/app/lib/templates/manager_page";
-import CreatePartyForm from "./createPartyForm"; // Client Component
-import { getAuthUser } from "@utils/getAuthUser";
-import { redirect } from "next/navigation";
 import type { ReactElement } from "react";
+import { redirect } from "next/navigation";
 
-const CreatePartyPage = async (): Promise<ReactElement> => {
+import { ManagerPage } from "@templates";
+import CreatePartyForm from "./createPartyForm";
+import { getAuthUser } from "@utils/getAuthUser";
+
+
+const CreatePartyPage = async (props): Promise<ReactElement> => {
     const user = await getAuthUser();
     if (!user) {
         return redirect("/login");

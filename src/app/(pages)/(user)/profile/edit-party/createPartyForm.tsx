@@ -1,25 +1,18 @@
 "use client";
 
 import React, { useState, useEffect, ChangeEvent } from "react";
-import Step1 from "@components/party/form/step1";
-import Step2 from "@components/party/form/step2";
-import Step3 from "@components/party/form/step3";
-import Step4 from "@components/party/form/step4";
-import StepCards from "@components/party/form/step_cards";
-import StepFinal from "@components/party/form/step_final";
-import StepManager from "@components/default/step_manager";
-import { Category } from "@/src/app/lib/entities/category";
-import { Party } from "@prisma/client";
-import { PartyWithImages } from "@types_ts";/party/PartyWithImagesType";
-import { ImageItem } from "@/src/app/lib/types/ImageItemType";
-import { TicketClassWithExtendedDate } from "@/src/app/lib/types/TicketClassWithExtendedDate";
-import { getNextDateTimeAt } from "@/src/app/lib/utils/formatDate";
-import { createFormDataForParty } from "@/src/app/lib/utils/createFormDataForParty";
-import withAuth from "@/src/app/lib/hoc/withAuth";
-import "@styles/pages/create-party.scss";
-import Footer from "@/src/app/lib/components/party/form/footer";
 import { useParams } from "next/navigation";
-import Loader from "@/src/app/lib/components/default/loader";
+
+import { Step1, Step2, Step3, Step4, StepCards, StepFinal, StepManager, Footer, Loader } from "@components";
+import { Category } from "@entities/category";
+import { Party } from "@prisma/client";
+import { PartyWithImages, ImageItem, TicketClassWithExtendedDate } from "@types_ts";
+import { getNextDateTimeAt } from "@utils/formatDate";
+import { createFormDataForParty } from "@utils/createFormDataForParty";
+import withAuth from "@hoc/withAuth";
+
+import "@styles/pages/create-party.scss";
+
 
 interface Props {
     authUser: { id: string; email: string; username: string };

@@ -1,12 +1,15 @@
-import ManagerPage from "@/src/app/lib/templates/manager_page";
-import "@styles/forms/login_form.scss";
-import "@styles/pages/settings.scss";
-import EditUserForm from "./editUserForm";
 import { cookies } from "next/headers";
-import prisma from "@prisma/prisma";
 import jwt from "jsonwebtoken";
 
-export default async function EditUser() {
+import { ManagerPage } from "@templates";
+import prisma from "@prisma/prisma";
+
+import EditUserForm from "./editUserForm";
+
+import "@styles/forms/login_form.scss";
+import "@styles/pages/settings.scss";
+
+export default async function EditUser(props) {
     // Get auth token from cookies
     const cookieStore = await cookies();
     const token = cookieStore.get("authToken")?.value;
