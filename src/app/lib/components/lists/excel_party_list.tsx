@@ -1,17 +1,19 @@
 "use client"
 
 import React, { useState, useEffect, useCallback } from "react";
-import { Party } from "@entities/party";
-import { getPartiesPaginated } from "@services/partyService";
-import InfiniteScroll from "react-infinite-scroll-component";
 import Link from "next/link";
-import "@styles/lists/party_list_excel.scss"
-import { formatDateGerman } from "../../utils/formatDate";
+import InfiniteScroll from "react-infinite-scroll-component";
+
+import { Party } from "@entities/party";
+import { Loader } from "@components";
+import { formatDateGerman } from "@utils/formatDate";
+
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import Loader from "../default/loader";
+import "@styles/lists/party_list_excel.scss"
+
 
 const ExcelPartyList: React.FC = () => {
   const [parties, setParties] = useState<Party[]>([]);

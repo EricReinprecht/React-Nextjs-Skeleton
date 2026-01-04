@@ -1,9 +1,9 @@
 "use client"
 
 import React, { useState } from "react";
-import DefautButton from "../default/default_button";
+import { DefaultButton } from "@components";
+
 import "@styles/forms/register_form.scss";
-import Cookies from "js-cookie";
 
 const RegisterForm: React.FC = () => {
     
@@ -283,7 +283,7 @@ const RegisterForm: React.FC = () => {
 
 
                 <div className="button-container">
-                    <DefautButton label="Register" type="submit"/>
+                    <DefaultButton label="Register" type="submit"/>
                 </div>
             </form>
         </div>

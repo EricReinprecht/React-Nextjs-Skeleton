@@ -1,7 +1,7 @@
 import React from "react";
-import Chain from "../../svgs/chain";
-import "@styles/components/step_manager.scss";
+import Chain from "@svgs/chain";
 
+import "@styles/components/step_manager.scss";
 
 interface StepManagerProps {
     steps: Step[];

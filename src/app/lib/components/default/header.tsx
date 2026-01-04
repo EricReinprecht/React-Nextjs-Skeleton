@@ -1,9 +1,8 @@
 import "@styles/components/header.scss";
 import Link from "next/link";
+
 import Profile from "@svgs/profile";
 import { getAuthUser } from "@utils/getAuthUser";
-import { getMessages, getTranslations } from 'next-intl/server';
-import { useTranslations } from "next-intl";
 
 interface HeaderProps {
   messages: Record<string, string>;

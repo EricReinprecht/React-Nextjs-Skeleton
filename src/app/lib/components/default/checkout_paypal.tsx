@@ -2,6 +2,7 @@
 
 import "@styles/checkouts/paypal.scss";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+
 import CheckoutPage from "@templates/checkout_page";
 import { Loader } from "@components";
 

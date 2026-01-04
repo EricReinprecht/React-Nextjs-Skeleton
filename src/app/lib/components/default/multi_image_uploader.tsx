@@ -4,9 +4,10 @@ import { useEffect, useRef } from "react";
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+
+import { PartyWithImages, ImageItem } from "@types_ts";
+
 import "@styles/components/multi_image_uploader.scss";
-import { ImageItem } from "@/src/app/lib/types/ImageItemType";
-import { PartyWithImages } from "@types_ts";/party/PartyWithImagesType";
 
 function SortableImage({ image, onRemove }: { image: ImageItem; onRemove: (img: ImageItem) => void }) {
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: image.id });

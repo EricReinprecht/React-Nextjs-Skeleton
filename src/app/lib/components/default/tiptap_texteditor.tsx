@@ -1,9 +1,8 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useEditor, EditorContent, Editor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import Link from "@tiptap/extension-link";
-import { useEffect, useState } from "react";
 
 type Props = {
   content: string;

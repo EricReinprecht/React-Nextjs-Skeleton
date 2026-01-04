@@ -1,18 +1,22 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, A11y } from "swiper/modules";
+
+
 import qs from "qs";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Link from "next/link";
+
+import { Loader } from "@components";
+import { formatDateGerman } from "@utils/formatDate";
+import SwiperArrowLeft from "@svgs/swiper_arrow_left";
+import { Party } from "@prisma/client";
+
 import "@styles/lists/party_list_card.scss";
-import { formatDateGerman } from "../../utils/formatDate";
-import SwiperArrowLeft from "../../svgs/swiper_arrow_left";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, A11y } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
-import Loader from "../default/loader";
-import { Party } from "@prisma/client";
 
 type PartyWithImages = Party & {
     images: { id: string; filename: string; path: string; partyId: string }[];

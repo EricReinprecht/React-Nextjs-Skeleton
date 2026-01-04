@@ -1,5 +1,6 @@
-import "@styles/components/loader.scss";
 import React from "react";
+
+import "@styles/components/loader.scss";
 
 interface LoadingSpinnerProps {
     type: string;

@@ -2,11 +2,11 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
-import DefautButton from "../default/default_button";
-import "@styles/forms/login_form.scss";
 import Link from "next/link";
 
+import { DefaultButton } from "@components";
+
+import "@styles/forms/login_form.scss";
 
 const LoginForm: React.FC = () => {
     const router = useRouter();
@@ -67,7 +67,7 @@ const LoginForm: React.FC = () => {
                     />
                 </div>
                 <div className="button-container">
-                    <DefautButton label="login" type="submit"/>
+                    <DefaultButton label="login" type="submit"/>
                 </div>
                 <Link href={"/register"}>Create an Account</Link>
             </form>
