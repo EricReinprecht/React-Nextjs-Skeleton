@@ -12,8 +12,8 @@ import Table from "./table";
 import { PARTY_PAGE_SIZE } from "@/src/app/lib/utils/env";
 import pluralize from "pluralize";
 import { useRouter } from "next/navigation";
-import { TableAction } from "@types_ts/TableActionType";
-import { TableOption } from "@types_ts/TableOptionType";
+import { TableAction } from "@types_ts";/TableActionType";
+import { TableOption } from "@types_ts";/TableOptionType";
 import DefaultButton from "../default/default_button";
 
 type ManagerTableProps<T extends { id: string }> = {

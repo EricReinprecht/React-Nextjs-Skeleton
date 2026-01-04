@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { PartyTickets } from "@types_ts/ticketClasses/TicketClassType";
+import { PartyTickets } from "@types_ts";/ticketClasses/TicketClassType";
 import '@styles/components/ticket_shop.scss'
 import DefaultButton from "@components/default/default_button";
 import { TicketClass } from "@prisma/client";

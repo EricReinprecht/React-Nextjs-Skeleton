@@ -1,4 +1,4 @@
-import { TicketReservationFilter } from "@types_ts/ticketReservation/ticketReservationFilterType";
+import { TicketReservationFilter } from "@types_ts";/ticketReservation/ticketReservationFilterType";
 import { PARTY_PAGE_SIZE } from "../utils/env";
 import prisma from "@prisma/prisma";
 

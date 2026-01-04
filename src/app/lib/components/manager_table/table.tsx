@@ -8,7 +8,7 @@ import Link from "next/link";
 import Pencil from "@/src/app/lib/svgs/pencil";
 import Select from "react-select";
 import { TableField } from "@/src/app/lib/types/tableFieldType";
-import { TableAction } from "@types_ts/TableActionType";
+import { TableAction } from "@types_ts";/TableActionType";
 
 type TableProps<T extends { id: string }> = {
     data: T[];

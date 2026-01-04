@@ -10,7 +10,7 @@ import StepFinal from "@components/party/form/step_final";
 import StepManager from "@components/default/step_manager";
 import { Category } from "@/src/app/lib/entities/category";
 import { Party } from "@prisma/client";
-import { PartyWithImages } from "@types_ts/party/PartyWithImagesType";
+import { PartyWithImages } from "@types_ts";/party/PartyWithImagesType";
 import { ImageItem } from "@/src/app/lib/types/ImageItemType";
 import { TicketClassWithExtendedDate } from "@/src/app/lib/types/TicketClassWithExtendedDate";
 import { getNextDateTimeAt } from "@/src/app/lib/utils/formatDate";

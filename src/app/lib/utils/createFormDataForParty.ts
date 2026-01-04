@@ -1,4 +1,4 @@
-import { PartyWithImages } from "@types_ts/party/PartyWithImagesType";
+import { PartyWithImages } from "@types_ts";/party/PartyWithImagesType";
 import { Category } from "../entities/category";
 import { ImageItem } from "../types/ImageItemType";
 import { filesToBase64 } from "./filesToBase64";

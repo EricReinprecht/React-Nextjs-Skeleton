@@ -13,7 +13,7 @@ import Modal from "@components/ui/Modal";
 import Loader from "@components/default/loader";
 import CheckoutPaypal from "@components/default/checkout_paypal";
 
-import { TableField, TableAction, TicketItem, TicketReservationRow } from "@types_ts";
+import { TableField, TableAction, TicketItem, TicketReservationRow } from "@types_ts"
 
 import Bin from "@svgs/bin";
 

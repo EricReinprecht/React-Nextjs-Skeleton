@@ -6,7 +6,7 @@ import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } 
 import { CSS } from "@dnd-kit/utilities";
 import "@styles/components/multi_image_uploader.scss";
 import { ImageItem } from "@/src/app/lib/types/ImageItemType";
-import { PartyWithImages } from "@types_ts/party/PartyWithImagesType";
+import { PartyWithImages } from "@types_ts";/party/PartyWithImagesType";
 
 function SortableImage({ image, onRemove }: { image: ImageItem; onRemove: (img: ImageItem) => void }) {
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: image.id });

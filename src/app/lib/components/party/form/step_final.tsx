@@ -12,7 +12,7 @@ import "swiper/css/pagination";
 import SwiperArrowLeft from "@/src/app/lib/svgs/swiper_arrow_left";
 import "@styles/pages/single-party.scss";
 import PinnedMap from "@/src/app/lib/components/default/map";
-import { PartyWithImages } from "@types_ts/party/PartyWithImagesType";
+import { PartyWithImages } from "@types_ts";/party/PartyWithImagesType";
 
 type Props = {
     partyData: PartyWithImages;
