@@ -1,6 +1,6 @@
 // /app/api/user/get-parties/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { getPartiesPaginated } from "@/src/app/lib/services/partyService";
+import { getPartiesPaginated } from "@services/partyService";
 
 export async function GET(req: NextRequest) {
     try {

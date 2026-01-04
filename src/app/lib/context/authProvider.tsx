@@ -1,4 +1,4 @@
-"use client"; // ✅ Ensure it's a client component
+"use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "@auth/firebase";

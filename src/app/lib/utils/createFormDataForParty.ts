@@ -1,6 +1,6 @@
-import { PartyWithImages } from "@types_ts";/party/PartyWithImagesType";
-import { Category } from "../entities/category";
-import { ImageItem } from "../types/ImageItemType";
+import { PartyWithImages } from "@types_ts";
+import { Category } from "@entities/category";
+import { ImageItem } from "@types_ts";
 import { filesToBase64 } from "./filesToBase64";
 
 export const createFormDataForParty = async (

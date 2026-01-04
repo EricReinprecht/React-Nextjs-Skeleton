@@ -1,4 +1,4 @@
-import { getPartiesPaginated } from "@/src/app/lib/services/partyService";
+import { getPartiesPaginated } from "@services/partyService";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {

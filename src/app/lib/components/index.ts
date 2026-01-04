@@ -29,6 +29,7 @@ export { default as StepFinal } from "./party/form/step_final";
 
 // Default Components
 export { default as DefaultButton } from "./default/default_button";
+export { default as LogoutButton } from "./default/logout_button";
 export { default as DatePickerComponent } from "./default/date_picker";
 export { default as PinnedMap } from "./default/map";
 export { default as GeoPointPicker } from "./default/geo_point_picker";

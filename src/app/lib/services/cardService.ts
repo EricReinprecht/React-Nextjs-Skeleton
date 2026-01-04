@@ -1,6 +1,6 @@
 import prisma from "@prisma/prisma";
 import { Prisma } from "@prisma/client";
-import { PARTY_PAGE_SIZE } from "../utils/env";
+import { PARTY_PAGE_SIZE } from "@utils/env";
 import { PartyFilter } from "@types_ts";
 
 export const getCardsPaginated = async (

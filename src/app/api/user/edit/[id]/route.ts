@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getPartiesPaginated } from "@/src/app/lib/services/partyService";
-import { getAuthUser } from "@/src/app/lib/utils/getAuthUser";
-import qs from "qs";
+import { getAuthUser } from "@utils/getAuthUser";
 import prisma from "@prisma/prisma";
 
 export async function PUT(req: NextRequest) {

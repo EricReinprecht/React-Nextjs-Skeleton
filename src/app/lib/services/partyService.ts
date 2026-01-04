@@ -1,8 +1,8 @@
 import prisma from "@prisma/prisma";
 import type { Party } from "@prisma/client";
-import { PrismaClient, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { PARTY_PAGE_SIZE } from "../utils/env";
-import { PartyFilter } from "@types_ts";/party/PartyFilterType";
+import { PartyFilter } from "@types_ts";
 
 type PartyCreateInput = Omit<Party, "id"> & {
     images?: { url: string; caption?: string; alt?: string }[];

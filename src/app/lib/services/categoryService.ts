@@ -1,4 +1,4 @@
-import prisma from "../prisma/prisma";
+import prisma from "@prisma/prisma";
 import { PartyCategory } from "@prisma/client";
 
 // Get all categories

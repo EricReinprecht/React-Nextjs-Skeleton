@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import prisma from "../prisma/prisma";
+import prisma from "@prisma/prisma";
 import { cookies } from "next/headers";
 
 export async function getCurrentUser() {

@@ -2,9 +2,11 @@
 
 import { ReactNode } from "react";
 import { usePathname } from "next/navigation";
-import "@styles/templates/manager_page.scss";
-import LogoutButton from "../components/default/logout_button";
 import Link from "next/link";
+
+import { LogoutButton } from "@components";
+
+import "@styles/templates/manager_page.scss";
 
 interface LayoutProps {
     children: ReactNode;

@@ -11,7 +11,7 @@ import Link from "next/link";
 
 import { Loader } from "@components";
 import { formatDateGerman } from "@utils/formatDate";
-import SwiperArrowLeft from "@svgs/swiper_arrow_left";
+import { SwiperArrowLeft } from "@svgs";
 import { Party } from "@prisma/client";
 
 import "@styles/lists/party_list_card.scss";

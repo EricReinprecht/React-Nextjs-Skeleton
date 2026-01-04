@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getAuthUser } from "@utils/getAuthUser";
 import qs from "qs";
-import { getTicketReservationsPaginated } from "@/src/app/lib/services/ticketReservationService";
+import { getTicketReservationsPaginated } from "@services/ticketReservationService";
 
 export async function GET(req: Request) {
     try {

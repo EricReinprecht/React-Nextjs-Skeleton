@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/src/app/lib/prisma/prisma";
-import { getAuthUser } from "@/src/app/lib/utils/getAuthUser";
+import prisma from "@prisma/prisma";
+import { getAuthUser } from "@utils/getAuthUser";
 import fs from "fs";
 import path from "path";
 

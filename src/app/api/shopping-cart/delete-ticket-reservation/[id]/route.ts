@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { deleteTicketReservation } from "@/src/app/lib/services/ticketReservationService";
-import { getAuthUser } from "@/src/app/lib/utils/getAuthUser";
+import { deleteTicketReservation } from "@services/ticketReservationService";
+import { getAuthUser } from "@utils/getAuthUser";
 
 export async function DELETE(
     req: NextRequest,

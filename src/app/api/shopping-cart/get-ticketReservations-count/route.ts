@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { countTicketReservations } from "@/src/app/lib/services/ticketReservationService";
-import { getAuthUser } from "@/src/app/lib/utils/getAuthUser";
+import { countTicketReservations } from "@services/ticketReservationService";
+import { getAuthUser } from "@utils/getAuthUser";
 import qs from "qs";
 
 export async function GET(req: NextRequest) {

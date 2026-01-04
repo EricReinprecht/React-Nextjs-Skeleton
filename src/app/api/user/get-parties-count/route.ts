@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { countParties } from "@/src/app/lib/services/partyService";
-import { getAuthUser } from "@/src/app/lib/utils/getAuthUser";
+import { countParties } from "@services/partyService";
+import { getAuthUser } from "@utils/getAuthUser";
 import qs from "qs";
 
 export async function GET(req: NextRequest) {
