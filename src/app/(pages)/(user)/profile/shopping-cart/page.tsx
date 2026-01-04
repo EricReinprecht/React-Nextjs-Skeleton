@@ -12,25 +12,8 @@ import Modal from "@components/ui/Modal";
 import CheckoutPaypal from "@components/default/checkout_paypal";
 import Loader from "@components/default/loader";
 import { useRouter } from "next/navigation";
-
-/* -------------------------------------------------------------------------- */
-/*                                    Types                                   */
-/* -------------------------------------------------------------------------- */
-type TicketReservationRow = {
-    id: string;
-    ticketName: string;
-    ticketDescription: string;
-    amount: number;
-    price: number;
-    totalPrice: number;
-};
-
-type TicketItem = {
-    name: string;
-    quantity: number;
-    unitPrice: number;
-    totalPrice: number;
-};
+import { TicketReservationRow } from "@types_ts/ticketReservation/ticketReservationRowType";
+import { TicketItem } from "@types_ts/ticket/ticketItemType";
 
 /* -------------------------------------------------------------------------- */
 /*                              Shopping Cart Page                             */
