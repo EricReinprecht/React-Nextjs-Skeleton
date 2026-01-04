@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 
 import { Category } from "@entities/category";
 import { createCategory, getCategories, deleteCategoryById, updateCategoryById } from "@services/categoryService";
-import ManagerPage from "@templates/manager_page";
+import { ManagerPage } from "@templates";
 import withAuth from "@hoc/withAuth";
 
 import { Bin } from "@svgs";

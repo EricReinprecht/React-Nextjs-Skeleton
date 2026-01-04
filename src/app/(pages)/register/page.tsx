@@ -1,9 +1,9 @@
 "use client"; 
 
-import BasePage from "@templates/base_page";
-import RegisterForm from "@components/forms/register_form";
+import { BasePage } from "@templates";
+import { RegisterForm } from "@components";
 
-const Register: React.FC  = () => {
+const Register: React.FC  = (props) => {
     return (
         <div className="main">
             <BasePage>

@@ -1,8 +1,8 @@
-import BasePage from "@templates/base_page";
-import DefaultPartyList from "@components/lists/default_party_list";
+import { BasePage } from "@templates";
+import { DefaultPartyList } from "@components";
 
 
-const Home = () => {
+const Home = (props) => {
     return(
         <div className="main">
             <BasePage backgroundType="default">

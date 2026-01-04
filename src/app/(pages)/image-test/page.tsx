@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import BasePage from "@templates/base_page";
+import { BasePage } from "@templates";
 
 import {
     DndContext,
@@ -44,7 +44,7 @@ function SortableImage({ image, onRemove }: { image: ImageItem, onRemove: (img: 
     );
 }
 
-const Party: React.FC = () =>  {
+const Party: React.FC = (props) =>  {
     const partyId = "cmhdvgw7x000l46t44khlq4kw";
 
     const [party, setParty] = useState<any | null>(null);

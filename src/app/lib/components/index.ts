@@ -39,3 +39,7 @@ export { default as LoadingSpinner } from "./default/loading_spinner";
 export { default as DefaultPartyList } from "./lists/default_party_list";
 export { default as ExcelPartyList } from "./lists/excel_party_list";
 
+// Form components
+export { default as LoginForm } from "./forms/login_form";
+export { default as RegisterForm } from "./forms/register_form";
+

@@ -26,7 +26,7 @@
       "@/*": ["./*"],
       "@styles/*": ["./src/assets/styles/*"],
       "@fonts/*": ["./src/assets/fonts/*"],
-      "@templates/*": ["./src/app/lib/templates/*"],
+      "@templates": ["./src/app/lib/templates"],
       "@types_ts": ["./src/app/lib/types/index.ts"],
       "@components": ["./src/app/lib/components/index.ts"],
       "@entities/*": ["./src/app/lib/entities/*"],

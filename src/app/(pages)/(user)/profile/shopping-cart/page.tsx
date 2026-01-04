@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import withAuth from "@hoc/withAuth";
-import ManagerPage from "@templates/manager_page";
+import { ManagerPage } from "@templates";
 
 import { ManagerTable, Modal, Loader, CheckoutPaypal } from "@components";
 import { TableField, TableAction, TicketItem, TicketReservationRow } from "@types_ts"

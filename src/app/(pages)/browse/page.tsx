@@ -1,7 +1,7 @@
 "use client"
 
 import "@styles/components/filter.scss"
-import BasePage from '@templates/base_page';
+import { BasePage } from '@templates';
 import $ from 'jquery';
 import React, { useState, useEffect, useRef } from "react";
 import { getCategories } from "@/src/app/lib/services/categoryService";

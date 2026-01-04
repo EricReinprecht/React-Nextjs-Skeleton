@@ -1,7 +1,7 @@
-import BasePage from "@templates/base_page";
-import LoginForm from "@components/forms/login_form";
+import { BasePage } from "@templates";
+import { LoginForm } from "@components";
 
-export default function Login() {
+export default function Login(props) {
   return (
     <div className="main">
       <BasePage>

@@ -1,7 +1,7 @@
 "use client";
 
 import withAuth from "@hoc/withAuth";
-import ManagerPage from "@templates/manager_page";
+import { ManagerPage } from "@templates";
 import { PartyStatus } from "@prisma/client";
 import { TableField } from "@types_ts";
 import { ManagerTable } from "@components";

@@ -2,19 +2,20 @@
 
 import { useEffect, useState } from "react";
 import { useParams, notFound } from "next/navigation";
-import BasePage from "@templates/base_page";
-import "@styles/pages/single-party-public.scss";
-import { formatDateGerman } from "@/src/app/lib/utils/formatDate";
-import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, A11y } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+import { formatDateGerman } from "@utils/formatDate";
+import { SwiperArrowLeft } from "@svgs";
+import { PartyWithImages } from "@types_ts";
+import { BasePage } from "@templates";
+import { DefaultButton, Modal, PinnedMap } from "@components";
+
+import { TicketShop } from "../ticketShop";
+
 import "swiper/css";
 import "swiper/css/navigation";
-import SwiperArrowLeft from "@/src/app/lib/svgs/swiper_arrow_left";
-import PinnedMap from "@/src/app/lib/components/default/map";
-import { PartyWithImages } from "@types_ts";/party/PartyWithImagesType";
-import DefaultButton from "@components/default/default_button";
-import Modal from "@/src/app/lib/components/ui/Modal";
-import { TicketShop } from "../ticketShop";
+import "@styles/pages/single-party-public.scss";
 
 const PartyPublicViewPage = (props) => {
     const params = useParams();

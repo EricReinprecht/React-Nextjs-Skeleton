@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 import { MyParties, CreateParty, Gear } from "@svgs";
-import ManagerPage from "@templates/manager_page";
+import { ManagerPage } from "@templates";
 import withAuth from "@hoc/withAuth";
 
 import "@styles/pages/profile.scss"
