@@ -11,6 +11,7 @@ import Bin from "@/src/app/lib/svgs/bin";
 import Modal from "@components/ui/Modal";
 import CheckoutPaypal from "@components/default/checkout_paypal";
 import Loader from "@components/default/loader";
+import { useRouter } from "next/navigation";
 
 /* -------------------------------------------------------------------------- */
 /*                                    Types                                   */
@@ -39,6 +40,8 @@ const ShoppingCartPage = () => {
     const [cartItems, setCartItems] = useState<TicketItem[]>([]);
     const [cartTotal, setCartTotal] = useState<number>(0);
     const [loadingCheckout, setLoadingCheckout] = useState(false);
+    const [successOpen, setSuccessOpen] = useState(false);
+    const router = useRouter();
 
     /* --------------------------------- Fields -------------------------------- */
     const fields: TableField<TicketReservationRow>[] = [
@@ -87,8 +90,8 @@ const ShoppingCartPage = () => {
     };
 
     const handleCheckout = async () => {
-        setCheckoutOpen(true);   // <-- open modal immediately
-        setLoadingCheckout(true); // show loader
+        setCheckoutOpen(true);
+        setLoadingCheckout(true);
 
         try {
             const res = await fetch("/api/shopping-cart/summary");
@@ -98,7 +101,7 @@ const ShoppingCartPage = () => {
             const items: TicketItem[] = data.items.map((item: any) => ({
                 name: item.name,
                 quantity: item.quantity,
-                unitPrice: Number(item.unitPrice),   // use the correct key
+                unitPrice: Number(item.unitPrice),
                 totalPrice: Number(item.total ?? 0),
             }));
 
@@ -107,9 +110,9 @@ const ShoppingCartPage = () => {
         } catch (err) {
             console.error(err);
             alert("Failed to load cart summary");
-            setCheckoutOpen(false); // close modal if error
+            setCheckoutOpen(false);
         } finally {
-            setLoadingCheckout(false); // hide loader
+            setLoadingCheckout(false);
         }
     };
 
@@ -139,11 +142,31 @@ const ShoppingCartPage = () => {
                         total={cartTotal}
                         onSuccess={() => {
                             setCheckoutOpen(false);
-                            window.location.reload();
+                            setSuccessOpen(true); 
                         }}
                     />
                 )}
             </Modal>
+
+            <Modal open={successOpen} onClose={() => setSuccessOpen(false)}>
+                <div className="success-modal">
+                    <h2>Payment Successful!</h2>
+                    <p>Thank you for your purchase. Your tickets are confirmed.</p>
+                    <div className="success-actions">
+                        <button
+                            onClick={() => setSuccessOpen(false)}
+                        >
+                            Close
+                        </button>
+                        <button
+                            onClick={() => router.push("/profile/cards")}
+                        >
+                            View Tickets
+                        </button>
+                    </div>
+                </div>
+            </Modal>
+
         </ManagerPage>
     );
 };

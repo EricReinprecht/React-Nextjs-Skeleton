@@ -70,6 +70,15 @@ const CheckoutPaypal: React.FC<CheckoutPaypalProps> = ({ items, total, onSuccess
                                                 headers: { "Content-Type": "application/json" },
                                                 body: JSON.stringify({ orderID: data.orderID }),
                                             });
+                                            const res = await fetch("/api/shopping-cart/complete-purchase", {
+                                                method: "POST",
+                                                headers: { "Content-Type": "application/json" },
+                                            });
+                                            if (!res.ok) {
+                                                console.error("Failed to complete purchase");
+                                                alert("Something went wrong creating tickets. Please contact support.");
+                                                return;
+                                            }
                                             onSuccess();
                                         }}
                                     />
