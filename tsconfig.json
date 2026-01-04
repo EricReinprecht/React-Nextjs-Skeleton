@@ -37,7 +37,7 @@
       "@commands/*": ["./src/app/lib/commands/*"],
       "@context/*": ["./src/app/lib/context/*"],
       "@hoc/*": ["./src/app/lib/hoc/*"],
-      "@svgs/*": ["./src/app/lib/svgs/*"],
+      "@svgs": ["./src/app/lib/svgs"],
       "@utils/*": ["./src/app/lib/utils/*"],
       "@styles_ts/*": ["./src/app/lib/styles/*"],
     }

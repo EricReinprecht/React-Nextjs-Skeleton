@@ -9,7 +9,7 @@ import ManagerPage from "@templates/manager_page";
 import { ManagerTable, Modal, Loader, CheckoutPaypal } from "@components";
 import { TableField, TableAction, TicketItem, TicketReservationRow } from "@types_ts"
 
-import Bin from "@svgs/bin";
+import { Bin } from "@svgs";
 
 import "@styles/pages/shopping-cart.scss";
 

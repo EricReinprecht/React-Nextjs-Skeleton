@@ -1,5 +1,5 @@
 import React from "react";
-import Chain from "@svgs/chain";
+import { Chain } from "@svgs";
 
 import "@styles/components/step_manager.scss";
 

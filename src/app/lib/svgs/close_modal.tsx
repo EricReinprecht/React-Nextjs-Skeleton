@@ -1,4 +1,4 @@
-export const CloseModal: React.FC<{ width?: number; height?: number }> = ({ width = 24, height = 24 }) => {
+const CloseModal: React.FC<{ width?: number; height?: number }> = ({ width = 24, height = 24 }) => {
     return (
         <svg style={{width: width + "px", height: height + "px"}} viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
             <g id="Layer_22" data-name="Layer 22">
@@ -7,3 +7,5 @@ export const CloseModal: React.FC<{ width?: number; height?: number }> = ({ widt
         </svg>
     );
 }
+
+export default CloseModal;

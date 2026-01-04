@@ -1,13 +1,13 @@
 "use client";
 
 import withAuth from "@hoc/withAuth";
-import "@styles/pages/create-party.scss";
-import ManagerPage from "@/src/app/lib/templates/manager_page";
-import "@styles/tables/manager_table.scss"
+import ManagerPage from "@templates/manager_page";
 import { PartyStatus } from "@prisma/client";
-import { TableField } from "@/src/app/lib/types/tableFieldType";
-import ManagerTable from "@components/manager_table/manager_table";
+import { TableField } from "@types_ts";
+import { ManagerTable } from "@components";
 
+import "@styles/tables/manager_table.scss"
+import "@styles/pages/create-party.scss";
 
 const MyPartyList = () => {
     const statusOptions = [

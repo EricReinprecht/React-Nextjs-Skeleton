@@ -1,18 +1,18 @@
 "use client"
 
-import "@styles/components/filter.scss"
 import React, { useState, useEffect, useRef } from "react";
 
-import { Category } from "@/src/app/lib/entities/category";
-import { createCategory, getCategories, deleteCategoryById, updateCategoryById } from "@/src/app/lib/services/categoryService";
+import { Category } from "@entities/category";
+import { createCategory, getCategories, deleteCategoryById, updateCategoryById } from "@services/categoryService";
+import ManagerPage from "@templates/manager_page";
+import withAuth from "@hoc/withAuth";
+
+import { Bin } from "@svgs";
+import { DefaultButton, LoadingSpinner } from "@components";
+import { EditAccept, EditPen } from "@svgs";
+
 import '@styles/manager/list.scss'
-import Bin from "@/src/app/lib/svgs/bin";
-import DefautButton from "@components/default/default_button";
-import LoadingSpinner from "@/src/app/lib/components/default/loading_spinner";
-import EditPen from "@/src/app/lib/svgs/edit_pen";
-import EditAccept from "@/src/app/lib/svgs/edit_accept";
-import ManagerPage from "@/src/app/lib/templates/manager_page";
-import withAuth from "@/src/app/lib/hoc/withAuth";
+import "@styles/components/filter.scss"
 
 const PartyCategories = () => {
     const [categories, setCategories] = useState<Category[]>([]);
@@ -158,7 +158,7 @@ const PartyCategories = () => {
                     <label className="label" htmlFor="create-new-category">Create Category:</label>
                     <input disabled={loading} id="create-new-category" ref={categoryInputRef}></input>
                 </div>
-                <DefautButton
+                <DefaultButton
                     label="Submit"
                     type="button"
                     onClick={addCategory}
@@ -178,7 +178,7 @@ const PartyCategories = () => {
                     <div className="inner">
                         <div className="content">{popupContent}</div>
                         <div className="footer">
-                            <DefautButton
+                            <DefaultButton
                                 label="Abort"
                                 type="button"
                                 onClick={() => setPopupVisible(false)}
@@ -191,7 +191,7 @@ const PartyCategories = () => {
                                     hoverBorderColor: "abort_red" 
                                 }}
                             />
-                            <DefautButton
+                            <DefaultButton
                                 label="Submit"
                                 type="button"
                                 onClick={() => popupSubmitHandler && popupSubmitHandler()}

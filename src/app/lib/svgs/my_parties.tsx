@@ -1,6 +1,6 @@
 import "@styles/svgs/party_icon.scss"
 
-const PartyIcon: React.FC<{ width?: number; height?: number }> = ({ width = 200, height = 200 }) => {
+const MyParties: React.FC<{ width?: number; height?: number }> = ({ width = 200, height = 200 }) => {
     return (
         <div className="party-icon-wrapper" style={{width: width + "px", height: height + "px"}}>
             <svg className="party-icon" width={width - 40} height={height- 40} viewBox="0 0 64 64" id="Layer_1" version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -37,4 +37,4 @@ const PartyIcon: React.FC<{ width?: number; height?: number }> = ({ width = 200,
     );
 };
 
-export default PartyIcon;
+export default MyParties;

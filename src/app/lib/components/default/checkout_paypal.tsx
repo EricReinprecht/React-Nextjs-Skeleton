@@ -26,8 +26,6 @@ const CheckoutPaypal: React.FC<CheckoutPaypalProps> = ({ items, total, onSuccess
         intent: "capture",
     };
 
-    console.log(items)
-
     return (
         <div className="main">
             <CheckoutPage>
