@@ -53,6 +53,45 @@ const ShoppingCartPage = () => {
         },
     ];
 
+    const tableOptions = [
+        {
+            label: "Clear cart",
+            onClick: async () => {
+                const confirmed = confirm("Clear entire cart?");
+                if (!confirmed) return;
+
+                const res = await fetch("/api/shopping-cart/clear", {
+                    method: "DELETE",
+                });
+
+                if (!res.ok) {
+                    alert("Failed to clear cart");
+                    return;
+                }
+
+                location.reload();
+            },
+        },
+        {
+            label: "Checkout",
+            onClick: async () => {
+                const confirmed = confirm("Checkout Cart?");
+                if (!confirmed) return;
+
+                const res = await fetch("/api/shopping-cart/checkout", {
+                    method: "POST",
+                });
+
+                if (!res.ok) {
+                    alert("Failed to checkout cart");
+                    return;
+                }
+
+                location.reload();
+            },
+        },
+    ];
+
     return (
         <ManagerPage>
             <ManagerTable<TicketReservationRow>
@@ -60,6 +99,7 @@ const ShoppingCartPage = () => {
                 entity="ticketReservations"
                 basePath="shopping-cart"
                 actions={actions}
+                options={tableOptions}
             />
         </ManagerPage>
     );

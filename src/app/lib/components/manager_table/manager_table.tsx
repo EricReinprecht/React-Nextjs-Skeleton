@@ -13,12 +13,15 @@ import { PARTY_PAGE_SIZE } from "@/src/app/lib/utils/env";
 import pluralize from "pluralize";
 import { useRouter } from "next/navigation";
 import { TableAction } from "@types_ts/TableActionType";
+import { TableOption } from "@types_ts/TableOptionType";
+import DefaultButton from "../default/default_button";
 
 type ManagerTableProps<T extends { id: string }> = {
     fields: TableField<T>[];
     entity: string;
     basePath?: string;
     actions?: TableAction<T>[];
+    options?: TableOption[];
 };
 
 const ManagerTable = <T extends { id: string }>({
@@ -26,6 +29,7 @@ const ManagerTable = <T extends { id: string }>({
     entity,
     basePath,
     actions,
+    options,
 }: ManagerTableProps<T>) => {
     const router = useRouter();
     const [loading, setLoading] = useState<boolean>(true);
@@ -111,9 +115,37 @@ const ManagerTable = <T extends { id: string }>({
                 removeRow={(id) => setData((prev) => prev.filter((row) => row.id !== id))}
             />
             {loading && <Loader type="rgb-lettering" content="loading..." />}
-            {pagesCount > 0 && (
-                <Pagination page={page} pagesCount={pagesCount} setPage={setPage} />
-            )}
+            <div className="table-footer">
+                {options && options.length > 0 && (
+                    <div className="table-options">
+                        {options.map((option, index) => (
+                            <DefaultButton
+                                key={index}
+                                label={option.label}
+                                type="button"
+                                onClick={option.onClick}
+                                disabled={option.disabled}
+                                styles={{ 
+                                    bgColor: "abort_red", 
+                                    textColor: "white", 
+                                    borderColor: "abort_red", 
+                                    hoverBgColor: "white",
+                                    hoverTextColor: "abort_red", 
+                                    hoverBorderColor: "abort_red" 
+                                }}
+                            />
+                        ))}
+                    </div>
+                )}
+            
+                {pagesCount > 0 && (
+                    <Pagination
+                        page={page}
+                        pagesCount={pagesCount}
+                        setPage={setPage}
+                    />
+                )}
+            </div>
         </div>
     );
 };
