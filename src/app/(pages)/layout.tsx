@@ -1,11 +1,13 @@
 // src/app/[locale]/layout.tsx
+import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+import { AuthProvider } from "../lib/context/authProvider";
+import Header from "../lib/components/default/header";
+import Footer from "../lib/components/default/footer";
 import { getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
-import { AuthProvider } from "../lib/context/authProvider";
-import { HeaderMain, FooterMain } from "@components";
-
-import "./globals.css";
+import { ReactNode } from "react";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -38,10 +40,10 @@ export default async function RootLayout({ children }) {
             <html lang={locale}>
                 <body className={`${geistSans.variable} ${geistMono.variable}`}>
                     <NextIntlClientProvider locale={locale} messages={messages}>
-                        <HeaderMain messages={messages} />
+                        <Header messages={messages} />
                         <div></div>
                         {children}
-                        <FooterMain />
+                        <Footer />
                     </NextIntlClientProvider>
                 </body>
             </html>

@@ -7,7 +7,7 @@ import { Navigation, A11y } from "swiper/modules";
 import { formatDateGerman } from "@utils/formatDate";
 import { CategoryEntity } from "@entities/category";
 
-import SwiperArrowLeft from "@svgs/swiper_arrow_left";
+import { SwiperArrowLeft } from "@svgs";
 import "@styles/pages/single-party.scss";
 import { PinnedMap } from "@components";
 import { PartyWithImages } from "@types_ts";

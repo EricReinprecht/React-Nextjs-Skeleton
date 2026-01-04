@@ -1,3 +1,5 @@
+"use client";
+
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { darkMapStyle } from "../../styles/map_styles";
 

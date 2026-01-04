@@ -37,8 +37,6 @@ export { default as MultiImageUploader } from "./default/multi_image_uploader";
 export { default as TiptapEditor } from "./default/tiptap_texteditor";
 export { default as LoadingSpinner } from "./default/loading_spinner";
 export { default as StepManager } from "./default/step_manager";
-export { default as HeaderMain } from "./default/header";
-export { default as FooterMain } from "./default/footer";
 
 // List components
 export { default as DefaultPartyList } from "./lists/default_party_list";

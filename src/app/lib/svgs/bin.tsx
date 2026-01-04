@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState } from "react";
 
 const Bin: React.FC<{ width?: number; height?: number; color?: string }> = ({

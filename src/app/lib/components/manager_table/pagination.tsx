@@ -1,6 +1,6 @@
 "use client";
 
-import PaginationArrow from "@svgs/pagination_arrow";
+import { PaginationArrow } from "@svgs";
 
 import "@styles/pages/create-party.scss";
 import "@styles/tables/manager_table.scss"

@@ -4,7 +4,7 @@ import { ReactNode, useEffect } from "react";
 import { createPortal } from "react-dom";
 
 import "@styles/components/modal.scss"
-import { CloseModal } from "@svgs/close_modal";
+import { CloseModal } from "@svgs";
 
 type ModalProps = {
     open: boolean;
