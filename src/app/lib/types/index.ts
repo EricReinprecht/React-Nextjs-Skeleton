@@ -9,6 +9,9 @@ export type { TicketReservationFilter } from "./ticketReservation/ticketReservat
 
 // Ticket-related types
 export type { TicketItem } from "./ticket/ticketItemType";
+export type { TicketRow } from "./ticket/ticketRowType";
+
+// TicketClass-related types
 export type { PartyTickets } from "./ticketClasses/TicketClassType";
 export type { TicketClassWithExtendedDate } from "./ticketClasses/TicketClassWithExtendedDate";
 

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { countCards } from "@services/cardService";
+import { getTicketsPaginated } from "@services/ticketService";
 import { getAuthUser } from "@utils/getAuthUser";
 import qs from "qs";
 
@@ -14,12 +14,14 @@ export async function GET(req: NextRequest) {
         const url = new URL(req.url);
         const parsed = qs.parse(url.search, { ignoreQueryPrefix: true });
 
+        const page = parsed.page ? Number(parsed.page) : 1;
         const filters = (parsed.filters || {}) as Record<string, any>;
 
-        const total = await countCards(filters);
-        return NextResponse.json(total);
+        const { tickets } = await getTicketsPaginated(page, filters);
+
+        return NextResponse.json({ tickets });
     } catch (err) {
         console.error(err);
-        return NextResponse.json({ message: "Failed to fetch cards" }, { status: 500 });
+        return NextResponse.json({ message: "Failed to fetch parties" }, { status: 500 });
     }
 }

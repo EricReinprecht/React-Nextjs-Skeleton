@@ -19,7 +19,7 @@ const ManagerPage = ({ children }: LayoutProps) => {
         { label: "Neue Party erstellen", href: "/profile/edit-party" },
         { label: "Partys", href: "/profile/my-parties" },
         { label: "Einstellungen", href: "/profile/settings" },
-        { label: "Karten", href: "/profile/my-cards" },
+        { label: "Karten", href: "/profile/my-tickets" },
         { label: "Warenkorb", href: "/profile/shopping-cart" },
         { label: "Option 6", href: "#" },
         { label: "Option 7", href: "#" },
