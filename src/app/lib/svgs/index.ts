@@ -13,3 +13,4 @@ export { default as PaginationArrow } from "./pagination_arrow";
 export { default as Pencil } from "./pencil";
 export { default as Profile } from "./profile";
 export { default as SwiperArrowLeft } from "./swiper_arrow_left";
+export { default as Ticket } from "./ticket";
