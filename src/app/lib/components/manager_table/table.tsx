@@ -85,7 +85,7 @@ const Table = <T extends { id: string }>({
                             </div>
                         </th>
                     ))}
-                    <th></th>
+                    {actions && (<th></th>)}
                 </tr>
             </thead>
             {!loading && 
