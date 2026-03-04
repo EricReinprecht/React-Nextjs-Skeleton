@@ -9,7 +9,7 @@ import EditUserForm from "./editUserForm";
 import "@styles/forms/login_form.scss";
 import "@styles/pages/settings.scss";
 
-export default async function EditUser(props) {
+export default async function EditUser() {
     // Get auth token from cookies
     const cookieStore = await cookies();
     const token = cookieStore.get("authToken")?.value;
