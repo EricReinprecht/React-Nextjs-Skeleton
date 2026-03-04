@@ -30,9 +30,12 @@ const geistMono = Geist_Mono({
 // }
 
 
-export default async function RootLayout({ children }) {
-    // const {locale} = await params;
-    const locale = "de"
+interface RootLayoutProps {
+  children: ReactNode;
+}
+
+export default async function RootLayout({ children }: RootLayoutProps) {
+    const locale = "de";
     const messages = await getMessages({ locale });
 
     return (
@@ -41,7 +44,6 @@ export default async function RootLayout({ children }) {
                 <body className={`${geistSans.variable} ${geistMono.variable}`}>
                     <NextIntlClientProvider locale={locale} messages={messages}>
                         <Header messages={messages} />
-                        <div></div>
                         {children}
                         <Footer />
                     </NextIntlClientProvider>
