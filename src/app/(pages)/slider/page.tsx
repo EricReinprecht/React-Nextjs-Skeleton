@@ -3,7 +3,7 @@
 import { BasePage } from "@templates";
 // import DefaultSlider from "@components/slider/default_slider";
 
-export default function Slider(props) {
+export default function Slider() {
   return (
     <div className="main">
       <BasePage>
