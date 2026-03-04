@@ -6,7 +6,7 @@ import CreatePartyForm from "./createPartyForm";
 import { getAuthUser } from "@utils/getAuthUser";
 
 
-const CreatePartyPage = async (props): Promise<ReactElement> => {
+const CreatePartyPage = async (): Promise<ReactElement> => {
     const user = await getAuthUser();
     if (!user) {
         return redirect("/login");
