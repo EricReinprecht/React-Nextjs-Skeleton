@@ -4,9 +4,11 @@ import { getAuthUser } from "@utils/getAuthUser";
 
 export async function DELETE(
     req: NextRequest,
-    { params }: { params: { id: string } }
+    context: { params: { id: string } }
 ) {
     try {
+        const { id } = context.params;
+
         const authUser = await getAuthUser();
 
         if (!authUser) {
@@ -17,7 +19,7 @@ export async function DELETE(
         }
 
         const result = await deleteTicketReservation(
-            params.id,
+            id,
             authUser.id
         );
 
