@@ -17,7 +17,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "@styles/pages/single-party-public.scss";
 
-const PartyPublicViewPage = (props) => {
+const PartyPublicViewPage = () => {
     const params = useParams();
     const partyId = params?.id as string | undefined;
 

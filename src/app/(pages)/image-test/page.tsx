@@ -44,7 +44,7 @@ function SortableImage({ image, onRemove }: { image: ImageItem, onRemove: (img: 
     );
 }
 
-const Party: React.FC = (props) =>  {
+const Party: React.FC = () =>  {
     const partyId = "cmhdvgw7x000l46t44khlq4kw";
 
     const [party, setParty] = useState<any | null>(null);

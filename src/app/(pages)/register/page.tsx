@@ -3,7 +3,7 @@
 import { BasePage } from "@templates";
 import { RegisterForm } from "@components";
 
-const Register: React.FC  = (props) => {
+const Register: React.FC  = () => {
     return (
         <div className="main">
             <BasePage>

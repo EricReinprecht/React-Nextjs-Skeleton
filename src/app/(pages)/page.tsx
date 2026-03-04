@@ -2,7 +2,7 @@ import { BasePage } from "@templates";
 import { DefaultPartyList } from "@components";
 
 
-const Home = (props) => {
+const Home = () => {
     return(
         <div className="main">
             <BasePage backgroundType="default">

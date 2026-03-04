@@ -11,7 +11,7 @@ import { CarentDown, CheckboxFilled, CheckboxEmpty } from "@svgs";
 import { Category } from '@entities/category.js'
 import { DefaultPartyList, ExcelPartyList, DefaultSearch } from '@components';
 
-const BrowsePage = (props) => {
+const BrowsePage = () => {
     // const [categories, setCategories] = useState<Category[]>([]);
     // const [loading, setLoading] = useState<boolean>(true);
 
