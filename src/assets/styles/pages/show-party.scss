@@ -40,6 +40,57 @@
     }
 
     .party-gallery > .party-gallery-image { height: 100%; }
+
+    .party-gallery-thumbnails {
+        position: absolute;
+        right: 20px;
+        bottom: 20px;
+        left: 20px;
+        z-index: 3;
+        display: flex;
+        gap: 9px;
+        padding: 10px;
+        overflow-x: auto;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 15px;
+        background: rgba(19, 26, 33, 0.58);
+        backdrop-filter: blur(12px);
+
+        button {
+            width: 64px;
+            height: 48px;
+            flex: 0 0 64px;
+            border: 2px solid transparent;
+            border-radius: 9px;
+            background-position: center;
+            background-size: cover;
+            cursor: pointer;
+            opacity: 0.62;
+            transition: opacity 160ms ease, border-color 160ms ease, transform 160ms ease;
+
+            &:hover, &.active { border-color: white; opacity: 1; transform: translateY(-2px); }
+        }
+    }
+
+    .party-admin-metrics {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+        margin-top: 20px;
+
+        > div {
+            display: flex;
+            min-width: 0;
+            padding: 12px;
+            border: 1px solid #e5e9ed;
+            border-radius: 11px;
+            background: #f8fafb;
+            flex-direction: column;
+        }
+
+        strong { color: #26323d; font-size: 14px; overflow-wrap: anywhere; }
+        span { margin-top: 2px; color: #89939e; font-size: 9px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; }
+    }
     .party-loading,
     .party-state-card { margin-top: 70px; }
 }
@@ -49,4 +100,6 @@
         align-items: stretch;
         flex-direction: column;
     }
+
+    .manager-party-preview .party-admin-metrics { grid-template-columns: 1fr; }
 }

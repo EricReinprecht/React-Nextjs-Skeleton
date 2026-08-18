@@ -30,7 +30,7 @@ export default function TiptapEditor({ content, onChange }: Props) {
     onUpdate: ({ editor }) => onChange(editor.getHTML()),
     editorProps: {
       attributes: {
-        class: "min-h-[150px] border border-gray-300 rounded p-3 bg-white",
+        class: "tiptap-content",
       },
     },
     autofocus: false,
@@ -54,21 +54,24 @@ const MenuBar = ({ editor }: { editor: Editor }) => {
   }
 
   return (
-    <div className="tiptap-menu-bar mb-2 flex gap-2">
+    <div className="tiptap-menu-bar" aria-label="Text formatieren">
+      <div className="tiptap-toolbar-group">
       <button
         onClick={() => editor.chain().focus().toggleBold().run()}
         disabled={!editor.can().chain().focus().toggleBold().run()}
         className={editor.isActive("bold") ? "is-active" : ""}
         type="button"
-      >B</button>
+      ><strong>B</strong><span>Fett</span></button>
 
       <button
         onClick={() => editor.chain().focus().toggleItalic().run()}
         disabled={!editor.can().chain().focus().toggleItalic().run()}
         className={editor.isActive("italic") ? "is-active" : ""}
         type="button"
-      >I</button>
+      ><em>I</em><span>Kursiv</span></button>
+      </div>
 
+      <div className="tiptap-toolbar-group">
       <button
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
         className={editor.isActive("heading", { level: 1 }) ? "is-active" : ""}
@@ -86,24 +89,37 @@ const MenuBar = ({ editor }: { editor: Editor }) => {
         className={editor.isActive("heading", { level: 3 }) ? "is-active" : ""}
         type="button"
       >H3</button>
+      </div>
 
+      <div className="tiptap-toolbar-group">
+        <button onClick={() => editor.chain().focus().toggleBulletList().run()} className={editor.isActive("bulletList") ? "is-active" : ""} type="button">• Liste</button>
+        <button onClick={() => editor.chain().focus().toggleOrderedList().run()} className={editor.isActive("orderedList") ? "is-active" : ""} type="button">1. Liste</button>
+        <button onClick={() => editor.chain().focus().toggleBlockquote().run()} className={editor.isActive("blockquote") ? "is-active" : ""} type="button">Zitat</button>
+      </div>
+
+      <div className="tiptap-toolbar-group">
       <button
         onClick={() => {
-          const url = window.prompt("Enter URL");
+          const url = window.prompt("Link-Adresse eingeben");
           if (url) {
             editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
           }
         }}
         className={editor.isActive("link") ? "is-active" : ""}
         type="button"
-      >🔗 Link</button>
+      >Link</button>
 
       <button
         onClick={() => editor.chain().focus().unsetLink().run()}
         disabled={!editor.isActive("link")}
         type="button"
-      >✖️ Unlink</button>
+      >Link lösen</button>
+      </div>
+
+      <div className="tiptap-toolbar-group tiptap-history">
+        <button onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()} type="button" aria-label="Rückgängig">↶</button>
+        <button onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()} type="button" aria-label="Wiederholen">↷</button>
+      </div>
     </div>
   );
 };
-

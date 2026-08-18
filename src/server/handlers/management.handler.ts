@@ -19,8 +19,8 @@ const parseQuery = (request: Request) => qs.parse(new URL(request.url).search, {
 export const getUserPartiesHandler = async (request: NextRequest) => {
     try {
         const user = await requireUser();
-        const { page = 1, filters = {} } = parseQuery(request);
-        return NextResponse.json(await getPartiesPaginated(Number(page), filters as Record<string, never>, user.id));
+        const { page = 1, filters = {}, sorting = [] } = parseQuery(request);
+        return NextResponse.json(await getPartiesPaginated(Number(page), filters as Record<string, never>, user.id, sorting as never));
     } catch (error) {
         return handleHttpError(error);
     }
@@ -39,8 +39,8 @@ export const countUserPartiesHandler = async (request: NextRequest) => {
 export const getUserTicketsHandler = async (request: NextRequest) => {
     try {
         const user = await requireUser();
-        const { page = 1, filters = {} } = parseQuery(request);
-        return NextResponse.json(await getTicketsPaginated(Number(page), filters as Record<string, never>, user.id));
+        const { page = 1, filters = {}, sorting = [] } = parseQuery(request);
+        return NextResponse.json(await getTicketsPaginated(Number(page), filters as Record<string, never>, user.id, sorting as never));
     } catch (error) {
         return handleHttpError(error);
     }

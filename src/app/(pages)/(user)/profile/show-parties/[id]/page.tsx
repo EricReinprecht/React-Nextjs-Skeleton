@@ -20,6 +20,7 @@ const ShowPartyPage = () => {
     const partyId = params?.id as string;
     const [party, setParty] = useState<PartyWithImages | null>(null);
     const [error, setError] = useState<string | null>(null);
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -32,6 +33,7 @@ const ShowPartyPage = () => {
                 const data = await response.json();
                 if (!response.ok) throw new Error(data.error ?? "Party konnte nicht geladen werden");
                 setParty(data);
+                setSelectedImage(data.images?.[0]?.path ?? null);
             } catch (loadError) {
                 if (loadError instanceof DOMException && loadError.name === "AbortError") return;
                 setError(loadError instanceof Error ? loadError.message : "Party konnte nicht geladen werden");
@@ -69,14 +71,30 @@ const ShowPartyPage = () => {
                 ) : (
                     <>
                         <section className="party-hero">
-                            <div className={`party-gallery${party.images[0] ? "" : " is-empty"}`}>
-                                {party.images[0] ? (
-                                    <div
-                                        className="party-gallery-image"
-                                        role="img"
-                                        aria-label={`${party.name} – Veranstaltungsbild`}
-                                        style={{ backgroundImage: `url(${party.images[0].path})` }}
-                                    />
+                            <div className={`party-gallery${selectedImage ? "" : " is-empty"}`}>
+                                {selectedImage ? (
+                                    <>
+                                        <div
+                                            className="party-gallery-image"
+                                            role="img"
+                                            aria-label={`${party.name} – Veranstaltungsbild`}
+                                            style={{ backgroundImage: `url(${selectedImage})` }}
+                                        />
+                                        {party.images.length > 1 && (
+                                            <div className="party-gallery-thumbnails" aria-label="Eventbilder">
+                                                {party.images.map((image, index) => (
+                                                    <button
+                                                        key={image.id}
+                                                        type="button"
+                                                        className={selectedImage === image.path ? "active" : ""}
+                                                        onClick={() => setSelectedImage(image.path)}
+                                                        aria-label={`Bild ${index + 1} anzeigen`}
+                                                        style={{ backgroundImage: `url(${image.path})` }}
+                                                    />
+                                                ))}
+                                            </div>
+                                        )}
+                                    </>
                                 ) : (
                                     <div className="party-gallery-placeholder">
                                         <span>Event</span>
@@ -107,6 +125,12 @@ const ShowPartyPage = () => {
                                     </div>
                                 </dl>
 
+                                <div className="party-admin-metrics">
+                                    <div><strong>{party.images.length}</strong><span>Bilder</span></div>
+                                    <div><strong>{party.categories.length}</strong><span>Kategorien</span></div>
+                                    <div><strong>{party.status === "published" ? "Live" : "Entwurf"}</strong><span>Sichtbarkeit</span></div>
+                                </div>
+
                                 <div className="party-actions">
                                     <Link className="party-ticket-button" href={`/${locale}/profile/edit-party/${party.id}`}>
                                         Party bearbeiten
@@ -134,6 +158,9 @@ const ShowPartyPage = () => {
                                         <span className="party-section-label">Veranstaltungsort</span>
                                         <h2>{party.location}</h2>
                                     </div>
+                                    <a href={`https://www.google.com/maps/dir/?api=1&destination=${party.latitude},${party.longitude}`} target="_blank" rel="noreferrer">
+                                        Route öffnen ↗
+                                    </a>
                                 </div>
                                 <div className="party-map">
                                     <PinnedMap latitude={party.latitude} longitude={party.longitude} />

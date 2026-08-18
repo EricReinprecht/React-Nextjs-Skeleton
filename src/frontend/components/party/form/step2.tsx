@@ -19,20 +19,17 @@ const Step2: React.FC<Step2Props> = ({ partyData, setPartyData }) => {
 
     return (
         <div className="step-content exact-location">
+            <div className="form-intro">
+                <span>Standort</span>
+                <h2>Setze den Treffpunkt auf der Karte</h2>
+                <p>Klicke in die Karte oder passe die Koordinaten präzise an.</p>
+            </div>
             <form className="party-form">
-                <GeoPointPicker
-                    lat={partyData.latitude}
-                    lng={partyData.longitude}
-                    onLocationSelect={(lat: number, lng: number) => {
-                        setPartyData(prev => ({
-                            ...prev!,
-                            latitude: lat,
-                            longitude: lng,
-                        }));
-                    }}
-                />
+                <section className="form-section map-form-section">
+                    <div className="map-picker-shell"><GeoPointPicker lat={partyData.latitude} lng={partyData.longitude} onLocationSelect={(latitude, longitude) => setPartyData((party) => ({ ...party, latitude, longitude }))} /></div>
 
-                <div className="form-group">
+                    <div className="form-section-heading compact"><span className="form-section-index">GPS</span><div><h3>Koordinaten</h3><p>Werden automatisch durch deine Auswahl aktualisiert.</p></div></div>
+                    <div className="form-group">
                     <div className="column">
                         <label htmlFor="latitude">Latitude</label>
                         <input
@@ -57,7 +54,8 @@ const Step2: React.FC<Step2Props> = ({ partyData, setPartyData }) => {
                             placeholder="Longitude"
                         />
                     </div>
-                </div>
+                    </div>
+                </section>
                 
             </form>
         </div>
@@ -65,5 +63,4 @@ const Step2: React.FC<Step2Props> = ({ partyData, setPartyData }) => {
 };
 
 export default Step2;
-
 

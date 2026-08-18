@@ -53,8 +53,8 @@ export const getReservationCountHandler = async (request: NextRequest) => {
 export const getReservationsHandler = async (request: NextRequest) => {
     try {
         await requireUser();
-        const { page = 1, filters = {} } = query(request);
-        return NextResponse.json(await getTicketReservationsPaginated(Number(page), filters as Record<string, never>));
+        const { page = 1, filters = {}, sorting = [] } = query(request);
+        return NextResponse.json(await getTicketReservationsPaginated(Number(page), filters as Record<string, never>, sorting as never));
     } catch (error) {
         return handleHttpError(error);
     }

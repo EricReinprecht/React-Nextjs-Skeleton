@@ -55,7 +55,7 @@ const Footer: React.FC<PartyFormFooterProps> = ({
 
             {step === steps.length && (
                 <DefaultButton
-                    label="Submit"
+                    label="Speichern & ansehen"
                     type="button"
                     onClick={onSubmit}
                     styles={{
@@ -73,4 +73,3 @@ const Footer: React.FC<PartyFormFooterProps> = ({
 };
 
 export default Footer;
-

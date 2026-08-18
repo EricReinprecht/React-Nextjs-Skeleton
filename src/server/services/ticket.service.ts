@@ -1,8 +1,8 @@
-import type { TicketRow } from "@shared/types";
+import type { TableSort, TicketRow } from "@shared/types";
 
 import * as ticketRepository from "../repositories/ticket.repository";
 
-export const getTicketsPaginated = (page = 1, filter?: Partial<TicketRow>, userId?: string) => ticketRepository.getTicketsPaginated(page, filter, userId);
+export const getTicketsPaginated = (page = 1, filter?: Partial<TicketRow>, userId?: string, sorting?: TableSort[]) => ticketRepository.getTicketsPaginated(page, filter, userId, sorting);
 export const countTickets = (filter?: Partial<TicketRow>, userId?: string) => ticketRepository.countTickets(filter, userId);
 
 export const getTicketDetails = async (id: string) => {
@@ -27,4 +27,3 @@ export const getTicketDetails = async (id: string) => {
         },
     };
 };
-

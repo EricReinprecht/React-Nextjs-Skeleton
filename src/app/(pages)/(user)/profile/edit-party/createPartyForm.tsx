@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useRef, ChangeEvent } from "react";
-import { useParams } from "next/navigation";
+import { useLocale } from "next-intl";
+import { useParams, useRouter } from "next/navigation";
 
 import { Step1, Step2, Step3, Step4, StepCards, StepFinal, StepManager, Footer, Loader } from "@frontend/components";
 import { Category } from "@shared/entities/category";
@@ -52,6 +53,8 @@ const CreatePartyForm = ({ authUser }: Props) => {
     });
 
     const params = useParams();
+    const router = useRouter();
+    const locale = useLocale();
     const partyId = Array.isArray(params?.id) ? params.id[0] : params?.id;
     const hasInitializedStep = useRef(false);
 
@@ -121,8 +124,8 @@ const CreatePartyForm = ({ authUser }: Props) => {
         }
     };
 
-    const saveParty = async () => {
-        if (partyData === lastSavedPartyData || isSavingParty) return;
+    const saveParty = async (): Promise<string | null> => {
+        if (partyData === lastSavedPartyData || isSavingParty) return partyData.id || null;
         setIsSavingParty(true);
         try {
             const endpoint = isCreated
@@ -145,13 +148,20 @@ const CreatePartyForm = ({ authUser }: Props) => {
             !isCreated && partyId && setPartyData(p => ({ ...p, id: partyId }));
             setLastSavedPartyData(partyData);
             setIsCreated(true);
+            return partyId || partyData.id || null;
         } catch (err) {
             console.error(err);
             alert("Error saving party");
+            return null;
         } finally {
             setIsSavingParty(false);
             setIsLoading(false);
         }
+    };
+
+    const submitParty = async () => {
+        const savedPartyId = await saveParty();
+        if (savedPartyId) router.push(`/${locale}/profile/show-parties/${savedPartyId}`);
     };
 
     const steps = [
@@ -160,7 +170,7 @@ const CreatePartyForm = ({ authUser }: Props) => {
         { name: "Bilder & Beschreibung" },
         { name: "Kategorien" },
         { name: "Tickets" },
-        { name: "Veröffentlichung" },
+        { name: "Vorschau & Abschluss" },
     ];
 
     useEffect(() => {
@@ -194,7 +204,7 @@ const CreatePartyForm = ({ authUser }: Props) => {
         3: <Step3 party={partyData} setOldImages={setOldImages} setImages={setImages} images={images} setPartyData={setPartyData} />,
         4: <Step4 allCategories={allCategories} selectedCategories={selectedCategories} setSelectedCategories={setSelectedCategories} />,
         5: <StepCards ticketClasses={ticketClasses} setTicketClasses={setTicketClasses} partyData={partyData} />,
-        6: <StepFinal partyData={partyData} images={images} />,
+        6: <StepFinal partyData={partyData} images={images} categories={selectedCategories} />,
     };
 
     return (
@@ -228,7 +238,7 @@ const CreatePartyForm = ({ authUser }: Props) => {
                             {stepComponents[step]}
                         </div>
 
-                        <Footer steps={steps} step={step} navigateToStep={setStep} onSubmit={saveParty} />
+                        <Footer steps={steps} step={step} navigateToStep={setStep} onSubmit={submitParty} />
                     </section>
                 </>
             )}

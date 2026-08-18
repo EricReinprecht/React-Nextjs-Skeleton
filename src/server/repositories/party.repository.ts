@@ -2,7 +2,7 @@ import prisma from "../db/prisma";
 import type { Party } from "@prisma/client";
 import { Prisma } from "@prisma/client";
 import { PARTY_PAGE_SIZE } from "@shared/utils/env";
-import { PartyFilter } from "@shared/types";
+import { PartyFilter, TableSort } from "@shared/types";
 
 type PartyCreateInput = Omit<Party, "id"> & {
     images?: { url: string; caption?: string; alt?: string }[];
@@ -93,7 +93,8 @@ export const getPartiesByCursor = async (
 export const getPartiesPaginated = async (
     page: number = 1,
     filter?: PartyFilter,
-    userId?: string
+    userId?: string,
+    sorting: TableSort[] = []
 ): Promise<{ parties: any[] }> => {
     try {
         const limit = PARTY_PAGE_SIZE;
@@ -117,11 +118,13 @@ export const getPartiesPaginated = async (
         : {};
 
         if (userId) Object.assign(where, { userId });
+        const sortableFields = new Set(["name", "createdAt", "startDate", "endDate", "location", "status"]);
+        const orderBy = sorting.filter(({ key }) => sortableFields.has(key)).map(({ key, direction }) => ({ [key]: direction }));
         const parties = await prisma.party.findMany({
             where,
             skip,
             take: limit,
-            orderBy: [{ startDate: "asc" }, { id: "asc" }],
+            orderBy: [...orderBy, { id: "asc" }],
             include: { images: true, tickets: true },
         });
       
@@ -241,4 +244,3 @@ export const findPartyTickets = (id: string) => prisma.party.findUnique({
     where: { id },
     select: { ticketClasses: { include: { prices: true } } },
 });
-

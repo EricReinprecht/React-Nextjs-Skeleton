@@ -1,7 +1,7 @@
 import prisma from "../db/prisma";
 import { Prisma } from "@prisma/client";
 import { PARTY_PAGE_SIZE } from "@shared/utils/env";
-import { TicketRow } from "@shared/types";
+import { TableSort, TicketRow } from "@shared/types";
 
 /* ---------- helpers ---------- */
 
@@ -47,17 +47,26 @@ const buildTicketWhere = (
 export const getTicketsPaginated = async (
     page = 1,
     filter?: Partial<TicketRow>,
-    userId?: string
+    userId?: string,
+    sorting: TableSort[] = []
 ): Promise<{ tickets: TicketRow[] }> => {
     try {
         const limit = PARTY_PAGE_SIZE;
         const skip = (page - 1) * limit;
 
+        const orderBy: Prisma.TicketOrderByWithRelationInput[] = [];
+        sorting.forEach(({ key, direction }) => {
+            if (key === "partyName") orderBy.push({ party: { name: direction } });
+            if (key === "partyLocation") orderBy.push({ party: { location: direction } });
+            if (key === "ticketClassName") orderBy.push({ ticketClass: { name: direction } });
+            if (key === "ticketClassValidFrom") orderBy.push({ ticketClass: { validFrom: direction } });
+            if (key === "ticketClassValidTo") orderBy.push({ ticketClass: { validTo: direction } });
+        });
         const tickets = await prisma.ticket.findMany({
             where: buildTicketWhere(filter, userId),
             skip,
             take: limit,
-            orderBy: { createdAt: "desc" },
+            orderBy: [...orderBy, { createdAt: "desc" }],
             include: {
                 party: true,
                 ticketClass: true,
@@ -103,4 +112,3 @@ export const countTickets = async (
         return { total: 0 };
     }
 };
-

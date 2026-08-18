@@ -26,8 +26,6 @@ const Pagination: React.FC<PaginationProps> = ({
                 <PaginationArrow
                     height={24}
                     width={24}
-                    color="white"
-                    hoverColor="black"
                     orientation="right"
                 />
             </button>
@@ -37,8 +35,8 @@ const Pagination: React.FC<PaginationProps> = ({
                     <button
                         key={idx}
                         onClick={() => setPage(idx + 1)}
-                        disabled={page === idx + 1}
                         className={page === idx + 1 ? "active" : ""}
+                        aria-current={page === idx + 1 ? "page" : undefined}
                     >
                         {idx + 1}
                     </button>
@@ -49,18 +47,18 @@ const Pagination: React.FC<PaginationProps> = ({
                         <button
                             key={idx}
                             onClick={() => setPage(idx + 1)}
-                            disabled={page === idx + 1}
                             className={page === idx + 1 ? "active" : ""}
+                            aria-current={page === idx + 1 ? "page" : undefined}
                         >
                             {idx + 1}
                         </button>
                     ))}
-                    <button style={{ pointerEvents: "none" }}>...</button>
+                    <span className="pagination-ellipsis" aria-hidden="true">…</span>
                     <button
                         key={pagesCount - 1}
                         onClick={() => setPage(pagesCount)}
-                        disabled={page === pagesCount}
                         className={page === pagesCount ? "active" : ""}
+                        aria-current={page === pagesCount ? "page" : undefined}
                     >
                         {pagesCount}
                     </button>
@@ -75,8 +73,6 @@ const Pagination: React.FC<PaginationProps> = ({
                 <PaginationArrow
                     height={24}
                     width={24}
-                    color="white"
-                    hoverColor="black"
                     orientation="left"
                 />
             </button>
@@ -85,4 +81,3 @@ const Pagination: React.FC<PaginationProps> = ({
 };
 
 export default Pagination;
-

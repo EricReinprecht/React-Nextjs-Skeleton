@@ -5,7 +5,7 @@ import Select from "react-select";
 
 import { formatDateGerman } from "@shared/utils/formatDate";
 import { DatePickerComponent } from "@frontend/components";
-import { TableField, TableAction } from "@shared/types";
+import { TableField, TableAction, TableSort } from "@shared/types";
 
 import "@styles/pages/create-party.scss";
 import "@styles/tables/manager_table.scss"
@@ -19,6 +19,8 @@ type TableProps<T extends { id: string }> = {
     onRowClick?: (row: T) => void;
     actions?: TableAction<T>[];
     removeRow?: (id: string) => void;
+    sorting: TableSort[];
+    onSort: (key: string) => void;
 }
 
 const renderCell = (value: unknown, type: string) => {
@@ -35,7 +37,9 @@ const Table = <T extends { id: string }>({
     fields,
     onRowClick,
     actions,
-    removeRow
+    removeRow,
+    sorting,
+    onSort
 }: TableProps<T>) => {
     return (
         <div className="manager-table-scroll">
@@ -45,7 +49,20 @@ const Table = <T extends { id: string }>({
                    {fields.map((field) => (
                         <th key={String(field.key)}>
                             <div className="inner">
-                                <div>{field.label}</div>
+                                <button
+                                    type="button"
+                                    className={`table-sort-button${sorting.some(sort => sort.key === field.key) ? " active" : ""}`}
+                                    onClick={() => onSort(String(field.key))}
+                                    aria-label={`${field.label} sortieren`}
+                                >
+                                    <span>{field.label}</span>
+                                    {sorting.find(sort => sort.key === field.key) ? (
+                                        <span className="table-sort-state">
+                                            <b>{sorting.findIndex(sort => sort.key === field.key) + 1}</b>
+                                            <i aria-hidden="true">{sorting.find(sort => sort.key === field.key)?.direction === "asc" ? "↑" : "↓"}</i>
+                                        </span>
+                                    ) : <i className="table-sort-idle" aria-hidden="true">↕</i>}
+                                </button>
                                 {field.type === "text" && (
                                     <input
                                         aria-label={`${field.label} filtern`}
@@ -149,5 +166,4 @@ const Table = <T extends { id: string }>({
 };
 
 export default Table;
-
 

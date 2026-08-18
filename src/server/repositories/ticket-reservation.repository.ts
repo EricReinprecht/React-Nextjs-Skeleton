@@ -1,4 +1,4 @@
-import { TicketReservationFilter } from "@shared/types";
+import { TableSort, TicketReservationFilter } from "@shared/types";
 import { PARTY_PAGE_SIZE } from "@shared/utils/env";
 import prisma from "../db/prisma";
 import { calculateTicketPrice } from "@shared/utils/ticketPricing";
@@ -101,7 +101,8 @@ export const getTicketReservationsForUser = async (userId: string) => {
 // Get paginated reservations with filtering
 export const getTicketReservationsPaginated = async (
     page: number = 1,
-    filter?: TicketReservationFilter
+    filter?: TicketReservationFilter,
+    sorting: TableSort[] = []
 ) => {
     try {
         const limit = PARTY_PAGE_SIZE;
@@ -117,7 +118,18 @@ export const getTicketReservationsPaginated = async (
 
         const mapped = reservations.map(mapReservation);
         const filtered = applyNumericFilters(mapped, filter);
-        const paginated = filtered.slice(skip, skip + limit);
+        const sorted = sorting.length ? [...filtered].sort((left, right) => {
+            for (const { key, direction } of sorting) {
+                const leftValue = left[key as keyof typeof left];
+                const rightValue = right[key as keyof typeof right];
+                const comparison = typeof leftValue === "number" && typeof rightValue === "number"
+                    ? leftValue - rightValue
+                    : String(leftValue ?? "").localeCompare(String(rightValue ?? ""), "de", { numeric: true, sensitivity: "base" });
+                if (comparison !== 0) return direction === "asc" ? comparison : -comparison;
+            }
+            return 0;
+        }) : filtered;
+        const paginated = sorted.slice(skip, skip + limit);
 
         return { ticketReservations: paginated };
     } catch (error) {
@@ -147,5 +159,4 @@ export const countTicketReservations = async (
         return { count: 0 };
     }
 };
-
 

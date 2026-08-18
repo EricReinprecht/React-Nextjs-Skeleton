@@ -39,43 +39,55 @@ function Step5CategorySelector({
 
     return (
         <div className="step-content basic-data">
+            <div className="form-intro">
+                <span>Schritt 4</span>
+                <h2>Passende Kategorien</h2>
+                <p>Wähle die Themen, unter denen Besucher dein Event später entdecken sollen.</p>
+            </div>
             <form className="party-form">
-            <input
-            className='category-search'
-                type="search"
-                placeholder="Kategorie suchen..."
-                value={searchTerm}
-                onChange={e => setSearchTerm(e.target.value)}
-            />
-            <div className='categories-list'>
-                {filteredCategories.length === 0 && <p>Keine Kategorien gefunden</p>}
-                {filteredCategories.map(category => (
-                    <div
-                        key={category.id}
-                        className='category-result'
-                    >
+                <section className="form-section">
+                    <div className="form-section-heading">
+                        <span className="form-section-index">01</span>
+                        <div>
+                            <h3>Event einordnen</h3>
+                            <p>Mehrere Kategorien sind möglich.</p>
+                        </div>
+                    </div>
+                    <input
+                        className="category-search"
+                        type="search"
+                        placeholder="Zum Beispiel Musik oder Festival"
+                        value={searchTerm}
+                        onChange={e => setSearchTerm(e.target.value)}
+                    />
+                    <div className="category-selection-summary">
+                        <strong>{selectedCategories.length}</strong>
+                        <span>{selectedCategories.length === 1 ? "Kategorie ausgewählt" : "Kategorien ausgewählt"}</span>
+                    </div>
+                    <div className="categories-list">
+                        {filteredCategories.length === 0 && <p className="categories-empty">Keine Kategorien gefunden.</p>}
+                        {filteredCategories.map(category => (
+                            <label
+                                key={category.id}
+                                className={`category-result ${selectedCategories.some(c => c.id === category.id) ? "selected" : ""}`}
+                                htmlFor={`category_checkbox-${category.id}`}
+                            >
                         <input
                             type="checkbox"
                             checked={selectedCategories.some(c => c.id === category.id)}
                             onChange={() => toggleCategory(category)}
-                            style={{ marginRight: '0.5rem' }}
                             id={`category_checkbox-${category.id}`}
                             name={`category_checkbox-${category.id}`}
                         />
-                        <label
-                            htmlFor={`category_checkbox-${category.id}`}
-                            style={{ display: 'block', marginBottom: '0.5rem', cursor: 'pointer' }}
-                        >
-                            {category.name}
-                        </label>
+                                <span>{category.name}</span>
+                            </label>
+                        ))}
                     </div>
-                ))}
-            </div>
+                </section>
             </form>
         </div>
     );
 }
 
 export default Step5CategorySelector;
-
 

@@ -1,5 +1,6 @@
 // Table-related types
 export type { TableField } from "./table/tableFieldType";
+export type { TableSort } from "./table/tableSortType";
 export type { TableAction } from "./table/TableActionType";
 export type { TableOption } from "./table/TableOptionType";
 

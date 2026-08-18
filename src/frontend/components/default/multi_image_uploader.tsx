@@ -99,15 +99,16 @@ export default function MultiImageUploader({ party, setOldImages, setImages, ima
     };
 
     return (
-        <div className="container">
-            <h2>Drag & Drop Images</h2>
+        <div className="image-uploader">
             <div
                 className="dropzone"
                 onDrop={handleDropFiles}
                 onDragOver={handleDragOver}
                 onClick={handleClickDropzone}
             >
-                <p>Drag images here or click to select</p>
+                <span className="dropzone-icon" aria-hidden="true">+</span>
+                <strong>Bilder hier ablegen</strong>
+                <p>oder klicken, um Dateien auszuwählen · PNG, JPG oder WEBP</p>
             </div>
 
             <input
@@ -130,4 +131,3 @@ export default function MultiImageUploader({ party, setOldImages, setImages, ima
         </div>
     );
 }
-

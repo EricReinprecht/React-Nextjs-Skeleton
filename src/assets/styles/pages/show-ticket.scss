@@ -9,14 +9,49 @@
 .ticket-back-link {
     display: inline-flex;
     align-items: center;
-    gap: 9px;
-    margin-bottom: 18px;
-    color: rgba(255, 255, 255, 0.88) !important;
-    font-size: 14px;
-    font-weight: 800;
+    gap: 10px;
+    min-height: 42px;
+    margin-bottom: 20px;
+    padding: 0 15px 0 10px;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 999px;
+    background: rgba(25, 33, 42, 0.88);
+    box-shadow: 0 9px 24px rgba(20, 27, 34, 0.18);
+    color: #ffffff !important;
+    font-size: 13px;
+    font-weight: 850;
     text-decoration: none;
+    backdrop-filter: blur(12px);
+    transition: gap 160ms ease, background 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 
-    &:hover { gap: 13px; color: white !important; }
+    > svg {
+        display: block;
+        width: 26px;
+        height: 26px;
+        padding: 7px;
+        flex: 0 0 26px;
+        border-radius: 50%;
+        background: #ffdf72;
+        box-sizing: border-box;
+        transition: transform 160ms ease;
+
+        path { fill: #382500; }
+    }
+
+    &:hover {
+        gap: 13px;
+        background: #18222c;
+        box-shadow: 0 12px 30px rgba(20, 27, 34, 0.26);
+        color: #ffffff !important;
+        transform: translateY(-2px);
+
+        > svg { transform: translateX(-2px); }
+    }
+
+    &:focus-visible {
+        outline: 3px solid #ffbf32;
+        outline-offset: 3px;
+    }
 }
 
 .digital-ticket {
@@ -206,6 +241,7 @@
     .digital-ticket-body { padding: 28px 22px; }
     .digital-ticket-facts { grid-template-columns: 1fr; }
     .digital-ticket-actions { flex-direction: column; }
+    .ticket-back-link { min-height: 40px; margin-bottom: 15px; }
 }
 
 @media print {

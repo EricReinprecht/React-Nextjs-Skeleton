@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 
 import withAuth from "@frontend/hoc/withAuth";
 import { ManagerPage } from "@frontend/templates";
+import { SwiperArrowLeft } from "@frontend/svgs";
 import { formatDateGerman } from "@shared/utils/formatDate";
 
 import "@styles/pages/show-ticket.scss";
@@ -62,7 +63,7 @@ const ShowTicketPage = () => {
         <ManagerPage>
             <div className="show-ticket-page">
                 <Link className="ticket-back-link" href={`/${locale}/profile/my-tickets`}>
-                    <span aria-hidden="true">←</span> Meine Tickets
+                    <SwiperArrowLeft width={26} height={26} /> Meine Tickets
                 </Link>
 
                 {error ? (

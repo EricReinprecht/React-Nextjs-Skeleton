@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import Flatpickr from "react-flatpickr";
 
 import { TicketClassWithExtendedDate } from "@shared/types";
 
 type Props = {
-    ticketClasses: TicketClassWithExtendedDate[] & { validDays?: string[] }[]; // Add validDays
+    ticketClasses: TicketClassWithExtendedDate[] & { validDays?: string[] }[];
     setTicketClasses: React.Dispatch<React.SetStateAction<TicketClassWithExtendedDate[] & { validDays?: string[] }[]>>;
     partyData: {
         startDate: Date;
@@ -15,30 +15,6 @@ type Props = {
 };
 
 const StepTickets: React.FC<Props> = ({ ticketClasses = [], setTicketClasses, partyData }) => {
-
-    // Initialize at least one ticket class
-    useEffect(() => {
-        if (ticketClasses.length === 0) {
-            setTicketClasses([
-                {
-                    id: crypto.randomUUID(),
-                    name: "",
-                    description: "",
-                    validFrom: new Date(partyData.startDate),
-                    validTo: new Date(partyData.endDate),
-                    ticketAmount: 0,
-                    createdAt: new Date(),
-                    updatedAt: null,
-                    partyId: "",
-                    validDays: [],
-                    validFromDate: new Date(),
-                    validFromTime: new Date(),
-                    validToDate: new Date(),
-                    validToTime: new Date(),
-                },
-            ]);
-        }
-    }, [ticketClasses, setTicketClasses, partyData.startDate, partyData.endDate]);
 
     const addTicketClass = () => {
         setTicketClasses([
@@ -64,13 +40,42 @@ const StepTickets: React.FC<Props> = ({ ticketClasses = [], setTicketClasses, pa
 
     return (
         <div className="step-content ticket-classes">
+            <div className="form-intro">
+                <span>Schritt 5 · Optional</span>
+                <h2>Tickets anbieten</h2>
+                <p>Dieser Schritt ist freiwillig. Für kostenlose Events oder einen externen Ticketverkauf kannst du direkt zur Vorschau weitergehen.</p>
+            </div>
             <form className="party-form">
+                {ticketClasses.length === 0 && (
+                    <div className="ticket-optional-state">
+                        <span aria-hidden="true">✓</span>
+                        <div>
+                            <strong>Keine Ticketklasse notwendig</strong>
+                            <p>Dein Event kann auch ohne Ticketklasse gespeichert und angezeigt werden.</p>
+                        </div>
+                    </div>
+                )}
                 {ticketClasses.map((ticketClass, ticketIndex) => (
                     <div key={ticketClass.id} className="ticket-class-repeater">
+                        <div className="ticket-class-heading">
+                            <div>
+                                <span>Ticketklasse {ticketIndex + 1}</span>
+                                <h3>{ticketClass.name || "Neue Ticketklasse"}</h3>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={() => setTicketClasses(ticketClasses.filter((_, i) => i !== ticketIndex))}
+                                disabled={ticketClasses.length === 1}
+                                className="ticket-class-remove"
+                            >
+                                Entfernen
+                            </button>
+                        </div>
                         <div className="form-group">
                             <div className="column">
-                                <label>Name</label>
+                                <label htmlFor={`ticket-name-${ticketClass.id}`}>Name <em>Pflichtfeld</em></label>
                                 <input
+                                    id={`ticket-name-${ticketClass.id}`}
                                     type="text"
                                     value={ticketClass.name}
                                     onChange={(e) => {
@@ -84,7 +89,10 @@ const StepTickets: React.FC<Props> = ({ ticketClasses = [], setTicketClasses, pa
                             <div className="column"></div>
                         </div>
 
-                        <div className="form-group">
+                        <div className="ticket-date-grid">
+                            <div className="ticket-date-card">
+                                <strong>Verkaufsstart</strong>
+                                <div className="form-group">
                             <div className="column">
                                 <label>Startdatum</label>
                                 <Flatpickr
@@ -111,9 +119,11 @@ const StepTickets: React.FC<Props> = ({ ticketClasses = [], setTicketClasses, pa
                                     }}
                                 />
                             </div>
-                        </div>
-
-                        <div className="form-group">
+                                </div>
+                            </div>
+                            <div className="ticket-date-card">
+                                <strong>Verkaufsende</strong>
+                                <div className="form-group">
                             <div className="column">
                                 <label>Enddatum</label>
                                 <Flatpickr
@@ -125,7 +135,7 @@ const StepTickets: React.FC<Props> = ({ ticketClasses = [], setTicketClasses, pa
                                 />
                             </div>
                             <div className="column">
-                                <label>End</label>
+                                <label>Endzeit</label>
                                 <Flatpickr
                                     options={{
                                         enableTime: true,
@@ -139,6 +149,8 @@ const StepTickets: React.FC<Props> = ({ ticketClasses = [], setTicketClasses, pa
                                         ticketClass.validToTime = time;
                                     }}
                                 />
+                            </div>
+                                </div>
                             </div>
                         </div>
 
@@ -157,30 +169,15 @@ const StepTickets: React.FC<Props> = ({ ticketClasses = [], setTicketClasses, pa
                             </div>
                         </div>
 
-                        <button
-                            type="button"
-                            onClick={() => {
-                                if (ticketClasses.length > 1) {
-                                    const updated = ticketClasses.filter((_, i) => i !== ticketIndex);
-                                    setTicketClasses(updated);
-                                }
-                            }}
-                            disabled={ticketClasses.length === 1}
-                            className="mt-2 bg-red-500 text-white p-2 rounded"
-                        >
-                            Entfernen
-                        </button>
-
-                        <hr className="my-4" />
                     </div>
                 ))}
 
                 <button
                     type="button"
                     onClick={addTicketClass}
-                    className="bg-green-500 text-white p-2 rounded"
+                    className="ticket-class-add"
                 >
-                    Ticketklasse hinzufügen
+                    <span>+</span> Weitere Ticketklasse hinzufügen
                 </button>
             </form>
         </div>
@@ -188,4 +185,3 @@ const StepTickets: React.FC<Props> = ({ ticketClasses = [], setTicketClasses, pa
 };
 
 export default StepTickets;
-

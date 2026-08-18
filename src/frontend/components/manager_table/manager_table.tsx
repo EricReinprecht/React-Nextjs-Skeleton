@@ -7,7 +7,7 @@ import pluralize from "pluralize";
 import qs from "qs";
 
 import { Loader, Pagination, Table, DefaultButton } from "@frontend/components";
-import { TableField, TableAction, TableOption  } from "@shared/types";
+import { TableField, TableAction, TableOption, TableSort } from "@shared/types";
 import { PARTY_PAGE_SIZE } from "@shared/utils/env";
 
 import "@styles/pages/create-party.scss";
@@ -36,6 +36,7 @@ const ManagerTable = <T extends { id: string }>({
     const [page, setPage] = useState<number>(1);
     const [debouncedFilters] = useDebounce(filters, 400);
     const [pagesCount, setPagesCount] = useState<number>(0);
+    const [sorting, setSorting] = useState<TableSort[]>([]);
 
     const getApiPath = (action: "paginated" | "count") => {
         const pluralEntity = pluralize(entity);
@@ -67,7 +68,7 @@ const ManagerTable = <T extends { id: string }>({
 
         setLoading(true);
         try {
-            const queryString = qs.stringify({ page, filters: debouncedFilters });
+            const queryString = qs.stringify({ page, filters: debouncedFilters, sorting });
             const url = `${getApiPath("paginated")}?${queryString}`; 
             const res = await fetch(url);
 
@@ -86,14 +87,27 @@ const ManagerTable = <T extends { id: string }>({
         } finally {
             setLoading(false);
         }
-    }, [page, debouncedFilters, cachedPages, entity, basePath]);
+    }, [page, debouncedFilters, sorting, cachedPages, entity, basePath]);
+
+    const handleSort = (key: string) => {
+        setSorting((current) => {
+            const existing = current.find((sort) => sort.key === key);
+            if (!existing) return [...current, { key, direction: "asc" }];
+            if (existing.direction === "asc") {
+                return current.map((sort) => sort.key === key ? { ...sort, direction: "desc" } : sort);
+            }
+            return current.filter((sort) => sort.key !== key);
+        });
+        setPage(1);
+        setCachedPages({});
+    };
 
     useEffect(() => {
         setPage(1);
         setCachedPages({});
         buildPagination();
         fetchData();
-    }, [debouncedFilters, entity, basePath]);
+    }, [debouncedFilters, sorting, entity, basePath]);
 
     useEffect(() => {
         fetchData();
@@ -110,6 +124,8 @@ const ManagerTable = <T extends { id: string }>({
                 onRowClick={(row) => router.push(`/profile/show-${entity}/${row.id}`)}
                 actions={actions}
                 removeRow={(id) => setData((prev) => prev.filter((row) => row.id !== id))}
+                sorting={sorting}
+                onSort={handleSort}
             />
             {loading && <Loader type="rgb-lettering" content="loading..." />}
             <div className="table-footer">
@@ -158,5 +174,4 @@ const ManagerTable = <T extends { id: string }>({
 };
 
 export default ManagerTable;
-
 

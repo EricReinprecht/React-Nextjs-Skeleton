@@ -1,5 +1,5 @@
 import type { Party } from "@prisma/client";
-import type { PartyFilter } from "@shared/types";
+import type { PartyFilter, TableSort } from "@shared/types";
 
 import * as partyRepository from "../repositories/party.repository";
 import { ApplicationError } from "../errors/application-error";
@@ -22,7 +22,7 @@ export type PartyFormInput = {
 
 export const getParties = (): Promise<Party[]> => partyRepository.getParties();
 export const getPartiesByCursor = (cursorId?: string, filter?: Record<string, unknown>) => partyRepository.getPartiesByCursor(cursorId, filter);
-export const getPartiesPaginated = (page = 1, filter?: PartyFilter, userId?: string) => partyRepository.getPartiesPaginated(page, filter, userId);
+export const getPartiesPaginated = (page = 1, filter?: PartyFilter, userId?: string, sorting?: TableSort[]) => partyRepository.getPartiesPaginated(page, filter, userId, sorting);
 export const countParties = (filter?: PartyFilter, userId?: string) => partyRepository.countParties(filter, userId);
 export const getPartyById = (id: string) => partyRepository.getPartyById(id);
 export const browseParties = (page = 1, search = "") => partyRepository.browseParties(page, search);
@@ -75,4 +75,3 @@ export const getPartyTickets = async (id: string) => {
     if (!tickets) throw new ApplicationError("Party not found", 404, "PARTY_NOT_FOUND");
     return tickets;
 };
-

@@ -14,6 +14,9 @@
 .single-party-page {
     --party-orange: #ff4d23;
     --party-orange-dark: #db3510;
+    --party-acid: #d9ff43;
+    --party-pink: #ff4f81;
+    --party-purple: #7551ff;
     --party-ink: #17202a;
     --party-muted: #65717e;
     --party-border: rgba(23, 32, 42, 0.11);
@@ -24,6 +27,16 @@
     margin: 0 auto;
     padding: 34px 0 72px;
     color: var(--party-ink);
+    isolation: isolate;
+
+    &::before,
+    &::after { position: absolute; z-index: -1; content: ""; pointer-events: none; }
+    &::before { top: 54px; left: -72px; width: 145px; height: 145px; border: 25px solid var(--party-pink); border-radius: 50%; transform: rotate(-12deg); }
+    &::after { top: 460px; right: -90px; width: 210px; height: 210px; border-radius: 50%; background: var(--party-purple); opacity: .72; }
+}
+
+body:has(.single-party-page) .base_page-template > main {
+    background: radial-gradient(circle at 8% 12%, rgba(255, 79, 129, .38), transparent 25%), radial-gradient(circle at 91% 22%, rgba(117, 81, 255, .43), transparent 27%), radial-gradient(circle at 60% 94%, rgba(255, 106, 42, .18), transparent 25%), linear-gradient(145deg, #251419, #181622 55%, #17120f);
 }
 
 .party-back-link {
@@ -57,7 +70,9 @@
     grid-template-columns: minmax(0, 1.22fr) minmax(360px, 0.78fr);
     overflow: hidden;
     min-height: 570px;
-    border-radius: 28px;
+    border: 2px solid rgba(217, 255, 67, .72);
+    border-radius: 30px;
+    box-shadow: 0 35px 100px rgba(0, 0, 0, .4), 0 0 0 8px rgba(217, 255, 67, .055);
 }
 
 .party-gallery {
@@ -66,6 +81,8 @@
     min-height: 570px;
     overflow: hidden;
     background: #29313a;
+
+    &::after { position: absolute; right: 22px; bottom: 22px; z-index: 4; padding: 9px 12px; border: 1px solid rgba(255, 255, 255, .5); background: rgba(20, 16, 15, .74); color: white; font-family: var(--font-geist-mono), monospace; font-size: 10px; font-weight: 900; letter-spacing: .1em; content: "LIVE · EXPERIENCE"; transform: rotate(-2deg); backdrop-filter: blur(8px); }
 
     .swiper,
     .swiper-wrapper,
@@ -160,6 +177,7 @@
     flex-direction: column;
     justify-content: center;
     padding: clamp(34px, 5vw, 66px);
+    background: repeating-linear-gradient(135deg, transparent 0 24px, rgba(23, 32, 42, .018) 25px 26px), #fff;
 
     h1 {
         margin: 8px 0 18px;

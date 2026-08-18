@@ -20,16 +20,24 @@ const Step3: React.FC<Step3Props> = ({
 }) => {
     return (
         <div className="step-content additional-data">
+            <div className="form-intro">
+                <span>Story & Medien</span>
+                <h2>Zeige, wie sich dein Event anfühlt</h2>
+                <p>Starke Bilder und eine gut lesbare Beschreibung machen aus Besuchern Gäste.</p>
+            </div>
             <form className="party-form">
-
-                <div className="form-group">
+                <section className="form-section">
+                    <div className="form-section-heading"><span className="form-section-index">01</span><div><h3>Eventbilder</h3><p>Das erste Bild wird als Titelbild verwendet. Ziehen ändert die Reihenfolge.</p></div></div>
+                    <div className="form-group">
                     <div className="column">
                         <MultiImageUploader party={party} setOldImages={setOldImages} setImages={setImages} images={images} />
                     </div>
-                </div>
+                    </div>
+                </section>
 
-                {/* Description */}
-                <div className="form-group">
+                <section className="form-section">
+                    <div className="form-section-heading"><span className="form-section-index">02</span><div><h3>Ausführliche Beschreibung</h3><p>Programm, Highlights und alles, was Gäste vorab wissen sollten.</p></div></div>
+                    <div className="form-group">
                     <div className="column">
                         <label htmlFor="description">Beschreibung</label>
                         <TiptapEditor
@@ -39,7 +47,8 @@ const Step3: React.FC<Step3Props> = ({
                             }
                         />
                     </div>
-                </div>
+                    </div>
+                </section>
 
             </form>
         </div>
@@ -47,5 +56,4 @@ const Step3: React.FC<Step3Props> = ({
 };
 
 export default Step3;
-
 
