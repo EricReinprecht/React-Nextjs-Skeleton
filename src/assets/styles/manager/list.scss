@@ -1,104 +1,136 @@
-@use "sass:map";
-@use "../abstracts/variables" as vars;
-
-.manager-list-wrapper{
+.manager-list-wrapper {
     position: relative;
-    background-color: lightblue;
-    height: calc(100vh - 200px - 100px);
-    .manager-list{
-        padding: 24px 80px;
-        position: relative;
+    min-height: 0;
+    height: calc(100dvh - 300px);
+    padding: 24px clamp(18px, 4vw, 64px);
+    background: transparent;
+
+    .manager-list {
         display: flex;
-        flex-direction: column;
-        height: calc(100vh - 200px - 100px);
+        height: 100%;
+        padding: 0;
         overflow: auto;
-        gap: 24px;
-        .list-element{
-            padding: 24px 12px;
-            display: flex;
-            flex-direction: row;
-            width: 100%;
-            align-items: center;
-            justify-content: space-between;
-            background-color: lightcoral;
-            .data, .operations{
-                display: flex;
-                flex-direction: row;
-                gap: 48px;
-                height: 26px;
-                .operations{
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                }
-                input{
-                    background-color: map.get(vars.$colors, "white");
-                }
-            }
-        }
-    }
-}
-.add-list-element-container{
-    background-color: map.get(vars.$colors, "charcoal");
-    position: absolute;
-    bottom: 0;
-    padding: 0 80px;
-    padding-bottom: 48px;
-    padding-top: 28px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    .input-container{
-        display: flex;
         flex-direction: column;
-        gap: 5px;
-        label{
-            color: map.get(vars.$colors, "white");
-            cursor: pointer;
+        gap: 12px;
+    }
+
+    .list-element {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 18px 20px;
+        border: 1px solid rgba(255, 255, 255, 0.62);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.96);
+        box-shadow: 0 10px 28px rgba(23, 32, 42, 0.1);
+        color: #27313c;
+        transition: transform 150ms ease, box-shadow 150ms ease;
+
+        &:hover { transform: translateY(-2px); box-shadow: 0 15px 36px rgba(23, 32, 42, 0.15); }
+
+        .data,
+        .operations {
+            display: flex;
+            min-width: 0;
+            height: auto;
+            align-items: center;
+            flex-direction: row;
+            gap: 18px;
         }
-        input{
-            padding: 0 4px;
-            background-color: map.get(vars.$colors, "white");
-            max-width: 300px;
-            height: 28px;
+
+        .operations { flex: 0 0 auto; }
+
+        input {
+            min-height: 40px;
+            padding: 0 12px;
+            border: 1px solid #d9e0e7;
+            border-radius: 10px;
             outline: none;
+            background: #f8fafb;
+
+            &:focus { border-color: #ff4d23; box-shadow: 0 0 0 3px rgba(255, 77, 35, 0.12); }
         }
     }
 }
-.operations-popup{
-    position: fixed;
-    top: 0;
-    left: 0;
+
+.add-list-element-container {
+    position: relative;
+    bottom: auto;
+    display: flex;
     width: 100%;
-    height: 100%;
-    background-color: rgb(0, 0, 0, 0.5);
+    padding: 24px clamp(18px, 4vw, 64px);
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(31, 41, 51, 0.96);
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 16px;
+
+    .input-container {
+        display: flex;
+        width: min(100%, 420px);
+        flex-direction: column;
+        gap: 7px;
+
+        label { color: rgba(255, 255, 255, 0.74); font-size: 12px; font-weight: 800; }
+        input {
+            width: 100%;
+            max-width: none;
+            height: 44px;
+            padding: 0 13px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 10px;
+            outline: none;
+            background: white;
+        }
+    }
+}
+
+.operations-popup {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 20px;
-    .inner{
+    padding: 20px;
+    background: rgba(12, 18, 24, 0.64);
+    backdrop-filter: blur(6px);
+
+    .inner {
         position: relative;
-        border-radius: 12px;
-        background-color: map.get(vars.$colors, "white");
-        max-width: 400px;
-        width: max-content;
-        min-width: 200px;
-        max-height: 600px;
-        height: max-content;
+        width: min(100%, 440px);
+        min-width: 0;
         min-height: 200px;
-        padding: 24px;
-        padding-bottom: calc(24px + 42px);
+        max-height: min(600px, 90dvh);
+        padding: 28px 28px 88px;
         overflow-y: auto;
-        .content{
-            
-        }
-        .footer{
+        border-radius: 18px;
+        background: white;
+        box-shadow: 0 28px 80px rgba(0, 0, 0, 0.28);
+
+        .footer {
             position: absolute;
+            right: 28px;
             bottom: 24px;
+            left: 28px;
             display: flex;
-            gap: 24px;
-            width: calc(100% - 48px);
+            width: auto;
+            gap: 12px;
         }
     }
+}
+
+@media (max-width: 640px) {
+    .manager-list-wrapper {
+        height: auto;
+        min-height: 400px;
+        padding: 14px;
+
+        .list-element { align-items: flex-start; flex-direction: column; }
+        .list-element .operations { width: 100%; justify-content: flex-end; }
+    }
+
+    .add-list-element-container { align-items: stretch; padding: 20px 14px; flex-direction: column; }
 }

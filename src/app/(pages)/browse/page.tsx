@@ -1,118 +1,61 @@
-"use client"
+"use client";
 
-import "@styles/components/filter.scss"
-import { BasePage } from '@templates';
-import $ from 'jquery';
-import React, { useState, useEffect, useRef } from "react";
-import { getCategories } from "@/src/app/lib/services/categoryService";
+import { FormEvent, useState } from "react";
 
+import { ExcelPartyList, DefaultSearch } from "@components";
+import { BasePage } from "@templates";
 
-import { CarentDown, CheckboxFilled, CheckboxEmpty } from "@svgs";
-import { Category } from '@entities/category.js'
-import { DefaultPartyList, ExcelPartyList, DefaultSearch } from '@components';
+import "@styles/pages/browse.scss";
 
-const BrowsePage = () => {
-    // const [categories, setCategories] = useState<Category[]>([]);
-    // const [loading, setLoading] = useState<boolean>(true);
+export default function BrowsePage() {
+    const [searchInput, setSearchInput] = useState("");
+    const [searchTerm, setSearchTerm] = useState("");
 
-    // Store which sections are open; keys = section names, values = boolean open/close
-    // const [sectionsOpen, setSectionsOpen] = useState<{ [key: string]: boolean }>({
-    //     calendar: true,
-    //     terms: true,
-    // });
+    const submitSearch = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setSearchTerm(searchInput.trim());
+    };
 
-    // Store which terms are checked: keys = category IDs, values = boolean checked
-    // const [checkedTerms, setCheckedTerms] = useState<{ [key: string]: boolean }>({});
+    const quickSearches = ["Vienna", "Music", "Festival", "Open Air"];
 
-    // useEffect(() => {
-    //     fetchCategories();
-    //   }, []);
-    
-
-    // const fetchCategories = async () => {
-    //     setLoading(true);
-    //     try {
-    //       const categories_response = await getCategories();
-    //       setCategories(categories_response);
-    //     } catch (error) {
-    //       console.error("Error fetching parties:", error);
-    //     } finally {
-    //       setLoading(false);
-    //     }
-    // };
-
-    // const openSection = (el: JQuery<HTMLElement>) => {
-    //     const current_section = el.closest(".section");
-    //     current_section.toggleClass("active");
-    // };
-
-    // Toggle checkbox for a term
-    // const toggleTermChecked = (categoryId: string) => {
-    //     setCheckedTerms(prev => ({
-    //         ...prev,
-    //         [categoryId]: !prev[categoryId],
-    //     }));
-    // };
-
-  return (
-    <div className="main">
-        <BasePage>
-            {/* <div className='filter active'>
-                <div className='section calendar'>
-                    <div className='header' onClick={(e) => openSection($(e.currentTarget))}>
-                        <div className='title'>Calendar</div>
-                        <CarentDown height={24} width={24} color={"#ffffff"} />
+    return (
+        <div className="browse-page">
+            <BasePage>
+                <section className="browse-hero">
+                    <div className="browse-burst" aria-hidden="true">✦</div>
+                    <span className="browse-kicker">Rausgehen schlägt zuhause bleiben</span>
+                    <h1>Find your<br /><em>next night.</em></h1>
+                    <p>Konzerte, Clubnächte, Festivals und die Events, von denen morgen alle erzählen.</p>
+                    <DefaultSearch
+                        id="browse-header"
+                        placeholder="Stadt, Event oder Stimmung …"
+                        value={searchInput}
+                        onChange={setSearchInput}
+                        onSubmit={submitSearch}
+                    />
+                    <div className="browse-quick-searches" aria-label="Schnellsuche">
+                        <span>Popular:</span>
+                        {quickSearches.map((term) => (
+                            <button key={term} type="button" onClick={() => { setSearchInput(term); setSearchTerm(term); }}>
+                                {term}
+                            </button>
+                        ))}
                     </div>
-                    <div className="options date">
-                        <div className='datepickr'></div>
-                    </div>
-                </div>
-                <div className='section terms'>
-                    <div className='header' onClick={(e) => openSection($(e.currentTarget))}>
-                        <div className='title'>Terms</div>
-                        <CarentDown height={24} width={24} color={"#ffffff"} />
-                    </div>
-                        <div className='options terms-list'>
-                        {categories.map((category) => {
-                            if (!category.id) return null;
-                            const id = category.id;
-                            const checked = checkedTerms[category.id] ?? false;
-                            const checkboxId = `term-${category.id}`;
-                            return (
-                              <div className='option' key={category.id}>
-                                  <input
-                                      id={checkboxId}
-                                      type='checkbox'
-                                      checked={checked}
-                                      onChange={() => toggleTermChecked(id)}
-                                      style={{ display: 'none' }}
-                                  />
-                                  <label
-                                      htmlFor={checkboxId}
-                                      className={`checkbox empty ${!checked ? 'active' : ''}`}
-                                      aria-hidden="true"
-                                  >
-                                    <CheckboxEmpty height={24} width={24} color={"#ffffff"} />
-                                  </label>
-                                  <label
-                                      htmlFor={checkboxId}
-                                      className={`checkbox filled ${checked ? 'active' : ''}`}
-                                      aria-hidden="true"
-                                  >
-                                      <CheckboxFilled height={24} width={24} color={"#ffffff"} />
-                                  </label>
-                                  <label htmlFor={checkboxId}>{category.name}</label>
-                              </div>
-                            );
-                        })}
-                    </div>
-                </div>
-            </div> */}
-            <DefaultSearch id='browse-header' placeholder='Search for parties ...'/>
-            <ExcelPartyList/>
-        </BasePage>
-    </div>
-  )
+                    {searchTerm && (
+                        <button
+                            type="button"
+                            className="clear-search"
+                            onClick={() => {
+                                setSearchInput("");
+                                setSearchTerm("");
+                            }}
+                        >
+                            Suche nach „{searchTerm}“ löschen
+                        </button>
+                    )}
+                </section>
+                <ExcelPartyList searchTerm={searchTerm} />
+            </BasePage>
+        </div>
+    );
 }
-
-export default BrowsePage;

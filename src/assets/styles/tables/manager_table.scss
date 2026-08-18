@@ -1,125 +1,210 @@
-@use "sass:map";
-@use "../abstracts/variables" as vars;
+.table-wrapper {
+    --table-ink: #202a34;
+    --table-muted: #697586;
+    --table-border: #e4e9ee;
+    --table-accent: #ff4d23;
 
-.table-wrapper{
-    height: 100%;
-    top: 0;
-    padding: 24px;
+    position: relative;
     display: flex;
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
     flex-direction: column;
     justify-content: space-between;
-    table.manager-table{
-        background-color: map.get(vars.$colors, "white");
-        width: 100%;
-        border-spacing: 0;
+    padding: clamp(16px, 2.5vw, 30px);
+}
 
-        tr{
-            &:nth-child(even) {
-                background-color: map.get(vars.$colors, "dark_white");
-            }
-        }
-        
-        th, td{
-            // background-color: map.get(vars.$colors, "white");
+.manager-table-scroll {
+    width: 100%;
+    overflow: auto;
+    border: 1px solid rgba(255, 255, 255, 0.62);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.97);
+    box-shadow: 0 18px 48px rgba(23, 32, 42, 0.13);
+}
 
-            font-size: 22px;
-            text-align: unset;
-            padding: 32px 20px;
-            .inner{
-                display: flex;
-                flex-direction: column;
-                gap: 6px;
-                input{
-                    all: unset;
-                    background-color: map.get(vars.$colors, "white");
-                    font-size: 16px;
-                    font-weight: 400;
-                    padding: 6px 10px;
-                    outline: none;
-                    border: 1px solid map.get(vars.$colors, "charcoal");
-                    border-radius: 18px;
-                }
-            }
-            .action{
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                height: 30px;
-                width: 30px;
-            }
-        }
+table.manager-table {
+    width: 100%;
+    min-width: 760px;
+    border-collapse: separate;
+    border-spacing: 0;
+    color: var(--table-ink);
 
-        th{
-            border-bottom: 2px solid  map.get(vars.$colors, "black");
-            padding: 16px 20px;
-        }
-
-        thead{
-            th, td{
-                padding-bottom: 30px;
-            }
-        }
+    th,
+    td {
+        padding: 18px 20px;
+        border: 0;
+        border-bottom: 1px solid var(--table-border);
+        text-align: left;
+        vertical-align: middle;
     }
 
-    // TODO
-    .table-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 1rem;
-    }
+    thead th {
+        position: sticky;
+        top: 0;
+        z-index: 4;
+        padding-top: 16px;
+        padding-bottom: 16px;
+        background: rgba(247, 249, 250, 0.98);
+        color: #44515e;
+        font-size: 12px;
+        font-weight: 850;
+        letter-spacing: 0.065em;
+        text-transform: uppercase;
+        backdrop-filter: blur(12px);
 
-    .table-options {
-        display: flex;
-        gap: 0.75rem;
-    }
-
-    .table-option-button {
-        padding: 0.4rem 0.8rem;
-        border-radius: 4px;
-        border: none;
-        background: #222;
-        color: white;
-        cursor: pointer;
-
-        &:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-    }
-
-
-    .pagination{
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        gap: 12px;
-        button{
-            background-color: map.get(vars.$colors, "charcoal");
-            height: 40px;
-            width: 40px;
-            min-width: 40px;
-            border-radius: 100%;
-            color: map.get(vars.$colors, "white");
+        .inner {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            border: 1px solid map.get(vars.$colors, "charcoal");
-            font-weight: 700;
-            transition: 0.2s ease-in-out;
-            &:hover, &.active{
-                background-color: map.get(vars.$colors, "white");
-                color: map.get(vars.$colors, charcoal);
-                svg{
-                    path{
-                        fill: map.get(vars.$colors, "charcoal");
-                    }
-                }
+            min-width: 130px;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        input:not(.react-datepicker-ignore-onclickoutside),
+        input[type="text"] {
+            box-sizing: border-box;
+            width: 100%;
+            height: 40px;
+            padding: 0 12px;
+            border: 1px solid #d9e0e7;
+            border-radius: 10px;
+            outline: none;
+            background: #f8fafb;
+            color: #27313c;
+            font: inherit;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0;
+            text-transform: none;
+            transition: border-color 150ms ease, box-shadow 150ms ease, background 150ms ease;
+
+            &:focus {
+                border-color: var(--table-accent);
+                background: white;
+                box-shadow: 0 0 0 3px rgba(255, 77, 35, 0.12);
             }
-            &:disabled{
-                fill-opacity: 0.3;
-            }
+
+            &::placeholder { color: #9aa4af; }
         }
     }
+
+    tbody tr {
+        background: white;
+        transition: background 140ms ease, transform 140ms ease;
+
+        &:nth-child(even) { background: #fbfcfd; }
+        &:hover:not(.manager-table-empty-row) { background: #fff5f1; }
+        &:last-child td { border-bottom: 0; }
+    }
+
+    tbody td {
+        max-width: 360px;
+        color: #3f4b57;
+        font-size: 14px;
+        line-height: 1.45;
+        overflow-wrap: anywhere;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+    }
+
+    .action {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        border: 1px solid #dfe4e9;
+        border-radius: 10px;
+        background: white;
+        cursor: pointer;
+        place-items: center;
+        transition: border-color 150ms ease, background 150ms ease, transform 150ms ease;
+
+        &:hover {
+            border-color: #ffc5b7;
+            background: #fff0ec;
+            transform: translateY(-1px);
+        }
+    }
+}
+
+.manager-table-empty-row td {
+    height: 230px;
+    text-align: center !important;
+
+    strong,
+    span { display: block; }
+    strong { color: var(--table-ink); font-size: 18px; }
+    span { margin-top: 6px; color: var(--table-muted); }
+}
+
+.table-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-top: 20px;
+    padding: 14px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.58);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow: 0 12px 30px rgba(23, 32, 42, 0.09);
+    backdrop-filter: blur(12px);
+}
+
+.table-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    .default-button {
+        min-height: 42px;
+        padding: 0 17px;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 800;
+    }
+}
+
+.table-wrapper .pagination {
+    display: flex;
+    width: auto;
+    flex-direction: row;
+    gap: 7px;
+
+    button {
+        display: grid;
+        width: 38px;
+        min-width: 38px;
+        height: 38px;
+        border: 1px solid #dce2e7;
+        border-radius: 10px;
+        background: white;
+        color: #44515e;
+        font-weight: 800;
+        cursor: pointer;
+        place-items: center;
+        transition: border-color 150ms ease, background 150ms ease, color 150ms ease;
+
+        &:hover:not(:disabled),
+        &.active {
+            border-color: var(--table-accent);
+            background: var(--table-accent);
+            color: white;
+
+            svg path { fill: white; }
+        }
+
+        &:disabled { opacity: 0.35; cursor: not-allowed; }
+    }
+}
+
+@media (max-width: 760px) {
+    .table-wrapper { padding: 12px; }
+    .manager-table-scroll { border-radius: 14px; }
+    .table-footer { align-items: stretch; flex-direction: column; }
+    .table-options .default-button { flex: 1 1 auto; }
+    .table-wrapper .pagination { justify-content: center; }
 }

@@ -116,21 +116,31 @@ const ManagerTable = <T extends { id: string }>({
                 {options && options.length > 0 && (
                     <div className="table-options">
                         {options.map((option, index) => (
-                            <DefaultButton
-                                key={index}
-                                label={option.label}
-                                type="button"
-                                onClick={option.onClick}
-                                disabled={option.disabled}
-                                styles={{ 
-                                    bgColor: "abort_red", 
-                                    textColor: "white", 
-                                    borderColor: "abort_red", 
-                                    hoverBgColor: "white",
-                                    hoverTextColor: "abort_red", 
-                                    hoverBorderColor: "abort_red" 
-                                }}
-                            />
+                            (() => {
+                                const color = option.variant === "primary"
+                                    ? "submit_green"
+                                    : option.variant === "secondary"
+                                        ? "charcoal"
+                                        : "abort_red";
+
+                                return (
+                                    <DefaultButton
+                                        key={index}
+                                        label={option.label}
+                                        type="button"
+                                        onClick={option.onClick}
+                                        disabled={option.disabled}
+                                        styles={{
+                                            bgColor: color,
+                                            textColor: "white",
+                                            borderColor: color,
+                                            hoverBgColor: "white",
+                                            hoverTextColor: color,
+                                            hoverBorderColor: color,
+                                        }}
+                                    />
+                                );
+                            })()
                         ))}
                     </div>
                 )}

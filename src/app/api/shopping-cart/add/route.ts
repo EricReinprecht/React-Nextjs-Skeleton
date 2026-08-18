@@ -2,6 +2,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@prisma/prisma";
 import { getAuthUser } from "@utils/getAuthUser";
+import { calculateTicketPrice } from "@utils/ticketPricing";
 
 type AddToCartRequest = {
     partyId: string;
@@ -19,6 +20,13 @@ export async function POST(req: Request) {
     const body: AddToCartRequest = await req.json();
     if (!body?.items || !body.partyId) {
         return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+    }
+
+    if (
+        body.items.length === 0 ||
+        body.items.some((item) => !Number.isInteger(item.quantity) || item.quantity < 1 || item.quantity > 10)
+    ) {
+        return NextResponse.json({ error: "Invalid ticket quantity" }, { status: 400 });
     }
 
     try {
@@ -39,13 +47,23 @@ export async function POST(req: Request) {
         for (const item of body.items) {
             const ticketClass = await prisma.ticketClass.findUnique({
                 where: { id: item.ticketClassId },
-                include: { reservations: true },
+                include: {
+                    prices: true,
+                    reservations: { where: { expiresAt: { gt: new Date() } } },
+                },
             });
 
-            if (!ticketClass) {
+            if (!ticketClass || ticketClass.partyId !== body.partyId) {
                 return NextResponse.json(
                     { error: `TicketClass ${item.ticketClassId} not found` },
                     { status: 404 }
+                );
+            }
+
+            if (!calculateTicketPrice(ticketClass.prices, item.quantity)) {
+                return NextResponse.json(
+                    { error: `No valid price for ${ticketClass.name}` },
+                    { status: 400 }
                 );
             }
 

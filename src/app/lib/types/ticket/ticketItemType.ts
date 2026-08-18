@@ -3,4 +3,5 @@ export type TicketItem = {
     quantity: number;
     unitPrice: number;
     totalPrice: number;
+    currency: string;
 };

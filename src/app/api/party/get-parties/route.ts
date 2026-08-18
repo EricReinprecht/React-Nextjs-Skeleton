@@ -1,4 +1,4 @@
-import { getPartiesPaginated } from "@services/partyService";
+import { browseParties } from "@services/partyService";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
@@ -7,12 +7,11 @@ export async function GET(req: NextRequest) {
 
         const page = Number(url.searchParams.get("page") || 1);
 
-        const filtersParam = url.searchParams.get("filters");
-        const filters = filtersParam ? JSON.parse(filtersParam) : {};
+        const search = url.searchParams.get("search")?.trim() ?? "";
 
-        const { parties } = await getPartiesPaginated(page, filters);
+        const result = await browseParties(page, search);
 
-        return NextResponse.json({ parties });
+        return NextResponse.json(result);
     } catch (err) {
         console.error(err);
         return NextResponse.json({ message: "Failed to fetch parties" }, { status: 500 });

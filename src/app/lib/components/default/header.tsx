@@ -3,43 +3,59 @@ import Link from "next/link";
 
 import { Profile } from "@svgs";
 import { getAuthUser } from "@utils/getAuthUser";
+import HeaderNavLink from "./header_nav_link";
 
 interface HeaderProps {
   messages: Record<string, string>;
+  locale: "en" | "de";
 }
 
-export default async function Header({ messages }: HeaderProps) {
+export default async function Header({ messages, locale }: HeaderProps) {
     const user = await getAuthUser();
+    const localized = (path: string) => `/${locale}${path}`;
 
     return (
-        <header>
+        <header className="public-header">
             <div className="left">
-                <Link href="/" className="logo">
-                    <img src="/logo.png" style={{ height: "70px", width: "auto" }} />
-                    <div className="text">Pfautec</div>
+                <Link href={`/${locale}`} className="logo">
+                    <span className="logo-mark" aria-hidden="true">E</span>
+                    <span className="logo-copy"><strong>EVENTLY</strong><small>find your night</small></span>
                 </Link>
             </div>
 
-            <div className="header-inner">
-                <Link href="/browse" className="nav-item-outer">
-                    <div className="nav-item">{messages.browse}</div>
-                </Link>
+            <nav className="header-inner" aria-label="Hauptnavigation">
+                <HeaderNavLink href={localized("/browse")} className="nav-item-outer nav-browse">
+                    <span className="nav-item">{messages.browse}</span>
+                </HeaderNavLink>
 
                 {user && (
                     <>
-                        <Link href="/profile/my-tickets" className="nav-item-outer"><div className="nav-item">{messages.my_cards}</div></Link>
-                        <Link href="/profile/my-parties" className="nav-item-outer"><div className="nav-item">{messages.my_parties}</div></Link>
-                        <Link href="/profile/create-party" className="nav-item-outer"><div className="nav-item">{messages.create_new_party}</div></Link>
-                        <Link href="/profile/settings" className="nav-item-outer"><div className="nav-item">{messages.settings}</div></Link>
+                        <HeaderNavLink
+                            href={localized("/profile/my-tickets")}
+                            activePaths={["/profile/my-tickets", "/profile/show-tickets"]}
+                            className="nav-item-outer nav-secondary"
+                        ><span className="nav-item">{messages.my_cards}</span></HeaderNavLink>
+                        <HeaderNavLink
+                            href={localized("/profile/my-parties")}
+                            activePaths={["/profile/my-parties", "/profile/show-parties"]}
+                            className="nav-item-outer nav-secondary"
+                        ><span className="nav-item">{messages.my_parties}</span></HeaderNavLink>
+                        <HeaderNavLink href={localized("/profile/settings")} className="nav-item-outer nav-secondary nav-settings"><span className="nav-item">{messages.settings}</span></HeaderNavLink>
                     </>
                 )}
-            </div>
+            </nav>
 
             <div className="right">
-                <Link href="/profile" className="nav-item-outer">
-                    <div className="nav-item">
+                {user && (
+                    <Link href={localized("/profile/edit-party")} className="header-create-event">
+                        <span aria-hidden="true">+</span> {messages.create_new_party}
+                    </Link>
+                )}
+                <Link href={localized("/profile")} className="header-profile-link" aria-label="Benutzerbereich öffnen">
+                    <span className="header-profile-icon">
                         <Profile width={40} height={40} color="white" border_color="white" />
-                    </div>
+                    </span>
+                    <span className="header-profile-copy"><small>{user ? "Dein Bereich" : "Anmelden"}</small><strong>{user ? user.username : "Account"}</strong></span>
                 </Link>
             </div>
         </header>

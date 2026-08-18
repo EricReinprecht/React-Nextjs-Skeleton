@@ -38,6 +38,7 @@ const Table = <T extends { id: string }>({
     removeRow
 }: TableProps<T>) => {
     return (
+        <div className="manager-table-scroll">
         <table className="manager-table">
             <thead>
                 <tr>
@@ -47,6 +48,8 @@ const Table = <T extends { id: string }>({
                                 <div>{field.label}</div>
                                 {field.type === "text" && (
                                     <input
+                                        aria-label={`${field.label} filtern`}
+                                        placeholder="Filtern …"
                                         value={filters[field.key] || ""}
                                         onChange={(e) =>
                                             setFilters((prev) => ({
@@ -90,6 +93,14 @@ const Table = <T extends { id: string }>({
             </thead>
             {!loading && 
                 <tbody>
+                    {data.length === 0 && (
+                        <tr className="manager-table-empty-row">
+                            <td colSpan={fields.length + (actions ? 1 : 0)}>
+                                <strong>Keine Einträge gefunden</strong>
+                                <span>Ändere die Filter oder füge einen neuen Eintrag hinzu.</span>
+                            </td>
+                        </tr>
+                    )}
                     {data.map((row) => (
                         <tr
                             key={row.id}
@@ -133,6 +144,7 @@ const Table = <T extends { id: string }>({
                 </tbody>
             }
         </table>
+        </div>
     );
 };
 

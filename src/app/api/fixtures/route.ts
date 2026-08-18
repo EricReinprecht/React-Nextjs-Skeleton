@@ -1,9 +1,12 @@
 // app/api/fixtures/route.ts
+import { NextRequest } from "next/server";
+
 import { seedUsers } from "@commands/seedUsers";
 import { seedPartyCategories } from "@commands/seedPartyCategories";
 import { seedParties } from "@commands/seedParties";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+    const preserveUsers = request.nextUrl.searchParams.get("preserveUsers") === "true";
     const stream = new ReadableStream({
         async start(controller) {
             const push = (msg: string) => {
@@ -17,8 +20,12 @@ export async function GET() {
             };
 
             try {
-                push("🌱 Seeding users...");
-                await seedUsers(push);
+                if (preserveUsers) {
+                    push("👤 Keeping existing users unchanged.");
+                } else {
+                    push("🌱 Seeding users...");
+                    await seedUsers(push);
+                }
 
                 push("🌱 Seeding party categories...");
                 await seedPartyCategories(push);

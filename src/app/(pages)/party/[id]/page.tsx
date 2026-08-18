@@ -1,185 +1,227 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useParams, notFound } from "next/navigation";
-import { Navigation, A11y } from "swiper/modules";
+import Link from "next/link";
+import { useLocale } from "next-intl";
+import { useParams } from "next/navigation";
+import { useEffect, useId, useState } from "react";
+import { A11y, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import { formatDateGerman } from "@utils/formatDate";
+import { Modal, PinnedMap } from "@components";
 import { SwiperArrowLeft } from "@svgs";
-import { PartyWithImages } from "@types_ts";
 import { BasePage } from "@templates";
-import { DefaultButton, Modal, PinnedMap } from "@components";
+import { PartyWithImages } from "@types_ts";
+import { formatDateGerman } from "@utils/formatDate";
 
 import { TicketShop } from "../ticketShop";
 
 import "swiper/css";
 import "swiper/css/navigation";
+import "swiper/css/pagination";
 import "@styles/pages/single-party-public.scss";
 
 const PartyPublicViewPage = () => {
     const params = useParams();
+    const locale = useLocale();
     const partyId = params?.id as string | undefined;
+    const galleryId = useId().replace(/:/g, "");
 
     const [party, setParty] = useState<PartyWithImages | null>(null);
     const [error, setError] = useState<string | null>(null);
-
-    const [ticketShopOpen, setTicketShopOpen] = useState<boolean>(false);
+    const [ticketShopOpen, setTicketShopOpen] = useState(false);
 
     useEffect(() => {
-        if (!partyId) return;
+        if (!partyId) {
+            setError("Diese Party konnte nicht gefunden werden.");
+            return;
+        }
+
+        const controller = new AbortController();
 
         const fetchParty = async () => {
             try {
-                const res = await fetch(`/api/party/${partyId}/get`);
-                if (!res.ok) throw new Error("Failed to fetch party data");
-                const data = await res.json();
-                setParty(data);
-            } catch (err) {
-                console.error(err);
-                setError("Fehler beim Laden der Party-Daten.");
+                setError(null);
+                const response = await fetch(`/api/party/${partyId}/get`, {
+                    signal: controller.signal,
+                });
+
+                if (!response.ok) {
+                    throw new Error(response.status === 404 ? "not-found" : "request-failed");
+                }
+
+                setParty(await response.json());
+            } catch (fetchError) {
+                if (fetchError instanceof DOMException && fetchError.name === "AbortError") return;
+                setError(
+                    fetchError instanceof Error && fetchError.message === "not-found"
+                        ? "Diese Party existiert nicht oder ist nicht mehr verfügbar."
+                        : "Die Party konnte gerade nicht geladen werden. Bitte versuche es erneut.",
+                );
             }
         };
 
         fetchParty();
+        return () => controller.abort();
     }, [partyId]);
 
-    if (!partyId || error) {
-        notFound();
+    if (error) {
+        return (
+            <BasePage>
+                <section className="party-state-card" role="alert">
+                    <span>Party nicht verfügbar</span>
+                    <h1>{error}</h1>
+                    <Link href={`/${locale}/browse`}>Zurück zu allen Partys</Link>
+                </section>
+            </BasePage>
+        );
     }
 
     if (!party) {
         return (
             <BasePage>
-                <div className="party-message">Party wird geladen...</div>
+                <div className="party-loading" aria-live="polite">
+                    <span className="party-loading-spinner" />
+                    Party wird geladen …
+                </div>
             </BasePage>
         );
     }
 
+    const hasImages = party.images.length > 0;
     const hasMultipleImages = party.images.length > 1;
+    const nextClass = `party-gallery-next-${galleryId}`;
+    const previousClass = `party-gallery-previous-${galleryId}`;
 
     return (
         <BasePage backgroundType="orange_gradient">
-            <div className="party-wrapper">
-                <div className="party-card">
-                    <div className="background" />
+            <article className="single-party-page">
+                <Link className="party-back-link" href={`/${locale}/browse`}>
+                    <span aria-hidden="true">←</span> Alle Partys
+                </Link>
 
-                    <div className="party-content">
-                        {/* LEFT SIDE */}
-                        <div className="left-side">
-                            <div className="image-container">
-                                {hasMultipleImages ? (
-                                    <>
-                                        <Swiper
-                                            modules={[Navigation, A11y]}
-                                            slidesPerView={1}
-                                            navigation={{
-                                                nextEl: ".swiper-button.next",
-                                                prevEl: ".swiper-button.prev",
-                                            }}
-                                            loop
-                                        >
-                                            {party.images.map((image, i) => (
-                                                <SwiperSlide key={i}>
-                                                    <div
-                                                        className="image"
-                                                        style={{ backgroundImage: `url(${image.path})` }}
-                                                    />
-                                                </SwiperSlide>
-                                            ))}
-                                        </Swiper>
-
-                                        <div className="swiper-button prev">
-                                            <SwiperArrowLeft />
-                                        </div>
-                                        <div className="swiper-button next">
-                                            <SwiperArrowLeft />
-                                        </div>
-                                    </>
-                                ) : (
-                                    <div
-                                        className="image"
-                                        style={{
-                                            backgroundImage: `url(${party.images[0]?.path || "/placeholder.jpg"})`,
-                                        }}
-                                    />
-                                )}
+                <section className="party-hero">
+                    <div className={`party-gallery${hasImages ? "" : " is-empty"}`}>
+                        {hasImages ? (
+                            <Swiper
+                                modules={[Navigation, Pagination, A11y]}
+                                slidesPerView={1}
+                                loop={hasMultipleImages}
+                                navigation={hasMultipleImages ? {
+                                    nextEl: `.${nextClass}`,
+                                    prevEl: `.${previousClass}`,
+                                } : false}
+                                pagination={hasMultipleImages ? { clickable: true } : false}
+                            >
+                                {party.images.map((image) => (
+                                    <SwiperSlide key={image.id}>
+                                        <div
+                                            className="party-gallery-image"
+                                            role="img"
+                                            aria-label={`${party.name} – Veranstaltungsbild`}
+                                            style={{ backgroundImage: `url(${image.path})` }}
+                                        />
+                                    </SwiperSlide>
+                                ))}
+                            </Swiper>
+                        ) : (
+                            <div className="party-gallery-placeholder">
+                                <span>Event</span>
+                                <strong>{party.name}</strong>
                             </div>
+                        )}
 
-                            <div className="content">
-                                <h1 className="heading">{party.name}</h1>
+                        {hasMultipleImages && (
+                            <>
+                                <button className={`party-gallery-button previous ${previousClass}`} aria-label="Vorheriges Bild">
+                                    <SwiperArrowLeft />
+                                </button>
+                                <button className={`party-gallery-button next ${nextClass}`} aria-label="Nächstes Bild">
+                                    <SwiperArrowLeft />
+                                </button>
+                            </>
+                        )}
+                    </div>
 
-                                <div className="info date">
-                                    <span className="label">Datum:</span>{" "}
+                    <div className="party-summary">
+                        <div className="party-eyebrow">Event entdecken</div>
+                        <h1>{party.name}</h1>
+                        {party.teaser && <p className="party-teaser">{party.teaser}</p>}
+
+                        {party.categories.length > 0 && (
+                            <div className="party-category-list" aria-label="Kategorien">
+                                {party.categories.map((category) => (
+                                    <span key={category.id}>{category.name}</span>
+                                ))}
+                            </div>
+                        )}
+
+                        <dl className="party-facts">
+                            <div>
+                                <dt>Datum</dt>
+                                <dd>
                                     {formatDateGerman(party.startDate)}
                                     {party.endDate && ` – ${formatDateGerman(party.endDate)}`}
-                                </div>
-
-                                <div className="info location">
-                                    <span className="label">Ort:</span> {party.location}
-                                </div>
-
-                                <div className="info categories">
-                                    <span className="label">Art:</span>{" "}
-                                    {party.categories.map((category, i) => (
-                                        <span key={category.id}>
-                                            {category.name}
-                                            {i < party.categories.length - 1 ? ", " : ""}
-                                        </span>
-                                    ))}
-                                </div>
-
-                                {party.description && (
-                                    <div
-                                        className="info description"
-                                        dangerouslySetInnerHTML={{ __html: party.description }}
-                                    />
-                                )}
+                                </dd>
                             </div>
-                        </div>
-
-                        {/* RIGHT SIDE */}
-                        <div className="right-side">
-                            <div className="map">
-                                <PinnedMap
-                                    latitude={party.latitude}
-                                    longitude={party.longitude}
-                                />
-                                <a
-                                    href={`https://www.google.com/maps/dir/?api=1&destination=${party.latitude},${party.longitude}`}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="route-link"
-                                >
-                                    Route berechnen
-                                </a>
+                            <div>
+                                <dt>Location</dt>
+                                <dd>{party.location}</dd>
                             </div>
+                        </dl>
 
-                            <DefaultButton
-                                label="Tickets"
-                                type="button"
-                                onClick={() => setTicketShopOpen(true)}
-                                disabled={ticketShopOpen}
-                                styles={{
-                                    bgColor: "submit_green", 
-                                    textColor: "white", 
-                                    borderColor: "submit_green", 
-                                    hoverBgColor: "white", 
-                                    hoverTextColor: "submit_green", 
-                                    hoverBorderColor: "submit_green" 
-                                }}
-                            />
-
-                            <Modal
-                                open={ticketShopOpen}
-                                onClose={() => setTicketShopOpen(false)}
+                        <div className="party-actions">
+                            <button className="party-ticket-button" type="button" onClick={() => setTicketShopOpen(true)}>
+                                Tickets auswählen
+                            </button>
+                            <a
+                                className="party-route-button"
+                                href={`https://www.google.com/maps/dir/?api=1&destination=${party.latitude},${party.longitude}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
                             >
-                                <TicketShop partyId={partyId!} />
-                            </Modal>
+                                Route planen <span aria-hidden="true">↗</span>
+                            </a>
                         </div>
                     </div>
+                </section>
+
+                <section className="party-details-grid">
+                    <div className="party-description-card">
+                        <span className="party-section-label">Über das Event</span>
+                        <h2>Das erwartet dich</h2>
+                        {party.description ? (
+                            <div className="party-description" dangerouslySetInnerHTML={{ __html: party.description }} />
+                        ) : (
+                            <p className="party-description-empty">Für dieses Event ist noch keine Beschreibung hinterlegt.</p>
+                        )}
+                    </div>
+
+                    <aside className="party-location-card">
+                        <div className="party-location-heading">
+                            <div>
+                                <span className="party-section-label">Veranstaltungsort</span>
+                                <h2>{party.location}</h2>
+                            </div>
+                            <a
+                                href={`https://www.google.com/maps/dir/?api=1&destination=${party.latitude},${party.longitude}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                Route ↗
+                            </a>
+                        </div>
+                        <div className="party-map">
+                            <PinnedMap latitude={party.latitude} longitude={party.longitude} />
+                        </div>
+                    </aside>
+                </section>
+            </article>
+
+            <Modal open={ticketShopOpen} onClose={() => setTicketShopOpen(false)}>
+                <div className="party-ticket-modal">
+                    <TicketShop partyId={partyId!} />
                 </div>
-            </div>
+            </Modal>
         </BasePage>
     );
 };

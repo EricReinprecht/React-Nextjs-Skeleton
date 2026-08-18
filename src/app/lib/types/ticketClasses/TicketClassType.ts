@@ -9,7 +9,7 @@ export type PartyTickets = {
         prices: {
             id: string;
             amount: number;
-            price: number;
+            price: number | string;
             currency: "EUR" | "USD";
         }[];
     }[];

@@ -1,28 +1,49 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+import { locales } from "../locale_config";
+
 export function middleware(req: NextRequest) {
+    const segments = req.nextUrl.pathname.split("/").filter(Boolean);
+    const requestedLocale = locales.find((locale) => locale === segments[0]);
+    const pathname = requestedLocale
+        ? `/${segments.slice(1).join("/")}`
+        : req.nextUrl.pathname;
+    const normalizedPathname = pathname === "/" ? pathname : pathname.replace(/\/$/, "");
+    const localePrefix = requestedLocale ? `/${requestedLocale}` : "";
+    const token = req.cookies.get("authToken");
 
-    const token = req.cookies.get("authToken"); // Check if authToken exists in cookies
+    const isAuthPage = normalizedPathname === "/login" || normalizedPathname === "/register";
+    const isProtectedPage =
+        normalizedPathname === "/profile" ||
+        normalizedPathname.startsWith("/profile/") ||
+        normalizedPathname === "/dashboard" ||
+        normalizedPathname.startsWith("/dashboard/");
 
-    const isAuthPage = req.nextUrl.pathname.startsWith("/login") || req.nextUrl.pathname.startsWith("/register");
-    const isProtectedPage = req.nextUrl.pathname.startsWith("/profile") || req.nextUrl.pathname.startsWith("/dashboard");
-
-    // Redirect authenticated users away from login/register to profile
     if (isAuthPage && token) {
-        return NextResponse.redirect(new URL("/profile", req.url));
+        return NextResponse.redirect(new URL(`${localePrefix}/profile`, req.url));
     }
 
-    // Redirect unauthenticated users away from protected pages to login
     if (isProtectedPage && !token) {
-        return NextResponse.redirect(new URL("/login", req.url));
+        return NextResponse.redirect(new URL(`${localePrefix}/login`, req.url));
     }
 
-    return NextResponse.next(); // Continue if no redirects are needed
+    if (requestedLocale) {
+        const url = req.nextUrl.clone();
+        url.pathname = normalizedPathname;
+
+        const requestHeaders = new Headers(req.headers);
+        requestHeaders.set("x-app-locale", requestedLocale);
+
+        return NextResponse.rewrite(url, {
+            request: { headers: requestHeaders },
+        });
+    }
+
+    return NextResponse.next();
 }
 
-// Apply middleware only to specific routes
 export const config = {
-    matcher: ["/login", "/register", "/profile", "/dashboard"], // Protect these routes
+    matcher: ["/((?!api|_next|.*\\..*).*)"],
 };
 

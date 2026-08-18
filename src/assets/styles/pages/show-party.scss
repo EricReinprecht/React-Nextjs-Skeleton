@@ -1,0 +1,52 @@
+.manager-party-preview {
+    padding-top: 24px;
+
+    .manager-party-preview-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 18px;
+
+        .party-back-link { margin-bottom: 0; }
+    }
+
+    .manager-party-edit-button {
+        display: inline-flex;
+        min-height: 44px;
+        align-items: center;
+        justify-content: center;
+        padding: 0 18px;
+        border: 1px solid rgba(255, 255, 255, 0.72);
+        border-radius: 11px;
+        background: white;
+        color: #d63a17 !important;
+        font-size: 13px;
+        font-weight: 850;
+        text-decoration: none;
+        box-shadow: 0 10px 26px rgba(23, 32, 42, 0.12);
+    }
+
+    .manager-party-status {
+        width: max-content;
+        padding: 7px 10px;
+        border-radius: 999px;
+        background: #fff0ec;
+        color: #c73615;
+        font-size: 11px;
+        font-weight: 850;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    .party-gallery > .party-gallery-image { height: 100%; }
+    .party-loading,
+    .party-state-card { margin-top: 70px; }
+}
+
+@media (max-width: 560px) {
+    .manager-party-preview .manager-party-preview-toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+}

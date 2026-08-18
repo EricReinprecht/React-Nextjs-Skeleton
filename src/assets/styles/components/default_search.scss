@@ -1,35 +1,81 @@
-@use "sass:map";
-@use "../abstracts/variables" as vars;
-
-.main{
-    height: 100%;
-    overflow-y: auto;
-}
-.default-search-container{
-    height: 100px;
+.default-search-container {
+    position: relative;
+    z-index: 3;
     width: 100%;
     display: flex;
-    background-color: transparent;
-    position: sticky;
-    top: 100px;
-    align-self: center;
     justify-content: center;
-    .search-wrapper{
-        display: flex;
-        align-items: center;
-        .search-bar{
-            input{
-                width: 1000px;
-                height: 60px;
-                padding: 4px 16px;
-                font-size: 24px;
-                outline: unset;
-                border-radius: 24px;
-                font-weight: 400;
-                background-color: transparent;
-                border-color: map.get(vars.$colors, "white");
-                color: map.get(vars.$colors, "white");
-            }
+    padding: 26px 0 8px;
+
+    .search-wrapper {
+        width: min(100%, 980px);
+    }
+
+    .search-bar {
+        display: grid;
+        grid-template-columns: 46px minmax(0, 1fr) auto;
+        gap: 10px;
+        padding: 7px;
+        border: 1px solid rgba(255, 255, 255, 0.45);
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.94);
+        box-shadow: 0 18px 45px rgba(17, 24, 39, 0.2);
+        backdrop-filter: blur(14px);
+    }
+
+    .icon {
+        display: grid;
+        place-items: center;
+        color: #667085;
+
+        &::before {
+            content: "⌕";
+            font-size: 28px;
+            line-height: 1;
+            transform: rotate(-18deg);
+        }
+    }
+
+    .search-input {
+        width: 100%;
+        min-width: 0;
+        height: 50px;
+        padding: 0 15px;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        color: #1f2933;
+        font-size: 17px;
+
+        &::placeholder {
+            color: #7a8693;
+        }
+    }
+
+    .submit-search-button {
+        min-width: 112px;
+        padding: 0 20px;
+        border: 0;
+        border-radius: 12px;
+        background: #1f2933;
+        color: white;
+        font-weight: 750;
+        cursor: pointer;
+        transition: transform 150ms ease, background 150ms ease;
+
+        &:hover {
+            background: #ff4d23;
+            transform: translateY(-1px);
+        }
+    }
+}
+
+@media (max-width: 560px) {
+    .default-search-container .search-bar {
+        grid-template-columns: 38px minmax(0, 1fr);
+
+        .submit-search-button {
+            grid-column: 1 / -1;
+            min-height: 44px;
         }
     }
 }

@@ -61,3 +61,11 @@ node prisma/merge.js
 ```bash
 npm run prisma:migrate --name init
 ```
+
+# Docker
+
+```bash
+docker compose up -d
+docker compose logs -f app
+docker compose down
+```

@@ -1,6 +1,7 @@
 import { TicketReservationFilter } from "@types_ts";
 import { PARTY_PAGE_SIZE } from "@utils/env";
 import prisma from "@prisma/prisma";
+import { calculateTicketPrice } from "@utils/ticketPricing";
 
 // Delete a user's active reservation
 export const deleteTicketReservation = async (
@@ -21,15 +22,13 @@ export const deleteTicketReservation = async (
 // Map a ticket reservation to a normalized object
 const mapReservation = (reservation: any) => {
     const { ticketClass, quantity } = reservation;
-
-    const applicablePrices = ticketClass.prices.filter((p: any) => quantity >= p.amount);
-    if (!applicablePrices.length) {
+    const calculation = calculateTicketPrice(ticketClass.prices, quantity);
+    if (!calculation) {
         throw new Error(`No price for TicketClass ${ticketClass.id} with quantity ${quantity}`);
     }
 
-    const applicablePrice = applicablePrices[applicablePrices.length - 1];
-    const unitPrice = Number(applicablePrice.price);
-    const totalPrice = unitPrice * quantity;
+    const unitPrice = calculation.unitPrice;
+    const totalPrice = calculation.total;
 
     return {
         id: reservation.id,
@@ -39,7 +38,7 @@ const mapReservation = (reservation: any) => {
         amount: quantity,
         price: unitPrice,
         totalPrice,
-        currency: applicablePrice.currency,
+        currency: calculation.currency,
         amountStr: quantity.toString(),
         priceStr: unitPrice.toFixed(2),
         totalPriceStr: totalPrice.toFixed(2),
@@ -48,7 +47,10 @@ const mapReservation = (reservation: any) => {
 
 // Build Prisma where clause
 const buildBaseWhere = (filter?: TicketReservationFilter) => {
-    const where: any = { cart: { status: "ACTIVE" } };
+    const where: any = {
+        cart: { status: "ACTIVE" },
+        expiresAt: { gt: new Date() },
+    };
 
     if (!filter) return where;
 
@@ -86,7 +88,10 @@ const applyNumericFilters = (data: any[], filter?: TicketReservationFilter) => {
 // Get all ticket reservations for a user
 export const getTicketReservationsForUser = async (userId: string) => {
     const reservations = await prisma.ticketReservation.findMany({
-        where: { cart: { userId } },
+        where: {
+            cart: { userId, status: "ACTIVE" },
+            expiresAt: { gt: new Date() },
+        },
         include: { ticketClass: { include: { prices: { orderBy: { amount: "asc" } } } } },
     });
 

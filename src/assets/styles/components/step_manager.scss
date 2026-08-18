@@ -1,76 +1,89 @@
-@use "sass:map";
-@use "../abstracts/variables" as vars;
+.step-manager {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
 
-.step-manager{
-    width: 300px;
-    .step{
-        display: flex;
-        flex-direction: row;
+    .step {
+        min-width: 0;
+        display: grid;
+        grid-template-columns: 38px minmax(0, 1fr);
         align-items: center;
-        .number, .name{
-            transition: 0.25s ease-in-out;
+        gap: 11px;
+
+        .number,
+        .name {
             cursor: pointer;
+            transition: 160ms ease;
         }
-        .number{
-            color: map.get(vars.$colors, "white");
-            background-color: map.get(vars.$colors, charcoal);
-            font-weight: 700;
-            font-size: 18px;
-            width: 60px;
-            height: 60px;
-            border-radius: 100%;
-            border: 1px solid map.get(vars.$colors, "white");
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 2;
-        }
-        .name{
-            color: map.get(vars.$colors, "white");
-            background-color: map.get(vars.$colors, charcoal);
-            font-weight: 700;
-            font-size: 16px;
-            border: 1px solid map.get(vars.$colors, "white");
-            border-left: unset;
+
+        .number {
             position: relative;
-            left: -8px;
-            padding: 6px 0px;
-            padding-left: 14px;
-            padding-right: 10px;
-            z-index: 1;
-            min-width: 200px;
-            max-width: 300px;
-            width: 200px;
+            z-index: 2;
+            width: 38px;
+            height: 38px;
+            display: grid;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .name {
+            min-width: 0;
             overflow: hidden;
+            color: rgba(255, 255, 255, 0.72);
+            font-size: 14px;
+            font-weight: 650;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
-        &.hovered, &.active{
-            .number{
-                color: map.get(vars.$colors, "charcoal");
-                background-color: map.get(vars.$colors, "white");
-                border-color: map.get(vars.$colors, "charcoal");
+
+        &.hovered,
+        &.active {
+            .number {
+                border-color: #ff6a45;
+                background: #ff4d23;
+                color: white;
+                box-shadow: 0 7px 18px rgba(255, 77, 35, 0.34);
             }
-            .name{
-                color: map.get(vars.$colors, "charcoal");
-                background-color: map.get(vars.$colors, "white");
-                border-color: map.get(vars.$colors, "charcoal");
-                width: unset;
+
+            .name {
+                color: white;
             }
-            
         }
     }
+
     .separator {
-        transform: rotate(90deg);
-        height: 70px;
-        svg{
-            height: 120px;
+        position: relative;
+        width: 38px;
+        height: 24px;
+
+        &::after {
+            content: "";
             position: absolute;
-            left: 81px;
-            top: 94px;
-            path{
-                fill: map.get(vars.$colors, "white");
-            }
+            top: 0;
+            bottom: 0;
+            left: 18px;
+            width: 2px;
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        svg {
+            display: none;
+        }
+    }
+}
+
+@media (max-width: 1180px) {
+    .step-manager {
+        .step {
+            padding: 8px 10px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
         }
     }
 }

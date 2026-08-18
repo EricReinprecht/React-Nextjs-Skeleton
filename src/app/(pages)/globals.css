@@ -18,11 +18,25 @@ body {
 }
 
 body {
+  min-height: 100dvh;
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body:has(.manager_page-template) {
+  overflow: hidden;
+}
+
+body:has(.manager_page-template) > .app-content {
+  height: calc(100dvh - 100px);
+  min-height: 0;
+}
+
+body:has(.manager_page-template) > footer {
+  display: none;
 }
 
 * {

@@ -11,6 +11,7 @@ export interface TicketItem {
     quantity: number;
     unitPrice: number;
     totalPrice: number;
+    currency: string;
 }
 
 interface CheckoutPaypalProps {
@@ -20,17 +21,29 @@ interface CheckoutPaypalProps {
 }
 
 const CheckoutPaypal: React.FC<CheckoutPaypalProps> = ({ items, total, onSuccess }) => {
+    const paypalClientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID ?? "";
+    const currency = items[0]?.currency ?? "EUR";
     const initialOptions = {
-        clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "",
-        currency: "USD",
+        clientId: paypalClientId,
+        currency,
         intent: "capture",
+        commit: true,
     };
+
+    const formatMoney = (value: number) => new Intl.NumberFormat("de-AT", {
+        style: "currency",
+        currency,
+    }).format(value);
 
     return (
         <div className="main">
             <CheckoutPage>
                 <div className="checkout-wrapper paypal">
-                    {items.length === 0 ? (
+                    {!paypalClientId ? (
+                        <div className="checkout-configuration-error" role="alert">
+                            PayPal ist noch nicht konfiguriert. Bitte hinterlege eine PayPal Client-ID.
+                        </div>
+                    ) : items.length === 0 ? (
                         <Loader type="rgb-lettering" content="Loading checkout..." />
                     ) : (
                         <>
@@ -40,43 +53,40 @@ const CheckoutPaypal: React.FC<CheckoutPaypalProps> = ({ items, total, onSuccess
                                         <li key={i}>
                                             <span>{item.name}</span>
                                             <span>
-                                                {item.quantity} × ${item.unitPrice.toFixed(2)}
+                                                {item.quantity} × {formatMoney(item.unitPrice)}
                                             </span>
-                                            <span>${item.totalPrice.toFixed(2)}</span>
+                                            <span>{formatMoney(item.totalPrice)}</span>
                                         </li>
                                     ))}
                                 </ul>
                                 <div className="checkout-total">
-                                    <strong>Total: ${total.toFixed(2)}</strong>
+                                    <strong>Gesamt: {formatMoney(total)}</strong>
                                 </div>
                             </div>
 
                             <PayPalScriptProvider options={initialOptions}>
                                 <div className="paypal-wrapper">
                                     <PayPalButtons
-                                        createOrder={() =>
-                                            fetch("/api/paypal/create-order", {
+                                        createOrder={async () => {
+                                            const response = await fetch("/api/paypal/create-order", {
                                                 method: "POST",
                                                 headers: { "Content-Type": "application/json" },
-                                                body: JSON.stringify({ items, total }),
-                                            })
-                                                .then((res) => res.json())
-                                                .then((order) => order.id)
-                                        }
+                                            });
+                                            const order = await response.json();
+                                            if (!response.ok || !order.id) {
+                                                throw new Error(order.error ?? "PayPal order could not be created");
+                                            }
+                                            return order.id;
+                                        }}
                                         onApprove={async (data) => {
-                                            await fetch("/api/paypal/capture-order", {
+                                            const response = await fetch("/api/paypal/capture-order", {
                                                 method: "POST",
                                                 headers: { "Content-Type": "application/json" },
                                                 body: JSON.stringify({ orderID: data.orderID }),
                                             });
-                                            const res = await fetch("/api/shopping-cart/complete-purchase", {
-                                                method: "POST",
-                                                headers: { "Content-Type": "application/json" },
-                                            });
-                                            if (!res.ok) {
-                                                console.error("Failed to complete purchase");
-                                                alert("Something went wrong creating tickets. Please contact support.");
-                                                return;
+                                            const capture = await response.json();
+                                            if (!response.ok || !capture.success) {
+                                                throw new Error(capture.error ?? "Payment could not be completed");
                                             }
                                             onSuccess();
                                         }}

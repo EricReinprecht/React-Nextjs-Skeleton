@@ -19,10 +19,21 @@ export async function POST() {
             );
         }
 
-        const total = items.reduce(
-            (sum, item) => sum + item.totalPrice,
+        const currencies = new Set(items.map((item) => item.currency));
+        if (currencies.size !== 1) {
+            return NextResponse.json(
+                { error: "All cart items must use the same currency" },
+                { status: 400 }
+            );
+        }
+
+        const currency = items[0].currency;
+
+        const totalCents = items.reduce(
+            (sum, item) => sum + Math.round(item.totalPrice * 100),
             0
         );
+        const total = totalCents / 100;
 
         const auth = Buffer.from(
             `${process.env.PAYPAL_CLIENT_ID}:${process.env.PAYPAL_CLIENT_SECRET}`
@@ -38,24 +49,37 @@ export async function POST() {
                 },
                 body: JSON.stringify({
                     intent: "CAPTURE",
+                    payment_source: {
+                        paypal: {
+                            experience_context: {
+                                landing_page: "LOGIN",
+                                user_action: "PAY_NOW",
+                                shipping_preference: "NO_SHIPPING",
+                                locale: "de-AT",
+                            },
+                        },
+                    },
                     purchase_units: [
                         {
                             amount: {
-                                currency_code: "USD",
+                                currency_code: currency,
                                 value: total.toFixed(2),
                                 breakdown: {
                                     item_total: {
-                                        currency_code: "USD",
+                                        currency_code: currency,
                                         value: total.toFixed(2),
                                     },
                                 },
                             },
+                            // Submit a priced bundle as one PayPal line. Using the
+                            // rounded average unit price can differ from the exact
+                            // bundle total (for example 3 × 12.67 versus 38.00).
                             items: items.map((item) => ({
-                                name: item.ticketName,
-                                quantity: item.amount.toString(),
+                                name: `${item.ticketName} (${item.amount} Tickets)`,
+                                quantity: "1",
                                 unit_amount: {
-                                    currency_code: "USD",
-                                    value: item.price.toFixed(2),
+                                    currency_code: currency,
+                                    value: item.totalPrice.toFixed(2),
                                 },
                             })),
                         },
@@ -69,8 +93,8 @@ export async function POST() {
         if (!res.ok) {
             console.error("PayPal API error:", data);
             return NextResponse.json(
-                { error: "Failed to create PayPal order" },
-                { status: 500 }
+                { error: data?.message ?? "Failed to create PayPal order" },
+                { status: res.status }
             );
         }
 

@@ -1,130 +1,93 @@
-@use "sass:map";
-@use "../abstracts/variables" as vars;
+.party-list-wrapper {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 20px clamp(16px, 4vw, 64px) 72px;
 
-.party-list-wrapper{
-    padding: 65px;
-    .party-list{
-        &.excel{
-            display: grid;
-            width: 100%;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px 40px;
-            .party-wrapper{
-                width: 100%;
-            }
-            .party{
-                position: relative;
-                overflow: hidden;
-                padding: 12px;
-                height: 140px;
-                width: 100%;
-                background-color: transparent;
-                border: 1px solid black;
-                border-radius: 12px;
-                .background{
-                    z-index: 1;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    height: 100%;
-                    width: 100%;
-                    opacity: 0.2;
-                    background-color: map.get(vars.$colors, "white");
-                    transition: 0.3s ease-in-out;
-                }
-                .content{
-                    position: relative;
-                    z-index: 2;
-                    .image-container{
-                        position: relative;
-                        height: 250px;
-                        width: 100%;
-                        border-radius: 12px;
-                        overflow: hidden;
-                        .image{
-                            height: 100%;
-                            width: 100%;
-                            background-size: cover;
-                            background-position: center;
-                        }
-                        .swiper{
-                            position: relative;
-                            width: 100%;
-                            height: 100%;
-                        }
-                        .swiper-button{
-                            height: 40px;
-                            width: 40px;
-                            border-radius: 100%;
-                            position: absolute;
-                            top: calc(50% - 20px);
-                            z-index: 2;
-                            cursor: pointer;
-                            justify-content: center;
-                            align-items: center;
-                            display: flex;
-                            background-color: map.get(vars.$colors, "white");
-                            opacity: 0;
-                            transition: 0.2s ease-in-out;
-                            svg{
-                                position: relative;
-                            }
-                            &.prev{
-                                left: 12px;
-                                svg{
-                                    right: 1px;
-                                }
-                            }
-                            &.next{
-                                right: 0;
-                                transform: rotate(180deg);
-                                right: 12px;
-                                svg{
-                                    right: 1px;
-                                }
-                            }
-                        }
-                        &:hover{
-                            .swiper-button{
-                                opacity: 0.7;
-                                &:hover{
-                                    opacity: 1;
-                                }
-                            }
-                        }
-                    }
-                    div{
-                        color: map.get(vars.$colors, "white");
-                        transition: 0.3s ease-in-out;
-                    }
-                }
-                &:hover{
-                    .background{
-                        filter: blur(8px);
-                        opacity: 0.75;
-                        animation: pulse-glow 2.6s infinite ease-in-out;
-                        animation-delay: 0.4s;
-                    }
-                    .content{
-                         div{
-                            color: black !important;
-                        }
-                    }
-                }
-            }
-        }
+    .party-list.excel {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 22px;
+        width: min(100%, 1380px);
+        margin: 0 auto;
     }
+
+    .party-wrapper { min-width: 0; border-radius: 20px; color: inherit; text-decoration: none; }
+    .party-wrapper:focus-visible { outline: 3px solid #d9ff43; outline-offset: 4px; }
+
+    .party {
+        position: relative;
+        display: flex;
+        height: 100%;
+        min-height: 450px;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,.22);
+        border-radius: 20px;
+        background: #fff;
+        box-shadow: 0 22px 54px rgba(0,0,0,.25);
+        flex-direction: column;
+        transition: transform 180ms ease, box-shadow 180ms ease;
+
+        &::after { position: absolute; inset: auto 0 0; height: 5px; background: #ff4f81; content: ""; }
+        &:hover { transform: translateY(-7px) rotate(-.4deg); box-shadow: 0 32px 70px rgba(0,0,0,.36); }
+    }
+
+    .party-wrapper:nth-child(3n + 2) .party::after { background: #d9ff43; }
+    .party-wrapper:nth-child(3n + 3) .party::after { background: #7551ff; }
+
+    .party-image {
+        min-height: 230px;
+        background: linear-gradient(145deg, #ff4f81, #ff782e);
+        background-position: center;
+        background-size: cover;
+        transition: transform 320ms ease;
+    }
+    .party-image.no-image { background: linear-gradient(145deg, #7551ff, #ff4f81); }
+    .party:hover .party-image { transform: scale(1.035); }
+
+    .event-card-number {
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        z-index: 2;
+        display: grid;
+        width: 40px;
+        height: 40px;
+        border: 1px solid rgba(255,255,255,.56);
+        border-radius: 50%;
+        background: rgba(19,22,25,.7);
+        color: white;
+        font-family: monospace;
+        font-size: 11px;
+        font-weight: 900;
+        backdrop-filter: blur(9px);
+        place-items: center;
+    }
+
+    .content { position: relative; display: flex; min-width: 0; flex: 1; padding: 23px 24px 29px; color: #202a34; flex-direction: column; }
+    .title { padding-right: 32px; overflow: hidden; color: #202a34; font-size: 23px; font-weight: 900; letter-spacing: -.025em; text-overflow: ellipsis; white-space: nowrap; }
+    .location { margin-top: 6px; color: #687585; font-size: 13px; font-weight: 700; }
+    .date { width: max-content; margin-top: 16px; padding: 6px 9px; border-radius: 7px; background: #fff0ec; color: #d33a18; font-size: 11px; font-weight: 850; }
+    .description { display: -webkit-box; margin-top: 13px; overflow: hidden; color: #75818d; font-size: 13px; line-height: 1.5; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+    .event-card-arrow { position: absolute; top: 23px; right: 22px; color: #a2aab3; font-size: 21px; transition: color 160ms ease, transform 160ms ease; }
+    .party:hover .event-card-arrow { color: #ff4f81; transform: translate(3px, -3px); }
 }
 
-@keyframes pulse-glow {
-    0%, 100% {
-        opacity: 0.75;
-        transform: scale(1);
-        filter: blur(8px);
-    }
-    50% {
-        opacity: 1;
-        transform: scale(1);
-        filter: blur(2px);
-    }
+.browse-results-summary { width: min(100%, 1380px); margin: 0 auto 14px; color: rgba(255,255,255,.58); font-size: 12px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
+.browse-results-summary strong { color: #d9ff43; font-size: 18px; }
+
+.load-more-container { display: flex; width: 100%; justify-content: center; padding: 38px 16px 4px; }
+.load-more-button { min-width: 250px; min-height: 56px; padding: 0 25px; border: 2px solid #d9ff43; border-radius: 999px; background: #d9ff43; box-shadow: 0 15px 36px rgba(217,255,67,.16); color: #161a14; font-size: 14px; font-weight: 900; cursor: pointer; transition: transform 160ms ease, box-shadow 160ms ease; }
+.load-more-button:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 22px 46px rgba(217,255,67,.27); }
+.load-more-button:disabled { opacity: .6; cursor: wait; }
+.all-loaded-message { color: rgba(255,255,255,.55); font-size: 13px; }
+
+.browse-state { position: relative; z-index: 2; display: flex; width: min(100% - 32px, 900px); min-height: 170px; margin: 24px auto; align-items: center; justify-content: center; gap: 6px; border: 1px solid rgba(255,255,255,.18); border-radius: 20px; background: rgba(255,255,255,.93); color: #344054; flex-direction: column; }
+.browse-state.error-message { color: #b42318; }
+.browse-state.end-message { min-height: auto; padding: 16px; background: transparent; color: white; }
+
+@media (max-width: 1100px) { .party-list-wrapper .party-list.excel { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 700px) {
+    .party-list-wrapper .party-list.excel { grid-template-columns: 1fr; }
+    .party-list-wrapper .party { min-height: 420px; }
 }

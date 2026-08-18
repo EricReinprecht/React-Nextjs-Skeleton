@@ -1,117 +1,168 @@
-@use "sass:map";
-@use "../abstracts/variables" as vars;
-
-.settings-page{
-    min-height: 950px;
-    height: 100%;
-    width: 100%;
-
+.settings-page {
     position: relative;
+    z-index: 2;
+    width: min(100%, 1080px);
+    margin: 0 auto;
+    color: #202a34;
+}
+
+.settings-header {
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding: 24;
-    border-radius: 24px;
-    border: 1px solid black;
+    align-items: center;
+    gap: 22px;
+    margin-bottom: 22px;
+    padding: 28px 32px;
+    border: 1px solid rgba(255, 255, 255, 0.58);
+    border-radius: 20px;
+    background: rgba(31, 41, 51, 0.92);
+    box-shadow: 0 18px 48px rgba(23, 32, 42, 0.2);
+    backdrop-filter: blur(14px);
+
+    .settings-avatar {
+        display: grid;
+        width: 68px;
+        height: 68px;
+        flex: 0 0 68px;
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        border-radius: 18px;
+        background: linear-gradient(145deg, #ff6b42, #d72f0c);
+        box-shadow: 0 12px 28px rgba(255, 77, 35, 0.26);
+        color: white;
+        font-size: 22px;
+        font-weight: 900;
+        letter-spacing: 0.04em;
+        place-items: center;
+        text-transform: uppercase;
+    }
+
+    .settings-kicker { color: #ff8b6e; font-size: 11px; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; }
+    h1 { margin: 5px 0 5px; color: white; font-size: clamp(27px, 4vw, 38px); letter-spacing: -0.035em; }
+    p { margin: 0; color: rgba(255, 255, 255, 0.66); font-size: 14px; }
+}
+
+.profile-form {
     overflow: hidden;
-    .form-background{
-        z-index: 1;
-        position: absolute;
-        left: 0;
+    border: 1px solid rgba(255, 255, 255, 0.62);
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.97);
+    box-shadow: 0 22px 60px rgba(23, 32, 42, 0.16);
+}
 
-        top: 0;
-        background-color: map.get(vars.$colors, "white");
-        width: 100%;
-        height: 100%;
-        transition: 0.5s ease-in-out;
-        opacity: 0.75;
-    }
-    &:hover{
-        .form-background{
-            opacity: 0.9;
-        }
-    }
-    .form-content{
-        width: 100%;
-        height: 100%;
-        min-height: 950px;
-        position: relative;
-        z-index: 2;
-        .body{
-            max-height: calc(100% - 40px - 160px);
-            max-height: 100%;
-            padding: 80px 0;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            .step-content{
-                form{
-                    display: flex;
-                    flex-direction: column;
-                    min-width: 800px;
-                    gap: 24px;
-                    .row{
-                        width: 100%;
-                        display: flex;
-                        flex-direction: row;
-                        justify-content: flex-start;
-                        align-items: flex-start;
-                        gap: 24px;
-                        .column{
-                            width: 100%;
-                            display: flex;
-                            flex-direction: column;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
+.settings-section {
+    display: grid;
+    grid-template-columns: minmax(190px, 0.32fr) minmax(0, 0.68fr);
+    gap: clamp(28px, 5vw, 64px);
+    padding: clamp(28px, 5vw, 52px);
+    border-bottom: 1px solid #e5e9ed;
+}
 
-    input{
-        &[type="text"]{
-            all: unset;
-            height: 48px;
-            outline: none;
-            border-radius: 48px;
-            padding: 0px 12px;
-            border: 1px solid map.get(vars.$colors, "black");
-            width: 100%;
-            background-color: map.get(vars.$colors, "white");
-        }
-        &[type="number"]{
-            all: unset;
-            height: 48px;
-            outline: none;
-            border-radius: 48px;
-            padding: 0px 12px;
-            border: 1px solid map.get(vars.$colors, "black");
-            width:100%;
-            background-color: map.get(vars.$colors, "white");
-        }
-        &[type="checkbox"]{
-            height: 24px;
-            width: 24px;
-            cursor: pointer;
-            outline: none;
-            border-radius: 48px;
-            padding: 0px 12px;
-            border: 1px solid map.get(vars.$colors, "black");
-            background-color: map.get(vars.$colors, "white");
-            margin-right: 0 !important;
-        }
+.settings-section-heading {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+
+    > span {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        flex: 0 0 34px;
+        border-radius: 10px;
+        background: #fff0ec;
+        color: #d83b17;
+        font-size: 11px;
+        font-weight: 900;
+        place-items: center;
     }
-    textarea {
+
+    h2 { margin: 1px 0 6px; color: #202a34; font-size: 18px; }
+    p { margin: 0; color: #7a8693; font-size: 13px; line-height: 1.5; }
+}
+
+.settings-field-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 16px;
+}
+
+.settings-field {
+    min-width: 0;
+
+    label { display: block; margin-bottom: 7px; color: #4d5965; font-size: 12px; font-weight: 800; }
+
+    input {
+        box-sizing: border-box;
         width: 100%;
-        border-radius: 6px;
-        border: 1px solid map.get(vars.$colors, "black");
-        background-color: map.get(vars.$colors, "white");
-        min-height: 100px;
-        outline: unset;
-        padding: 12px;
+        height: 46px;
+        padding: 0 13px;
+        border: 1px solid #d9e0e7;
+        border-radius: 11px;
+        outline: none;
+        background: #f8fafb;
+        color: #27313c;
+        font: inherit;
+        font-size: 14px;
+        transition: border-color 150ms ease, box-shadow 150ms ease, background 150ms ease;
+
+        &:focus { border-color: #ff4d23; background: white; box-shadow: 0 0 0 3px rgba(255, 77, 35, 0.12); }
+        &[readonly] { color: #84909c; cursor: not-allowed; }
     }
+
+    small { display: block; margin-top: 6px; color: #97a1aa; font-size: 11px; }
+}
+
+.settings-field-wide { grid-column: 1 / -1; }
+.settings-field-street { grid-column: span 2; }
+.settings-field.is-readonly input { background: #f1f3f5; }
+
+.settings-form-footer {
+    display: flex;
+    min-height: 86px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 18px clamp(28px, 5vw, 52px);
+    background: #f8fafb;
+
+    > div { flex: 1 1 auto; }
+}
+
+.settings-message {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 750;
+    &.success { color: #18733e; }
+    &.error { color: #b42318; }
+    &.info { color: #667085; }
+}
+
+.settings-save-button {
+    min-height: 48px;
+    padding: 0 22px;
+    border: 1px solid #ff4d23;
+    border-radius: 11px;
+    background: #ff4d23;
+    box-shadow: 0 11px 26px rgba(255, 77, 35, 0.22);
+    color: white !important;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 850;
+    cursor: pointer;
+    transition: transform 150ms ease, background 150ms ease;
+
+    &:hover:not(:disabled) { background: #dc3814; transform: translateY(-1px); }
+    &:disabled { border-color: #cfd5db; background: #cfd5db; box-shadow: none; cursor: not-allowed; }
+}
+
+@media (max-width: 760px) {
+    .settings-header { align-items: flex-start; padding: 24px; }
+    .settings-section { grid-template-columns: 1fr; gap: 26px; }
+}
+
+@media (max-width: 520px) {
+    .settings-header { flex-direction: column; }
+    .settings-field-grid { grid-template-columns: 1fr; }
+    .settings-field-wide,
+    .settings-field-street { grid-column: auto; }
+    .settings-form-footer { align-items: stretch; flex-direction: column; }
+    .settings-save-button { width: 100%; }
 }

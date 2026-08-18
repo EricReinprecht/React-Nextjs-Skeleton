@@ -176,3 +176,30 @@ export async function getPartyById(id: string): Promise<Prisma.PartyGetPayload<{
         return null;
     }
 }
+
+export async function browseParties(page = 1, search = "") {
+    const limit = PARTY_PAGE_SIZE;
+    const safePage = Number.isFinite(page) && page > 0 ? Math.floor(page) : 1;
+    const normalizedSearch = search.slice(0, 120);
+    const where: Prisma.PartyWhereInput = normalizedSearch
+        ? {
+            OR: ["name", "location", "teaser", "description"].map((field) => ({
+                [field]: { contains: normalizedSearch, mode: "insensitive" },
+            })),
+        }
+        : {};
+
+    const rows = await prisma.party.findMany({
+        where,
+        skip: (safePage - 1) * limit,
+        take: limit + 1,
+        orderBy: [{ startDate: "asc" }, { id: "asc" }],
+        include: { images: true },
+    });
+    const hasMore = rows.length > limit;
+
+    return {
+        parties: hasMore ? rows.slice(0, limit) : rows,
+        hasMore,
+    };
+}

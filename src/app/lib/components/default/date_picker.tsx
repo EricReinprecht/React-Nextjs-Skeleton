@@ -3,6 +3,7 @@
 import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import "@styles/components/date_picker.scss";
 
 interface DatePickerProps {
   value?: string; // YYYY-MM-DD
@@ -27,19 +28,29 @@ const DatePickerComponent: React.FC<DatePickerProps> = ({ value, onChange }) => 
   const selectedDate = value ? parseLocalDate(value) : null;
 
   return (
-    <DatePicker
-      selected={selectedDate}
-      onChange={(date: Date | null) => {
-        if (date) {
-          onChange(formatDate(date));
-        } else {
-          onChange("");
-        }
-      }}
-      dateFormat="dd.MM.yyyy"
-      placeholderText="TT.MM.JJJJ"
-      isClearable
-    />
+    <div className="date-filter-picker">
+      <span className="date-filter-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="16" height="16">
+          <path d="M7 2v3M17 2v3M3.5 9h17M5.5 4h13a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+        </svg>
+      </span>
+      <DatePicker
+        selected={selectedDate}
+        onChange={(date: Date | null) => onChange(date ? formatDate(date) : "")}
+        dateFormat="dd.MM.yyyy"
+        placeholderText="Datum wählen"
+        isClearable
+        showMonthDropdown
+        showYearDropdown
+        dropdownMode="select"
+        todayButton="Heute"
+        popperPlacement="bottom-start"
+        calendarClassName="filter-date-calendar"
+        wrapperClassName="date-filter-input-wrapper"
+        popperClassName="date-filter-popper"
+        aria-label="Datumsfilter"
+      />
+    </div>
   );
 };
 

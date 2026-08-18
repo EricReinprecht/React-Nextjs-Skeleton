@@ -27,6 +27,7 @@ const LogoutButton: React.FC<LogoutButtonProps> = ({ disable_style }) => {
                 hoverTextColor: "black",
                 hoverBorderColor: "black",
             }}
+            disable_style={disable_style}
         />
     );
 };

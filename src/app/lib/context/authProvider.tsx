@@ -17,12 +17,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-            console.log("Auth State Changed:", firebaseUser); // ✅ Debugging
+            console.log("Auth State Changed:", firebaseUser);
             setUser(firebaseUser);
-            setLoading(false); // ✅ Stop loading when Firebase responds
+            setLoading(false);
         });
 
-        return () => unsubscribe(); // ✅ Cleanup function
+        return () => unsubscribe();
     }, []);
 
     return (

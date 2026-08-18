@@ -6,17 +6,23 @@ import { CheckoutPage } from "@templates";
 
 
 const CheckoutPaypal = () => {
+    const paypalClientId = process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID ?? "";
     const initialOptions = {
-        clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID || "",
-        currency: "USD",
+        clientId: paypalClientId,
+        currency: "EUR",
         intent: "capture",
+        commit: true,
     };
 
     return (
         <div className="main">
             <CheckoutPage>
                 <div className="checkout-wrapper paypal">
-                    <PayPalScriptProvider options={initialOptions}>
+                    {!paypalClientId ? (
+                        <div className="checkout-configuration-error" role="alert">
+                            PayPal ist noch nicht konfiguriert. Bitte hinterlege eine PayPal Client-ID.
+                        </div>
+                    ) : <PayPalScriptProvider options={initialOptions}>
                         <div className="paypal-wrapper">
                             <PayPalButtons
                                 createOrder={() =>
@@ -33,7 +39,7 @@ const CheckoutPaypal = () => {
                                 }}
                             />
                         </div>
-                    </PayPalScriptProvider>
+                    </PayPalScriptProvider>}
                 </div>
             </CheckoutPage>
         </div>

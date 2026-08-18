@@ -79,11 +79,18 @@ const ShoppingCartPage = () => {
             if (!res.ok) throw new Error("Failed to fetch cart summary");
 
             const data = await res.json();
+            if (!Array.isArray(data.items) || data.items.length === 0) {
+                alert("Dein Warenkorb ist leer oder die Reservierung ist abgelaufen.");
+                setCheckoutOpen(false);
+                return;
+            }
+
             const items: TicketItem[] = data.items.map((item: any) => ({
                 name: item.name,
                 quantity: item.quantity,
                 unitPrice: Number(item.unitPrice),
                 totalPrice: Number(item.total ?? 0),
+                currency: item.currency ?? "EUR",
             }));
 
             setCartItems(items);
@@ -98,8 +105,8 @@ const ShoppingCartPage = () => {
     };
 
     const tableOptions = [
-        { label: "Clear cart", onClick: handleClearCart },
-        { label: "Checkout", onClick: handleCheckout },
+        { label: "Warenkorb leeren", onClick: handleClearCart, variant: "danger" as const },
+        { label: "Zur Kasse", onClick: handleCheckout, variant: "primary" as const },
     ];
 
     /* --------------------------------- Render -------------------------------- */

@@ -190,24 +190,39 @@ const CreatePartyForm = ({ authUser }: Props) => {
 
     return (
         <div className="create-party-wrapper">
-            <Loader type="rgb-lettering" />
-            { !isLoading && 
+            {isLoading ? (
+                <div className="create-party-loading">
+                    <Loader type="rgb-lettering" content="Party wird vorbereitet …" />
+                </div>
+            ) : (
                 <>
-                    <div className="step-manager-container">
-                        <StepManager steps={steps} currentStep={step} setStep={setStep} />
-                    </div>
-                    <div className="create-party-container">
-                        <div className="create-party-background" />
-                        <div className="create-party-content">
-                            <div className="body">
-                                <div className="header">{steps[step - 1].name}</div>
-                                {stepComponents[step]}
-                            </div>
+                    <aside className="step-manager-container" aria-label="Party creation progress">
+                        <div className="step-manager-heading">
+                            <span>Party erstellen</span>
+                            <strong>{step} / {steps.length}</strong>
                         </div>
+                        <StepManager steps={steps} currentStep={step} setStep={setStep} />
+                    </aside>
+
+                    <section className="create-party-container">
+                        <header className="create-party-header">
+                            <div>
+                                <span className="step-kicker">Schritt {step} von {steps.length}</span>
+                                <h1>{steps[step - 1].name}</h1>
+                            </div>
+                            <span className={`save-state ${isSavingParty ? "saving" : "saved"}`}>
+                                {isSavingParty ? "Wird gespeichert …" : "Entwurf gespeichert"}
+                            </span>
+                        </header>
+
+                        <div className="create-party-content">
+                            {stepComponents[step]}
+                        </div>
+
                         <Footer steps={steps} step={step} navigateToStep={setStep} onSubmit={saveParty} />
-                    </div>
+                    </section>
                 </>
-            }
+            )}
         </div>
     );
 };
