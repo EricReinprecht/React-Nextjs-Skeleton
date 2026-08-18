@@ -1,15 +1,5 @@
-import { Timestamp } from "firebase/firestore"; // adjust import if needed
-
-export function formatDateGerman(input: string | Date | number | Timestamp): string {
-    let date: Date;
-
-    if (input instanceof Timestamp) {
-      date = input.toDate();
-    } else if (typeof input === "string" || typeof input === "number") {
-      date = new Date(input);
-    } else {
-      date = input;
-    }
+export function formatDateGerman(input: string | Date | number): string {
+    const date = input instanceof Date ? input : new Date(input);
 
     if (isNaN(date.getTime())) {
       return "Kein Startdatum bekannt!";

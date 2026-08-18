@@ -47,7 +47,6 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "../firebase.ts",
     "src/middleware.ts",
     "src/app/lib/components/lists/default_party_list.tsx"
   ],

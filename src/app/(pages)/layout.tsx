@@ -4,7 +4,6 @@ import { headers } from "next/headers";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 
-import { AuthProvider } from "@context/authProvider";
 import Header from "../lib/components/default/header";
 import Footer from "../lib/components/default/footer";
 
@@ -39,11 +38,9 @@ export default async function RootLayout({
                     locale={locale}
                     messages={messages}
                 >
-                    <AuthProvider>
-                        <Header messages={messages} locale={locale} />
-                        <main className="app-content">{children}</main>
-                        <Footer />
-                    </AuthProvider>
+                    <Header messages={messages} locale={locale} />
+                    <main className="app-content">{children}</main>
+                    <Footer />
                 </NextIntlClientProvider>
             </body>
         </html>
