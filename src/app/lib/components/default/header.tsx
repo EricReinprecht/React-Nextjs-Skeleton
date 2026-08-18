@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { Profile } from "@svgs";
 import { getAuthUser } from "@utils/getAuthUser";
+import { PROFILE_ROUTES } from "../../navigation/routes";
 import HeaderNavLink from "./header_nav_link";
 
 interface HeaderProps {
@@ -32,12 +33,12 @@ export default async function Header({ messages, locale }: HeaderProps) {
                     <>
                         <HeaderNavLink
                             href={localized("/profile/my-tickets")}
-                            activePaths={["/profile/my-tickets", "/profile/show-tickets"]}
+                            activePaths={[...PROFILE_ROUTES.tickets]}
                             className="nav-item-outer nav-secondary"
                         ><span className="nav-item">{messages.my_cards}</span></HeaderNavLink>
                         <HeaderNavLink
                             href={localized("/profile/my-parties")}
-                            activePaths={["/profile/my-parties", "/profile/show-parties"]}
+                            activePaths={[...PROFILE_ROUTES.parties]}
                             className="nav-item-outer nav-secondary"
                         ><span className="nav-item">{messages.my_parties}</span></HeaderNavLink>
                         <HeaderNavLink href={localized("/profile/settings")} className="nav-item-outer nav-secondary nav-settings"><span className="nav-item">{messages.settings}</span></HeaderNavLink>

@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 
+import { matchesAnyPath } from "../../navigation/routes";
+
 type HeaderNavLinkProps = {
     href: string;
     className?: string;
@@ -12,16 +14,9 @@ type HeaderNavLinkProps = {
     children: ReactNode;
 };
 
-const withoutLocale = (path: string) => path.replace(/^\/(?:de|en)(?=\/|$)/, "") || "/";
-
 const HeaderNavLink = ({ href, className = "", exact = false, activePaths, children }: HeaderNavLinkProps) => {
     const pathname = usePathname();
-    const currentPath = withoutLocale(pathname ?? "/");
-    const paths = (activePaths ?? [href]).map(withoutLocale);
-    const active = paths.some((path) => exact
-        ? currentPath === path
-        : currentPath === path || currentPath.startsWith(`${path}/`)
-    );
+    const active = matchesAnyPath(pathname, activePaths ?? [href], exact);
 
     return (
         <Link
