@@ -1,9 +1,9 @@
 import type { ReactElement } from "react";
 import { redirect } from "next/navigation";
 
-import { ManagerPage } from "@templates";
+import { ManagerPage } from "@frontend/templates";
 import CreatePartyForm from "./createPartyForm";
-import { getAuthUser } from "@utils/getAuthUser";
+import { getAuthUser } from "@backend/auth/session";
 
 
 const CreatePartyPage = async (): Promise<ReactElement> => {

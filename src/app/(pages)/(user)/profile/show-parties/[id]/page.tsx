@@ -5,11 +5,11 @@ import { useLocale } from "next-intl";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { PinnedMap } from "@components";
-import withAuth from "@hoc/withAuth";
-import { ManagerPage } from "@templates";
-import { PartyWithImages } from "@types_ts";
-import { formatDateGerman } from "@utils/formatDate";
+import { PinnedMap } from "@frontend/components";
+import withAuth from "@frontend/hoc/withAuth";
+import { ManagerPage } from "@frontend/templates";
+import { PartyWithImages } from "@shared/types";
+import { formatDateGerman } from "@shared/utils/formatDate";
 
 import "@styles/pages/single-party-public.scss";
 import "@styles/pages/show-party.scss";

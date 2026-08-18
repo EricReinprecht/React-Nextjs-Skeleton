@@ -2,8 +2,8 @@
 
 import { FormEvent, useState } from "react";
 
-import { ExcelPartyList, DefaultSearch } from "@components";
-import { BasePage } from "@templates";
+import { ExcelPartyList, DefaultSearch } from "@frontend/components";
+import { BasePage } from "@frontend/templates";
 
 import "@styles/pages/browse.scss";
 

@@ -3,11 +3,11 @@
 import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 
-import withAuth from "@hoc/withAuth";
-import { ManagerPage } from "@templates";
-import { TableAction, TableField, TicketRow } from "@types_ts";
-import { ManagerTable } from "@components";
-import { Ticket } from "@svgs";
+import withAuth from "@frontend/hoc/withAuth";
+import { ManagerPage } from "@frontend/templates";
+import { TableAction, TableField, TicketRow } from "@shared/types";
+import { ManagerTable } from "@frontend/components";
+import { Ticket } from "@frontend/svgs";
 
 import "@styles/tables/manager_table.scss"
 import "@styles/pages/create-party.scss";

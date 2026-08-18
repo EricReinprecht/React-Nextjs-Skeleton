@@ -1,14 +1,14 @@
 "use client";
 
-import withAuth from "@hoc/withAuth";
-import { ManagerPage } from "@templates";
-import { PartyStatus } from "@prisma/client";
-import { TableAction, TableField } from "@types_ts";
-import { ManagerTable } from "@components";
+import withAuth from "@frontend/hoc/withAuth";
+import { ManagerPage } from "@frontend/templates";
+import { PartyStatus } from "@shared/types";
+import { TableAction, TableField } from "@shared/types";
+import { ManagerTable } from "@frontend/components";
 
 import "@styles/tables/manager_table.scss"
 import "@styles/pages/create-party.scss";
-import { PartyRow } from "@/src/app/lib/types/party/partyRowType";
+import { PartyRow } from "@shared/types/party/partyRowType";
 
 const MyPartyList = () => {
     const statusOptions = [

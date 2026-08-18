@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { BasePage } from "@templates";
+import { BasePage } from "@frontend/templates";
 
 import {
     DndContext,
@@ -19,8 +19,8 @@ import {
 } from "@dnd-kit/sortable";
 
 import { CSS } from "@dnd-kit/utilities";
-import DefautButton from "../../lib/components/default/default_button";
-import { filesToBase64 } from "../../lib/utils/filesToBase64";
+import DefautButton from "@frontend/components/default/default_button";
+import { filesToBase64 } from "@shared/utils/filesToBase64";
 
 type ImageItem = {
     id: string;

@@ -7,11 +7,11 @@ import { useEffect, useId, useState } from "react";
 import { A11y, Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import { Modal, PinnedMap } from "@components";
-import { SwiperArrowLeft } from "@svgs";
-import { BasePage } from "@templates";
-import { PartyWithImages } from "@types_ts";
-import { formatDateGerman } from "@utils/formatDate";
+import { Modal, PinnedMap } from "@frontend/components";
+import { SwiperArrowLeft } from "@frontend/svgs";
+import { BasePage } from "@frontend/templates";
+import { PartyWithImages } from "@shared/types";
+import { formatDateGerman } from "@shared/utils/formatDate";
 
 import { TicketShop } from "../ticketShop";
 

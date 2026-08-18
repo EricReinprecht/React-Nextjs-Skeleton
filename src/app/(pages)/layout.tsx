@@ -3,9 +3,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { headers } from "next/headers";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
+import { getAuthUser } from "@backend/auth/session";
 
-import Header from "../lib/components/default/header";
-import Footer from "../lib/components/default/footer";
+import Header from "@frontend/components/default/header";
+import Footer from "@frontend/components/default/footer";
 
 import "./globals.css";
 
@@ -30,6 +31,7 @@ export default async function RootLayout({
     const requestedLocale = requestHeaders.get("x-app-locale");
     const locale = requestedLocale === "en" ? "en" : "de";
     const messages = await getMessages({ locale });
+    const user = await getAuthUser();
 
     return (
         <html lang={locale}>
@@ -38,7 +40,7 @@ export default async function RootLayout({
                     locale={locale}
                     messages={messages}
                 >
-                    <Header messages={messages} locale={locale} />
+                    <Header messages={messages} locale={locale} user={user} />
                     <main className="app-content">{children}</main>
                     <Footer />
                 </NextIntlClientProvider>

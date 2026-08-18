@@ -5,9 +5,9 @@ import { useLocale } from "next-intl";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import withAuth from "@hoc/withAuth";
-import { ManagerPage } from "@templates";
-import { formatDateGerman } from "@utils/formatDate";
+import withAuth from "@frontend/hoc/withAuth";
+import { ManagerPage } from "@frontend/templates";
+import { formatDateGerman } from "@shared/utils/formatDate";
 
 import "@styles/pages/show-ticket.scss";
 

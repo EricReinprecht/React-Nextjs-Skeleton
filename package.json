@@ -11,7 +11,7 @@
     "prisma:build": "node prisma/merge.js",
     "prisma:generate": "npm run prisma:build && npx prisma generate",
     "prisma:migrate": "npm run prisma:build && npx prisma migrate dev --name",
-    "seed:users": "ts-node -r tsconfig-paths/register src/app/lib/commands/seedUsers.ts"
+    "seed:users": "ts-node -r tsconfig-paths/register src/server/repositories/user-fixture.repository.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

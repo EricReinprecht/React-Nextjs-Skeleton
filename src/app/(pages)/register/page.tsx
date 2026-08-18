@@ -1,7 +1,7 @@
 "use client"; 
 
-import { BasePage } from "@templates";
-import { RegisterForm } from "@components";
+import { BasePage } from "@frontend/templates";
+import { RegisterForm } from "@frontend/components";
 
 const Register: React.FC  = () => {
     return (

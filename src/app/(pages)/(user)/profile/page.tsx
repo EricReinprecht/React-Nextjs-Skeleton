@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useLocale } from "next-intl";
 
-import { ManagerPage } from "@templates";
-import withAuth from "@hoc/withAuth";
+import { ManagerPage } from "@frontend/templates";
+import withAuth from "@frontend/hoc/withAuth";
 
 import "@styles/pages/profile.scss"
 

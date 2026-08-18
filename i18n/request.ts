@@ -1,5 +1,5 @@
 import { getRequestConfig } from "next-intl/server";
-import prisma from "@/src/app/lib/prisma/prisma";
+import { authService } from "@backend/services/auth.service";
 import { getServerSession } from "next-auth";
 
 import en from "../src/messages/en.json";
@@ -12,10 +12,7 @@ export default getRequestConfig(async () => {
     let selectedLocale: "en" | "de" = "en";
 
     if (session?.user?.email) {
-        const user = await prisma.user.findUnique({
-            where: { email: session.user.email },
-            select: { language: true }
-        });
+        const user = await authService.getUserByEmail(session.user.email);
       
         if (user?.language === "de") selectedLocale = "de";
         if (user?.language === "en") selectedLocale = "en";

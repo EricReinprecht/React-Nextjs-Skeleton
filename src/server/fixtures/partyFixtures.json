@@ -1,0 +1,168 @@
+[
+    {
+        "created": "2025-10-30T12:00:00.000Z",
+        "name": "Autumn Music Festival",
+        "location": "Central Park, New York",
+        "latitude": 40.785091,
+        "longitude": -73.968285,
+        "startDate": "2025-11-15T18:00:00.000Z",
+        "endDate": "2025-11-16T23:00:00.000Z",
+        "description": "A vibrant two-day festival featuring local and international artists.",
+        "teaser": "Get ready for the ultimate autumn vibes!"
+    },
+    {
+      "created": "2025-10-01T09:30:00.000Z",
+      "name": "Tech Conference 2025",
+      "location": "Berlin Expo Center",
+      "latitude": 52.520008,
+      "longitude": 13.404954,
+      "startDate": "2025-12-05T09:00:00.000Z",
+      "endDate": "2025-12-07T17:00:00.000Z",
+      "description": "Annual tech conference with talks, workshops, and networking opportunities.",
+      "teaser": "Innovate, connect, and learn from the best."
+    },
+    {
+      "created": "2026-01-10T10:00:00.000Z",
+      "name": "Vienna Rooftop Sessions",
+      "location": "MuseumsQuartier, Vienna",
+      "latitude": 48.2033,
+      "longitude": 16.3589,
+      "startDate": "2026-09-04T17:00:00.000Z",
+      "endDate": "2026-09-04T23:30:00.000Z",
+      "description": "An open-air evening of electronic music, live visuals, and panoramic city views.",
+      "teaser": "Sunset beats above the rooftops of Vienna."
+    },
+    {
+      "created": "2026-02-02T08:45:00.000Z",
+      "name": "Danube Street Food Market",
+      "location": "Donauinsel, Vienna",
+      "latitude": 48.2308,
+      "longitude": 16.4097,
+      "startDate": "2026-09-12T10:00:00.000Z",
+      "endDate": "2026-09-13T20:00:00.000Z",
+      "description": "Two days of international street food, local drinks, cooking demonstrations, and live music.",
+      "teaser": "Taste your way around the world beside the Danube."
+    },
+    {
+      "created": "2026-02-18T14:20:00.000Z",
+      "name": "Alpine Trail Challenge",
+      "location": "Innsbruck, Tyrol",
+      "latitude": 47.2692,
+      "longitude": 11.4041,
+      "startDate": "2026-09-19T06:00:00.000Z",
+      "endDate": "2026-09-19T18:00:00.000Z",
+      "description": "A supported mountain running event with beginner, intermediate, and expert routes through the Tyrolean Alps.",
+      "teaser": "Climb higher, run farther, and conquer the Alps."
+    },
+    {
+      "created": "2026-03-01T11:10:00.000Z",
+      "name": "Indie Game Expo Graz",
+      "location": "Messe Graz, Graz",
+      "latitude": 47.0578,
+      "longitude": 15.4475,
+      "startDate": "2026-10-03T09:00:00.000Z",
+      "endDate": "2026-10-04T18:00:00.000Z",
+      "description": "Meet independent developers, play upcoming games, attend design talks, and compete in community tournaments.",
+      "teaser": "Discover the next generation of independent games."
+    },
+    {
+      "created": "2026-03-15T15:30:00.000Z",
+      "name": "Linz Future Mobility Forum",
+      "location": "Tabakfabrik, Linz",
+      "latitude": 48.3129,
+      "longitude": 14.2988,
+      "startDate": "2026-10-15T08:00:00.000Z",
+      "endDate": "2026-10-16T16:30:00.000Z",
+      "description": "Experts and startups present new ideas for cycling, public transport, electric vehicles, and connected cities.",
+      "teaser": "Explore how tomorrow's cities will move."
+    },
+    {
+      "created": "2026-04-04T09:00:00.000Z",
+      "name": "Salzburg Jazz Nights",
+      "location": "Altstadt, Salzburg",
+      "latitude": 47.8005,
+      "longitude": 13.0444,
+      "startDate": "2026-10-23T17:30:00.000Z",
+      "endDate": "2026-10-25T22:30:00.000Z",
+      "description": "Three intimate nights of contemporary jazz performed across historic venues in Salzburg's old town.",
+      "teaser": "World-class jazz in the heart of Salzburg."
+    },
+    {
+      "created": "2026-04-21T12:00:00.000Z",
+      "name": "Creative Makers Weekend",
+      "location": "Designforum Wien, Vienna",
+      "latitude": 48.2024,
+      "longitude": 16.3585,
+      "startDate": "2026-11-07T09:30:00.000Z",
+      "endDate": "2026-11-08T18:00:00.000Z",
+      "description": "Hands-on workshops in printmaking, ceramics, product design, photography, and sustainable crafts.",
+      "teaser": "Make something original with Vienna's creative community."
+    },
+    {
+      "created": "2026-05-08T07:40:00.000Z",
+      "name": "European AI Summit",
+      "location": "Austria Center Vienna",
+      "latitude": 48.2349,
+      "longitude": 16.4137,
+      "startDate": "2026-11-18T08:00:00.000Z",
+      "endDate": "2026-11-20T17:00:00.000Z",
+      "description": "Researchers, founders, and policy leaders discuss practical AI, responsible deployment, and emerging technology.",
+      "teaser": "Three days shaping the practical future of AI."
+    },
+    {
+      "created": "2026-05-26T16:15:00.000Z",
+      "name": "Winter Lights Festival",
+      "location": "Wörthersee, Klagenfurt",
+      "latitude": 46.6247,
+      "longitude": 14.3053,
+      "startDate": "2026-12-04T16:00:00.000Z",
+      "endDate": "2026-12-06T22:00:00.000Z",
+      "description": "Immersive light installations, winter food, acoustic performances, and family activities beside the lake.",
+      "teaser": "See the lakeside transformed by light."
+    },
+    {
+      "created": "2026-06-11T10:25:00.000Z",
+      "name": "New Year's Masquerade",
+      "location": "Hofburg Palace, Vienna",
+      "latitude": 48.2064,
+      "longitude": 16.3655,
+      "startDate": "2026-12-31T19:00:00.000Z",
+      "endDate": "2027-01-01T03:00:00.000Z",
+      "description": "A formal New Year's celebration with orchestral music, DJs, midnight performances, and elegant dining.",
+      "teaser": "Welcome the new year behind the mask."
+    },
+    {
+      "created": "2026-06-29T13:50:00.000Z",
+      "name": "Coffee & Code Weekend",
+      "location": "Tech Park, Bratislava",
+      "latitude": 48.1486,
+      "longitude": 17.1077,
+      "startDate": "2027-01-23T08:30:00.000Z",
+      "endDate": "2027-01-24T17:30:00.000Z",
+      "description": "A relaxed community hackathon for web developers, designers, students, and open-source contributors.",
+      "teaser": "Build useful things, meet developers, drink excellent coffee."
+    },
+    {
+      "created": "2026-07-14T09:35:00.000Z",
+      "name": "Sustainable Living Fair",
+      "location": "Messe Wien, Vienna",
+      "latitude": 48.2170,
+      "longitude": 16.4074,
+      "startDate": "2027-02-12T09:00:00.000Z",
+      "endDate": "2027-02-14T18:00:00.000Z",
+      "description": "Products, workshops, and talks focused on renewable energy, low-waste living, ethical fashion, and green homes.",
+      "teaser": "Practical ideas for a more sustainable everyday life."
+    },
+    {
+      "created": "2026-08-01T17:05:00.000Z",
+      "name": "Prague Digital Arts Week",
+      "location": "Holešovice Market, Prague",
+      "latitude": 50.0987,
+      "longitude": 14.4453,
+      "startDate": "2027-03-05T10:00:00.000Z",
+      "endDate": "2027-03-08T21:00:00.000Z",
+      "description": "Interactive installations, generative art, audiovisual performances, and creative technology workshops.",
+      "teaser": "Art, sound, and code meet in Prague."
+    }
+]
+

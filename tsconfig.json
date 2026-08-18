@@ -26,20 +26,9 @@
       "@/*": ["./*"],
       "@styles/*": ["./src/assets/styles/*"],
       "@fonts/*": ["./src/assets/fonts/*"],
-      "@templates": ["./src/app/lib/templates"],
-      "@types_ts": ["./src/app/lib/types/index.ts"],
-      "@components": ["./src/app/lib/components/index.ts"],
-      "@entities/*": ["./src/app/lib/entities/*"],
-      "@server/*": ["./src/app/lib/server/*"],
-      "@services/*": ["./src/app/lib/services/*"],
-      "@auth/*": ["./src/app/lib/auth/*"],
-      "@prisma/*": ["./src/app/lib/prisma/*"],
-      "@commands/*": ["./src/app/lib/commands/*"],
-      "@context/*": ["./src/app/lib/context/*"],
-      "@hoc/*": ["./src/app/lib/hoc/*"],
-      "@svgs": ["./src/app/lib/svgs"],
-      "@utils/*": ["./src/app/lib/utils/*"],
-      "@styles_ts/*": ["./src/app/lib/styles/*"],
+      "@frontend/*": ["./src/frontend/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@backend/*": ["./src/server/*"]
     }
   },
   "include": [
@@ -47,8 +36,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/middleware.ts",
-    "src/app/lib/components/lists/default_party_list.tsx"
+    "src/middleware.ts"
   ],
   "exclude": [
     "node_modules"

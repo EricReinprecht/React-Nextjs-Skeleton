@@ -1,15 +1,15 @@
 "use client";
 
-import React, { useState, useEffect, ChangeEvent } from "react";
+import React, { useState, useEffect, useRef, ChangeEvent } from "react";
 import { useParams } from "next/navigation";
 
-import { Step1, Step2, Step3, Step4, StepCards, StepFinal, StepManager, Footer, Loader } from "@components";
-import { Category } from "@entities/category";
-import { Party } from "@prisma/client";
-import { PartyWithImages, ImageItem, TicketClassWithExtendedDate } from "@types_ts";
-import { getNextDateTimeAt } from "@utils/formatDate";
-import { createFormDataForParty } from "@utils/createFormDataForParty";
-import withAuth from "@hoc/withAuth";
+import { Step1, Step2, Step3, Step4, StepCards, StepFinal, StepManager, Footer, Loader } from "@frontend/components";
+import { Category } from "@shared/entities/category";
+import type { Party } from "@shared/types";
+import { PartyWithImages, ImageItem, TicketClassWithExtendedDate } from "@shared/types";
+import { getNextDateTimeAt } from "@shared/utils/formatDate";
+import { createFormDataForParty } from "@shared/utils/createFormDataForParty";
+import withAuth from "@frontend/hoc/withAuth";
 
 import "@styles/pages/create-party.scss";
 
@@ -53,6 +53,7 @@ const CreatePartyForm = ({ authUser }: Props) => {
 
     const params = useParams();
     const partyId = Array.isArray(params?.id) ? params.id[0] : params?.id;
+    const hasInitializedStep = useRef(false);
 
     useEffect(() => {
         if (partyId && !isCreated) {
@@ -60,9 +61,17 @@ const CreatePartyForm = ({ authUser }: Props) => {
             setIsCreated(true);
             setPartyData((p) => ({ ...p, id: partyId }));
             setLastSavedPartyData((prev) => prev ?? partyData);
-        }else{
-            saveParty();
+        } else if (!partyId) {
+            setIsLoading(false);
         }
+    }, [partyId]);
+
+    useEffect(() => {
+        if (!hasInitializedStep.current) {
+            hasInitializedStep.current = true;
+            return;
+        }
+        if (partyData.name.trim()) saveParty();
     }, [step]);
 
     useEffect(() => {
@@ -211,7 +220,7 @@ const CreatePartyForm = ({ authUser }: Props) => {
                                 <h1>{steps[step - 1].name}</h1>
                             </div>
                             <span className={`save-state ${isSavingParty ? "saving" : "saved"}`}>
-                                {isSavingParty ? "Wird gespeichert …" : "Entwurf gespeichert"}
+                                {isSavingParty ? "Wird gespeichert …" : isCreated ? "Entwurf gespeichert" : "Noch nicht gespeichert"}
                             </span>
                         </header>
 

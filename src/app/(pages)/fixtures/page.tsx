@@ -1,8 +1,8 @@
 'use client'
 
-import { BasePage } from "@templates";
+import { BasePage } from "@frontend/templates";
 import { useState } from "react";
-import withAuth from "@hoc/withAuth";
+import withAuth from "@frontend/hoc/withAuth";
 
 const GenerateFixturesPage = () => {
     const [logs, setLogs] = useState("");

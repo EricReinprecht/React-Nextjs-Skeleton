@@ -3,13 +3,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import withAuth from "@hoc/withAuth";
-import { ManagerPage } from "@templates";
+import withAuth from "@frontend/hoc/withAuth";
+import { ManagerPage } from "@frontend/templates";
 
-import { ManagerTable, Modal, Loader, CheckoutPaypal } from "@components";
-import { TableField, TableAction, TicketItem, TicketReservationRow } from "@types_ts"
+import { ManagerTable, Modal, Loader, CheckoutPaypal } from "@frontend/components";
+import { TableField, TableAction, TicketItem, TicketReservationRow } from "@shared/types"
 
-import { Bin } from "@svgs";
+import { Bin } from "@frontend/svgs";
 
 import "@styles/pages/shopping-cart.scss";
 

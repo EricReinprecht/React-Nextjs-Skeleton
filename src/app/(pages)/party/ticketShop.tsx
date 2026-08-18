@@ -2,11 +2,11 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-import type { PartyTickets } from "@types_ts";
+import type { PartyTickets } from "@shared/types";
 import {
     calculateTicketPrice,
     formatTicketMoney,
-} from "@utils/ticketPricing";
+} from "@shared/utils/ticketPricing";
 
 import "@styles/components/ticket_shop.scss";
 

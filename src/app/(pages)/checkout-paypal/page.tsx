@@ -2,7 +2,7 @@
 
 import "@styles/checkouts/paypal.scss";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
-import { CheckoutPage } from "@templates";
+import { CheckoutPage } from "@frontend/templates";
 
 
 const CheckoutPaypal = () => {

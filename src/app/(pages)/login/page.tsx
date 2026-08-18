@@ -1,5 +1,5 @@
-import { BasePage } from "@templates";
-import { LoginForm } from "@components";
+import { BasePage } from "@frontend/templates";
+import { LoginForm } from "@frontend/components";
 
 export default function Login() {
   return (

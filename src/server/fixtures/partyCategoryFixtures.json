@@ -1,0 +1,12 @@
+[
+    { "name": "Music", "active": true },
+    { "name": "Art", "active": true },
+    { "name": "Food & Drink", "active": true },
+    { "name": "Sports", "active": false },
+    { "name": "Technology", "active": true },
+    { "name": "Networking", "active": true },
+    { "name": "Education", "active": false },
+    { "name": "Theater", "active": true },
+    { "name": "Gaming", "active": true },
+    { "name": "Health & Wellness", "active": false }
+]

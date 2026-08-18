@@ -1,17 +1,17 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import withAuth from "@hoc/withAuth";
-import { User } from "@prisma/client";
+import withAuth from "@frontend/hoc/withAuth";
+import type { UserProfile } from "@shared/types";
 
 import "@styles/pages/create-party.scss";
 
 interface EditUserFormProps {
-    authUser: User;
+    authUser: UserProfile;
 }
 
 const EditUserForm = ({ authUser }: EditUserFormProps) => {
-    const [formData, setFormData] = useState<User | null>(null);
+    const [formData, setFormData] = useState<UserProfile | null>(null);
     const [isChanged, setIsChanged] = useState(false);
     const [message, setMessage] = useState("");
     const [messageType, setMessageType] = useState<"success" | "error" | "info">("info");

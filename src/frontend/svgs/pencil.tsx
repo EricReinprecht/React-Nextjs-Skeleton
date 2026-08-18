@@ -1,0 +1,62 @@
+"use client"
+
+import React, { useState } from "react";
+
+const Pencil: React.FC<{ width?: number; height?: number; color?: string }> = ({
+    width = 24,
+    height = 24,
+    color = "black",
+}) => {
+    const [hovered, setHovered] = useState(false);
+    const uniqueId = React.useId();
+
+    const gradientId = `actionGradient-${uniqueId}`;
+
+    return (
+        <svg
+            enableBackground="new 0 0 512.018 512.018"
+            height={height}
+            width={width}
+            viewBox="0 0 512.018 512.018"
+            xmlns="http://www.w3.org/2000/svg"
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+        >
+            <defs>
+                <radialGradient id={gradientId} cx="50%" cy="0%" r="105%">
+                    <stop
+                        offset="0%"
+                        stopColor="rgba(151, 36, 63, 1)"
+                    >
+                        <animate
+                            attributeName="stop-opacity"
+                            values={hovered ? "0.6;1;0.6" : "1;1;1"}
+                            dur="3s"
+                            repeatCount="indefinite"
+                        />
+                    </stop>
+                    <stop
+                        offset="80%"
+                        stopColor="rgba(255, 55, 101, 1)"
+                    >
+                        <animate
+                            attributeName="stop-opacity"
+                            values={hovered ? "0.8;1;0.8" : "1;1;1"}
+                            dur="4s"
+                            repeatCount="indefinite"
+                        />
+                    </stop>
+                </radialGradient>
+            </defs>
+
+            <path
+                d="m500.361 75.493-63.78-63.778h-.001c-15.623-15.62-41.039-15.619-56.66 0l-320.632 320.624c-1.069 1.07-1.883 2.369-2.378 3.799l-56.311 162.607c-1.254 3.619-.33 7.636 2.378 10.344 2.714 2.721 6.764 3.626 10.344 2.378l162.609-56.312c1.43-.496 2.729-1.309 3.799-2.378l320.632-320.624c15.479-14.836 15.48-41.823 0-56.66zm-84.856 113.229-69.113-69.114c-.003-.003-.007-.007-.01-.01l-23.031-23.031 21.213-21.212 92.155 92.154zm-236.092 236.086-4.437-27.497 210.416-210.416 15.97 15.97zm129.795-314.098 15.965 15.965-210.416 210.415-27.498-4.437zm30.108 30.107 31.935 31.935-210.981 210.981-31.039-.897-.897-31.037zm-266.256 209.804 35.396 5.711 1.056 36.516c.153 5.296 4.411 9.554 9.707 9.707l36.517 1.056 5.711 35.395-79.115 27.398c-3.465-8.139-8.526-15.654-14.769-21.898-6.245-6.244-13.761-11.305-21.9-14.769zm-33.965 98.076c10.665 4.856 19.418 13.606 24.274 24.272l-37.133 12.859zm447.123-330.686-35.357 35.356-92.155-92.154 35.356-35.355c7.823-7.824 20.555-7.821 28.376 0l63.78 63.778c7.723 7.392 7.721 20.983 0 28.375z"
+                fill={hovered ? `url(#${gradientId})` : color}
+                stroke={hovered ? `url(#${gradientId})` : color}
+                strokeWidth={1}
+            />
+        </svg>
+    );
+};
+
+export default Pencil;

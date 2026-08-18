@@ -1,9 +1,4 @@
-// api/partyCategory/get/route.ts
-
-import { NextRequest, NextResponse } from "next/server";
-import prisma from "@prisma/prisma";
-
-export async function GET(req: NextRequest) {
-    const categories = await prisma.partyCategory.findMany();
-    return NextResponse.json(categories);
-}
+export { getCategoriesHandler as GET } from "@backend/handlers/category.handler";
+export { createCategoryHandler as POST } from "@backend/handlers/category.handler";
+export { updateCategoryHandler as PUT } from "@backend/handlers/category.handler";
+export { deleteCategoryHandler as DELETE } from "@backend/handlers/category.handler";

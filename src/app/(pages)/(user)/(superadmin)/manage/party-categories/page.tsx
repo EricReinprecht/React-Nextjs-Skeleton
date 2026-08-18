@@ -2,14 +2,14 @@
 
 import React, { useState, useEffect, useRef } from "react";
 
-import { Category } from "@entities/category";
-import { createCategory, getCategories, deleteCategoryById, updateCategoryById } from "@services/categoryService";
-import { ManagerPage } from "@templates";
-import withAuth from "@hoc/withAuth";
+import { Category } from "@shared/entities/category";
+import { createCategory, deleteCategory, getCategories, updateCategory } from "@frontend/api/categories";
+import { ManagerPage } from "@frontend/templates";
+import withAuth from "@frontend/hoc/withAuth";
 
-import { Bin } from "@svgs";
-import { DefaultButton, LoadingSpinner } from "@components";
-import { EditAccept, EditPen } from "@svgs";
+import { Bin } from "@frontend/svgs";
+import { DefaultButton, LoadingSpinner } from "@frontend/components";
+import { EditAccept, EditPen } from "@frontend/svgs";
 
 import '@styles/manager/list.scss'
 import "@styles/components/filter.scss"
@@ -71,8 +71,8 @@ const PartyCategories = () => {
         setPopupContent(<p>Are you sure you want to delete <strong>{category.name}</strong>?</p>);
         setPopupSubmitHandler(() => async () => {
             if(!category.id) return;
-            const success = await deleteCategoryById(category.id);
-            if (success) {
+            const result = await deleteCategory(category.id);
+            if (result.success) {
                 setCategories((prev) => prev.filter((cat) => cat.id !== category.id));
             }
             setPopupVisible(false);
@@ -91,7 +91,7 @@ const PartyCategories = () => {
         setLoading(true);
         if(!category.id) return;
         try {
-            const success = await updateCategoryById(category.id, { name: editedCategoryName });
+            const success = await updateCategory(category.id, { name: editedCategoryName });
 
             if (success) {
                 setCategories(prev =>

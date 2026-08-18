@@ -1,6 +1,6 @@
-import ManagerPage from "@/src/app/lib/templates/manager_page";
+import ManagerPage from "@frontend/templates/manager_page";
 import CreatePartyForm from "../createPartyForm"; // Client Component
-import { getAuthUser } from "@utils/getAuthUser";
+import { getAuthUser } from "@backend/auth/session";
 import { redirect } from "next/navigation";
 import type { ReactElement } from "react";
 
