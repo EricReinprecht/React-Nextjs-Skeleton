@@ -12,6 +12,7 @@ import { PartyWithImages } from '@shared/types';
 import { formatDateGerman } from '@shared/utils/formatDate';
 
 import BackButton from '@/src/frontend/components/buttons/BackButton';
+import EditButton from '@/src/frontend/components/buttons/EditButton';
 import '@styles/pages/show-party.scss';
 import '@styles/pages/single-party-public.scss';
 
@@ -56,15 +57,13 @@ const ShowPartyPage = () => {
                 <div className="manager-party-preview-toolbar">
                     <div className="operations">
                         <BackButton href={`/${locale}/profile/my-parties`} text="Meine Partys" />
+                        {party && (
+                            <EditButton
+                                href={`/${locale}/profile/edit-party/${party.id}`}
+                                text="Party bearbeiten"
+                            />
+                        )}
                     </div>
-                    {party && (
-                        <Link
-                            className="manager-party-edit-button"
-                            href={`/${locale}/profile/edit-party/${party.id}`}
-                        >
-                            Party bearbeiten
-                        </Link>
-                    )}
                 </div>
 
                 {error ? (
