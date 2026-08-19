@@ -20,6 +20,8 @@ services:
         build:
             context: .
             target: dev
+        env_file:
+            - .env.local
         develop:
             watch:
                 # Sync source code changes live (triggers HMR without rebuilding image)
@@ -41,15 +43,13 @@ services:
                   path: package-lock.json
         command: sh -c "npx prisma generate && npx prisma db push && npx tsx src/server/scripts/auto-seed.ts && npm run dev"
         volumes:
-            # Keep node_modules internal so host OS doesn't overwrite container modules
+            # Keep node_modules and build artifacts internal to container
             - /app/node_modules
             - /app/.next
         environment:
             DATABASE_URL: postgresql://skeleton:skeleton-local-password@database:5432/skeleton?schema=public
             WATCHPACK_POLLING: 'true'
             FAST_REFRESH: 'true'
-            NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: ${NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
-            JWT_SECRET: ${JWT_SECRET}
         ports:
             - '3001:3000'
 
