@@ -13,6 +13,7 @@ const RegisterForm: React.FC = () => {
     const locale = (params?.locale as string) || 'de';
 
     const [error, setError] = useState<string | null>(null);
+    const [fieldErrors, setFieldErrors] = useState<{ [key: string]: string }>({});
     const [loading, setLoading] = useState(false);
 
     const [formData, setFormData] = useState({
@@ -32,12 +33,19 @@ const RegisterForm: React.FC = () => {
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
+
+        // Clear field-specific error on edit
+        if (fieldErrors[name]) {
+            setFieldErrors((prev) => ({ ...prev, [name]: '' }));
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError(null);
+        setFieldErrors({});
 
         if (formData.password !== formData.confirmPassword) {
             setError('Passwords do not match!');
@@ -55,9 +63,14 @@ const RegisterForm: React.FC = () => {
 
             const data = await res.json();
 
-            if (!res.ok) throw new Error(data.message || 'Failed to register');
+            if (!res.ok) {
+                // Handle specific field error from API
+                if (data.field) {
+                    setFieldErrors({ [data.field]: data.message });
+                }
+                throw new Error(data.message || 'Registration failed');
+            }
 
-            // Navigate to profile with locale prefix
             router.push(`/${locale}/profile`);
             router.refresh();
         } catch (err: any) {
@@ -78,7 +91,7 @@ const RegisterForm: React.FC = () => {
                 <form onSubmit={handleSubmit} className="register-form">
                     {error && <div className="error-banner">{error}</div>}
 
-                    {/* --- Account Information --- */}
+                    {/* Account Information */}
                     <div className="form-section">
                         <span className="section-title">Account Information</span>
                         <div className="grid-row two-cols">
@@ -91,8 +104,12 @@ const RegisterForm: React.FC = () => {
                                     placeholder="johndoe"
                                     value={formData.username}
                                     onChange={handleChange}
+                                    className={fieldErrors.username ? 'input-error' : ''}
                                     required
                                 />
+                                {fieldErrors.username && (
+                                    <span className="field-error-msg">{fieldErrors.username}</span>
+                                )}
                             </div>
                             <div className="input-group">
                                 <label htmlFor="email">Email *</label>
@@ -103,8 +120,12 @@ const RegisterForm: React.FC = () => {
                                     placeholder="john@example.com"
                                     value={formData.email}
                                     onChange={handleChange}
+                                    className={fieldErrors.email ? 'input-error' : ''}
                                     required
                                 />
+                                {fieldErrors.email && (
+                                    <span className="field-error-msg">{fieldErrors.email}</span>
+                                )}
                             </div>
                         </div>
 
@@ -136,7 +157,7 @@ const RegisterForm: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* --- Personal Information --- */}
+                    {/* Personal Details */}
                     <div className="form-section">
                         <span className="section-title">Personal Details</span>
                         <div className="grid-row three-cols">
@@ -178,7 +199,7 @@ const RegisterForm: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* --- Address Information --- */}
+                    {/* Address Details */}
                     <div className="form-section">
                         <span className="section-title">Address Details</span>
                         <div className="grid-row three-cols">
