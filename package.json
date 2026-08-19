@@ -6,7 +6,6 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start -H 0.0.0.0 -p 3000",
-    "lint": "next lint",
     "prod": "next build && next start -H 0.0.0.0 -p 3000",
     "prisma:generate": "npm run prisma:build && npx prisma generate",
     "prisma:migrate": "npm run prisma:build && npx prisma migrate dev --name",

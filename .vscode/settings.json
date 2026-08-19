@@ -2,7 +2,13 @@
     "workbench.editorAssociations": {
         "*.svg": "default"
     },
-    "WillLuke.nextjs.addTypesOnSave": true,
+    "WillLuke.nextjs.addTypesOnSave": false,
     "WillLuke.nextjs.hasPrompted": true,
-    "prisma.pinToPrisma6": true
+    "prisma.pinToPrisma6": false,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": "explicit",
+        "source.organizeImports": "explicit",
+        "source.removeUnusedImports": "explicit"
+    },
+    "editor.formatOnSave": false
 }
