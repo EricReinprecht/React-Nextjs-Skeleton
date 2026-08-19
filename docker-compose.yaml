@@ -43,7 +43,7 @@ services:
                   path: package-lock.json
         command: sh -c "npx prisma generate && npx prisma db push && npx tsx src/server/scripts/auto-seed.ts && npm run dev"
         volumes:
-            # Keep node_modules and build artifacts internal to container
+            # Keep node_modules internal so host OS doesn't overwrite container modules
             - /app/node_modules
             - /app/.next
         environment:
@@ -55,7 +55,3 @@ services:
 
 volumes:
     postgres_data:
-
-secrets:
-    env_local:
-        file: .env.local
