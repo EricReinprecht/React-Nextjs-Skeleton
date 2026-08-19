@@ -42,7 +42,7 @@ export default async function RootLayout({
                 >
                     <Header messages={messages} locale={locale} user={user} />
                     <main className="app-content">{children}</main>
-                    <Footer />
+                    {/* <Footer /> */}
                 </NextIntlClientProvider>
             </body>
         </html>
