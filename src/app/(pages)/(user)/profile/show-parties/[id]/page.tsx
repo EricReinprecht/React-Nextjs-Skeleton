@@ -1,18 +1,19 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useLocale } from "next-intl";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useLocale } from 'next-intl';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
-import { PinnedMap } from "@frontend/components";
-import withAuth from "@frontend/hoc/withAuth";
-import { ManagerPage } from "@frontend/templates";
-import { PartyWithImages } from "@shared/types";
-import { formatDateGerman } from "@shared/utils/formatDate";
+import { PinnedMap } from '@frontend/components';
+import withAuth from '@frontend/hoc/withAuth';
+import { ManagerPage } from '@frontend/templates';
+import { PartyWithImages } from '@shared/types';
+import { formatDateGerman } from '@shared/utils/formatDate';
 
-import "@styles/pages/single-party-public.scss";
-import "@styles/pages/show-party.scss";
+import BackButton from '@/src/frontend/components/buttons/BackButton';
+import '@styles/pages/show-party.scss';
+import '@styles/pages/single-party-public.scss';
 
 const ShowPartyPage = () => {
     const params = useParams();
@@ -31,12 +32,17 @@ const ShowPartyPage = () => {
                     signal: controller.signal,
                 });
                 const data = await response.json();
-                if (!response.ok) throw new Error(data.error ?? "Party konnte nicht geladen werden");
+                if (!response.ok)
+                    throw new Error(data.error ?? 'Party konnte nicht geladen werden');
                 setParty(data);
                 setSelectedImage(data.images?.[0]?.path ?? null);
             } catch (loadError) {
-                if (loadError instanceof DOMException && loadError.name === "AbortError") return;
-                setError(loadError instanceof Error ? loadError.message : "Party konnte nicht geladen werden");
+                if (loadError instanceof DOMException && loadError.name === 'AbortError') return;
+                setError(
+                    loadError instanceof Error
+                        ? loadError.message
+                        : 'Party konnte nicht geladen werden',
+                );
             }
         };
 
@@ -48,11 +54,14 @@ const ShowPartyPage = () => {
         <ManagerPage>
             <div className="manager-party-preview single-party-page">
                 <div className="manager-party-preview-toolbar">
-                    <Link className="party-back-link" href={`/${locale}/profile/my-parties`}>
-                        <span aria-hidden="true">←</span> Meine Partys
-                    </Link>
+                    <div className="operations">
+                        <BackButton href={`/${locale}/profile/my-parties`} text="Meine Partys" />
+                    </div>
                     {party && (
-                        <Link className="manager-party-edit-button" href={`/${locale}/profile/edit-party/${party.id}`}>
+                        <Link
+                            className="manager-party-edit-button"
+                            href={`/${locale}/profile/edit-party/${party.id}`}
+                        >
                             Party bearbeiten
                         </Link>
                     )}
@@ -71,7 +80,7 @@ const ShowPartyPage = () => {
                 ) : (
                     <>
                         <section className="party-hero">
-                            <div className={`party-gallery${selectedImage ? "" : " is-empty"}`}>
+                            <div className={`party-gallery${selectedImage ? '' : ' is-empty'}`}>
                                 {selectedImage ? (
                                     <>
                                         <div
@@ -81,15 +90,24 @@ const ShowPartyPage = () => {
                                             style={{ backgroundImage: `url(${selectedImage})` }}
                                         />
                                         {party.images.length > 1 && (
-                                            <div className="party-gallery-thumbnails" aria-label="Eventbilder">
+                                            <div
+                                                className="party-gallery-thumbnails"
+                                                aria-label="Eventbilder"
+                                            >
                                                 {party.images.map((image, index) => (
                                                     <button
                                                         key={image.id}
                                                         type="button"
-                                                        className={selectedImage === image.path ? "active" : ""}
+                                                        className={
+                                                            selectedImage === image.path
+                                                                ? 'active'
+                                                                : ''
+                                                        }
                                                         onClick={() => setSelectedImage(image.path)}
                                                         aria-label={`Bild ${index + 1} anzeigen`}
-                                                        style={{ backgroundImage: `url(${image.path})` }}
+                                                        style={{
+                                                            backgroundImage: `url(${image.path})`,
+                                                        }}
                                                     />
                                                 ))}
                                             </div>
@@ -110,14 +128,19 @@ const ShowPartyPage = () => {
 
                                 {party.categories.length > 0 && (
                                     <div className="party-category-list">
-                                        {party.categories.map((category) => <span key={category.id}>{category.name}</span>)}
+                                        {party.categories.map((category) => (
+                                            <span key={category.id}>{category.name}</span>
+                                        ))}
                                     </div>
                                 )}
 
                                 <dl className="party-facts">
                                     <div>
                                         <dt>Datum</dt>
-                                        <dd>{formatDateGerman(party.startDate)} – {formatDateGerman(party.endDate)}</dd>
+                                        <dd>
+                                            {formatDateGerman(party.startDate)} –{' '}
+                                            {formatDateGerman(party.endDate)}
+                                        </dd>
                                     </div>
                                     <div>
                                         <dt>Location</dt>
@@ -126,16 +149,34 @@ const ShowPartyPage = () => {
                                 </dl>
 
                                 <div className="party-admin-metrics">
-                                    <div><strong>{party.images.length}</strong><span>Bilder</span></div>
-                                    <div><strong>{party.categories.length}</strong><span>Kategorien</span></div>
-                                    <div><strong>{party.status === "published" ? "Live" : "Entwurf"}</strong><span>Sichtbarkeit</span></div>
+                                    <div>
+                                        <strong>{party.images.length}</strong>
+                                        <span>Bilder</span>
+                                    </div>
+                                    <div>
+                                        <strong>{party.categories.length}</strong>
+                                        <span>Kategorien</span>
+                                    </div>
+                                    <div>
+                                        <strong>
+                                            {party.status === 'published' ? 'Live' : 'Entwurf'}
+                                        </strong>
+                                        <span>Sichtbarkeit</span>
+                                    </div>
                                 </div>
 
                                 <div className="party-actions">
-                                    <Link className="party-ticket-button" href={`/${locale}/profile/edit-party/${party.id}`}>
+                                    <Link
+                                        className="party-ticket-button"
+                                        href={`/${locale}/profile/edit-party/${party.id}`}
+                                    >
                                         Party bearbeiten
                                     </Link>
-                                    <Link className="party-route-button" href={`/${locale}/party/${party.id}`} target="_blank">
+                                    <Link
+                                        className="party-route-button"
+                                        href={`/${locale}/party/${party.id}`}
+                                        target="_blank"
+                                    >
                                         Öffentliche Ansicht ↗
                                     </Link>
                                 </div>
@@ -147,23 +188,37 @@ const ShowPartyPage = () => {
                                 <span className="party-section-label">Beschreibung</span>
                                 <h2>Event-Inhalt</h2>
                                 {party.description ? (
-                                    <div className="party-description" dangerouslySetInnerHTML={{ __html: party.description }} />
+                                    <div
+                                        className="party-description"
+                                        dangerouslySetInnerHTML={{ __html: party.description }}
+                                    />
                                 ) : (
-                                    <p className="party-description-empty">Noch keine Beschreibung hinterlegt.</p>
+                                    <p className="party-description-empty">
+                                        Noch keine Beschreibung hinterlegt.
+                                    </p>
                                 )}
                             </div>
                             <aside className="party-location-card">
                                 <div className="party-location-heading">
                                     <div>
-                                        <span className="party-section-label">Veranstaltungsort</span>
+                                        <span className="party-section-label">
+                                            Veranstaltungsort
+                                        </span>
                                         <h2>{party.location}</h2>
                                     </div>
-                                    <a href={`https://www.google.com/maps/dir/?api=1&destination=${party.latitude},${party.longitude}`} target="_blank" rel="noreferrer">
+                                    <a
+                                        href={`https://www.google.com/maps/dir/?api=1&destination=${party.latitude},${party.longitude}`}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                    >
                                         Route öffnen ↗
                                     </a>
                                 </div>
                                 <div className="party-map">
-                                    <PinnedMap latitude={party.latitude} longitude={party.longitude} />
+                                    <PinnedMap
+                                        latitude={party.latitude}
+                                        longitude={party.longitude}
+                                    />
                                 </div>
                             </aside>
                         </section>

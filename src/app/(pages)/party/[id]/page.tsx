@@ -1,30 +1,31 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useLocale } from "next-intl";
-import { useParams } from "next/navigation";
-import { useEffect, useId, useState } from "react";
-import { A11y, Navigation, Pagination } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { useLocale } from 'next-intl';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { useEffect, useId, useState } from 'react';
+import { A11y, Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
-import { Modal, PinnedMap } from "@frontend/components";
-import { SwiperArrowLeft } from "@frontend/svgs";
-import { BasePage } from "@frontend/templates";
-import { PartyWithImages } from "@shared/types";
-import { formatDateGerman } from "@shared/utils/formatDate";
+import { Modal, PinnedMap } from '@frontend/components';
+import { SwiperArrowLeft } from '@frontend/svgs';
+import { BasePage } from '@frontend/templates';
+import { PartyWithImages } from '@shared/types';
+import { formatDateGerman } from '@shared/utils/formatDate';
 
-import { TicketShop } from "../ticketShop";
+import { TicketShop } from '../ticketShop';
 
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "@styles/pages/single-party-public.scss";
+import BackButton from '@/src/frontend/components/buttons/BackButton';
+import '@styles/pages/single-party-public.scss';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
 const PartyPublicViewPage = () => {
     const params = useParams();
     const locale = useLocale();
     const partyId = params?.id as string | undefined;
-    const galleryId = useId().replace(/:/g, "");
+    const galleryId = useId().replace(/:/g, '');
 
     const [party, setParty] = useState<PartyWithImages | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -32,7 +33,7 @@ const PartyPublicViewPage = () => {
 
     useEffect(() => {
         if (!partyId) {
-            setError("Diese Party konnte nicht gefunden werden.");
+            setError('Diese Party konnte nicht gefunden werden.');
             return;
         }
 
@@ -46,16 +47,16 @@ const PartyPublicViewPage = () => {
                 });
 
                 if (!response.ok) {
-                    throw new Error(response.status === 404 ? "not-found" : "request-failed");
+                    throw new Error(response.status === 404 ? 'not-found' : 'request-failed');
                 }
 
                 setParty(await response.json());
             } catch (fetchError) {
-                if (fetchError instanceof DOMException && fetchError.name === "AbortError") return;
+                if (fetchError instanceof DOMException && fetchError.name === 'AbortError') return;
                 setError(
-                    fetchError instanceof Error && fetchError.message === "not-found"
-                        ? "Diese Party existiert nicht oder ist nicht mehr verfügbar."
-                        : "Die Party konnte gerade nicht geladen werden. Bitte versuche es erneut.",
+                    fetchError instanceof Error && fetchError.message === 'not-found'
+                        ? 'Diese Party existiert nicht oder ist nicht mehr verfügbar.'
+                        : 'Die Party konnte gerade nicht geladen werden. Bitte versuche es erneut.',
                 );
             }
         };
@@ -95,21 +96,25 @@ const PartyPublicViewPage = () => {
     return (
         <BasePage backgroundType="orange_gradient">
             <article className="single-party-page">
-                <Link className="party-back-link" href={`/${locale}/browse`}>
-                    <span aria-hidden="true">←</span> Alle Partys
-                </Link>
+                <div className="operations">
+                    <BackButton href={`/${locale}/browse`} text="Meine Partys" />
+                </div>
 
                 <section className="party-hero">
-                    <div className={`party-gallery${hasImages ? "" : " is-empty"}`}>
+                    <div className={`party-gallery${hasImages ? '' : ' is-empty'}`}>
                         {hasImages ? (
                             <Swiper
                                 modules={[Navigation, Pagination, A11y]}
                                 slidesPerView={1}
                                 loop={hasMultipleImages}
-                                navigation={hasMultipleImages ? {
-                                    nextEl: `.${nextClass}`,
-                                    prevEl: `.${previousClass}`,
-                                } : false}
+                                navigation={
+                                    hasMultipleImages
+                                        ? {
+                                              nextEl: `.${nextClass}`,
+                                              prevEl: `.${previousClass}`,
+                                          }
+                                        : false
+                                }
                                 pagination={hasMultipleImages ? { clickable: true } : false}
                             >
                                 {party.images.map((image) => (
@@ -132,10 +137,16 @@ const PartyPublicViewPage = () => {
 
                         {hasMultipleImages && (
                             <>
-                                <button className={`party-gallery-button previous ${previousClass}`} aria-label="Vorheriges Bild">
+                                <button
+                                    className={`party-gallery-button previous ${previousClass}`}
+                                    aria-label="Vorheriges Bild"
+                                >
                                     <SwiperArrowLeft />
                                 </button>
-                                <button className={`party-gallery-button next ${nextClass}`} aria-label="Nächstes Bild">
+                                <button
+                                    className={`party-gallery-button next ${nextClass}`}
+                                    aria-label="Nächstes Bild"
+                                >
                                     <SwiperArrowLeft />
                                 </button>
                             </>
@@ -170,7 +181,11 @@ const PartyPublicViewPage = () => {
                         </dl>
 
                         <div className="party-actions">
-                            <button className="party-ticket-button" type="button" onClick={() => setTicketShopOpen(true)}>
+                            <button
+                                className="party-ticket-button"
+                                type="button"
+                                onClick={() => setTicketShopOpen(true)}
+                            >
                                 Tickets auswählen
                             </button>
                             <a
@@ -190,9 +205,14 @@ const PartyPublicViewPage = () => {
                         <span className="party-section-label">Über das Event</span>
                         <h2>Das erwartet dich</h2>
                         {party.description ? (
-                            <div className="party-description" dangerouslySetInnerHTML={{ __html: party.description }} />
+                            <div
+                                className="party-description"
+                                dangerouslySetInnerHTML={{ __html: party.description }}
+                            />
                         ) : (
-                            <p className="party-description-empty">Für dieses Event ist noch keine Beschreibung hinterlegt.</p>
+                            <p className="party-description-empty">
+                                Für dieses Event ist noch keine Beschreibung hinterlegt.
+                            </p>
                         )}
                     </div>
 
