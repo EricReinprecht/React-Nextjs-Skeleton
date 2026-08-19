@@ -61,18 +61,60 @@ table.manager-table {
         }
 
         .table-sort-button {
-            display: flex; width: 100%; min-height: 28px; align-items: center; justify-content: space-between; gap: 9px; padding: 0; border: 0; background: transparent; color: inherit; font: inherit; letter-spacing: inherit; text-align: left; text-transform: inherit; cursor: pointer;
-            &:hover { color: var(--table-accent); }
-            &.active { color: #c93413; }
+            display: flex;
+            width: 100%;
+            min-height: 28px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 9px;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            color: inherit;
+            font: inherit;
+            letter-spacing: inherit;
+            text-align: left;
+            text-transform: inherit;
+            cursor: pointer;
+            &:hover {
+                color: var(--table-accent);
+            }
+            &.active {
+                color: #c93413;
+            }
         }
-        .table-sort-state { display: inline-flex; align-items: center; gap: 4px; }
-        .table-sort-state b { display: grid; width: 20px; height: 20px; border-radius: 6px; background: var(--table-accent); color: white; font-size: 10px; place-items: center; }
-        .table-sort-state i, .table-sort-idle { font-style: normal; font-size: 15px; line-height: 1; }
-        .table-sort-idle { color: #a5adb6; opacity: 0; transition: opacity 150ms ease; }
-        .table-sort-button:hover .table-sort-idle { opacity: 1; }
+        .table-sort-state {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .table-sort-state b {
+            display: grid;
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            background: var(--table-accent);
+            color: white;
+            font-size: 10px;
+            place-items: center;
+        }
+        .table-sort-state i,
+        .table-sort-idle {
+            font-style: normal;
+            font-size: 15px;
+            line-height: 1;
+        }
+        .table-sort-idle {
+            color: #a5adb6;
+            opacity: 0;
+            transition: opacity 150ms ease;
+        }
+        .table-sort-button:hover .table-sort-idle {
+            opacity: 1;
+        }
 
         input:not(.react-datepicker-ignore-onclickoutside),
-        input[type="text"] {
+        input[type='text'] {
             box-sizing: border-box;
             width: 100%;
             height: 40px;
@@ -87,7 +129,10 @@ table.manager-table {
             font-weight: 500;
             letter-spacing: 0;
             text-transform: none;
-            transition: border-color 150ms ease, box-shadow 150ms ease, background 150ms ease;
+            transition:
+                border-color 150ms ease,
+                box-shadow 150ms ease,
+                background 150ms ease;
 
             &:focus {
                 border-color: var(--table-accent);
@@ -95,17 +140,27 @@ table.manager-table {
                 box-shadow: 0 0 0 3px rgba(255, 77, 35, 0.12);
             }
 
-            &::placeholder { color: #9aa4af; }
+            &::placeholder {
+                color: #9aa4af;
+            }
         }
     }
 
     tbody tr {
         background: white;
-        transition: background 140ms ease, transform 140ms ease;
+        transition:
+            background 140ms ease,
+            transform 140ms ease;
 
-        &:nth-child(even) { background: #fbfcfd; }
-        &:hover:not(.manager-table-empty-row) { background: #fff5f1; }
-        &:last-child td { border-bottom: 0; }
+        &:nth-child(even) {
+            background: #fbfcfd;
+        }
+        &:hover:not(.manager-table-empty-row) {
+            background: #fff5f1;
+        }
+        &:last-child td {
+            border-bottom: 0;
+        }
     }
 
     tbody td {
@@ -131,7 +186,10 @@ table.manager-table {
         background: white;
         cursor: pointer;
         place-items: center;
-        transition: border-color 150ms ease, background 150ms ease, transform 150ms ease;
+        transition:
+            border-color 150ms ease,
+            background 150ms ease,
+            transform 150ms ease;
 
         &:hover {
             border-color: #ffc5b7;
@@ -146,9 +204,17 @@ table.manager-table {
     text-align: center !important;
 
     strong,
-    span { display: block; }
-    strong { color: var(--table-ink); font-size: 18px; }
-    span { margin-top: 6px; color: var(--table-muted); }
+    span {
+        display: block;
+    }
+    strong {
+        color: var(--table-ink);
+        font-size: 18px;
+    }
+    span {
+        margin-top: 6px;
+        color: var(--table-muted);
+    }
 }
 
 .table-footer {
@@ -167,6 +233,7 @@ table.manager-table {
 
 .table-options {
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     gap: 10px;
 
@@ -200,7 +267,12 @@ table.manager-table {
         cursor: pointer;
         place-items: center;
         box-shadow: 0 5px 13px rgba(31, 41, 51, 0.08);
-        transition: border-color 150ms ease, background 150ms ease, color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+        transition:
+            border-color 150ms ease,
+            background 150ms ease,
+            color 150ms ease,
+            box-shadow 150ms ease,
+            transform 150ms ease;
 
         &:hover:not(:disabled) {
             border-color: #ffb000;
@@ -209,7 +281,9 @@ table.manager-table {
             box-shadow: 0 7px 18px rgba(242, 173, 34, 0.2);
             transform: translateY(-2px);
 
-            svg { color: #382500; }
+            svg {
+                color: #382500;
+            }
         }
 
         &.active {
@@ -218,7 +292,7 @@ table.manager-table {
             color: #ffffff;
             box-shadow: 0 9px 22px rgba(232, 63, 24, 0.3);
 
-            text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
         }
 
         &:disabled {
@@ -229,19 +303,43 @@ table.manager-table {
             opacity: 1;
             cursor: not-allowed;
 
-            svg { color: #8a949d; }
+            svg {
+                color: #8a949d;
+            }
         }
 
-        svg { display: block; color: currentColor; }
+        svg {
+            display: block;
+            color: currentColor;
+        }
     }
 
-    .pagination-ellipsis { display: grid; width: 26px; height: 42px; color: #46515c; font-size: 19px; font-weight: 900; place-items: center; }
+    .pagination-ellipsis {
+        display: grid;
+        width: 26px;
+        height: 42px;
+        color: #46515c;
+        font-size: 19px;
+        font-weight: 900;
+        place-items: center;
+    }
 }
 
 @media (max-width: 760px) {
-    .table-wrapper { padding: 12px; }
-    .manager-table-scroll { border-radius: 14px; }
-    .table-footer { align-items: stretch; flex-direction: column; }
-    .table-options .default-button { flex: 1 1 auto; }
-    .table-wrapper .pagination { justify-content: center; }
+    .table-wrapper {
+        padding: 12px;
+    }
+    .manager-table-scroll {
+        border-radius: 14px;
+    }
+    .table-footer {
+        align-items: stretch;
+        flex-direction: column;
+    }
+    .table-options .default-button {
+        flex: 1 1 auto;
+    }
+    .table-wrapper .pagination {
+        justify-content: center;
+    }
 }

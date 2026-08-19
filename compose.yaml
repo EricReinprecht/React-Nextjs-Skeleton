@@ -1,50 +1,37 @@
 services:
-  database:
-    image: postgres:16-alpine
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: skeleton
-      POSTGRES_USER: skeleton
-      POSTGRES_PASSWORD: skeleton-local-password
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U skeleton -d skeleton"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
+    database:
+        image: postgres:16-alpine
+        restart: unless-stopped
+        environment:
+            POSTGRES_DB: skeleton
+            POSTGRES_USER: skeleton
+            POSTGRES_PASSWORD: skeleton-local-password
+        ports:
+            - '5432:5432'
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        healthcheck:
+            test: ['CMD-SHELL', 'pg_isready -U skeleton -d skeleton']
+            interval: 5s
+            timeout: 5s
+            retries: 10
 
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: ${NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
-        NEXT_PUBLIC_DEFAULT_LATITUDE: ${NEXT_PUBLIC_DEFAULT_LATITUDE}
-        NEXT_PUBLIC_DEFAULT_LONGITUDE: ${NEXT_PUBLIC_DEFAULT_LONGITUDE}
-        NEXT_PUBLIC_PARTY_PAGE_SIZE: ${NEXT_PUBLIC_PARTY_PAGE_SIZE:-10}
-      secrets:
-        - env_local
-    restart: unless-stopped
-    env_file:
-      - path: .env
-        required: false
-      - path: .env.local
-        required: false
-    environment:
-      # Always use the Compose PostgreSQL container, never the remote server.
-      DATABASE_URL: postgresql://skeleton:skeleton-local-password@database:5432/skeleton?schema=public
-    ports:
-      - "3001:3000"
-    depends_on:
-      database:
-        condition: service_healthy
+    app:
+        build:
+            target: dev
+        command: npm run dev
+        volumes:
+            - .:/app
+            - /app/node_modules
+            - /app/.next
+        environment:
+            WATCHPACK_POLLING: 'true'
+        ports:
+            - '3001:3000'
 
 volumes:
-  postgres_data:
+    postgres_data:
 
 secrets:
-  env_local:
-    file: .env.local
+    env_local:
+        file: .env.local
