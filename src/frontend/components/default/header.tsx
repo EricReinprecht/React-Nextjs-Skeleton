@@ -36,6 +36,14 @@ export default function Header({ messages, locale, user }: HeaderProps) {
                 {user && (
                     <>
                         <HeaderNavLink
+                            href={localized('/profile/shopping-cart')}
+                            activePaths={[...PROFILE_ROUTES.shoppingCarts]}
+                            className="nav-item-outer nav-secondary"
+                            prefetch={false}
+                        >
+                            <span className="nav-item">{messages.shopping_carts}</span>
+                        </HeaderNavLink>
+                        <HeaderNavLink
                             href={localized('/profile/my-tickets')}
                             activePaths={[...PROFILE_ROUTES.tickets]}
                             className="nav-item-outer nav-secondary"
