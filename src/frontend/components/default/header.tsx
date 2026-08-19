@@ -39,6 +39,7 @@ export default function Header({ messages, locale, user }: HeaderProps) {
                             href={localized('/profile/my-tickets')}
                             activePaths={[...PROFILE_ROUTES.tickets]}
                             className="nav-item-outer nav-secondary"
+                            prefetch={false}
                         >
                             <span className="nav-item">{messages.my_cards}</span>
                         </HeaderNavLink>
@@ -46,12 +47,14 @@ export default function Header({ messages, locale, user }: HeaderProps) {
                             href={localized('/profile/my-parties')}
                             activePaths={[...PROFILE_ROUTES.parties]}
                             className="nav-item-outer nav-secondary"
+                            prefetch={false}
                         >
                             <span className="nav-item">{messages.my_parties}</span>
                         </HeaderNavLink>
                         <HeaderNavLink
                             href={localized('/profile/settings')}
                             className="nav-item-outer nav-secondary nav-settings"
+                            prefetch={false}
                         >
                             <span className="nav-item">{messages.settings}</span>
                         </HeaderNavLink>
@@ -61,12 +64,17 @@ export default function Header({ messages, locale, user }: HeaderProps) {
 
             <div className="right">
                 {user && (
-                    <Link href={localized('/profile/edit-party')} className="header-create-event">
+                    <Link
+                        href={localized('/profile/edit-party')}
+                        prefetch={false}
+                        className="header-create-event"
+                    >
                         <span aria-hidden="true">+</span> {messages.create_new_party}
                     </Link>
                 )}
                 <Link
-                    href={localized('/profile')}
+                    href={localized(user ? '/profile' : '/login')}
+                    prefetch={false}
                     className="header-profile-link"
                     aria-label="Benutzerbereich öffnen"
                 >

@@ -48,6 +48,7 @@ services:
             DATABASE_URL: postgresql://skeleton:skeleton-local-password@database:5432/skeleton?schema=public
             WATCHPACK_POLLING: 'true'
             FAST_REFRESH: 'true'
+            NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: ${NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
         ports:
             - '3001:3000'
 
