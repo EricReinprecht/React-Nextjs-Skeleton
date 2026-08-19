@@ -47,7 +47,9 @@ The development application is available at `http://localhost:3000`.
 ## Docker
 
 ```bash
-docker compose up -d --build
+docker compose watch
+docker compose logs app -f
+docker compose logs app --tail 100
 ```
 
 Docker starts the application at `http://localhost:3001` and PostgreSQL at `localhost:5432`.

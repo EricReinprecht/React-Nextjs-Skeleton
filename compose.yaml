@@ -39,7 +39,7 @@ services:
                   path: package.json
                 - action: rebuild
                   path: package-lock.json
-        command: sh -c "npx prisma generate && npm run dev"
+        command: sh -c "npx prisma generate && npx prisma db push && npx tsx src/server/scripts/auto-seed.ts && npm run dev"
         volumes:
             # Keep node_modules internal so host OS doesn't overwrite container modules
             - /app/node_modules

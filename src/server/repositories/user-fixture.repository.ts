@@ -1,21 +1,17 @@
-import fs from "fs";
-import path from "path";
-import bcrypt from "bcryptjs";
-import prisma from "../db/prisma";
-import { userRepository } from "@backend/repositories/user.repository";
+import { userRepository } from '@backend/repositories/user.repository';
+import bcrypt from 'bcryptjs';
+import fs from 'fs';
+import path from 'path';
+import prisma from '../db/prisma';
 
-/**
- * Seed users from JSON file.
- * @param push Optional callback to stream log messages (for live frontend updates)
- */
 export async function seedUsers(push?: (msg: string) => void) {
-    const filePath = path.join(process.cwd(), "src/server/fixtures/userFixtures.json");
+    const filePath = path.join(process.cwd(), 'src/server/fixtures/userFixtures.json');
 
     if (!fs.existsSync(filePath)) {
         throw new Error(`File not found at ${filePath}`);
     }
 
-    const data = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+    const data = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
 
     push?.(`🌱 Creating ${data.length} users...\n`);
 
@@ -30,19 +26,24 @@ export async function seedUsers(push?: (msg: string) => void) {
                 continue;
             }
 
-            const hashedPassword = await bcrypt.hash(userData.password, 10);
+            // Exclude relation fields (createdParties) and sanitize date
+            const { createdParties, birthdate, ...userFields } = userData;
+
+            const hashedPassword = await bcrypt.hash(userFields.password, 10);
 
             await userRepository.create({
-                ...userData,
+                ...userFields,
                 password: hashedPassword,
+                ...(birthdate ? { birthdate: new Date(birthdate) } : {}),
             });
 
             push?.(`✅ Created user ${index + 1}: ${userData.email}\n`);
         } catch (err: any) {
-            push?.(`❌ Failed to create user ${userData.email}: ${err.message}\n`);
+            const errorMsg = `❌ Failed to create user ${userData.email}: ${err.message}`;
+            console.error(errorMsg);
+            throw new Error(errorMsg);
         }
     }
 
-    push?.("✅ Users created successfully!\n");
+    push?.('✅ Users created successfully!\n');
 }
-
