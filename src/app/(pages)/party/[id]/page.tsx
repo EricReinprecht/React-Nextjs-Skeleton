@@ -97,7 +97,7 @@ const PartyPublicViewPage = () => {
         <BasePage backgroundType="orange_gradient">
             <article className="single-party-page">
                 <div className="operations">
-                    <BackButton href={`/${locale}/browse`} text="Meine Partys" />
+                    <BackButton href={`/${locale}/browse`} text="Weiterstöbern" />
                 </div>
 
                 <section className="party-hero">

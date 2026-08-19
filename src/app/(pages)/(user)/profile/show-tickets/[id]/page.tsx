@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { useLocale } from "next-intl";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useLocale } from 'next-intl';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
-import withAuth from "@frontend/hoc/withAuth";
-import { ManagerPage } from "@frontend/templates";
-import { SwiperArrowLeft } from "@frontend/svgs";
-import { formatDateGerman } from "@shared/utils/formatDate";
+import withAuth from '@frontend/hoc/withAuth';
+import { ManagerPage } from '@frontend/templates';
+import { formatDateGerman } from '@shared/utils/formatDate';
 
-import "@styles/pages/show-ticket.scss";
+import BackButton from '@/src/frontend/components/buttons/BackButton';
+import '@styles/pages/show-ticket.scss';
 
 type TicketDetails = {
     id: string;
@@ -47,11 +47,16 @@ const ShowTicketPage = () => {
                     signal: controller.signal,
                 });
                 const data = await response.json();
-                if (!response.ok) throw new Error(data.error ?? "Ticket konnte nicht geladen werden");
+                if (!response.ok)
+                    throw new Error(data.error ?? 'Ticket konnte nicht geladen werden');
                 setTicket(data);
             } catch (loadError) {
-                if (loadError instanceof DOMException && loadError.name === "AbortError") return;
-                setError(loadError instanceof Error ? loadError.message : "Ticket konnte nicht geladen werden");
+                if (loadError instanceof DOMException && loadError.name === 'AbortError') return;
+                setError(
+                    loadError instanceof Error
+                        ? loadError.message
+                        : 'Ticket konnte nicht geladen werden',
+                );
             }
         };
 
@@ -62,10 +67,9 @@ const ShowTicketPage = () => {
     return (
         <ManagerPage>
             <div className="show-ticket-page">
-                <Link className="ticket-back-link" href={`/${locale}/profile/my-tickets`}>
-                    <SwiperArrowLeft width={26} height={26} /> Meine Tickets
-                </Link>
-
+                <div className="operations">
+                    <BackButton href={`/${locale}/profile/my-tickets`} text="Meine Tickets" />
+                </div>
                 {error ? (
                     <section className="ticket-view-state error" role="alert">
                         <span>Ticket nicht verfügbar</span>
@@ -79,8 +83,12 @@ const ShowTicketPage = () => {
                 ) : (
                     <article className="digital-ticket">
                         <div
-                            className={`digital-ticket-visual${ticket.party.image ? " has-image" : ""}`}
-                            style={ticket.party.image ? { backgroundImage: `url(${ticket.party.image})` } : undefined}
+                            className={`digital-ticket-visual${ticket.party.image ? ' has-image' : ''}`}
+                            style={
+                                ticket.party.image
+                                    ? { backgroundImage: `url(${ticket.party.image})` }
+                                    : undefined
+                            }
                         >
                             <div className="digital-ticket-visual-overlay" />
                             <div className="digital-ticket-brand">ADMIT ONE</div>
@@ -98,7 +106,10 @@ const ShowTicketPage = () => {
                             <dl className="digital-ticket-facts">
                                 <div>
                                     <dt>Datum</dt>
-                                    <dd>{formatDateGerman(ticket.party.startDate)} – {formatDateGerman(ticket.party.endDate)}</dd>
+                                    <dd>
+                                        {formatDateGerman(ticket.party.startDate)} –{' '}
+                                        {formatDateGerman(ticket.party.endDate)}
+                                    </dd>
                                 </div>
                                 <div>
                                     <dt>Ort</dt>
@@ -110,12 +121,17 @@ const ShowTicketPage = () => {
                                 </div>
                                 <div>
                                     <dt>Gültigkeit</dt>
-                                    <dd>{formatDateGerman(ticket.ticketClass.validFrom)} – {formatDateGerman(ticket.ticketClass.validTo)}</dd>
+                                    <dd>
+                                        {formatDateGerman(ticket.ticketClass.validFrom)} –{' '}
+                                        {formatDateGerman(ticket.ticketClass.validTo)}
+                                    </dd>
                                 </div>
                             </dl>
 
                             {ticket.ticketClass.description && (
-                                <p className="digital-ticket-description">{ticket.ticketClass.description}</p>
+                                <p className="digital-ticket-description">
+                                    {ticket.ticketClass.description}
+                                </p>
                             )}
 
                             <div className="digital-ticket-code">
@@ -127,8 +143,12 @@ const ShowTicketPage = () => {
                             </div>
 
                             <div className="digital-ticket-actions">
-                                <Link href={`/${locale}/party/${ticket.party.id}`}>Event ansehen</Link>
-                                <button type="button" onClick={() => window.print()}>Ticket drucken</button>
+                                <Link href={`/${locale}/party/${ticket.party.id}`}>
+                                    Event ansehen
+                                </Link>
+                                <button type="button" onClick={() => window.print()}>
+                                    Ticket drucken
+                                </button>
                             </div>
                         </div>
                     </article>
