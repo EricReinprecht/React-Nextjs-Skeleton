@@ -1,48 +1,77 @@
-import prisma from "../db/prisma";
+import prisma from '../db/prisma';
 
 export const cartRepository = {
-    findActive: (userId: string) => prisma.shoppingCart.findFirst({
-        where: { userId, status: "ACTIVE" },
-        include: {
-            reservations: {
-                include: { ticketClass: { include: { prices: true, party: true } } },
+    findActive: (userId: string) =>
+        prisma.shoppingCart.findFirst({
+            where: { userId, status: 'ACTIVE' },
+            include: {
+                reservations: {
+                    include: { ticketClass: { include: { prices: true, party: true } } },
+                },
             },
-        },
-    }),
+        }),
 
-    findActiveForCheckout: (userId: string) => prisma.shoppingCart.findFirst({
-        where: { userId, status: "ACTIVE" },
-        include: { reservations: { include: { ticketClass: true } } },
-    }),
+    findActiveForCheckout: (userId: string) =>
+        prisma.shoppingCart.findFirst({
+            where: { userId, status: 'ACTIVE' },
+            include: { reservations: { include: { ticketClass: true } } },
+        }),
 
     async findOrCreateActive(userId: string) {
-        return await prisma.shoppingCart.findFirst({ where: { userId, status: "ACTIVE" } })
-            ?? prisma.shoppingCart.create({ data: { userId, status: "ACTIVE" } });
+        return (
+            (await prisma.shoppingCart.findFirst({ where: { userId, status: 'ACTIVE' } })) ??
+            prisma.shoppingCart.create({ data: { userId, status: 'ACTIVE' } })
+        );
     },
 
-    findTicketClass: (id: string) => prisma.ticketClass.findUnique({
-        where: { id },
-        include: {
-            prices: true,
-            reservations: { where: { expiresAt: { gt: new Date() } } },
-        },
-    }),
+    findTicketClass: (id: string) =>
+        prisma.ticketClass.findUnique({
+            where: { id },
+            include: {
+                prices: true,
+                reservations: { where: { expiresAt: { gt: new Date() } } },
+            },
+        }),
 
-    createReservations: (data: { ticketClassId: string; shoppingCartId: string; quantity: number; expiresAt: Date }[]) =>
-        prisma.ticketReservation.createMany({ data }),
+    createReservations: (
+        data: {
+            ticketClassId: string;
+            shoppingCartId: string;
+            quantity: number;
+            expiresAt: Date;
+        }[],
+    ) => prisma.ticketReservation.createMany({ data }),
 
-    async complete(cartId: string, reservations: { quantity: number; ticketClassId: string; ticketClass: { partyId: string } }[]) {
+    async complete(
+        cartId: string,
+        userId: string,
+        reservations: {
+            quantity: number;
+            ticketClassId: string;
+            ticketClass: { partyId: string };
+        }[],
+    ) {
         await prisma.$transaction(async (transaction) => {
-            for (const reservation of reservations) {
+            const ticketsToCreate = reservations.flatMap((reservation) =>
+                Array.from({ length: reservation.quantity }, () => ({
+                    userId,
+                    partyId: reservation.ticketClass.partyId,
+                    ticketClassId: reservation.ticketClassId,
+                })),
+            );
+
+            if (ticketsToCreate.length > 0) {
                 await transaction.ticket.createMany({
-                    data: Array.from({ length: reservation.quantity }, () => ({
-                        partyId: reservation.ticketClass.partyId,
-                        ticketClassId: reservation.ticketClassId,
-                    })),
+                    data: ticketsToCreate,
                 });
             }
+
             await transaction.ticketReservation.deleteMany({ where: { shoppingCartId: cartId } });
-            await transaction.shoppingCart.update({ where: { id: cartId }, data: { status: "CHECKED_OUT" } });
+
+            await transaction.shoppingCart.update({
+                where: { id: cartId },
+                data: { status: 'CHECKED_OUT' },
+            });
         });
     },
 };

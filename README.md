@@ -60,6 +60,11 @@ Docker starts the application at `http://localhost:3001` and PostgreSQL at `loca
 npm run prisma:build
 npm run prisma:generate
 npm run prisma:migrate --name init
+
+docker compose run --rm app npx prisma db push --force-reset
+docker compose run --rm app npx prisma db seed
+
+docker compose exec database psql -U skeleton -d skeleton
 ```
 
 Prisma model fragments are stored under `prisma/models` and merged into `prisma/schema.prisma` before generation and migration.

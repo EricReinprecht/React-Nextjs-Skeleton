@@ -1,12 +1,14 @@
 model Ticket {
-    id            String       @id @default(cuid())
-    
-    createdAt      DateTime     @default(now())
-    
-    // relations
-    partyId       String
-    party         Party        @relation("PartyToTicket", fields: [partyId], references: [id])
-    
-    ticketClassId String
-    ticketClass   TicketClass  @relation("TicketClassToTickets", fields: [ticketClassId], references: [id])
+  id            String      @id @default(cuid())
+  createdAt     DateTime    @default(now())
+
+  // Relation fields
+  userId        String
+  user          User        @relation(fields: [userId], references: [id])
+
+  partyId       String
+  party         Party       @relation("PartyToTicket", fields: [partyId], references: [id])
+
+  ticketClassId String
+  ticketClass   TicketClass @relation("TicketClassToTickets", fields: [ticketClassId], references: [id])
 }

@@ -27,6 +27,7 @@ model User {
     createdParties      Party[]         @relation("UserToParty")
     shoppingCarts       ShoppingCart[]  @relation("UserToShoppingCart")
     invoices            Invoice[]       @relation("UserToInvoice")
+    tickets Ticket[]
 }
 
 enum Language {
