@@ -1,7 +1,7 @@
-import prisma from "../db/prisma";
-import { Prisma } from "@prisma/client";
-import { PARTY_PAGE_SIZE } from "@shared/utils/env";
-import { TableSort, TicketRow } from "@shared/types";
+import { Prisma } from '@prisma/client';
+import { TableSort, TicketRow } from '@shared/types';
+import { PARTY_PAGE_SIZE } from '@shared/utils/env';
+import prisma from '../db/prisma';
 
 /* ---------- helpers ---------- */
 
@@ -10,26 +10,30 @@ const dayRange = (d: string, end = false) =>
 
 const buildTicketWhere = (
     filter?: Partial<TicketRow>,
-    userId?: string
+    userId?: string,
 ): Prisma.TicketWhereInput => ({
-    party: {
-        ...(userId && { userId }),
+    // 1. Target Ticket.userId directly (Top level)
+    ...(userId && { userId }),
 
-        ...(filter?.partyName && {
-            name: { contains: filter.partyName, mode: "insensitive" },
-        }),
-        ...(filter?.partyLocation && {
-            location: { contains: filter.partyLocation, mode: "insensitive" },
-        }),
-    },
+    // 2. Only include party relation filter if party filters actually exist
+    party:
+        filter?.partyName || filter?.partyLocation
+            ? {
+                  ...(filter.partyName && {
+                      name: { contains: filter.partyName, mode: 'insensitive' },
+                  }),
+                  ...(filter.partyLocation && {
+                      location: { contains: filter.partyLocation, mode: 'insensitive' },
+                  }),
+              }
+            : undefined,
 
+    // 3. Ticket class filters
     ticketClass:
-        filter?.ticketClassName ||
-        filter?.ticketClassValidFrom ||
-        filter?.ticketClassValidTo
+        filter?.ticketClassName || filter?.ticketClassValidFrom || filter?.ticketClassValidTo
             ? {
                   ...(filter.ticketClassName && {
-                      name: { contains: filter.ticketClassName, mode: "insensitive" },
+                      name: { contains: filter.ticketClassName, mode: 'insensitive' },
                   }),
                   ...(filter.ticketClassValidFrom && {
                       validFrom: { gte: dayRange(filter.ticketClassValidFrom) },
@@ -41,14 +45,13 @@ const buildTicketWhere = (
             : undefined,
 });
 
-
 /* ---------- queries ---------- */
 
 export const getTicketsPaginated = async (
     page = 1,
     filter?: Partial<TicketRow>,
     userId?: string,
-    sorting: TableSort[] = []
+    sorting: TableSort[] = [],
 ): Promise<{ tickets: TicketRow[] }> => {
     try {
         const limit = PARTY_PAGE_SIZE;
@@ -56,17 +59,18 @@ export const getTicketsPaginated = async (
 
         const orderBy: Prisma.TicketOrderByWithRelationInput[] = [];
         sorting.forEach(({ key, direction }) => {
-            if (key === "partyName") orderBy.push({ party: { name: direction } });
-            if (key === "partyLocation") orderBy.push({ party: { location: direction } });
-            if (key === "ticketClassName") orderBy.push({ ticketClass: { name: direction } });
-            if (key === "ticketClassValidFrom") orderBy.push({ ticketClass: { validFrom: direction } });
-            if (key === "ticketClassValidTo") orderBy.push({ ticketClass: { validTo: direction } });
+            if (key === 'partyName') orderBy.push({ party: { name: direction } });
+            if (key === 'partyLocation') orderBy.push({ party: { location: direction } });
+            if (key === 'ticketClassName') orderBy.push({ ticketClass: { name: direction } });
+            if (key === 'ticketClassValidFrom')
+                orderBy.push({ ticketClass: { validFrom: direction } });
+            if (key === 'ticketClassValidTo') orderBy.push({ ticketClass: { validTo: direction } });
         });
         const tickets = await prisma.ticket.findMany({
             where: buildTicketWhere(filter, userId),
             skip,
             take: limit,
-            orderBy: [...orderBy, { createdAt: "desc" }],
+            orderBy: [...orderBy, { createdAt: 'desc' }],
             include: {
                 party: true,
                 ticketClass: true,
@@ -84,22 +88,23 @@ export const getTicketsPaginated = async (
             })),
         };
     } catch (error) {
-        console.error("Error fetching paginated tickets:", error);
+        console.error('Error fetching paginated tickets:', error);
         return { tickets: [] };
     }
 };
 
-export const findTicketDetails = (id: string) => prisma.ticket.findUnique({
-    where: { id },
-    include: {
-        ticketClass: true,
-        party: { include: { images: { orderBy: { id: "asc" }, take: 1 } } },
-    },
-});
+export const findTicketDetails = (id: string) =>
+    prisma.ticket.findUnique({
+        where: { id },
+        include: {
+            ticketClass: true,
+            party: { include: { images: { orderBy: { id: 'asc' }, take: 1 } } },
+        },
+    });
 
 export const countTickets = async (
     filter?: Partial<TicketRow>,
-    userId?: string
+    userId?: string,
 ): Promise<{ total: number }> => {
     try {
         return {
@@ -108,7 +113,7 @@ export const countTickets = async (
             }),
         };
     } catch (error) {
-        console.error("Error counting tickets:", error);
+        console.error('Error counting tickets:', error);
         return { total: 0 };
     }
 };
