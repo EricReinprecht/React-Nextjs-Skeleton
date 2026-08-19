@@ -19,12 +19,13 @@ services:
     app:
         build:
             target: dev
-        command: npm run dev
+        command: sh -c "npx prisma generate && npm run dev"
         volumes:
             - .:/app
             - /app/node_modules
             - /app/.next
         environment:
+            DATABASE_URL: postgresql://skeleton:skeleton-local-password@database:5432/skeleton?schema=public
             WATCHPACK_POLLING: 'true'
         ports:
             - '3001:3000'

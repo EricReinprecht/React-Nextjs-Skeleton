@@ -1,6 +1,7 @@
 # syntax=docker/dockerfile:1
 
 FROM node:22-alpine AS base
+RUN npm install -g npm@latest
 WORKDIR /app
 COPY package.json package-lock.json ./
 # The repository lockfile currently lags behind package.json, so refresh it in-image.

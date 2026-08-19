@@ -15,7 +15,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
     "plugins": [
       {
@@ -23,12 +23,24 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"],
-      "@styles/*": ["./src/assets/styles/*"],
-      "@fonts/*": ["./src/assets/fonts/*"],
-      "@frontend/*": ["./src/frontend/*"],
-      "@shared/*": ["./src/shared/*"],
-      "@backend/*": ["./src/server/*"]
+      "@/*": [
+        "./*"
+      ],
+      "@styles/*": [
+        "./src/assets/styles/*"
+      ],
+      "@fonts/*": [
+        "./src/assets/fonts/*"
+      ],
+      "@frontend/*": [
+        "./src/frontend/*"
+      ],
+      "@shared/*": [
+        "./src/shared/*"
+      ],
+      "@backend/*": [
+        "./src/server/*"
+      ]
     }
   },
   "include": [
@@ -36,7 +48,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/middleware.ts"
+    "src/middleware.ts",
+    ".next/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"
