@@ -18,15 +18,36 @@ services:
 
     app:
         build:
+            context: .
             target: dev
+        develop:
+            watch:
+                # Sync source code changes live (triggers HMR without rebuilding image)
+                - action: sync
+                  path: ./src
+                  target: /app/src
+                # Sync public directory for static assets
+                - action: sync
+                  path: ./public
+                  target: /app/public
+                # Re-run prisma generate if schema changes
+                - action: sync+restart
+                  path: ./prisma
+                  target: /app/prisma
+                # Rebuild container image when dependencies change
+                - action: rebuild
+                  path: package.json
+                - action: rebuild
+                  path: package-lock.json
         command: sh -c "npx prisma generate && npm run dev"
         volumes:
-            - .:/app
+            # Keep node_modules internal so host OS doesn't overwrite container modules
             - /app/node_modules
             - /app/.next
         environment:
             DATABASE_URL: postgresql://skeleton:skeleton-local-password@database:5432/skeleton?schema=public
             WATCHPACK_POLLING: 'true'
+            FAST_REFRESH: 'true'
         ports:
             - '3001:3000'
 
